@@ -89,8 +89,8 @@ THEMES = {
 
 
 import re
-_UP = r"(rise|rises|rising|jump|jumps|surge|surges|soar|soars|climb|climbs|rally|rallies|gain|gains|spike|spikes|higher|record high)"
-_DN = r"(fall|falls|falling|drop|drops|slump|slumps|tumble|tumbles|slide|slides|sink|sinks|plunge|plunges|lower|retreat|retreats)"
+_UP = r"(rise|rises|rising|jump|jumps|surge|surges|soar|soars|climb|climbs|rally|rallies|gain|gains|spike|spikes|higher|record high|stay high|firm|firms|strengthen|strengthens)"
+_DN = r"(fall|falls|falling|drop|drops|slump|slumps|tumble|tumbles|slide|slides|sink|sinks|plunge|plunges|lower|retreat|retreats|slip|slips|dip|dips|ease|eases|weaken|weakens|decline|declines)"
 _COMMOD = r"(oil|crude|brent|wti|gas|lng|iron ore|copper|gold|lithium|coal|nickel|uranium)"
 
 
@@ -192,7 +192,6 @@ def macro_context(market, demo=False):
         score = float(np.mean([h["score"] for h in hs])) * 2 if hs else 0.0  # word list is timid; stretch
         sectors[s] = {"score": round(float(np.clip(score, -1, 1)), 2), "n": len(hs), "why": None,
                       "headlines": hs[:6]}
-    heads = {k: v[:15] for k, v in heads.items()}  # trim before sending to Claude
     live = {k: t for k, t in THEMES.items() if market in t.get("markets", [market])}
     heat = _heat(market, {k: len(heads.get(("theme", k), [])) for k in live}) if not demo else \
         {k: min(1.0, len(heads.get(("theme", k), [])) / 10) for k in live}
@@ -204,7 +203,7 @@ def macro_context(market, demo=False):
                      "headlines": hs[:6], "exp": t["exp"]}
 
     method = "wordlist"
-    c = _claude(market, heads)
+    c = _claude(market, {k: v[:15] for k, v in heads.items()})
     if c:
         method = "claude"
         for s, v in (c.get("sectors") or {}).items():
@@ -224,7 +223,7 @@ def _matches(key, sector, industry):
     if key == "*":
         return True
     if key.startswith("ind:"):
-        return key[4:].lower() in (industry or "").lower()
+        return isinstance(industry, str) and key[4:].lower() in industry.lower()
     return key == sector
 
 

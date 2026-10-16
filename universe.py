@@ -10,6 +10,8 @@ import urllib.request
 
 import pandas as pd
 
+import diag
+
 SOURCES = {
     "US": ("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies", "Symbol", "GICS Sector", "", "Security"),
     "ASX": ("https://en.wikipedia.org/wiki/S%26P/ASX_200", "Code", "Sector", ".AX", "Company"),
@@ -87,12 +89,16 @@ def get_universe(market, fallback):
         os.makedirs("results", exist_ok=True)
         s.to_csv(cache)
         print(f"[{market}] universe: {len(s)} tickers from Wikipedia")
+        diag.put("universe", source="live", count=len(s))
         return s
     except Exception as e:
-        print(f"[{market}] could not fetch index list ({e}); using saved/fallback list")
+        print(f"WARNING [{market}] could not fetch index list ({e}); using saved/fallback list")
+        diag.sample("universe", "errors", str(e))
     if os.path.exists(cache):
         df = pd.read_csv(cache, index_col=0)
+        diag.put("universe", source="saved list", count=len(df))
         if "name" not in df:
             df["name"] = None
         return df
+    diag.put("universe", source="built-in fallback", count=len(fallback))
     return pd.DataFrame({"sector": None, "name": None}, index=pd.Index(fallback, name="ticker"))

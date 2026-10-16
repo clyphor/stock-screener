@@ -20,6 +20,7 @@ from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 
+import diag
 from config import CLAUDE_MODEL
 from data import _google_news
 from sentiment import lexicon_score
@@ -237,7 +238,7 @@ def _fetch_all(market):
     jobs.update({("theme", k): f"{v['query']}{THEME_CONTEXT.get(market, '')}{EXCLUDE} when:10d"
                  for k, v in THEMES.items() if market in v.get("markets", [market])})
     with ThreadPoolExecutor(8) as ex:
-        res = dict(zip(jobs, ex.map(lambda q: _google_news(q, market), jobs.values())))
+        res = dict(zip(jobs, ex.map(lambda q: _google_news(q, market, "macro"), jobs.values())))
     now = datetime.now(timezone.utc)
     out = {}
     for key, items in res.items():
@@ -298,10 +299,13 @@ def _claude(market, heads):
         req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers={
             "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
         with urllib.request.urlopen(req, timeout=180) as r:
-            text = json.loads(r.read())["content"][0]["text"]
+            resp = json.loads(r.read())
+        diag.claude_ok(resp)
+        text = resp["content"][0]["text"]
         return json.loads(text[text.index("{"): text.rindex("}") + 1])
     except Exception as e:
-        print("Claude macro scoring failed, using word list:", e)
+        diag.claude_fail(e, "sector/theme scoring")
+        print("WARNING Claude macro scoring failed, using word list:", e)
         return None
 
 
@@ -349,7 +353,9 @@ def _claude_events(market, heads, broad, universe):
         req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers={
             "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
         with urllib.request.urlopen(req, timeout=240) as r:
-            text = json.loads(r.read())["content"][0]["text"]
+            resp = json.loads(r.read())
+        diag.claude_ok(resp)
+        text = resp["content"][0]["text"]
         evs = json.loads(text[text.index("["): text.rindex("]") + 1])
         ok = []
         for e in evs:
@@ -361,7 +367,8 @@ def _claude_events(market, heads, broad, universe):
         print(f"[{market}] AI analyst found {len(ok)} events")
         return ok
     except Exception as e:
-        print("Claude event analyst failed:", e)
+        print("WARNING Claude event analyst failed:", e)
+        diag.claude_fail(e, "event analyst")
         return []
 
 
@@ -409,11 +416,12 @@ def macro_context(market, demo=False, universe=None):
     events = []
     if universe and not demo and os.environ.get("ANTHROPIC_API_KEY"):
         with ThreadPoolExecutor(4) as ex:
-            broad = [h for hs in ex.map(lambda q: _google_news(q, market), BROAD.get(market, [])) for h in hs]
+            broad = [h for hs in ex.map(lambda q: _google_news(q, market, "macro"), BROAD.get(market, [])) for h in hs]
         broad = sorted(broad, key=lambda x: x["ts"], reverse=True)
         events = _claude_events(market, heads, broad, universe)
     total = sum(v["n"] for v in sectors.values()) + sum(v["n"] for v in themes.values())
     print(f"[{market}] macro: {total} sector/theme headlines, scored by {method}")
+    diag.put("macro", ai_events=len(events), method=method)
     return {"sectors": sectors, "themes": themes, "events": events, "method": method, "headline_count": total}
 
 

@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 
 from config import CLAUDE_MODEL
+import diag
 from events import EVENTS, IMPACT, LABEL, classify, event_score
 
 POS = {"beat", "beats", "surge", "surges", "soar", "soars", "jump", "jumps", "rally", "record",
@@ -56,7 +57,9 @@ def _claude_batch(items, key):
     req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers={
         "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
     with urllib.request.urlopen(req, timeout=180) as r:
-        text = json.loads(r.read())["content"][0]["text"]
+        resp = json.loads(r.read())
+    diag.claude_ok(resp)
+    text = resp["content"][0]["text"]
     arr = json.loads(text[text.index("["): text.rindex("]") + 1])
     if len(arr) != len(items):
         raise ValueError("length mismatch")
@@ -74,6 +77,7 @@ def claude_scores(items):
             res = list(ex.map(lambda c: _claude_batch(c, key), chunks))
         return [x for r in res for x in r]
     except Exception as e:
+        diag.claude_fail(e, "headline scoring")
         msg = getattr(e, "read", lambda: b"")()[:300]
         print("Claude scoring failed, using rules:", e, msg)
         return None

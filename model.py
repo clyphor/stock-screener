@@ -3,6 +3,7 @@ import lightgbm as lgb
 import numpy as np
 import pandas as pd
 
+import diag
 from features import TECH_COLS, cs_rank
 
 PARAMS = dict(n_estimators=300, learning_rate=0.03, num_leaves=15, min_child_samples=100,
@@ -56,6 +57,7 @@ def train_and_predict(panel, horizon, test_days):
 
     # --- Final model on all labeled history, predict the latest date ---
     all_idx = labeled & d.isin(dates[::5])
+    diag.put("model", train_rows=int(all_idx.sum()), dates=int(len(dates)))
     m = lgb.LGBMRegressor(**PARAMS).fit(X[all_idx], y[all_idx])
     last = dates[-1]
     Xl = X.xs(last, level="date")

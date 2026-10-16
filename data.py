@@ -13,6 +13,8 @@ from email.utils import parsedate_to_datetime
 import pandas as pd
 import yfinance as yf
 
+import diag
+
 FUND_FIELDS = [
     "shortName", "longName", "sector", "industry", "currency", "marketCap", "trailingPE",
     "forwardPE", "priceToBook", "profitMargins", "revenueGrowth", "earningsGrowth",
@@ -36,6 +38,7 @@ def _download(tickers, period):
 def get_prices(tickers, period, batch=100, tries=3):
     """Return (close, volume) DataFrames. Downloads in batches and retries missing tickers."""
     got, todo = {}, list(dict.fromkeys(tickers))
+    diag.put("prices", requested=len(todo))
     for attempt in range(tries):
         if not todo:
             break
@@ -43,15 +46,24 @@ def get_prices(tickers, period, batch=100, tries=3):
             try:
                 got.update(_download(todo[i:i + batch], period))
             except Exception as e:
-                print("download batch failed:", e)
+                print("WARNING download batch failed:", e)
+                diag.inc("prices", "batch_errors")
+                diag.sample("prices", "errors", f"batch {i}: {e}")
         todo = [t for t in todo if t not in got]
-        if todo:
+        if todo and attempt < tries - 1:
             print(f"retrying {len(todo)} tickers…")
+            diag.inc("prices", "retries")
             time.sleep(5 * (attempt + 1))
     if todo:
-        print("no price data for:", ", ".join(todo[:30]))
+        print("WARNING no price data for:", ", ".join(todo[:30]))
+        diag.put("prices", missing=todo[:40])
     close = pd.DataFrame({t: v[0] for t, v in got.items()}).dropna(how="all")
     volume = pd.DataFrame({t: v[1] for t, v in got.items()}).reindex(close.index)
+    if len(close):
+        last_valid = close.apply(lambda c: c.last_valid_index())
+        stale = [t for t, d in last_valid.items() if d is not None and (close.index[-1] - d).days > 7]
+        diag.put("prices", received=close.shape[1], last_date=str(close.index[-1].date()),
+                 first_date=str(close.index[0].date()), stale=stale[:30])
     return close[[t for t in tickers if t in close]], volume[[t for t in tickers if t in volume]]
 
 
@@ -63,9 +75,11 @@ def get_index(candidates, period):
                 c = yf.download(t, period=period, auto_adjust=True, progress=False)["Close"]
                 c = c.iloc[:, 0] if isinstance(c, pd.DataFrame) else c
                 if c.notna().sum() > 260:
+                    diag.put("index", used=t, preferred=candidates[0])
                     return c.rename(t)
             except Exception as e:
-                print(f"index {t} failed:", e)
+                print(f"WARNING index {t} failed:", e)
+                diag.sample("index", "errors", f"{t}: {e}")
             time.sleep(3)
     raise RuntimeError(f"could not download any index from {candidates}")
 
@@ -108,7 +122,8 @@ def _psx_info(t):
         req = urllib.request.Request(f"https://dps.psx.com.pk/company/{sym}", headers={"User-Agent": "Mozilla/5.0"})
         page = urllib.request.urlopen(req, timeout=30).read().decode(errors="replace")
     except Exception as e:
-        print(f"[PSX] {sym} page failed: {e}")
+        print(f"WARNING [PSX] {sym} page failed: {e}")
+        diag.sample("fundamentals", "errors", f"PSX page {sym}: {e}")
         return row
     txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", page)).replace("&nbsp;", " ")
     g = lambda rx: (lambda m: m.group(1) if m else None)(re.search(rx, txt))
@@ -165,8 +180,11 @@ def _yahoo_news(t):
     try:
         tk = yf.Ticker(t)
         items = tk.get_news(count=15) if hasattr(tk, "get_news") else tk.news
-    except Exception:
+    except Exception as e:
         items = []
+        diag.inc("news", "yahoo_failures")
+        diag.sample("news", "errors", f"Yahoo news {t}: {e}")
+    diag.inc("news", "yahoo_items", len(items or []))
     for it in items or []:
         c = it.get("content", it)  # yfinance changed format; handle both
         when = c.get("pubDate") or c.get("providerPublishTime")
@@ -186,20 +204,25 @@ def _yahoo_news(t):
 LOCALE = {"US": ("en-US", "US"), "ASX": ("en-AU", "AU"), "PSX": ("en-PK", "PK")}
 
 
-def _google_news(query, market="ASX"):
+def _google_news(query, market="ASX", stage="news"):
     """Google News RSS search: free, current, covers US, ASX and Pakistan."""
     hl, gl = LOCALE.get(market, ("en-AU", "AU"))
     url = ("https://news.google.com/rss/search?q=" + urllib.parse.quote(query)
            + f"&hl={hl}&gl={gl}&ceid={gl}:en")
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (stock-screener)"})
     out = []
+    diag.inc(stage, "google_requests" if stage == "news" else "requests")
+    err = None
     for attempt in range(3):
         try:
             root = ET.fromstring(urllib.request.urlopen(req, timeout=20).read())
             break
-        except Exception:
+        except Exception as e:
+            err = e
             time.sleep(2 * (attempt + 1))
     else:
+        diag.inc(stage, "google_failures" if stage == "news" else "failures")
+        diag.sample(stage, "errors", f"Google News: {err}")
         return out
     for item in root.iter("item"):
         title = (item.findtext("title") or "").strip()
@@ -212,6 +235,7 @@ def _google_news(query, market="ASX"):
         except Exception:
             continue
         out.append({"title": title, "link": item.findtext("link"), "publisher": pub, "ts": ts})
+    diag.inc(stage, "google_items" if stage == "news" else "headlines", len(out))
     return out
 
 
@@ -295,11 +319,18 @@ def _news(args):
     for i in sorted(items, key=lambda x: x["ts"], reverse=True):
         key = i["title"].lower()[:60]
         pub = (i["publisher"] or "").lower()
-        if (now - i["ts"]).days > 10 or key in seen or pub in LOW_QUALITY or not _relevant(i["title"], name, code, strict=(market == "PSX")):
+        if (now - i["ts"]).days > 10 or key in seen:
+            continue
+        if pub in LOW_QUALITY:
+            diag.inc("news", "dropped_lowq")
+            continue
+        if not _relevant(i["title"], name, code, strict=(market == "PSX")):
+            diag.inc("news", "dropped_irrelevant")
             continue
         q = quality_of(i["publisher"])
         if q == "promo":
             if promo >= 3:
+                diag.inc("news", "dropped_promo_cap")
                 continue
             promo += 1
         seen.add(key)
@@ -317,6 +348,8 @@ def get_news(tickers, names, market):
         res = dict(ex.map(_news, [(t, names.get(t) or t, market) for t in tickers]))
     n = sum(1 for v in res.values() if v)
     print(f"[{market}] news: {n}/{len(res)} stocks have headlines, {sum(map(len, res.values()))} total")
+    diag.put("news", stocks=len(res), with_news=n, kept=sum(map(len, res.values())),
+             no_news_sample=[t for t, v in res.items() if not v][:15])
     return res
 
 
@@ -418,8 +451,15 @@ def get_health(tickers, mcaps, sectors, market, max_age_days=7):
         with ThreadPoolExecutor(6) as ex:
             rows = list(ex.map(_health_one, [(t, mcaps.get(t), sectors.get(t)) for t in todo]))
         new = pd.DataFrame(rows).set_index("ticker")
+        errs = new["error"].dropna() if "error" in new else pd.Series(dtype=str)
+        diag.put("health", errors=int(len(errs)))
+        for t, e in errs.head(8).items():
+            diag.sample("health", "errors", f"{t}: {e}")
         cache = pd.concat([cache.drop(index=[t for t in new.index if t in cache.index], errors="ignore"), new])
         os.makedirs("results", exist_ok=True)
         cache.to_csv(HEALTH_CACHE, index_label="ticker")
     print(f"[{market}] financial health: {len(todo)} refreshed, {len([t for t in tickers if t in fresh])} from cache")
-    return cache.reindex(tickers)
+    out = cache.reindex(tickers)
+    diag.put("health", refreshed=len(todo), cached=len([t for t in tickers if t in fresh]),
+             with_fscore=int(out["f_score"].notna().sum()) if "f_score" in out else 0)
+    return out

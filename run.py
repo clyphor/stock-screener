@@ -17,6 +17,7 @@ from features import TECH_COLS, fundamental_score, technical_panel
 from model import train_and_predict
 from report import write_page
 from sentiment import news_features
+import diag
 import macro
 
 CHECK_LABELS = {
@@ -120,6 +121,62 @@ def labels(df, buy, sell, flags_red):
     return lab
 
 
+SHORT_LABELS = {
+    "momentum": "Strong short-term momentum (price model / 1-month move)",
+    "catalyst": "Fresh positive news or event",
+    "above_50d": "Above its 50-day average",
+    "rsi_band": "RSI between 50 and 70 (rising, not overheated)",
+    "interest": "Rising interest (volume or beating the index)",
+    "no_red": "No red flags",
+}
+LONG_LABELS = {
+    "fundamentals": "Top 30% fundamentals",
+    "health": "Strong financial health (F-score 7+)",
+    "not_distressed": "No bankruptcy risk (Altman Z safe or n/a)",
+    "fair_value": "Not expensive vs its sector",
+    "quality": "Top 30% quality (profitability, low debt)",
+    "above_200d": "Above its 200-day average (long-term uptrend)",
+    "no_headwind": "No structural sector/political headwind",
+    "no_red": "No red flags",
+}
+
+
+def horizon_checks(df, model_ok, reds):
+    """Short (days–weeks) and long (1 year+) BUY checklists. Medium = the main BUY checks."""
+    good_event = df["events"].map(lambda e: any(__import__("events").IMPACT.get(k, 0) >= 0.3 for k in (e if isinstance(e, list) else [])))
+    mom = (df["ml"] >= 0.8) if model_ok else ((df["ret_21_r"] >= 0.8) & (df["rel_str_63_r"] >= 0.6))
+    short = pd.DataFrame({
+        "momentum": mom,
+        "catalyst": good_event | (df["news_sent"] > 0.15),
+        "above_50d": df["dist_ma50"] > 0,
+        "rsi_band": df["rsi_14"].between(50, 70),
+        "interest": (df["vol_spike"] >= 1.2) | (df["rel_str_63_r"] >= 0.7),
+        "no_red": reds.map(len) == 0,
+    })
+    f = df["f_score"]
+    long = pd.DataFrame({
+        "fundamentals": df["fundamental"].rank(pct=True) >= 0.7,
+        "health": f >= 7,
+        "not_distressed": df["altman_z"].isna() | (df["altman_z"] >= 3),
+        "fair_value": df["value"] >= 0.5,
+        "quality": df["quality"].rank(pct=True) >= 0.7,
+        "above_200d": df["dist_ma200"] > 0,
+        "no_headwind": df["macro_raw"] >= -0.1,
+        "no_red": reds.map(len) == 0,
+    })
+    return short, long
+
+
+def horizon_label(checks, blocked):
+    n = checks.shape[1]
+    p = checks.sum(axis=1)
+    out = pd.Series("", index=checks.index)
+    out[p == n - 1] = "WATCH"
+    out[p == n] = "BUY"
+    out[blocked] = ""
+    return out
+
+
 def extra_flags(df, flags_red):
     """REBOUND: good company that's oversold. TAKE PROFIT: big run, overbought, support fading."""
     out = {}
@@ -150,6 +207,7 @@ class Timer:
 
 
 def run_market(name, cfg, demo):
+    diag.MARKET = name
     tm = Timer()
     missing = []
     if demo:
@@ -171,6 +229,10 @@ def run_market(name, cfg, demo):
             idx = (1 + close.pct_change().clip(-0.3, 0.3).mean(axis=1).fillna(0)).cumprod() * 100
         fund = get_fundamentals(list(close.columns))
         tm.lap("fundamentals")
+        diag.put("fundamentals", count=len(fund), **{
+            f"missing_{k}": round(float(pd.to_numeric(fund[k], errors="coerce").isna().mean()), 2)
+            for k in ("marketCap", "trailingPE", "profitMargins", "revenueGrowth", "returnOnEquity", "debtToEquity")
+            if k in fund})
         fund["sector"] = fund["sector"].fillna(uni["sector"].reindex(fund.index))
         if name == "PSX" and "psx_sector" in fund:  # sector from the exchange's own company page
             from universe import psx_sector
@@ -250,6 +312,10 @@ def run_market(name, cfg, demo):
     df["signal"] = labels(df, checks, schecks, reds)
     df["red_flags"] = reds
     df["flags"] = extra_flags(df, reds)
+    hs, hl = horizon_checks(df, model_ok, reds)
+    blocked = df["signal"].isin(["SELL", "AVOID"])
+    df["hz_short"] = horizon_label(hs, blocked)
+    df["hz_long"] = horizon_label(hl, blocked)
     stats.update(news_method=nf.attrs.get("method"), screened=int(ok.sum()),
                  news_coverage=round(float((df["news_count"].fillna(0) > 0).mean()), 2),
                  ai_scoring=("off" if not os.environ.get("ANTHROPIC_API_KEY")
@@ -277,7 +343,7 @@ def run_market(name, cfg, demo):
     }
     extras = {"close": close, "volume": volume, "idx": idx, "fund": fund, "checks": checks,
               "headlines": nf.attrs.get("headlines", {}), "weights": w, "model_ok": model_ok, "ctx": ctx,
-              "schecks": schecks}
+              "schecks": schecks, "hshort": hs, "hlong": hl}
     return df, stats, extras
 
 
@@ -334,7 +400,15 @@ def performance(df, close, idx, fund):
 SIGNAL_LOG = "results/signals.csv"
 
 
-TRACKED = ("BUY", "SELL", "AVOID")
+TRACKED = ("BUY", "SELL", "AVOID", "SHORT BUY", "LONG BUY")
+
+
+def _label_mask(df, lab):
+    if lab == "SHORT BUY":
+        return df["hz_short"] == "BUY"
+    if lab == "LONG BUY":
+        return df["hz_long"] == "BUY"
+    return df["signal"] == lab
 
 
 def track_record(market, df, close, idx):
@@ -360,7 +434,7 @@ def track_record(market, df, close, idx):
         for lab in TRACKED:
             m = mature[mature["label"] == lab]
             if len(m):
-                win = (m["excess"] > 0) if lab == "BUY" else (m["excess"] < 0)
+                win = (m["excess"] < 0) if lab in ("SELL", "AVOID") else (m["excess"] > 0)
                 out["track"][lab] = {"n": int(len(m)), "avg_excess": round(float(m["excess"].mean()), 4),
                                      "win_rate": round(float(win.mean()), 2)}
         if "BUY" in out["track"]:  # keep the old fields for the BUY box
@@ -372,7 +446,7 @@ def track_record(market, df, close, idx):
 
     new = [{"date": str(today.date()), "market": market, "ticker": t,
             "price": round(float(df.at[t, "price"]), 4), "index_price": round(last_idx, 4), "label": lab}
-           for lab in TRACKED for t in df.index[df["signal"] == lab] if (t, lab) not in recent]
+           for lab in TRACKED for t in df.index[_label_mask(df, lab)] if (t, lab) not in recent]
     if new:
         log = pd.concat([log, pd.DataFrame(new)], ignore_index=True)
         log.to_csv(SIGNAL_LOG, index=False)
@@ -447,6 +521,9 @@ def write_details(df, ex, market, outdir):
             "sell_checks": [{"label": SELL_LABELS[c], "pass": bool(ex["schecks"].at[t, c]),
                              "skipped": c == "model_negative" and not ex["model_ok"]} for c in ex["schecks"].columns],
             "red_flags": r["red_flags"], "flags": r["flags"],
+            "hz": {"short": r["hz_short"], "medium": r["signal"] if r["signal"] in ("BUY", "WATCH") else "", "long": r["hz_long"]},
+            "short_checks": [{"label": SHORT_LABELS[c], "pass": bool(ex["hshort"].at[t, c])} for c in ex["hshort"].columns],
+            "long_checks": [{"label": LONG_LABELS[c], "pass": bool(ex["hlong"].at[t, c])} for c in ex["hlong"].columns],
             "rsi": _num(r["rsi_14"], 1), "ret3m_raw": _num(r["ret_63"]),
             "tech": {
                 "RSI (14 day)": _num(r["rsi_14"], 1),
@@ -510,6 +587,14 @@ def write_log(started, stats, fatal=None):
         "status": "failed" if fatal or any(v.get("error") for v in stats.values()) else ("warnings" if warn else "ok"),
         "fatal": fatal, "warnings": warn[:40], "markets": {},
     }
+    entry["checks"] = {m: diag.checks(m, v) for m, v in stats.items()}
+    entry["errors"] = {m: diag.errors(m) for m in stats}
+    entry["diag"] = diag.snapshot()
+    worst = [c["status"] for cs in entry["checks"].values() for c in cs]
+    if entry["status"] == "ok" and "FAIL" in worst:
+        entry["status"] = "failed"
+    elif entry["status"] == "ok" and "WARN" in worst:
+        entry["status"] = "warnings"
     for m, v in stats.items():
         entry["markets"][m] = {k: v.get(k) for k in (
             "error", "downloaded", "screened", "news_coverage", "ai_scoring", "news_method", "price_date",
@@ -530,7 +615,11 @@ def write_log(started, stats, fatal=None):
     for old in sorted(glob.glob("results/logs/*.txt"))[:-30]:
         os.remove(old)
     os.makedirs("docs", exist_ok=True)
-    json.dump(log[:20], open("docs/runlog.json", "w"), default=str)
+    slim = [{k: v for k, v in e.items() if k != "diag"} for e in log[:20]]
+    json.dump(slim, open("docs/runlog.json", "w"), default=str)
+    for m, cs in entry["checks"].items():
+        for c in cs:
+            print(f"CHECK [{m}] {c['status']:4} {c['stage']}: {c['msg']}" + (f"  → {c['hint']}" if c['hint'] else ""))
     print(f"Run {entry['status']} in {entry['minutes']} min")
 
 
@@ -564,6 +653,7 @@ def _main(a, stats):
             df, st, ex = run_market(name, cfg, a.demo)
             write_details(df, ex, name, "docs/stocks")
             st["label_counts"] = {k: int(v) for k, v in df["signal"].value_counts().items()}
+            st["label_counts"].update({"SHORT BUY": int((df["hz_short"] == "BUY").sum()), "LONG BUY": int((df["hz_long"] == "BUY").sum())})
             tables.append(df); stats[name] = st
         except Exception as e:  # one market failing shouldn't kill the other
             import traceback; traceback.print_exc()
@@ -572,6 +662,7 @@ def _main(a, stats):
 
     cols = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers", "macro", "macro_raw",
             "mcap", "news_sent", "events", "value", "quality", "growth", "health", "f_score", "flags", "red_flags",
+            "hz_short", "hz_long",
             "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons", "signal"]
     allres = pd.concat(tables)[cols] if tables else pd.DataFrame(columns=cols)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -586,6 +677,7 @@ def _main(a, stats):
             {"ticker": t, "name": r["name"], "sector": r["sector"],
              "price": _num(r["price"], 2), "score": _num(r["score"], 1), "signal": r["signal"],
              "flags": r["flags"] if isinstance(r["flags"], list) else [],
+             "hz": [r["hz_short"] or "", r["signal"] if r["signal"] in ("BUY", "WATCH") else "", r["hz_long"] or ""],
              "red": r["red_flags"] if isinstance(r["red_flags"], list) else [],
              "parts": {k: round(float(r[k]) * 100) for k in config.WEIGHTS},
              "pe": _num(r["fwd_pe"], 1),

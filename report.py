@@ -142,19 +142,22 @@ const L = {ml:"Model",fundamental:"Fundam.",news:"News",peers:"Peers",macro:"Mac
 let M = Object.keys(D.markets)[0], showAll = false;
 const $ = id => document.getElementById(id);
 const tk = t => t.replace(".AX","").replace(".KA","");
+const CUR = m => (D.stats[m]||{}).currency || {US:"USD",ASX:"AUD",PSX:"PKR"}[m] || "";
 const pct = (v,d=1) => v==null ? "–" : (v>0?"+":"") + (v*100).toFixed(d) + "%";
 const esc = s => String(s??"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 $("gen").textContent = "Updated " + new Date(D.generated).toLocaleString(undefined,{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit",timeZoneName:"short"}) + (D.demo ? " · DEMO DATA" : "");
 
-function badge(sg){ return sg ? `<span class="sig ${sg}">${sg}</span>` : ""; }
+function badge(sg){ return sg ? `<span class="sig ${sg}">${sg==="BUY"?"MED BUY":sg}</span>` : ""; }
+function hzBadges(hz){ if(!hz) return ""; const [s,m,l] = hz;
+  return (s==="BUY"?`<span class="sig BUY">SHORT BUY</span>`:"") + (l==="BUY"?`<span class="sig BUY">LONG BUY</span>`:""); }
 const LABEL_INFO = {
-  BUY:"passes every buy check", WATCH:"one check short of a buy", HOLD:"no strong reason to buy or sell",
+  BUY:"medium-term (1–6 months): passes every buy check", WATCH:"one check short of a buy", HOLD:"no strong reason to buy or sell",
   AVOID:"recent red flag, or bottom-ranked with weak fundamentals — don't buy now", SELL:"fails on every front — exit if you own it"};
 function card(r, i, extra=""){
-  return `<div class="card ${r.signal||""}" onclick="openStock('${r.ticker}')">${extra}<div class="top"><div style="min-width:0"><span class="rank">${MINE(M)?r.market+" ":""}#${(r.rank||i+1)}</span><span class="tk">${tk(r.ticker)}</span>${badge(r.signal)}${(r.flags||[]).map(f=>`<span class="sig flag">${f}</span>`).join("")}
+  return `<div class="card ${r.signal||""}" onclick="openStock('${r.ticker}')">${extra}<div class="top"><div style="min-width:0"><span class="rank">${MINE(M)?r.market+" ":""}#${(r.rank||i+1)}</span><span class="tk">${tk(r.ticker)}</span>${badge(r.signal)}${hzBadges(r.hz)}${(r.flags||[]).map(f=>`<span class="sig flag">${f}</span>`).join("")}
    <div class="nm">${esc(r.name)} · ${esc(r.sector)}</div></div><div class="sc">${r.score}</div></div>
    <div class="bars">${Object.entries(r.parts).map(([k,v])=>`<div class="bar"><small>${L[k]}</small><i><span style="width:${v}%"></span></i></div>`).join("")}</div>
-   <div class="meta">Price ${r.price??"–"}${(r.market||M)==="PSX"?" PKR":""} · 3m ${r.ret3m??"–"}% · P/E ${r.pe??"–"}</div>
+   <div class="meta">${CUR(r.market||M)} ${r.price??"–"} · 3m ${r.ret3m??"–"}% · P/E ${r.pe??"–"}</div>
    <div class="chips">${r.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div></div>`;
 }
 function render(){
@@ -166,21 +169,26 @@ function render(){
   if (mine) return renderMine();
   const s = D.stats[M]||{}, rows = D.markets[M]||[];
   const buys = rows.filter(r=>r.signal==="BUY"), watch = rows.filter(r=>r.signal==="WATCH");
+  const sbuy = rows.filter(r=>(r.hz||[])[0]==="BUY"), lbuy = rows.filter(r=>(r.hz||[])[2]==="BUY");
   const sells = rows.filter(r=>r.signal==="SELL"), avoids = rows.filter(r=>r.signal==="AVOID");
   const reb = rows.filter(r=>(r.flags||[]).includes("REBOUND")), tp = rows.filter(r=>(r.flags||[]).includes("TAKE PROFIT"));
   const T = s.track||{};
   const trl = lab => T[lab] ? `${lab}: ${T[lab].n} past calls, right <b>${Math.round(T[lab].win_rate*100)}%</b> of the time (avg ${(T[lab].avg_excess*100).toFixed(2)}% vs index)` : null;
-  const trs = ["BUY","SELL","AVOID"].map(trl).filter(Boolean);
+  const trs = ["SHORT BUY","BUY","LONG BUY","SELL","AVOID"].map(trl).filter(Boolean);
   const link = r => `<a href="#" onclick="openStock('${r.ticker}');return false" style="color:inherit">${tk(r.ticker)}</a>`;
   const tr = trs.length ? "Scorecard — " + trs.join("; ") + "." : `Scorecard is building — check back in a week or two.`;
   $("sigs").innerHTML = s.error ? `<h2>${M} run failed</h2><div class="mute">${esc(s.error)}</div>` :
-    `<h2>${buys.length ? "Buy signals: "+buys.map(link).join(", ") : "No buy signals today"}</h2>`
+    `<h2>${buys.length ? "Medium-term BUY: "+buys.map(link).join(", ") : "No medium-term buys today"}</h2>`
+    + `<div><b>Short-term BUY</b> (days–weeks): ${sbuy.length?sbuy.slice(0,15).map(link).join(", ")+(sbuy.length>15?` +${sbuy.length-15}`:""):"none"}</div>`
+    + `<div><b>Long-term BUY</b> (1 year+): ${lbuy.length?lbuy.slice(0,15).map(link).join(", ")+(lbuy.length>15?` +${lbuy.length-15}`:""):"none"}</div>`
     + (watch.length ? `<div>Watch: ${watch.map(link).join(", ")}</div>` : "")
     + (sells.length ? `<div style="margin-top:4px"><b style="color:var(--neg)">Sell:</b> ${sells.slice(0,15).map(link).join(", ")}${sells.length>15?` +${sells.length-15} more`:""}</div>` : "")
     + (avoids.length ? `<div style="margin-top:4px"><b style="color:var(--ma50)">Avoid:</b> ${avoids.length} stocks <a href="#" onclick="quickSig('AVOID');return false" style="color:inherit">(show)</a></div>` : "")
     + (reb.length||tp.length ? `<div style="margin-top:4px">${reb.length?`Rebound: ${reb.slice(0,8).map(link).join(", ")}`:""}${reb.length&&tp.length?" · ":""}${tp.length?`Take profit: ${tp.slice(0,8).map(link).join(", ")}`:""}</div>` : "")
     + `<details class="why"><summary>What do the labels mean?</summary><ul>
-        <li><b>BUY</b> — passes every check: top 15% score, uptrend, not overbought, solid fundamentals, no bad company/competitor news, no strong sector/political headwind${s.model_used ? ", price model agrees" : ""}.</li>
+        <li><b>SHORT BUY</b> (days–weeks) — strong momentum, fresh positive news, above the 50-day average, RSI 50–70, rising interest, no red flags.</li>
+        <li><b>LONG BUY</b> (1 year+) — top fundamentals, strong financial health (F-score 7+), no bankruptcy risk, not expensive, high quality, long-term uptrend, no structural headwind.</li>
+        <li><b>MED BUY</b> (1–6 months) — passes every check: top 15% score, uptrend, not overbought, solid fundamentals, no bad company/competitor news, no strong sector/political headwind${s.model_used ? ", price model agrees" : ""}.</li>
         <li><b>WATCH</b> — passes all but one buy check.</li><li><b>HOLD</b> — nothing notable either way.</li>
         <li><b>AVOID</b> — a red flag in the last 10 days (scandal/probe, profit warning, capital raising, CEO exit, debt stress, failed trial…) or a strong sector/political headwind, or bottom-ranked with weak fundamentals.</li>
         <li><b>SELL</b> — the mirror of BUY: bottom 15% score, downtrend, weak fundamentals, negative news, model negative.</li>
@@ -238,6 +246,80 @@ function store(key, def){ return {
   save(){ try{ localStorage.setItem(key, JSON.stringify(this.v)); }catch(e){ alert("Couldn't save on this device (private browsing?)"); } } }; }
 const WL = store("watchlists", ()=>({lists:{"My watchlist":[]}, cur:"My watchlist"}));
 const PT = store("paper_trades", ()=>[]);
+
+/* ---- account database (Supabase). Local storage is only a cache until you sign in. ---- */
+let SB = null, USER = null, DBSTATE = "off";   // off | signedout | loading | ready | error
+const DBCFG = D.db || {};
+function dbInit(){
+  if (!DBCFG.url || !DBCFG.key) return;
+  DBSTATE = "signedout";
+  const sc = document.createElement("script");
+  sc.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+  sc.onload = async () => {
+    SB = supabase.createClient(DBCFG.url, DBCFG.key, {auth:{persistSession:true, detectSessionInUrl:true}});
+    SB.auth.onAuthStateChange((ev, sess) => { const u = sess?.user || null; if ((u&&u.id) !== (USER&&USER.id)) { USER = u; dbLoad(); } });
+    const { data } = await SB.auth.getSession(); USER = data.session?.user || null; dbLoad();
+  };
+  sc.onerror = () => { DBSTATE = "error"; render(); };
+  document.head.appendChild(sc);
+}
+const toRow = x => ({id:x.id, ticker:x.ticker, market:x.market, currency:x.currency||CUR(x.market), entry_date:x.date, entry_price:x.price,
+  entry_idx:x.idx, label:x.label, hz:x.hz, flags:x.flags, score:x.score, amount:x.amount, shares:x.shares, note:x.note, status:x.status,
+  exit_date:x.exit_date||null, exit_price:x.exit_price??null, exit_idx:x.exit_idx??null, exit_label:x.exit_label||null});
+const fromRow = r => ({id:Number(r.id), ticker:r.ticker, market:r.market, currency:r.currency, date:r.entry_date, price:Number(r.entry_price),
+  idx:r.entry_idx!=null?Number(r.entry_idx):null, label:r.label, hz:r.hz||["","",""], flags:r.flags||[], score:Number(r.score), amount:Number(r.amount),
+  shares:Number(r.shares), note:r.note||"", status:r.status, exit_date:r.exit_date, exit_price:r.exit_price!=null?Number(r.exit_price):null,
+  exit_idx:r.exit_idx!=null?Number(r.exit_idx):null, exit_label:r.exit_label});
+async function dbLoad(){
+  if (!SB) return;
+  if (!USER){ DBSTATE = "signedout"; render(); return; }
+  DBSTATE = "loading"; render();
+  try {
+    const [w, t] = await Promise.all([SB.from("watchlists").select("*"), SB.from("paper_trades").select("*").order("id",{ascending:false})]);
+    if (w.error) throw w.error; if (t.error) throw t.error;
+    // First sign-in on this device: move anything saved locally into the account
+    const localW = WL.get(), localT = PT.get();
+    const hasLocal = Object.values(localW.lists).some(a=>a.length) || localT.length;
+    if (hasLocal && !localStorage.getItem("migrated_"+USER.id)) {
+      const remoteNames = new Set(w.data.map(r=>r.name));
+      const up = Object.entries(localW.lists).filter(([n,a])=>a.length).map(([n,a])=>{ const r = w.data.find(z=>z.name===n); return {name:n, tickers:[...new Set([...(r?.tickers||[]), ...a])]}; });
+      if (up.length) await SB.from("watchlists").upsert(up, {onConflict:"user_id,name"});
+      if (localT.length) await SB.from("paper_trades").upsert(localT.map(toRow), {onConflict:"id"});
+      try { localStorage.setItem("migrated_"+USER.id, "1"); } catch(e){}
+      return dbLoad();
+    }
+    const cur = WL.get().cur;
+    WL.v = {lists: Object.fromEntries(w.data.map(r=>[r.name, r.tickers||[]])), cur};
+    if (!Object.keys(WL.v.lists).length) WL.v.lists["My watchlist"] = [];
+    if (!WL.v.lists[cur]) WL.v.cur = Object.keys(WL.v.lists)[0];
+    PT.v = t.data.map(fromRow);
+    WL.save(); PT.save();
+    DBSTATE = "ready";
+  } catch(e) { console.error(e); DBSTATE = "error"; DBERR = e.message || String(e); }
+  render();
+}
+let DBERR = "";
+async function dbRun(fn){ if (DBSTATE!=="ready") return; try { const r = await fn(); if (r && r.error) throw r.error; } catch(e){ DBERR = e.message||String(e); alert("Couldn't save to your account: "+DBERR); } }
+const dbList = n => dbRun(()=>SB.from("watchlists").upsert({name:n, tickers:WL.get().lists[n]||[], updated_at:new Date().toISOString()}, {onConflict:"user_id,name"}));
+const dbListDel = n => dbRun(()=>SB.from("watchlists").delete().eq("name", n));
+const dbTrade = x => dbRun(()=>SB.from("paper_trades").upsert(toRow(x), {onConflict:"id"}));
+const dbTradeDel = id => dbRun(()=>SB.from("paper_trades").delete().eq("id", id));
+async function signIn(){
+  const email = ($("em")?.value||"").trim(); if(!email) return;
+  const { error } = await SB.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin + location.pathname}});
+  if (error) return alert("Sign-in failed: " + error.message);
+  $("acct").innerHTML = `<div>Check <b>${esc(email)}</b> and tap the sign-in link. It opens this page signed in.</div>`;
+}
+async function signOut(){ await SB.auth.signOut(); USER=null; WL.v=null; PT.v=null; try{localStorage.removeItem("watchlists");localStorage.removeItem("paper_trades");}catch(e){} DBSTATE="signedout"; render(); }
+function accountBox(){
+  if (DBSTATE==="off") return `<div class="mute" style="margin-top:8px;font-size:12px">Database not connected yet — saved on this device for now, and moved to your account automatically once sign-in is set up.</div>`;
+  if (DBSTATE==="signedout") return `<div id="acct" style="margin-top:10px"><div class="mute">Sign in to save your lists and trades to your account (works on every device):</div>
+    <input id="em" type="email" placeholder="your@email.com" style="width:100%;padding:10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;margin:6px 0">
+    <button class="sbtn pri" onclick="signIn()">Email me a sign-in link</button></div>`;
+  if (DBSTATE==="loading") return `<div class="mute" style="margin-top:8px">Loading your account…</div>`;
+  if (DBSTATE==="error") return `<div class="bad" style="margin-top:8px;font-size:13px">Database error: ${esc(DBERR)} <a href="#" onclick="dbLoad();return false" style="color:inherit">retry</a></div>`;
+  return `<div class="mute" style="margin-top:8px;font-size:12px">☁ Saved to your account (${esc(USER.email)}) · <a href="#" onclick="signOut();return false" style="color:var(--acc)">Sign out</a></div>`;
+}
 function modal(html){ const m=document.createElement("div"); m.className="modal"; m.innerHTML=`<div class="mbox">${html}</div>`; m.onclick=e=>{ if(e.target===m) m.remove(); }; document.body.appendChild(m); return m; }
 function closeModal(){ document.querySelectorAll(".modal").forEach(m=>m.remove()); }
 
@@ -249,31 +331,34 @@ function addToList(t){
     <input id="nl" placeholder="e.g. Oil plays, Dividend ideas">
     <div class="btnrow"><button class="sbtn pri" onclick="const n=$('nl').value.trim(); if(n){ newList(n); toggleInList('${t}', n); }">Create &amp; add</button><button class="sbtn" onclick="closeModal()">Done</button></div>`);
 }
-function toggleInList(t, n){ const w=WL.get(); const a=w.lists[n]||(w.lists[n]=[]); const i=a.indexOf(t); i>=0?a.splice(i,1):a.push(t); WL.save(); closeModal(); addToList(t); }
-function newList(n){ const w=WL.get(); if(!w.lists[n]) w.lists[n]=[]; w.cur=n; WL.save(); }
+function toggleInList(t, n){ const w=WL.get(); const a=w.lists[n]||(w.lists[n]=[]); const i=a.indexOf(t); i>=0?a.splice(i,1):a.push(t); WL.save(); dbList(n); closeModal(); addToList(t); }
+function newList(n){ const w=WL.get(); if(!w.lists[n]) w.lists[n]=[]; w.cur=n; WL.save(); dbList(n); }
+function renameList(){ const w=WL.get(), old=w.cur; const n=(prompt("Rename list", old)||"").trim(); if(!n||n===old||w.lists[n]) return; w.lists[n]=w.lists[old]; delete w.lists[old]; w.cur=n; WL.save(); dbList(n); dbListDel(old); render(); }
+function deleteList(){ if(!confirm("Delete this list?")) return; const w=WL.get(), old=w.cur; delete w.lists[old]; if(!Object.keys(w.lists).length) w.lists["My watchlist"]=[]; w.cur=Object.keys(w.lists)[0]; WL.save(); dbListDel(old); render(); }
+function removeFromList(t){ const w=WL.get(); w.lists[w.cur]=w.lists[w.cur].filter(x=>x!==t); WL.save(); dbList(w.cur); render(); }
 
 function paperBuy(t){
   const r = ALL[t]; if(!r) return alert("No current price for this stock.");
-  const cur = {US:"US$",ASX:"A$",PSX:"PKR "}[r.market]||"";
+  const cur = CUR(r.market)+" ";
   modal(`<h3 style="margin:0 0 4px">Paper buy ${tk(t)}</h3><div class="mute">Pretend purchase at the latest close: <b>${cur}${r.price}</b>. Label today: ${badge(r.signal||"HOLD")} score ${r.score}.</div>
-    <label class="mute" style="display:block;margin-top:10px">Amount to invest (${cur.trim()})</label><input id="amt" inputmode="decimal" value="${r.market==="PSX"?100000:1000}">
+    <label class="mute" style="display:block;margin-top:10px">Amount to invest (${CUR(r.market)})</label><input id="amt" inputmode="decimal" value="${r.market==="PSX"?100000:1000}">
     <label class="mute">Note (optional)</label><input id="nt" placeholder="Why I'm buying">
     <div class="btnrow"><button class="sbtn pri" onclick="doPaperBuy('${t}')">Buy (paper)</button><button class="sbtn" onclick="closeModal()">Cancel</button></div>`);
 }
 function doPaperBuy(t){
   const r = ALL[t], amt = Number($("amt").value)||0; if(amt<=0) return;
   const s = D.stats[r.market]||{};
-  PT.get().unshift({id:Date.now(), ticker:t, market:r.market, date:s.price_date||D.generated.slice(0,10), price:r.price, idx:s.index_level,
-    label:r.signal||"HOLD", flags:r.flags||[], score:r.score, amount:amt, shares:amt/r.price, note:$("nt").value.trim(), status:"open"});
-  PT.save(); closeModal(); alert(`Paper bought ${tk(t)}. See the Paper tab.`);
+  const trade = {id:Date.now(), ticker:t, market:r.market, date:s.price_date||D.generated.slice(0,10), price:r.price, idx:s.index_level,
+    label:r.signal||"HOLD", hz:r.hz||["","",""], flags:r.flags||[], score:r.score, currency:CUR(r.market), amount:amt, shares:amt/r.price, note:$("nt").value.trim(), status:"open"};
+  PT.get().unshift(trade); PT.save(); dbTrade(trade); closeModal(); alert(`Paper bought ${tk(t)}. See the Paper tab.`);
 }
 function paperSell(id){
   const x = PT.get().find(z=>z.id===id), r = ALL[x.ticker], s = D.stats[x.market]||{};
   if(!r) return alert("No current price — can't close today.");
   if(!confirm(`Close ${tk(x.ticker)} at ${r.price}?`)) return;
-  Object.assign(x, {status:"closed", exit_price:r.price, exit_date:s.price_date, exit_idx:s.index_level, exit_label:r.signal||"HOLD"}); PT.save(); render();
+  Object.assign(x, {status:"closed", exit_price:r.price, exit_date:s.price_date, exit_idx:s.index_level, exit_label:r.signal||"HOLD"}); PT.save(); dbTrade(x); render();
 }
-function paperDel(id){ if(!confirm("Delete this paper trade?")) return; PT.v = PT.get().filter(z=>z.id!==id); PT.save(); render(); }
+function paperDel(id){ if(!confirm("Delete this paper trade?")) return; PT.v = PT.get().filter(z=>z.id!==id); PT.save(); dbTradeDel(id); render(); }
 function tradeStats(x){
   const r = ALL[x.ticker], s = D.stats[x.market]||{};
   const px = x.status==="closed" ? x.exit_price : r?.price, ix = x.status==="closed" ? x.exit_idx : s.index_level;
@@ -289,11 +374,11 @@ function importData(){
   modal(`<h3 style="margin:0 0 6px">Restore backup</h3><div class="mute">Choose a screener-backup.json file. This replaces the lists and trades on this device.</div>
     <input type="file" id="imf" accept=".json,application/json"><div class="btnrow"><button class="sbtn pri" onclick="doImport()">Restore</button><button class="sbtn" onclick="closeModal()">Cancel</button></div>`);
 }
-function doImport(){ const f=$("imf").files[0]; if(!f) return; f.text().then(txt=>{ try{ const j=JSON.parse(txt); if(j.watchlists){WL.v=j.watchlists;WL.save();} if(j.paper){PT.v=j.paper;PT.save();} closeModal(); render(); }catch(e){ alert("That file isn't a valid backup."); } }); }
+function doImport(){ const f=$("imf").files[0]; if(!f) return; f.text().then(txt=>{ try{ const j=JSON.parse(txt); if(j.watchlists){WL.v=j.watchlists;WL.save(); Object.keys(WL.v.lists).forEach(dbList);} if(j.paper){PT.v=j.paper;PT.save(); PT.v.forEach(dbTrade);} closeModal(); render(); }catch(e){ alert("That file isn't a valid backup."); } }); }
 
 function renderMine(){
   const F = getF(), q = $("q").value.trim().toLowerCase();
-  const backup = `<div class="mute" style="margin-top:8px;font-size:12px">Saved on this phone/browser only. <a href="#" onclick="exportData();return false" style="color:var(--acc)">Back up</a> · <a href="#" onclick="importData();return false" style="color:var(--acc)">Restore</a></div>`;
+  const backup = accountBox() + `<div class="mute" style="margin-top:4px;font-size:12px"><a href="#" onclick="exportData();return false" style="color:var(--acc)">Export</a> · <a href="#" onclick="importData();return false" style="color:var(--acc)">Import</a></div>`;
   let rows = rowsFor(M);
   if (q) rows = rows.filter(r=>r.ticker.toLowerCase().startsWith(q) || (r.name||"").toLowerCase().includes(q));
   const active = activeCount(F);
@@ -307,13 +392,12 @@ function renderMine(){
     if (!w.lists[w.cur]) w.cur = names[0];
     $("mine").innerHTML = `<div class="mine-head"><b>Watchlists</b><div class="pills" style="margin-top:8px">${names.map(n=>`<button class="pill ${n===w.cur?"on":""}" onclick="WL.get().cur=decodeURIComponent('${encodeURIComponent(n)}');WL.save();render()">${esc(n)} (${w.lists[n].length})</button>`).join("")}</div>
       <div class="btnrow"><button class="sbtn" onclick="const n=prompt('New list name'); if(n&&n.trim()){ newList(n.trim()); render(); }">+ New list</button>
-      ${w.cur?`<button class="sbtn" onclick="const n=prompt('Rename list', WL.get().cur); if(n&&n.trim()&&n!==WL.get().cur){ const w=WL.get(); w.lists[n.trim()]=w.lists[w.cur]; delete w.lists[w.cur]; w.cur=n.trim(); WL.save(); render(); }">Rename</button>
-      <button class="sbtn neg" onclick="if(confirm('Delete this list?')){ const w=WL.get(); delete w.lists[w.cur]; if(!Object.keys(w.lists).length) w.lists['My watchlist']=[]; w.cur=Object.keys(w.lists)[0]; WL.save(); render(); }">Delete list</button>`:""}</div>
+      ${w.cur?`<button class="sbtn" onclick="renameList()">Rename</button><button class="sbtn neg" onclick="deleteList()">Delete list</button>`:""}</div>
       <div class="mute" style="margin-top:8px">Add stocks from any market: open a stock and tap ☆ Watchlist.</div>${backup}</div>`;
     let shown = rows.filter(r=>passes(r,F)); if (key!=="score") shown.sort((a,b)=>SORTS[key].f(a,b)); else shown.sort((a,b)=>b.score-a.score);
     const missing = (w.lists[w.cur]||[]).filter(t=>!ALL[t]);
     $("count").textContent = `${shown.length} of ${(w.lists[w.cur]||[]).length} stocks${active?" match":""}`;
-    $("list").innerHTML = shown.map((r,i)=>card(r,i,`<button class="cardx" onclick="event.stopPropagation(); const w=WL.get(); w.lists[w.cur]=w.lists[w.cur].filter(x=>x!=='${r.ticker}'); WL.save(); render();" title="Remove">✕</button>`)).join("")
+    $("list").innerHTML = shown.map((r,i)=>card(r,i,`<button class="cardx" onclick="event.stopPropagation(); removeFromList('${r.ticker}')" title="Remove">✕</button>`)).join("")
       + (missing.length?`<div class="box mute">Not in today's data: ${missing.map(tk).join(", ")}</div>`:"")
       + (!(w.lists[w.cur]||[]).length?`<div class="box mute">This list is empty. Open any stock and tap ☆ Watchlist.</div>`:"");
     return;
@@ -327,7 +411,7 @@ function renderMine(){
   const S = trades.map(x=>({x, ...tradeStats(x)}));
   const done = S.filter(z=>z.ret!=null), wins = done.filter(z=>z.vs>0).length;
   const avg = a => a.length ? a.reduce((p,c)=>p+c,0)/a.length : null;
-  const byLab = {}; done.forEach(z=>{ (byLab[z.x.label] ||= []).push(z); });
+  const byLab = {}; done.forEach(z=>{ const h=z.x.hz||[]; const k = h[0]==="BUY"?"SHORT BUY":h[2]==="BUY"&&z.x.label!=="BUY"?"LONG BUY":z.x.label==="BUY"?"MED BUY":z.x.label; (byLab[k] ||= []).push(z); });
   if (key!=="score") {} 
   S.sort((a,b)=> (b.x.id - a.x.id));
   $("mine").innerHTML = `<div class="mine-head"><b>Paper trades</b>
@@ -336,16 +420,16 @@ function renderMine(){
       <div class="kv"><small>Average return</small><b class="${avg(done.map(z=>z.ret))>=0?"good":"bad"}">${fp(avg(done.map(z=>z.ret)))}</b></div>
       <div class="kv"><small>Average vs index</small><b class="${avg(done.map(z=>z.vs).filter(v=>v!=null))>=0?"good":"bad"}">${fp(avg(done.map(z=>z.vs).filter(v=>v!=null)))}</b></div>
       <div class="kv"><small>Beat the index</small><b>${wins} of ${done.length} (${Math.round(wins/done.length*100)}%)</b></div>
-      <div class="kv"><small>Total P&amp;L</small><b>${(()=>{ const byCur={}; done.forEach(z=>{ const c={US:"US$",ASX:"A$",PSX:"PKR "}[z.x.market]; byCur[c]=(byCur[c]||0)+z.x.amount*z.ret; }); return Object.entries(byCur).map(([c,v])=>`${v>=0?"+":"−"}${c}${Math.abs(v).toFixed(0)}`).join(" · "); })()}</b></div></div>
+      <div class="kv"><small>Total P&amp;L</small><b>${(()=>{ const byCur={}; done.forEach(z=>{ const c=CUR(z.x.market)+" "; byCur[c]=(byCur[c]||0)+z.x.amount*z.ret; }); return Object.entries(byCur).map(([c,v])=>`${v>=0?"+":"−"}${c}${Math.abs(v).toFixed(0)}`).join(" · "); })()}</b></div></div>
       <div class="mute" style="margin-top:8px">By label when bought: ${Object.entries(byLab).map(([l,a])=>`${l} ${fp(avg(a.map(z=>z.vs).filter(v=>v!=null)))} vs index (${a.length})`).join(" · ")}</div>`:`<div class="mute" style="margin-top:8px">No paper trades yet. Open a stock and tap “Paper buy” to test a signal.</div>`}
     ${backup}</div>`;
   $("count").textContent = active||q ? `${trades.length} of ${all.length} trades match` : "";
-  const cur = m => ({US:"US$",ASX:"A$",PSX:"PKR "})[m]||"";
+  const cur = m => CUR(m)+" ";
   $("list").innerHTML = S.map(({x,px,ret,vs,iret,days,now})=>`<div class="trade">
     <div class="row"><div><span class="tk" onclick="openStock('${x.ticker}')" style="cursor:pointer">${tk(x.ticker)}</span> <span class="mute">${x.market}</span> ${x.status==="closed"?'<span class="sig HOLD">CLOSED</span>':""}</div>
       <div class="big2 ${ret>=0?"good":"bad"}">${fp(ret)}</div></div>
     <div class="mute">${esc(now?.name||"")}</div>
-    <div style="font-size:13px;margin-top:6px">Bought ${x.date} at ${cur(x.market)}${x.price} as ${badge(x.label)} (score ${x.score}) · ${x.status==="closed"?`sold ${x.exit_date} at ${cur(x.market)}${x.exit_price}`:`now ${cur(x.market)}${px??"–"} ${now?badge(now.signal||"HOLD"):""}`}</div>
+    <div style="font-size:13px;margin-top:6px">Bought ${x.date} at ${cur(x.market)}${x.price} as ${badge(x.label)}${hzBadges(x.hz)} (score ${x.score}) · ${x.status==="closed"?`sold ${x.exit_date} at ${cur(x.market)}${x.exit_price}`:`now ${cur(x.market)}${px??"–"} ${now?badge(now.signal||"HOLD"):""}`}</div>
     <div style="font-size:13px;margin-top:4px">Index ${fp(iret)} over the same ${days} days → <b class="${vs>=0?"good":"bad"}">${fp(vs)} vs index</b> · ${cur(x.market)}${x.amount} invested → ${ret!=null?`${ret>=0?"+":"−"}${cur(x.market)}${Math.abs(x.amount*ret).toFixed(0)}`:"–"}</div>
     ${x.note?`<div class="mute" style="margin-top:4px">“${esc(x.note)}”</div>`:""}
     <div class="btnrow">${x.status==="open"?`<button class="sbtn" onclick="paperSell(${x.id})">Close (sell)</button>`:""}<button class="sbtn" onclick="openStock('${x.ticker}')">Details</button><button class="sbtn neg" onclick="paperDel(${x.id})">Delete</button></div></div>`).join("");
@@ -360,11 +444,18 @@ function renderLog(){
   const l0 = LOG[0];
   $("logsum").innerHTML = `· last run <b class="st-${l0.status}">${l0.status.toUpperCase()}</b>`;
   const when = iso => new Date(iso).toLocaleString(undefined,{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
-  $("runlog").innerHTML = LOG.slice(0,12).map(l=>`<div class="logrow"><b class="st-${l.status}">${l.status.toUpperCase()}</b> · ${when(l.started)} · ${l.minutes} min · ${l.trigger==="schedule"?"scheduled":"manual"}
-    <div class="mute">${Object.entries(l.markets||{}).map(([m,v])=>v.error?`${m}: <b class="bad">failed</b> — ${esc(v.error)}`:`${m}: ${v.screened}/${v.downloaded} stocks, news ${Math.round((v.news_coverage||0)*100)}%, AI ${v.ai_scoring}${v.ai_events?` (${v.ai_events} events)`:""}${(v.missing_prices||[]).length?`, no prices for ${v.missing_prices.length}`:""}`).join("<br>")}</div>
-    ${l.fatal?`<div class="bad">${esc(l.fatal)}</div>`:""}
-    ${(l.warnings||[]).length?`<details><summary class="mute" style="font-size:12px">${l.warnings.length} warning(s)</summary><div class="mute" style="font-size:12px;white-space:pre-wrap">${l.warnings.map(esc).join("\n")}</div></details>`:""}</div>`).join("")
-    + `<div class="mute" style="margin-top:6px;font-size:12px">Full logs are kept in the repo under results/logs.</div>`;
+  const ic = st => st==="OK"?'<b class="st-ok">✓</b>':st==="INFO"?'<b class="mute">ℹ</b>':st==="WARN"?'<b class="st-warnings">⚠</b>':'<b class="st-failed">✗</b>';
+  $("runlog").innerHTML = LOG.slice(0,12).map((l,i)=>`<details class="logrow" ${i===0?"open":""}><summary><b class="st-${l.status}">${l.status.toUpperCase()}</b> · ${when(l.started)} · ${l.minutes} min · ${l.trigger==="schedule"?"scheduled":"manual"}${l.commit?` · ${l.commit}`:""}</summary>
+    ${l.fatal?`<div class="bad" style="margin-top:6px">Run crashed: ${esc(l.fatal)}</div>`:""}
+    ${Object.entries(l.markets||{}).map(([m,v])=>`<div style="margin-top:8px"><b>${m}</b> ${v.error?`<span class="bad">failed — ${esc(v.error)}</span>`:`<span class="mute">${v.screened}/${v.downloaded} stocks · prices to ${v.price_date||"–"} · AI ${v.ai_scoring}</span>`}
+      ${((l.checks||{})[m]||[]).map(c=>`<div class="chk" style="font-size:12.5px;padding:3px 0">${ic(c.status)}<span><b>${esc(c.stage)}</b>: ${esc(c.msg)}${c.hint?`<div class="mute">→ ${esc(c.hint)}</div>`:""}</span></div>`).join("")}
+      ${v.timings?`<div class="mute" style="font-size:12px">Time: ${Object.entries(v.timings).map(([k,t])=>`${k} ${t}s`).join(" · ")}</div>`:""}
+      ${(v.missing_prices||[]).length?`<div class="mute" style="font-size:12px">No prices: ${v.missing_prices.map(tk).join(", ")}</div>`:""}
+      ${Object.entries((l.errors||{})[m]||{}).map(([k,arr])=>`<details><summary class="mute" style="font-size:12px">${esc(k)} (${arr.length})</summary><div class="mute" style="font-size:11.5px;white-space:pre-wrap">${arr.map(esc).join("\n")}</div></details>`).join("")}
+    </div>`).join("")}
+    ${(l.warnings||[]).length?`<details><summary class="mute" style="font-size:12px">All warnings (${l.warnings.length})</summary><div class="mute" style="font-size:11.5px;white-space:pre-wrap">${l.warnings.map(esc).join("\n")}</div></details>`:""}
+  </details>`).join("")
+    + `<div class="mute" style="margin-top:6px;font-size:12px">Full text logs: repo → results/logs. ✓ ok · ⚠ warning · ✗ failed. Each warning says where to look.</div>`;
 }
 
 /* ---------------- market overview ---------------- */
@@ -378,7 +469,7 @@ function renderOverview(s){
   $("ovsum").innerHTML = `· today <b style="color:${(p.index["1D"]||0)>=0?"var(--acc)":"var(--neg)"}">${fp(p.index["1D"])}</b> · 1Y ${fp(p.index["1Y"])}`;
   const sec = p.sectors, ind = p.industries;
   const best = ind.slice(0,5), worst = ind.slice(-5).reverse();
-  $("ov").innerHTML = `<div class="mute">${idxName}</div>
+  $("ov").innerHTML = `<div class="mute">${idxName} · returns in ${CUR(M)}</div>
     <div class="perf">${PER.map(k=>`<div style="background:${heatBg(p.index[k],k)}"><small>${k}</small><b>${fp(p.index[k])}</b></div>`).join("")}</div>
     <div class="mute" style="margin:4px 0">Sectors (weighted by company size) — tap one to filter:</div>
     <div class="heatwrap"><table class="heat"><tr><th></th>${PER.map(k=>`<th>${k}</th>`).join("")}</tr>
@@ -413,14 +504,14 @@ const SORTS = {
   rsi_lo:{l:"RSI (most oversold first)", f:(a,b)=>(a.rsi??999)-(b.rsi??999)},
   mcap:{l:"Market cap (largest first)", f:(a,b)=>(b.mcap??0)-(a.mcap??0)},
 };
-const DEF = () => ({mk:[], flg:[], sig:[], sec:[], smin:"", smax:"", parts:{}, pemin:"", pemax:"", rmin:"", rmax:"", rsimin:"", rsimax:"",
+const DEF = () => ({hz:[], mk:[], flg:[], sig:[], sec:[], smin:"", smax:"", parts:{}, pemin:"", pemax:"", rmin:"", rmax:"", rsimin:"", rsimax:"",
   cap:"", news:"", macro:"", good:[], bad:[], tags:[], sort:"score", vqmin:{}});
 const FS = {};
 function getF(){ if(!FS[M]){ try{ FS[M] = Object.assign(DEF(), JSON.parse(localStorage.getItem("f_"+M)||"{}")); }catch(e){ FS[M]=DEF(); } FS[M].sig = (FS[M].sig||[]).map(x=>x==="NONE"?"HOLD":x); } return FS[M]; }
 function saveF(){ try{ localStorage.setItem("f_"+M, JSON.stringify(FS[M])); }catch(e){} }
 const num = v => v===""||v==null ? null : Number(v);
 function activeCount(F){ let n=0;
-  if(F.sig.length) n++; if((F.flg||[]).length) n++; if((F.mk||[]).length) n++; if(F.sec.length) n++; if(F.smin!==""||F.smax!=="") n++;
+  if(F.sig.length) n++; if((F.flg||[]).length) n++; if((F.hz||[]).length) n++; if((F.mk||[]).length) n++; if(F.sec.length) n++; if(F.smin!==""||F.smax!=="") n++;
   n += Object.values(F.parts).filter(v=>v>0).length; n += Object.values(F.vqmin).filter(v=>v>0).length;
   if(F.pemin!==""||F.pemax!=="") n++; if(F.rmin!==""||F.rmax!=="") n++; if(F.rsimin!==""||F.rsimax!=="") n++;
   if(F.cap) n++; if(F.news) n++; if(F.macro) n++; n += F.good.length?1:0; n += F.bad.length?1:0; n += F.tags.length?1:0; return n; }
@@ -428,6 +519,8 @@ function passes(r, F){
   if ((F.mk||[]).length && !F.mk.includes(r.market)) return false;
   if (F.sig.length){ const sg = r.signal||"HOLD"; if(!F.sig.includes(sg)) return false; }
   if ((F.flg||[]).length && !F.flg.some(f=>(r.flags||[]).includes(f))) return false;
+  if ((F.hz||[]).length){ const h = r.hz||["","",""]; const ok = {S:h[0]==="BUY", M:h[1]==="BUY", L:h[2]==="BUY", SW:h[0]==="WATCH", LW:h[2]==="WATCH"};
+    if (!F.hz.some(k=>ok[k])) return false; }
   if (F.sec.length && !F.sec.includes(r.sector)) return false;
   if (num(F.smin)!=null && r.score < num(F.smin)) return false;
   if (num(F.smax)!=null && r.score > num(F.smax)) return false;
@@ -463,13 +556,14 @@ function drawPanel(){
   const evs = [...new Set(rows.flatMap(r=>r.events||[]))];
   const good = evs.filter(e=>!BAD.includes(e)).sort(), bad = evs.filter(e=>BAD.includes(e)).sort();
   const tags = [...new Set(rows.flatMap(r=>r.reasons||[]))].filter(t=>!evs.includes(t)).sort();
-  const caps = M==="US" ? [["",'Any'],["1e10",">$10B"],["5e10",">$50B"],["2e11",">$200B"],["-2e10","<$20B"]]
-             : M==="ASX" ? [["",'Any'],["2e9",">A$2B"],["1e10",">A$10B"],["5e10",">A$50B"],["-5e9","<A$5B"]]
+  const caps = M==="US" ? [["",'Any'],["1e10",">USD 10B"],["5e10",">USD 50B"],["2e11",">USD 200B"],["-2e10","<USD 20B"]]
+             : M==="ASX" ? [["",'Any'],["2e9",">AUD 2B"],["1e10",">AUD 10B"],["5e10",">AUD 50B"],["-5e9","<AUD 5B"]]
              : [["",'Any'],["5e10",">PKR 50B"],["2e11",">PKR 200B"],["5e11",">PKR 500B"],["-5e10","<PKR 50B"]];
   $("fpanel").innerHTML = `
    ${MINE(M)?`<div class="fg"><span class="fl">Market</span>${pills("mk",MARKETS.map(m=>[m,m]),F.mk||[])}</div>`:""}
    <div class="fg"><span class="fl">Signal</span>${pills("sig",[["BUY","BUY"],["WATCH","WATCH"],["HOLD","HOLD"],["AVOID","AVOID"],["SELL","SELL"]],F.sig)}
      <div class="mute" style="margin-top:4px">Tap several to combine, e.g. BUY + WATCH.</div></div>
+   <div class="fg"><span class="fl">Time horizon</span>${pills("hz",[["S","Short-term BUY"],["M","Medium-term BUY"],["L","Long-term BUY"],["SW","Short WATCH"],["LW","Long WATCH"]],F.hz||[])}</div>
    <div class="fg"><span class="fl">Flags</span>${pills("flg",[["REBOUND","REBOUND (oversold quality)"],["TAKE PROFIT","TAKE PROFIT"]],F.flg)}</div>
    <div class="fg"><span class="fl">Sector</span>${pills("sec",secs.map(x=>[x,x]),F.sec)}</div>
    <div class="fg"><span class="fl">Overall score</span>${rng("smin","smax","min e.g. 60","max")}</div>
@@ -557,7 +651,7 @@ async function openStock(t, push=true){
   sh.innerHTML = `<div class="shead"><button class="back" onclick="history.back()">‹ Back</button><b>${tk(d.ticker)}</b>${badge(d.signal)}${(d.flags||[]).map(f=>`<span class="sig flag">${f}</span>`).join("")}</div>
   <div class="sec"><div class="hero"><div style="min-width:0"><div class="tk" style="font-size:20px">${esc(d.name)}</div>
     <div class="mute">${esc(d.sector)}${d.industry?" · "+esc(d.industry):""}</div>
-    <div style="margin-top:8px">Price <b>${d.price??"–"}${d.market==="PSX"?" PKR":""}</b> · Market cap <b>${fmtCap(d.mcap)}${d.market==="PSX"?" PKR":""}</b></div></div>
+    <div style="margin-top:8px">Price <b>${CUR(d.market)} ${d.price??"–"}</b> · Market cap <b>${CUR(d.market)} ${fmtCap(d.mcap)}</b></div></div>
     <div style="text-align:right"><div class="big">${d.score}</div><div class="mute">#${d.rank} of ${d.of}</div></div></div>
     <div class="chips" style="margin-top:8px">${d.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div>
     <div class="btnrow"><button class="sbtn" onclick="addToList('${d.ticker}')">☆ Watchlist</button><button class="sbtn pri" onclick="paperBuy('${d.ticker}')">Paper buy</button></div>
@@ -571,10 +665,12 @@ async function openStock(t, push=true){
     ${d.sell_checks.map(c=>`<div class="chk"><b class="${c.skipped?"skip":c.pass?"no":"ok"}">${c.skipped?"–":c.pass?"!":"·"}</b><span>${c.label}</span></div>`).join("")}`:""}
     ${why(xLabel(d), "Why this label?")}</div>
 
+  ${horizonSection(d)}
+
   <div class="sec"><h3>Score breakdown</h3><div class="mute" style="margin-bottom:6px">Each part is a 0–100 rank vs the other ${d.market} stocks, weighted into the total.</div>
     ${d.parts.map(p=>`<div class="prow"><span>${p.label} <span class="mute">× ${Math.round(p.weight*100)}%</span></span><span class="v">${p.value}</span><i><span style="width:${p.value}%"></span></i></div>`).join("")}
     <div class="grid" style="margin-top:10px"><div class="kv"><small>Value vs sector</small><b>${d.sub.value}</b></div><div class="kv"><small>Quality</small><b>${d.sub.quality}</b></div><div class="kv"><small>Growth</small><b>${d.sub.growth}</b></div><div class="kv"><small>Financial health</small><b>${d.sub.health??"–"}</b></div><div class="kv"><small>Analysts</small><b>${d.analyst.rating?esc(d.analyst.rating).replace("_"," "):"–"}</b></div></div>
-    ${up!=null?`<div class="mute" style="margin-top:8px">Average analyst target ${d.analyst.target} (${pct(up)} from here).</div>`:""}
+    ${up!=null?`<div class="mute" style="margin-top:8px">Average analyst target ${CUR(d.market)} ${d.analyst.target} (${pct(up)} from here).</div>`:""}
     ${why(xScore(d, up))}</div>
 
   <div class="sec"><h3>Price chart</h3><div class="rng" id="rng"></div><div id="chart"></div><div id="tip"></div>
@@ -618,6 +714,18 @@ async function openStock(t, push=true){
   drawChart(d, base, 252);
 }
 
+function horizonSection(d){
+  if (!d.short_checks) return "";
+  const hz = d.hz||{};
+  const lab = v => v==="BUY" ? '<span class="sig BUY">BUY</span>' : v==="WATCH" ? '<span class="sig WATCH">WATCH</span>' : '<span class="sig HOLD">—</span>';
+  const list = cs => cs.map(c=>`<div class="chk"><b class="${c.pass?"ok":"no"}">${c.pass?"✓":"✗"}</b><span>${c.label}</span></div>`).join("");
+  return `<div class="sec"><h3>By time horizon</h3>
+    <div class="grid"><div class="kv"><small>Short term (days–weeks)</small>${lab(hz.short)}</div><div class="kv"><small>Medium term (1–6 months)</small>${lab(hz.medium)}</div><div class="kv"><small>Long term (1 year+)</small>${lab(hz.long)}</div></div>
+    <div class="fl" style="font-size:13px;font-weight:600;margin:10px 0 4px">Short-term checks (${d.short_checks.filter(c=>c.pass).length}/${d.short_checks.length})</div>${list(d.short_checks)}
+    <div class="fl" style="font-size:13px;font-weight:600;margin:10px 0 4px">Long-term checks (${d.long_checks.filter(c=>c.pass).length}/${d.long_checks.length})</div>${list(d.long_checks)}
+    ${why(`<p>Different investors care about different things. <b>Short term</b> looks for momentum and a fresh reason for the price to move (news, events, rising volume) and ignores valuation. <b>Medium term</b> is the main balanced score. <b>Long term</b> cares about the quality and financial strength of the business and whether it's reasonably priced, and mostly ignores short-term news.</p>
+      <p>${hz.long==="BUY"&&hz.short!=="BUY"?"This looks like a solid long-term holding even if the short-term setup isn't there.":hz.short==="BUY"&&hz.long!=="BUY"?"This is a short-term momentum idea — the business itself doesn't pass the long-term quality tests, so it's not one to hold for years without a reason.":hz.short==="BUY"&&hz.long==="BUY"?"Rare: it passes both the short-term and long-term tests.":"It doesn't fully pass the short- or long-term tests right now; WATCH means one check short."}</p>`)}</div>`;
+}
 function healthSection(d){
   const h = d.health; if(!h) return "";
   const tests = Object.entries(h.f_tests||{});
@@ -758,11 +866,14 @@ function closeSheet(){ $("sheet").classList.remove("open"); document.body.style.
 window.addEventListener("popstate", e => { if (e.state && e.state.t) openStock(e.state.t, false); else closeSheet(); });
 if (location.hash.length > 1) { history.replaceState(null, "", location.pathname); openStock(decodeURIComponent(location.hash.slice(1))); }
 render();
+dbInit();
 </script></body></html>"""
 
 
 def write_page(payload, path):
     from events import BAD
+    import config
+    payload = dict(payload, db={"url": getattr(config, "SUPABASE_URL", ""), "key": getattr(config, "SUPABASE_ANON_KEY", "")})
     page = PAGE.replace("__BAD_EVENTS__", ",".join(json.dumps(b) for b in sorted(BAD)))
     with open(path, "w") as f:
         f.write(page.replace("__DATA__", json.dumps(payload, default=str, separators=(",", ":"))))

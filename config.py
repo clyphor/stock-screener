@@ -56,3 +56,10 @@ TOP_N = 20                # how many picks to show per market
 # Optional: set ANTHROPIC_API_KEY as a GitHub secret to score news with Claude
 # instead of the built-in word list.
 CLAUDE_MODEL = "claude-haiku-5-5"
+
+
+# ---- Database for watchlists & paper trades (Supabase) -------------------------
+# The URL and the *anon/publishable* key are meant to be public (they sit in the web page);
+# row-level security in db/schema.sql keeps each user's data private.
+SUPABASE_URL = ""
+SUPABASE_ANON_KEY = ""

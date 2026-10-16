@@ -421,13 +421,14 @@ def _matches(key, sector, industry, ticker=None):
 def stock_macro(ctx, ticker, sector, industry):
     """(score -1..1, list of (theme or event label, effect)) for one stock."""
     sec = ctx["sectors"].get(sector, {}).get("score", 0.0)
-    effects = []
+    effects, theme_sum, ai_sum = [], 0.0, 0.0
     for k, t in ctx["themes"].items():
         e = 0.0
         for key, w in t["exp"].items():
             if _matches(key, sector, industry, ticker):
                 e += w
         e *= t["heat"]
+        theme_sum += e
         if abs(e) >= 0.02:
             effects.append((t["label"], round(e, 2)))
     # Events found by the AI analyst (already scaled by how big/likely the impact is)
@@ -439,9 +440,11 @@ def stock_macro(ctx, ticker, sector, industry):
             key = {"ticker": "tk:", "industry": "ind:"}.get(kind, "") + val if kind in ("ticker", "industry") else val
             if kind == "ticker" and val == ticker or kind != "ticker" and _matches(key, sector, industry, ticker):
                 e = max(-1.0, min(1.0, e + float(imp.get("effect", 0))))
+        ai_sum += e
         if abs(e) >= 0.02:
             effects.append(("AI: " + ev.get("event", "event"), round(e, 2)))
-    score = float(np.clip(0.5 * sec + sum(e for _, e in effects), -1, 1))
+    # Each source is squashed so many small effects can't pile up to an extreme score
+    score = float(np.clip(0.4 * sec + 0.5 * np.tanh(1.5 * theme_sum) + 0.5 * np.tanh(1.5 * ai_sum), -1, 1))
     return round(score, 3), sorted(effects, key=lambda x: -abs(x[1]))
 
 

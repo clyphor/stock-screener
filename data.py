@@ -112,7 +112,7 @@ def _num_list(txt, label, n=4):
     return vals
 
 
-def _psx_info(t):
+def _psx_info(t, name=None):
     """Fundamentals scraped from dps.psx.com.pk/company/<SYMBOL> (Yahoo has little for Pakistan)."""
     sym = t.replace(".KA", "")
     row = {k: None for k in FUND_FIELDS}
@@ -158,7 +158,14 @@ def _psx_info(t):
     from universe import PSX_SECTORS
     kws = [k.upper() for k, _, _ in PSX_SECTORS] + ["SUGAR", "COMPOSITE", "VANASPATI", "LEATHER", "JUTE", "SYNTHETIC", "WOOLLEN"]
     tok = r"[A-Z&/][A-Z&/\.,'-]*(?![a-z])"
-    for cand in re.findall(r"((?:" + tok + r"\s){0,9}" + tok + ")", txt):
+    start = 0
+    if name:  # the sector line sits directly under the company name — search only after it
+        k = txt.find(name)
+        if k < 0:
+            k = txt.lower().find(name.lower()[:25])
+        start = max(0, k + len(name)) if k >= 0 else 0
+    window = txt[start:start + 160] if start else txt
+    for cand in re.findall(r"((?:" + tok + r"\s){0,9}" + tok + ")", window):
         if len(cand) < 90 and any(k in cand for k in kws) and cand.strip() != sym:
             row["psx_sector"] = cand.strip()
             break
@@ -166,10 +173,11 @@ def _psx_info(t):
     return row
 
 
-def get_fundamentals(tickers):
+def get_fundamentals(tickers, names=None):
     if tickers and all(t.endswith(".KA") for t in tickers):
+        names = names or {}
         with ThreadPoolExecutor(6) as ex:
-            return pd.DataFrame(list(ex.map(_psx_info, tickers))).set_index("ticker")
+            return pd.DataFrame(list(ex.map(lambda t: _psx_info(t, names.get(t)), tickers))).set_index("ticker")
     with ThreadPoolExecutor(6) as ex:
         rows = list(ex.map(_info, tickers))
     return pd.DataFrame(rows).set_index("ticker")

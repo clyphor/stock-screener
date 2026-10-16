@@ -65,7 +65,7 @@ def signal_checks(df, model_ok):
         "not_overbought": df["rsi_14"] < 70,
         "solid_fundamentals": df["fundamental"] >= 0.6,
         "news_ok": (df["news_sent"] >= 0) & (df["peer_sent"] >= -0.05),
-        "macro_ok": df["macro_raw"] >= -0.2,
+        "macro_ok": (df["macro_raw"] >= -0.2) | (df["macro_raw"].rank(pct=True) >= 0.25),
         "model_agrees": (df["ml"] >= 0.7) if model_ok else pd.Series(True, index=df.index),
     })
 
@@ -87,7 +87,7 @@ def sell_checks(df, model_ok):
         "bottom_ranked": df["score"].rank(pct=True) <= 0.15,
         "downtrend": (df["dist_ma50"] < 0) & (df["dist_ma200"] < 0),
         "weak_fundamentals": df["fundamental"] < 0.4,
-        "bad_news": (df["news_sent"] < 0) | (df["peer_sent"] < -0.05) | (df["macro_raw"] < -0.1),
+        "bad_news": (df["news_sent"] < 0) | (df["peer_sent"] < -0.05) | ((df["macro_raw"] < -0.1) & (df["macro_raw"].rank(pct=True) <= 0.2)),
         "model_negative": (df["ml"] <= 0.3) if model_ok else pd.Series(True, index=df.index),
     })
 
@@ -95,10 +95,11 @@ def sell_checks(df, model_ok):
 def red_flags(df):
     """Recent serious bad news (event taxonomy) or a strong sector/political headwind."""
     out = {}
+    mrank = df["macro_raw"].rank(pct=True)
     for t, r in df.iterrows():
         evs = r.get("events") if isinstance(r.get("events"), list) else []
         f = [__import__("events").LABEL[k] for k in evs if k in RED_FLAG_EVENTS]
-        if r["macro_raw"] <= MACRO_RED:
+        if r["macro_raw"] <= MACRO_RED and mrank[t] <= 0.07:  # strongly negative AND among the most exposed
             f.append("Strong sector / political headwind")
         if pd.notna(r["altman_z"]) and r["altman_z"] < 1.8 and pd.notna(r["f_score"]) and r["f_score"] <= 3:
             f.append("Financial distress risk")
@@ -163,7 +164,7 @@ def horizon_checks(df, model_ok, reds):
         "fair_value": df["value"] >= 0.5,
         "quality": df["quality"].rank(pct=True) >= 0.7,
         "above_200d": df["dist_ma200"] > 0,
-        "no_headwind": df["macro_raw"] >= -0.1,
+        "no_headwind": (df["macro_raw"] >= -0.1) | (df["macro_raw"].rank(pct=True) >= 0.3),
         "no_red": reds.map(len) == 0,
     })
     return short, long
@@ -225,12 +226,20 @@ def run_market(name, cfg, demo):
         tm.lap("index list")
         close, volume = get_prices(list(uni.index), config.HISTORY)
         missing = [t for t in uni.index if t not in close.columns]
+        # An incomplete latest day (e.g. a market's data not fully in yet) would make most stocks look price-less
+        dropped_days = []
+        while len(close) > 300 and close.iloc[-1].notna().mean() < 0.6:
+            dropped_days.append(str(close.index[-1].date()))
+            close, volume = close.iloc[:-1], volume.iloc[:-1]
+        if dropped_days:
+            print(f"WARNING [{name}] latest day(s) {dropped_days} had prices for too few stocks — using {close.index[-1].date()}")
+            diag.put("prices", incomplete_days_dropped=dropped_days)
         tm.lap("prices")
         if cfg["index_candidates"]:
             idx = get_index(cfg["index_candidates"], config.HISTORY).reindex(close.index).ffill()
         else:  # no index feed (Pakistan): equal-weighted index of the members' daily moves
             idx = (1 + close.pct_change().clip(-0.3, 0.3).mean(axis=1).fillna(0)).cumprod() * 100
-        fund = get_fundamentals(list(close.columns))
+        fund = get_fundamentals(list(close.columns), uni["name"].to_dict() if "name" in uni else None)
         tm.lap("fundamentals")
         diag.put("fundamentals", count=len(fund), **{
             f"missing_{k}": round(float(pd.to_numeric(fund[k], errors="coerce").isna().mean()), 2)
@@ -285,8 +294,15 @@ def run_market(name, cfg, demo):
 
     # --- Screen: liquid, real companies only ---
     mcap = pd.to_numeric(fund["marketCap"], errors="coerce").reindex(df.index)
-    price = close.iloc[-1].reindex(df.index)
+    price = close.ffill(limit=3).iloc[-1].reindex(df.index)
     ok = (df["dollar_vol"] >= cfg["min_dollar_vol"]) & (price >= 1) & ~(mcap < cfg["min_mcap"])
+    diag.put("screen", total=int(len(df)), no_dollar_vol=int(df["dollar_vol"].isna().sum()),
+             too_illiquid=int((df["dollar_vol"] < cfg["min_dollar_vol"]).sum()), no_price=int(price.isna().sum()),
+             price_below_1=int((price < 1).sum()), too_small=int((mcap < cfg["min_mcap"]).sum()), passed=int(ok.sum()))
+    if not ok.any():
+        raise RuntimeError(f"no stocks passed the screen ({len(df)} checked: {int(price.isna().sum())} without today's price, "
+                           f"{int((df['dollar_vol'] < cfg['min_dollar_vol']).sum())} too illiquid, "
+                           f"{int((mcap < cfg['min_mcap']).sum())} too small)")
     df = df[ok].copy()
     # Drop duplicate tickers and rows with no usable price data (logged so we can see which)
     bad = df.index[df.index.duplicated() | df["dollar_vol"].isna() | price.reindex(df.index).isna()]
@@ -316,8 +332,8 @@ def run_market(name, cfg, demo):
         df[k] = df[k].fillna(0.5)
     df["score"] = sum(w[k] * df[k] for k in w) * 100
     df = df.sort_values("score", ascending=False)
-    df["price"] = price
-    df["mcap"] = mcap
+    df["price"] = price.reindex(df.index)
+    df["mcap"] = mcap.reindex(df.index)
     df["name"] = fund["shortName"].reindex(df.index)
     # Same company, two share classes (e.g. GOOG/GOOGL): keep the higher-scored one
     df = df[~(df["name"].notna() & df["name"].str.replace(r"\s*\(.*\)|\s+Class [A-Z].*", "", regex=True).duplicated())]

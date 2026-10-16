@@ -270,9 +270,13 @@ function dbInit(){
   const sc = document.createElement("script");
   sc.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
   sc.onload = async () => {
-    SB = supabase.createClient(DBCFG.url, DBCFG.key, {auth:{persistSession:true, detectSessionInUrl:true}});
+    const linkErr = new URLSearchParams(location.hash.slice(1)).get("error_description");
+    SB = supabase.createClient(DBCFG.url, DBCFG.key, {auth:{persistSession:true, detectSessionInUrl:true, flowType:"implicit", autoRefreshToken:true}});
+    if (linkErr) { DBERR = "Sign-in link didn't work: " + linkErr.replace(/\+/g," ") + ". Request a new link (each link works once)."; }
     SB.auth.onAuthStateChange((ev, sess) => { const u = sess?.user || null; if ((u&&u.id) !== (USER&&USER.id)) { USER = u; dbLoad(); } });
-    const { data } = await SB.auth.getSession(); USER = data.session?.user || null; dbLoad();
+    const { data } = await SB.auth.getSession(); USER = data.session?.user || null;
+    if (AUTH_HASH) { history.replaceState(null, "", location.pathname); if (USER) { M = "Lists"; } }
+    dbLoad();
   };
   sc.onerror = () => { DBSTATE = "error"; DBERR = "couldn't load the database library — check your internet connection"; render(); };
   document.head.appendChild(sc);
@@ -322,12 +326,20 @@ async function signIn(){
   const email = ($("em")?.value||"").trim(); if(!email) return;
   const { error } = await SB.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin + location.pathname}});
   if (error) return alert("Sign-in failed: " + error.message);
-  $("acct").innerHTML = `<div>Check <b>${esc(email)}</b> and tap the sign-in link. It opens this page signed in.</div>`;
+  $("acct").innerHTML = `<div>Check <b>${esc(email)}</b>. Tap the sign-in link <b>in the same browser you use for this page</b> — or, if the email shows a 6-digit code, type it here:</div>
+    <input id="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="123456" style="width:100%;padding:10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:18px;letter-spacing:4px;margin:6px 0">
+    <button class="sbtn pri" onclick="verifyCode('${esc(email)}')">Sign in with code</button>`;
+}
+async function verifyCode(email){
+  const token = ($("otp")?.value||"").trim(); if(!token) return;
+  const { data, error } = await SB.auth.verifyOtp({email, token, type:"email"});
+  if (error) return alert("That code didn't work: " + error.message);
+  USER = data.user; dbLoad();
 }
 async function signOut(){ await SB.auth.signOut(); USER=null; WL.v=null; PT.v=null; try{localStorage.removeItem("watchlists");localStorage.removeItem("paper_trades");}catch(e){} DBSTATE="signedout"; render(); }
 function accountBox(){
   if (DBSTATE==="off") return `<div class="mute" style="margin-top:8px;font-size:12px">Database not connected yet — saved on this device for now, and moved to your account automatically once sign-in is set up.</div>`;
-  if (DBSTATE==="signedout") return `<div id="acct" style="margin-top:10px"><div class="mute">Sign in to save your lists and trades to your account (works on every device):</div>
+  if (DBSTATE==="signedout") return `<div id="acct" style="margin-top:10px">${DBERR?`<div class="bad" style="font-size:13px;margin-bottom:6px">${esc(DBERR)}</div>`:""}<div class="mute">Sign in to save your lists and trades to your account (works on every device):</div>
     <input id="em" type="email" placeholder="your@email.com" style="width:100%;padding:10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;margin:6px 0">
     <button class="sbtn pri" onclick="signIn()">Email me a sign-in link</button></div>`;
   if (DBSTATE==="loading") return `<div class="mute" style="margin-top:8px">Loading your account…</div>`;
@@ -900,7 +912,8 @@ function drawChart(d, base, span){
 }
 function closeSheet(){ $("sheet").classList.remove("open"); document.body.style.overflow=""; render(); }
 window.addEventListener("popstate", e => { if (e.state && e.state.t) openStock(e.state.t, false); else closeSheet(); });
-if (location.hash.length > 1) { history.replaceState(null, "", location.pathname); openStock(decodeURIComponent(location.hash.slice(1))); }
+const AUTH_HASH = /access_token=|refresh_token=|error=|error_code=|type=(magiclink|signup|recovery)/.test(location.hash);
+if (location.hash.length > 1 && !AUTH_HASH) { history.replaceState(null, "", location.pathname); openStock(decodeURIComponent(location.hash.slice(1))); }
 render();
 dbInit();
 </script></body></html>"""

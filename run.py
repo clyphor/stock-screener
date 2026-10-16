@@ -313,6 +313,7 @@ def main():
             stats[name] = {"error": str(e)}
 
     cols = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers", "macro", "macro_raw",
+            "mcap", "news_sent", "events", "value", "quality", "growth",
             "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons", "signal"]
     allres = pd.concat(tables)[cols] if tables else pd.DataFrame(columns=cols)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -329,6 +330,10 @@ def main():
              "parts": {k: round(float(r[k]) * 100) for k in config.WEIGHTS},
              "pe": _num(r["fwd_pe"], 1),
              "ret3m": None if pd.isna(r["ret_63"]) else round(float(r["ret_63"]) * 100, 1),
+             "rsi": _num(r["rsi_14"], 0), "mcap": _num(r["mcap"], 0),
+             "ns": _num(r["news_sent"], 2), "ms": _num(r["macro_raw"], 2),
+             "vq": [round(float(r[k]) * 100) if pd.notna(r[k]) else None for k in ("value", "quality", "growth")],
+             "events": [__import__("events").LABEL[k] for k in (r["events"] if isinstance(r["events"], list) else [])][:4],
              "reasons": r["reasons"]}
             for t, r in sub.iterrows()]
     with open("docs/data.json", "w") as f:

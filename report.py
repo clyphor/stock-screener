@@ -36,6 +36,26 @@ details.box summary{cursor:pointer;color:var(--mute);font-size:13px}
 .sig{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:6px;margin-left:8px;vertical-align:3px}
 .sig.BUY{background:var(--acc);color:#fff}.sig.WATCH{border:1px solid var(--acc);color:var(--acc)}
 .more{display:block;margin:12px 16px 4px;width:calc(100% - 32px);padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-weight:600}
+.clock{margin:6px 16px 0;padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:14px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.clock .st{font-weight:700;white-space:nowrap}.clock .open{color:var(--acc)}.clock .closed{color:var(--neg)}
+.fbar{display:flex;gap:8px;margin:10px 16px 0}
+.fbar button{padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-weight:600;font-size:14px}
+.fbar button.on{border-color:var(--acc);color:var(--acc)}
+#fpanel{display:none;margin:10px 16px;padding:14px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+#fpanel.open{display:block}
+.fg{margin-bottom:14px}.fg>label,.fg>.fl{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{padding:6px 10px;border-radius:20px;border:1px solid var(--line);background:var(--bg);font-size:13px}
+.pill.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.pill.neg.on{background:var(--neg);border-color:var(--neg)}
+.rangerow{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}
+.rangerow input,.fg select{width:100%;padding:9px 10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px}
+.sl{display:grid;grid-template-columns:110px 1fr 34px;gap:8px;align-items:center;font-size:13px;margin:4px 0}
+.sl input{width:100%;accent-color:var(--acc)}
+.fact{display:flex;gap:8px;position:sticky;bottom:0;background:var(--card);padding-top:8px}
+.fact button{flex:1;padding:11px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-weight:600}
+.fact button.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
+.count{margin:8px 16px 0;font-size:13px;color:var(--mute)}
 footer{padding:16px 16px 40px;color:var(--mute);font-size:12px}
 #sheet{position:fixed;inset:0;background:var(--bg);overflow-y:auto;z-index:10;display:none;-webkit-overflow-scrolling:touch}
 #sheet.open{display:block}
@@ -69,10 +89,14 @@ svg text{fill:var(--mute);font-size:10px}
 </style></head><body>
 <header><h1>Stock Screener</h1><div class="sub" id="gen"></div></header>
 <div class="tabs" id="tabs"></div>
+<div class="clock" id="clock"></div>
 <input class="search" id="q" placeholder="Search any stock (e.g. CBA, Apple, OGDC)" autocomplete="off">
 <div id="sigs" class="box"></div>
 <details class="box" id="macrobox"><summary><b style="color:var(--ink)">Market &amp; politics today</b> <span id="macrosum"></span></summary><div id="macro" style="margin-top:8px"></div></details>
 <details class="box" id="statsbox"><summary>How reliable is this? (backtest)</summary><div id="stats" style="margin-top:8px"></div></details>
+<div class="fbar"><button id="fbtn">Filters</button><button id="sortbtn" style="flex:1;text-align:left"></button><button id="freset" style="display:none">Clear</button></div>
+<div id="fpanel"></div>
+<div class="count" id="count"></div>
 <div id="list"></div><button class="more" id="more"></button>
 <footer>Ranks stocks by blending a price-trend model, fundamentals vs sector peers, and news sentiment for the company and its competitors. Scores are relative rankings, not price targets. Not financial advice — paper-trade first.</footer>
 <div id="sheet"></div>
@@ -85,7 +109,7 @@ const $ = id => document.getElementById(id);
 const tk = t => t.replace(".AX","").replace(".KA","");
 const pct = (v,d=1) => v==null ? "–" : (v>0?"+":"") + (v*100).toFixed(d) + "%";
 const esc = s => String(s??"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-$("gen").textContent = "Updated " + D.generated.replace("T"," ").replace("+00:00","") + " UTC" + (D.demo ? " · DEMO DATA" : "");
+$("gen").textContent = "Updated " + new Date(D.generated).toLocaleString(undefined,{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit",timeZoneName:"short"}) + (D.demo ? " · DEMO DATA" : "");
 
 function card(r, i){
   return `<div class="card ${r.signal||""}" onclick="openStock('${r.ticker}')"><div class="top"><div style="min-width:0"><span class="rank">#${i+1}</span><span class="tk">${tk(r.ticker)}</span>${r.signal?`<span class="sig ${r.signal}">${r.signal}</span>`:""}
@@ -106,7 +130,7 @@ function render(){
     + (watch.length ? `<div>Watch: ${watch.map(link).join(", ")}</div>` : "")
     + `<div class="mute" style="margin-top:6px">BUY = passes every check: top-ranked, uptrend, not overbought, solid fundamentals, no bad news, no strong sector/political headwind${s.model_used ? ", price model agrees" : ""}. WATCH = all but one. ${tr}</div>`;
   $("stats").innerHTML = s.error ? "" :
-    `Tested on ${s.test_from} onwards (data the model never saw): top-20% picks beat bottom-20% by <b>${((s.top_minus_bottom||0)*100).toFixed(2)}%</b> a month; ranking accuracy (IC) <b>${s.ic_mean}</b> (0 = random); top picks beat the index <b>${Math.round((s.top_hit_rate||0)*100)}%</b> of the time. ${s.screened} stocks passed the screen.<br><br><b>Data check:</b> prices up to ${s.price_date||"–"}; ${Math.round((s.news_coverage||0)*100)}% of stocks had news in the last 10 days (scored by ${s.news_method}). AI scoring: <b>${s.ai_scoring?"on":"off — add an ANTHROPIC_API_KEY secret to turn it on"}</b>.${(s.news_coverage||0)<0.5?" <b>News coverage is low — treat the News and Peers parts with caution.</b>":""}`
+    `Tested on ${s.test_from} onwards (data the model never saw): top-20% picks beat bottom-20% by <b>${((s.top_minus_bottom||0)*100).toFixed(2)}%</b> a month; ranking accuracy (IC) <b>${s.ic_mean}</b> (0 = random); top picks beat the index <b>${Math.round((s.top_hit_rate||0)*100)}%</b> of the time. ${s.screened} stocks passed the screen.<br><br><b>Data check:</b> prices up to the ${s.price_date||"–"} close (holidays not shown on the clock); ${Math.round((s.news_coverage||0)*100)}% of stocks had news in the last 10 days (scored by ${s.news_method}). AI scoring: <b>${s.ai_scoring?"on":"off — add an ANTHROPIC_API_KEY secret to turn it on"}</b>.${(s.news_coverage||0)<0.5?" <b>News coverage is low — treat the News and Peers parts with caution.</b>":""}`
     + (s.model_used===false ? " <b>The price model failed this test here, so it counts for only 10%.</b>" : "");
   const mc = s.macro;
   if (mc) {
@@ -129,17 +153,146 @@ function render(){
       + `<div class="mute" style="margin-top:8px">Scored by ${mc.method}. Tap a stock to see which themes affect it.</div>`;
   }
   const q = $("q").value.trim().toLowerCase();
+  const F = getF();
   let shown = rows.map((r,i)=>[r,i]);
   if (q) shown = shown.filter(([r])=>r.ticker.toLowerCase().startsWith(q) || (r.name||"").toLowerCase().includes(q));
-  else if (!showAll) shown = shown.slice(0, D.top_n);
-  $("list").innerHTML = shown.map(([r,i])=>card(r,i)).join("") || `<div class="box mute">No match in ${M}. It may be outside the S&P 500 / ASX 200 / KSE-100, or filtered out as too small.</div>`;
-  $("more").style.display = q || rows.length <= D.top_n ? "none" : "block";
+  const active = activeCount(F);
+  shown = shown.filter(([r])=>passes(r,F));
+  const key = SORTS[F.sort] ? F.sort : "score";
+  if (key !== "score") shown.sort((a,b)=>SORTS[key].f(a[0],b[0]));
+  const total = shown.length;
+  if (!q && !active && !showAll) shown = shown.slice(0, D.top_n);
+  $("count").textContent = (q||active) ? `${total} of ${rows.length} ${M} stocks match` : "";
+  $("list").innerHTML = shown.map(([r,i])=>card(r,i)).join("") || `<div class="box mute">No stocks match. ${active?"Try loosening the filters.":"It may be outside the S&P 500 / ASX 200 / KSE-100, or filtered out as too small."}</div>`;
+  $("more").style.display = q || active || rows.length <= D.top_n ? "none" : "block";
   $("more").textContent = showAll ? `Show top ${D.top_n} only` : `Show all ${rows.length} ranked stocks`;
+  $("fbtn").textContent = active ? `Filters (${active})` : "Filters";
+  $("fbtn").classList.toggle("on", !!active);
+  $("freset").style.display = active ? "block" : "none";
+  $("sortbtn").textContent = "Sort: " + SORTS[key].l;
+  if ($("fpanel").classList.contains("open")) drawPanel();
+  clockTick();
 }
+
+/* ---------------- filters ---------------- */
+const PARTS = [["ml","Price model"],["fundamental","Fundamentals"],["news","Company news"],["peers","Competitors' news"],["macro","Sector & politics"]];
+const SORTS = {
+  score:{l:"Score (high→low)", f:(a,b)=>b.score-a.score},
+  ml:{l:"Price model", f:(a,b)=>b.parts.ml-a.parts.ml},
+  fundamental:{l:"Fundamentals", f:(a,b)=>b.parts.fundamental-a.parts.fundamental},
+  news:{l:"Company news", f:(a,b)=>(b.ns??-9)-(a.ns??-9)},
+  macro:{l:"Sector & politics", f:(a,b)=>(b.ms??-9)-(a.ms??-9)},
+  ret_hi:{l:"3-month return (high→low)", f:(a,b)=>(b.ret3m??-1e9)-(a.ret3m??-1e9)},
+  ret_lo:{l:"3-month return (low→high)", f:(a,b)=>(a.ret3m??1e9)-(b.ret3m??1e9)},
+  pe_lo:{l:"P/E (cheapest first)", f:(a,b)=>((a.pe>0?a.pe:1e9)-(b.pe>0?b.pe:1e9))},
+  rsi_lo:{l:"RSI (most oversold first)", f:(a,b)=>(a.rsi??999)-(b.rsi??999)},
+  mcap:{l:"Market cap (largest first)", f:(a,b)=>(b.mcap??0)-(a.mcap??0)},
+};
+const DEF = () => ({sig:[], sec:[], smin:"", smax:"", parts:{}, pemin:"", pemax:"", rmin:"", rmax:"", rsimin:"", rsimax:"",
+  cap:"", news:"", macro:"", good:[], bad:[], tags:[], sort:"score", vqmin:{}});
+const FS = {};
+function getF(){ if(!FS[M]){ try{ FS[M] = Object.assign(DEF(), JSON.parse(localStorage.getItem("f_"+M)||"{}")); }catch(e){ FS[M]=DEF(); } } return FS[M]; }
+function saveF(){ try{ localStorage.setItem("f_"+M, JSON.stringify(FS[M])); }catch(e){} }
+const num = v => v===""||v==null ? null : Number(v);
+function activeCount(F){ let n=0;
+  if(F.sig.length) n++; if(F.sec.length) n++; if(F.smin!==""||F.smax!=="") n++;
+  n += Object.values(F.parts).filter(v=>v>0).length; n += Object.values(F.vqmin).filter(v=>v>0).length;
+  if(F.pemin!==""||F.pemax!=="") n++; if(F.rmin!==""||F.rmax!=="") n++; if(F.rsimin!==""||F.rsimax!=="") n++;
+  if(F.cap) n++; if(F.news) n++; if(F.macro) n++; n += F.good.length?1:0; n += F.bad.length?1:0; n += F.tags.length?1:0; return n; }
+function passes(r, F){
+  if (F.sig.length){ const sg = r.signal||"NONE"; if(!F.sig.includes(sg)) return false; }
+  if (F.sec.length && !F.sec.includes(r.sector)) return false;
+  if (num(F.smin)!=null && r.score < num(F.smin)) return false;
+  if (num(F.smax)!=null && r.score > num(F.smax)) return false;
+  for (const [k,v] of Object.entries(F.parts)) if (v>0 && (r.parts[k]??0) < v) return false;
+  const vq = {value:r.vq?.[0], quality:r.vq?.[1], growth:r.vq?.[2]};
+  for (const [k,v] of Object.entries(F.vqmin)) if (v>0 && (vq[k]??0) < v) return false;
+  if (num(F.pemin)!=null && !(r.pe!=null && r.pe >= num(F.pemin))) return false;
+  if (num(F.pemax)!=null && !(r.pe!=null && r.pe > 0 && r.pe <= num(F.pemax))) return false;
+  if (num(F.rmin)!=null && !(r.ret3m!=null && r.ret3m >= num(F.rmin))) return false;
+  if (num(F.rmax)!=null && !(r.ret3m!=null && r.ret3m <= num(F.rmax))) return false;
+  if (num(F.rsimin)!=null && !(r.rsi!=null && r.rsi >= num(F.rsimin))) return false;
+  if (num(F.rsimax)!=null && !(r.rsi!=null && r.rsi <= num(F.rsimax))) return false;
+  if (F.cap){ const c = Number(F.cap); if (c>0 ? !(r.mcap>=c) : !(r.mcap!=null && r.mcap < -c)) return false; }
+  if (F.news==="pos" && !(r.ns>0.05)) return false;
+  if (F.news==="notneg" && !(r.ns==null || r.ns>=0)) return false;
+  if (F.news==="neg" && !(r.ns<-0.05)) return false;
+  if (F.news==="has" && r.ns==null) return false;
+  if (F.macro==="tail" && !(r.ms>=0.1)) return false;
+  if (F.macro==="nohead" && !(r.ms==null || r.ms>-0.1)) return false;
+  if (F.macro==="head" && !(r.ms<=-0.1)) return false;
+  const ev = r.events||[];
+  if (F.good.length && !F.good.some(e=>ev.includes(e))) return false;
+  if (F.bad.length && F.bad.some(e=>ev.includes(e))) return false;
+  if (F.tags.length && !F.tags.every(t=>(r.reasons||[]).includes(t))) return false;
+  return true;
+}
+function pills(group, opts, sel, neg){ return `<div class="pills">${opts.map(([v,l])=>`<button class="pill ${neg?"neg":""} ${sel.includes(v)?"on":""}" onclick="tog('${group}','${String(v).replace(/'/g,"\\'")}')">${esc(l)}</button>`).join("")}</div>`; }
+function one(group, opts, cur){ return `<div class="pills">${opts.map(([v,l])=>`<button class="pill ${cur===v?"on":""}" onclick="setF('${group}', ${JSON.stringify(v).replace(/"/g,"&quot;")})">${esc(l)}</button>`).join("")}</div>`; }
+function rng(a,b,ph1,ph2){ const F=getF(); return `<div class="rangerow"><input inputmode="decimal" placeholder="${ph1}" value="${esc(F[a])}" onchange="setF('${a}', this.value)"><span class="mute">to</span><input inputmode="decimal" placeholder="${ph2}" value="${esc(F[b])}" onchange="setF('${b}', this.value)"></div>`; }
+function drawPanel(){
+  const F = getF(), rows = D.markets[M]||[];
+  const secs = [...new Set(rows.map(r=>r.sector).filter(Boolean))].sort();
+  const evs = [...new Set(rows.flatMap(r=>r.events||[]))];
+  const good = evs.filter(e=>!BAD.includes(e)).sort(), bad = evs.filter(e=>BAD.includes(e)).sort();
+  const tags = [...new Set(rows.flatMap(r=>r.reasons||[]))].filter(t=>!evs.includes(t)).sort();
+  const caps = M==="US" ? [["",'Any'],["1e10",">$10B"],["5e10",">$50B"],["2e11",">$200B"],["-2e10","<$20B"]]
+             : M==="ASX" ? [["",'Any'],["2e9",">A$2B"],["1e10",">A$10B"],["5e10",">A$50B"],["-5e9","<A$5B"]]
+             : [["",'Any'],["5e10",">PKR 50B"],["2e11",">PKR 200B"],["5e11",">PKR 500B"],["-5e10","<PKR 50B"]];
+  $("fpanel").innerHTML = `
+   <div class="fg"><span class="fl">Signal</span>${pills("sig",[["BUY","BUY"],["WATCH","WATCH"],["NONE","No signal"]],F.sig)}
+     <div class="mute" style="margin-top:4px">Tap BUY + WATCH for both.</div></div>
+   <div class="fg"><span class="fl">Sector</span>${pills("sec",secs.map(x=>[x,x]),F.sec)}</div>
+   <div class="fg"><span class="fl">Overall score</span>${rng("smin","smax","min e.g. 60","max")}</div>
+   <div class="fg"><span class="fl">Minimum part scores (0–100 rank)</span>
+     ${PARTS.map(([k,l])=>`<div class="sl"><span>${l}</span><input type="range" min="0" max="95" step="5" value="${F.parts[k]||0}" oninput="this.nextElementSibling.textContent=this.value" onchange="F_part('${k}',this.value)"><b>${F.parts[k]||0}</b></div>`).join("")}
+     ${[["value","Value vs sector"],["quality","Quality"],["growth","Growth"]].map(([k,l])=>`<div class="sl"><span>${l}</span><input type="range" min="0" max="95" step="5" value="${F.vqmin[k]||0}" oninput="this.nextElementSibling.textContent=this.value" onchange="F_vq('${k}',this.value)"><b>${F.vqmin[k]||0}</b></div>`).join("")}</div>
+   <div class="fg"><span class="fl">Company news</span>${one("news",[["","Any"],["pos","Positive"],["notneg","Not negative"],["neg","Negative"],["has","Has news"]],F.news)}</div>
+   <div class="fg"><span class="fl">Sector & politics</span>${one("macro",[["","Any"],["tail","Tailwind"],["nohead","No headwind"],["head","Headwind"]],F.macro)}</div>
+   ${good.length?`<div class="fg"><span class="fl">Has a recent event (any of)</span>${pills("good",good.map(x=>[x,x]),F.good)}</div>`:""}
+   ${bad.length?`<div class="fg"><span class="fl">Exclude stocks with</span>${pills("bad",bad.map(x=>[x,x]),F.bad,true)}</div>`:""}
+   <div class="fg"><span class="fl">P/E</span>${rng("pemin","pemax","min","max e.g. 20")}</div>
+   <div class="fg"><span class="fl">3-month return %</span>${rng("rmin","rmax","min e.g. 0","max")}</div>
+   <div class="fg"><span class="fl">RSI (14 day)</span>${rng("rsimin","rsimax","min","max e.g. 70")}<div class="mute" style="margin-top:4px">Under 30 = oversold, over 70 = overbought.</div></div>
+   <div class="fg"><span class="fl">Market cap</span>${one("cap",caps,F.cap)}</div>
+   ${tags.length?`<div class="fg"><span class="fl">Must have all of these tags</span>${pills("tags",tags.map(x=>[x,x]),F.tags)}</div>`:""}
+   <div class="fg"><label>Sort by</label><select onchange="setF('sort',this.value)">${Object.entries(SORTS).map(([k,v])=>`<option value="${k}" ${F.sort===k?"selected":""}>${v.l}</option>`).join("")}</select></div>
+   <div class="fact"><button onclick="resetF()">Clear all</button><button class="pri" onclick="$('fpanel').classList.remove('open');window.scrollTo({top:$('count').offsetTop-60,behavior:'smooth'})">Show ${(D.markets[M]||[]).filter(r=>passes(r,F)).length} stocks</button></div>`;
+}
+function tog(g,v){ const F=getF(); const a=F[g]; const i=a.indexOf(v); i>=0?a.splice(i,1):a.push(v); saveF(); render(); }
+function setF(k,v){ const F=getF(); F[k]=v; saveF(); render(); }
+function F_part(k,v){ getF().parts[k]=Number(v); saveF(); render(); }
+function F_vq(k,v){ getF().vqmin[k]=Number(v); saveF(); render(); }
+function resetF(){ FS[M]=DEF(); saveF(); render(); }
+$("fbtn").onclick = ()=>{ $("fpanel").classList.toggle("open"); render(); };
+$("freset").onclick = resetF;
+$("sortbtn").onclick = ()=>{ const ks=Object.keys(SORTS), F=getF(); F.sort = ks[(ks.indexOf(F.sort)+1)%ks.length]; saveF(); render(); };
+
+/* ---------------- market clock ---------------- */
+const MK = {
+  US:  {tz:"America/New_York", city:"New York", s:{1:[[570,960]],2:[[570,960]],3:[[570,960]],4:[[570,960]],5:[[570,960]]}},
+  ASX: {tz:"Australia/Sydney", city:"Sydney", s:{1:[[600,960]],2:[[600,960]],3:[[600,960]],4:[[600,960]],5:[[600,960]]}},
+  PSX: {tz:"Asia/Karachi", city:"Karachi", s:{1:[[570,930]],2:[[570,930]],3:[[570,930]],4:[[570,930]],5:[[555,720],[870,990]]}},
+};
+const WD = {Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+function tzParts(d, tz){ const p = {}; new Intl.DateTimeFormat("en-US",{timeZone:tz,weekday:"short",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(d).forEach(x=>p[x.type]=x.value); return {wd:WD[p.weekday], min:(+p.hour)*60+(+p.minute)}; }
+function isOpen(m, d){ const t = tzParts(d, MK[m].tz); return (MK[m].s[t.wd]||[]).some(([a,b])=>t.min>=a && t.min<b); }
+function fmtDur(ms){ const m = Math.round(ms/60000), d = Math.floor(m/1440), h = Math.floor((m%1440)/60), mm = m%60; return (d?d+"d ":"") + (d||h?h+"h ":"") + mm+"m"; }
+function clockTick(){
+  const m = MK[M]; if(!m){ $("clock").innerHTML=""; return; }
+  const now = new Date(), open = isOpen(M, now);
+  let t = new Date(now); t.setSeconds(0,0);
+  for (let i=0;i<60*24*8;i++){ t = new Date(t.getTime()+60000); if (isOpen(M,t)!==open) break; }
+  const local = now.toLocaleTimeString("en-AU",{timeZone:m.tz,hour:"numeric",minute:"2-digit",weekday:"short"});
+  const when = t.toLocaleString(undefined,{weekday:"short",hour:"numeric",minute:"2-digit"});
+  $("clock").innerHTML = `<div><b>${M}</b> · ${m.city} ${local}<div class="mute">${open?"Closes":"Opens"} in ${fmtDur(t-now)} (${when} your time)</div></div><span class="st ${open?"open":"closed"}">${open?"● OPEN":"● CLOSED"}</span>`;
+}
+setInterval(clockTick, 30000);
+render();
+
 $("more").onclick = ()=>{ showAll=!showAll; render(); };
 $("q").oninput = render;
 Object.keys(D.markets).forEach(m=>{const b=document.createElement("button");b.textContent=m;b.onclick=()=>{M=m;showAll=false;$("q").value="";render()};$("tabs").appendChild(b)});
-render();
 
 const cache = {};
 async function getJSON(u){ if(!cache[u]){ const r = await fetch(u); if(!r.ok) throw new Error(r.status); cache[u] = await r.json(); } return cache[u]; }

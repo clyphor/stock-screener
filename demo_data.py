@@ -28,3 +28,14 @@ def fake_market(tickers, index_name, days=1000, seed=0):
              "Analyst downgrade hits {t}", "{t} signs major contract"]
     news = {t: [h.format(t=t) for h in rng.choice(heads, rng.integers(0, 5))] for t in tickers}
     return close, volume, idx, fund, news
+
+
+def fake_macro():
+    from macro import SECTOR_QUERIES, THEMES
+    h = lambda t: {"title": t, "link": None, "publisher": "Demo", "date": "2026-10-16"}
+    out = {("sector", s): [h(f"{s} stocks rally on strong demand"), h(f"{s} outlook weak, shares fall")]
+           for s in SECTOR_QUERIES}
+    out[("sector", "Energy")] = [h("Oil prices surge as OPEC cuts output")] * 3
+    for k in THEMES:
+        out[("theme", k)] = [h(f"Markets watch {THEMES[k]['label'].lower()}")] * (8 if k in ("war", "tariffs") else 2)
+    return out

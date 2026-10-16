@@ -15,14 +15,19 @@ header{padding:20px 16px 8px}h1{font-size:22px;margin:0}.sub{color:var(--mute);f
 .tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
 .search{margin:4px 16px 0;width:calc(100% - 32px);padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px}
 .box{margin:10px 16px;padding:12px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:14px}
-.box h2{font-size:15px;margin:0 0 6px}.mute{color:var(--mute);font-size:13px}
+.box h2{font-size:15px;margin:0 0 6px}
+.mrow{display:grid;grid-template-columns:1fr 90px 34px;gap:8px;align-items:center;font-size:13px;padding:4px 0}
+.mbar{height:7px;border-radius:4px;background:var(--line);position:relative;overflow:hidden}
+.mbar span{position:absolute;top:0;bottom:0;border-radius:4px}
+.theme{padding:8px 0;border-top:1px solid var(--line)}.theme:first-of-type{border-top:0}
+.theme .hl{font-size:12px;color:var(--mute);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mute{color:var(--mute);font-size:13px}
 details.box summary{cursor:pointer;color:var(--mute);font-size:13px}
 .card{margin:10px 16px;padding:14px;border-radius:14px;background:var(--card);border:1px solid var(--line);cursor:pointer}
 .card.BUY{border:2px solid var(--acc)}
 .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .tk{font-weight:700;font-size:17px}.nm{color:var(--mute);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sc{font-size:22px;font-weight:700;color:var(--acc)}.rank{color:var(--mute);font-size:12px;margin-right:6px}
-.bars{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0 6px}
+.bars{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0 6px}
 .bar small{display:block;color:var(--mute);font-size:11px}.bar i{display:block;height:6px;border-radius:3px;background:var(--line)}
 .bar i span{display:block;height:100%;border-radius:3px;background:var(--acc)}
 .meta{font-size:12px;color:var(--mute)}.chips{margin-top:6px}
@@ -66,6 +71,7 @@ svg text{fill:var(--mute);font-size:10px}
 <div class="tabs" id="tabs"></div>
 <input class="search" id="q" placeholder="Search any stock (e.g. CBA, Apple)" autocomplete="off">
 <div id="sigs" class="box"></div>
+<details class="box" id="macrobox"><summary><b style="color:var(--ink)">Market &amp; politics today</b> <span id="macrosum"></span></summary><div id="macro" style="margin-top:8px"></div></details>
 <details class="box" id="statsbox"><summary>How reliable is this? (backtest)</summary><div id="stats" style="margin-top:8px"></div></details>
 <div id="list"></div><button class="more" id="more"></button>
 <footer>Ranks stocks by blending a price-trend model, fundamentals vs sector peers, and news sentiment for the company and its competitors. Scores are relative rankings, not price targets. Not financial advice — paper-trade first.</footer>
@@ -73,7 +79,7 @@ svg text{fill:var(--mute);font-size:10px}
 <script>
 const D = __DATA__;
 const BAD = ["Negative news","Sector headwind","Overbought (RSI)"];
-const L = {ml:"Model",fundamental:"Fundamentals",news:"News",peers:"Peers"};
+const L = {ml:"Model",fundamental:"Fundam.",news:"News",peers:"Peers",macro:"Macro"};
 let M = Object.keys(D.markets)[0], showAll = false;
 const $ = id => document.getElementById(id);
 const tk = t => t.replace(".AX","");
@@ -98,10 +104,24 @@ function render(){
   $("sigs").innerHTML = s.error ? `<h2>${M} run failed</h2><div class="mute">${esc(s.error)}</div>` :
     `<h2>${buys.length ? "Buy signals: "+buys.map(link).join(", ") : "No buy signals today"}</h2>`
     + (watch.length ? `<div>Watch: ${watch.map(link).join(", ")}</div>` : "")
-    + `<div class="mute" style="margin-top:6px">BUY = passes every check: top-ranked, uptrend, not overbought, solid fundamentals, no bad news${s.model_used ? ", price model agrees" : ""}. WATCH = all but one. ${tr}</div>`;
+    + `<div class="mute" style="margin-top:6px">BUY = passes every check: top-ranked, uptrend, not overbought, solid fundamentals, no bad news, no strong sector/political headwind${s.model_used ? ", price model agrees" : ""}. WATCH = all but one. ${tr}</div>`;
   $("stats").innerHTML = s.error ? "" :
     `Tested on ${s.test_from} onwards (data the model never saw): top-20% picks beat bottom-20% by <b>${((s.top_minus_bottom||0)*100).toFixed(2)}%</b> a month; ranking accuracy (IC) <b>${s.ic_mean}</b> (0 = random); top picks beat the index <b>${Math.round((s.top_hit_rate||0)*100)}%</b> of the time. ${s.screened} stocks passed the screen.<br><br><b>Data check:</b> prices up to ${s.price_date||"–"}; ${Math.round((s.news_coverage||0)*100)}% of stocks had news in the last 10 days (scored by ${s.news_method}).${(s.news_coverage||0)<0.5?" <b>News coverage is low — treat the News and Peers parts with caution.</b>":""}`
     + (s.model_used===false ? " <b>The price model failed this test here, so it counts for only 10%.</b>" : "");
+  const mc = s.macro;
+  if (mc) {
+    const th = Object.values(mc.themes).sort((a,b)=>b.heat-a.heat);
+    const sc = Object.entries(mc.sectors).sort((a,b)=>b[1].score-a[1].score);
+    const hot = th.filter(t=>t.heat>=0.5).map(t=>t.label);
+    $("macrosum").textContent = hot.length ? "· hot: " + hot.join(", ") : "· no unusual political news";
+    const bar = v => `<div class="mbar"><span style="left:${v<0?50+v*50:50}%;width:${Math.abs(v)*50}%;background:${v<0?"var(--neg)":"var(--acc)"}"></span></div>`;
+    $("macro").innerHTML = `<div class="mute" style="margin-bottom:6px">Political &amp; macro themes — how much each is in the news vs normal:</div>`
+      + th.map(t=>`<div class="theme"><div class="mrow" style="grid-template-columns:1fr 90px 34px"><b style="font-weight:600">${esc(t.label)}</b><div class="mbar"><span style="left:0;width:${t.heat*100}%;background:${t.heat>=0.5?"var(--ma50)":"var(--mute)"}"></span></div><span class="mute">${Math.round(t.heat*100)}</span></div>
+        ${t.why?`<div class="mute">${esc(t.why)}</div>`:""}${t.headlines.slice(0,2).map(h=>`<div class="hl">• ${h.link?`<a href="${esc(h.link)}" target="_blank" rel="noopener" style="color:inherit">${esc(h.title)}</a>`:esc(h.title)}</div>`).join("")}</div>`).join("")
+      + `<div class="mute" style="margin:12px 0 6px">Sector news mood (red = bad for that sector, green = good):</div>`
+      + sc.map(([k,v])=>`<div class="mrow"><span>${esc(k)}</span>${bar(v.score)}<span class="mute">${v.score>0?"+":""}${v.score}</span></div>`).join("")
+      + `<div class="mute" style="margin-top:8px">Scored by ${mc.method}. Tap a stock to see which themes affect it.</div>`;
+  }
   const q = $("q").value.trim().toLowerCase();
   let shown = rows.map((r,i)=>[r,i]);
   if (q) shown = shown.filter(([r])=>r.ticker.toLowerCase().startsWith(q) || (r.name||"").toLowerCase().includes(q));
@@ -168,6 +188,13 @@ async function openStock(t, push=true){
     <div class="mute" style="margin-bottom:6px">Average sentiment: <b style="color:${sentColor(d.news_avg)}">${d.news_avg??0}</b> · competitors: <b style="color:${sentColor(d.peer_avg)}">${d.peer_avg??0}</b>${d.macro_share>0?` · ${Math.round(d.macro_share*100)}% about policy/macro`:""}</div>
     ${d.news.length ? d.news.map(n=>`<div class="news"><span class="dot" style="background:${sentColor(n.score)}"></span>${n.link?`<a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(n.title)}</a>`:esc(n.title)}
       <div class="mute">${esc(n.publisher||"")} ${n.date||""}${n.macro?" · policy/macro":""}</div></div>`).join("") : `<div class="mute">No recent headlines.</div>`}</div>
+
+  <div class="sec"><h3>Sector &amp; politics</h3>
+    <div class="grid"><div class="kv"><small>Macro score (−1 to 1)</small><b class="${d.macro.score>0.05?"good":d.macro.score<-0.05?"bad":""}">${d.macro.score>0?"+":""}${d.macro.score}</b></div>
+    <div class="kv"><small>${esc(d.sector)} news mood</small><b class="${d.macro.sector_news>0.05?"good":d.macro.sector_news<-0.05?"bad":""}">${d.macro.sector_news>0?"+":""}${d.macro.sector_news}</b></div></div>
+    ${d.macro.sector_why?`<div class="mute" style="margin-top:8px">${esc(d.macro.sector_why)}</div>`:""}
+    ${d.macro.effects.length?`<div style="margin-top:10px;font-size:14px">${d.macro.effects.map(e=>`<div class="chk"><b class="${e.effect>0?"ok":"no"}">${e.effect>0?"▲":"▼"}</b><span>${esc(e.theme)} <span class="mute">(${e.effect>0?"+":""}${e.effect})</span></span></div>`).join("")}</div>`:`<div class="mute" style="margin-top:8px">No political or macro theme is notably affecting this stock right now.</div>`}
+    ${d.macro.sector_headlines.length?`<div class="mute" style="margin:8px 0 2px">Sector headlines:</div>`+d.macro.sector_headlines.map(n=>`<div class="news"><span class="dot" style="background:${sentColor(n.score)}"></span>${n.link?`<a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(n.title)}</a>`:esc(n.title)}<div class="mute">${esc(n.publisher||"")} ${n.date||""}</div></div>`).join(""):""}</div>
 
   <div class="sec"><h3>Peers in ${esc(d.sector)}</h3>
     ${d.peers.length ? d.peers.map(p=>`<div class="peer" onclick="openStock('${p.ticker}')"><span><b>${tk(p.ticker)}</b>${p.signal?`<span class="sig ${p.signal}">${p.signal}</span>`:""}<div class="mute">${esc(p.name)}</div></span>

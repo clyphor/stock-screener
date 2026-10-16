@@ -34,15 +34,16 @@ TEST_DAYS = 126            # last ~6 months held out for the honest backtest
 
 # How the final score blends the parts (must sum to 1)
 WEIGHTS = {
-    "ml": 0.45,           # LightGBM on technical features
-    "fundamental": 0.30,  # value + quality + growth vs peers
-    "news": 0.15,         # company news sentiment
-    "peers": 0.10,        # competitor / sector news sentiment
+    "ml": 0.40,           # LightGBM on technical features
+    "fundamental": 0.28,  # value + quality + growth vs peers
+    "news": 0.12,         # company news sentiment
+    "peers": 0.08,        # competitors' news sentiment
+    "macro": 0.12,        # sector news (oil, iron ore, rates…) + political themes (war, tariffs, elections…)
 }
 
 # Used instead when the price model fails its backtest in a market (IC below this)
 MIN_MODEL_IC = 0.02
-WEIGHTS_NO_MODEL = {"ml": 0.10, "fundamental": 0.50, "news": 0.25, "peers": 0.15}
+WEIGHTS_NO_MODEL = {"ml": 0.10, "fundamental": 0.45, "news": 0.17, "peers": 0.10, "macro": 0.18}
 
 TOP_N = 20                # how many picks to show per market
 

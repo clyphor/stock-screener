@@ -17,13 +17,15 @@ from features import TECH_COLS, fundamental_score, technical_panel
 from model import train_and_predict
 from report import write_page
 from sentiment import news_features
+import macro
 
 CHECK_LABELS = {
     "top_ranked": "Top 15% overall score",
     "uptrend": "Uptrend (above 50 & 200-day average)",
     "not_overbought": "Not overbought (RSI under 70)",
     "solid_fundamentals": "Solid fundamentals vs sector",
-    "news_ok": "No negative company or sector news",
+    "news_ok": "No negative company or competitor news",
+    "macro_ok": "No strong sector or political headwind",
     "model_agrees": "Price model agrees",
 }
 
@@ -42,6 +44,8 @@ def reasons(row):
     if row["peer_sent"] > 0.1: r.append("Sector tailwind")
     if row["peer_sent"] < -0.1: r.append("Sector headwind")
     if row["macro_share"] > 0.4: r.append("Policy/macro in focus")
+    if row["macro_raw"] >= 0.25: r.append("Macro tailwind")
+    if row["macro_raw"] <= -0.25: r.append("Macro headwind")
     return r
 
 
@@ -52,6 +56,7 @@ def signal_checks(df, model_ok):
         "not_overbought": df["rsi_14"] < 70,
         "solid_fundamentals": df["fundamental"] >= 0.6,
         "news_ok": (df["news_sent"] >= 0) & (df["peer_sent"] >= -0.05),
+        "macro_ok": df["macro_raw"] >= -0.2,
         "model_agrees": (df["ml"] >= 0.7) if model_ok else pd.Series(True, index=df.index),
     })
 
@@ -104,6 +109,12 @@ def run_market(name, cfg, demo):
     ok = (df["dollar_vol"] >= cfg["min_dollar_vol"]) & (price >= 1) & ~(mcap < cfg["min_mcap"])
     df = df[ok].copy()
 
+    # Sector news + political/macro themes
+    df["sector"] = fund["sector"].reindex(df.index).fillna("Unknown")
+    ctx = macro.macro_context(name, demo)
+    macro.apply(ctx, df, fund)
+    df["macro"] = df["macro_raw"].rank(pct=True).fillna(0.5)
+
     # If the price model failed its backtest in this market, lean on the other parts
     model_ok = stats.get("ic_mean", 0) > config.MIN_MODEL_IC
     w = config.WEIGHTS if model_ok else config.WEIGHTS_NO_MODEL
@@ -125,8 +136,13 @@ def run_market(name, cfg, demo):
                  model_used=bool(model_ok), weights=w)
     stats.update(track_record(name, df, close, idx))
 
+    stats["macro"] = {
+        "method": ctx["method"],
+        "sectors": {k: {kk: v[kk] for kk in ("score", "n", "why", "headlines")} for k, v in ctx["sectors"].items()},
+        "themes": {k: {kk: v[kk] for kk in ("label", "heat", "n", "why", "headlines")} for k, v in ctx["themes"].items()},
+    }
     extras = {"close": close, "volume": volume, "idx": idx, "fund": fund, "checks": checks,
-              "headlines": nf.attrs.get("headlines", {}), "weights": w, "model_ok": model_ok}
+              "headlines": nf.attrs.get("headlines", {}), "weights": w, "model_ok": model_ok, "ctx": ctx}
     return df, stats, extras
 
 
@@ -216,7 +232,8 @@ def write_details(df, ex, market, outdir):
             "score": _num(r["score"], 1),
             "rank": int(df.index.get_loc(t)) + 1, "of": int(len(df)),
             "parts": [{"key": k, "label": {"ml": "Price model", "fundamental": "Fundamentals",
-                                           "news": "Company news", "peers": "Peers / sector news"}[k],
+                                           "news": "Company news", "peers": "Competitors' news",
+                                           "macro": "Sector & politics"}[k],
                        "value": round(float(r[k]) * 100), "weight": w[k]} for k in w],
             "sub": {"value": round(float(r["value"]) * 100), "quality": round(float(r["quality"]) * 100),
                     "growth": round(float(r["growth"]) * 100)},
@@ -243,6 +260,10 @@ def write_details(df, ex, market, outdir):
             "news": ex["headlines"].get(t, [])[:12],
             "news_avg": _num(r["news_sent"], 2), "peer_avg": _num(r["peer_sent"], 2),
             "macro_share": _num(r["macro_share"], 2),
+            "macro": {"score": _num(r["macro_raw"], 2), "sector_news": _num(r["sector_news"], 2),
+                      "effects": [{"theme": th, "effect": e} for th, e in r["macro_effects"]],
+                      "sector_why": ex["ctx"]["sectors"].get(sec, {}).get("why"),
+                      "sector_headlines": ex["ctx"]["sectors"].get(sec, {}).get("headlines", [])[:4]},
             "peers": [{"ticker": p, "name": pr["name"], "score": _num(pr["score"], 1),
                        "ret3m": _num(pr["ret_63"]), "news": _num(pr["news_sent"], 2),
                        "pe": _num(pr["fwd_pe"], 1), "signal": pr["signal"]}
@@ -273,7 +294,7 @@ def main():
             import traceback; traceback.print_exc()
             stats[name] = {"error": str(e)}
 
-    cols = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers",
+    cols = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers", "macro", "macro_raw",
             "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons", "signal"]
     allres = pd.concat(tables)[cols] if tables else pd.DataFrame(columns=cols)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")

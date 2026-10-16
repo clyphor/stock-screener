@@ -147,6 +147,23 @@ def _clean_name(name):
     return re.sub(r"\s+", " ", name).strip(" .,&")
 
 
+# Auto-generated price-tick sites: lots of headlines, no information
+LOW_QUALITY = {"ad-hoc-news.de", "marketbeat", "marketbeat.com", "defense world", "etf daily news",
+               "the lincolnian online", "modern readers", "watchlist news", "zolmax", "ticker report",
+               "american banking news", "the cerbat gem", "dailypolitical.com", "stocktitan.net"}
+_STOP = {"the", "and", "group", "holdings", "company", "corp", "resources", "energy", "bank", "limited",
+         "international", "financial", "technologies", "systems", "services", "trust", "of", "&"}
+
+
+def _relevant(title, name, code):
+    """Keep a headline only if it names the company (or its ticker)."""
+    t = title.lower()
+    if re.search(r"\b" + re.escape(code.lower()) + r"\b", t) and len(code) >= 3:
+        return True
+    words = [w for w in re.findall(r"[a-z0-9]+", _clean_name(name).lower()) if w not in _STOP and len(w) >= 3]
+    return bool(words) and words[0] in t
+
+
 def _news(args):
     """Headlines from the last 10 days, newest first. Yahoo first, Google News to fill gaps."""
     t, name, market = args
@@ -160,7 +177,9 @@ def _news(args):
     seen, out = set(), []
     for i in sorted(items, key=lambda x: x["ts"], reverse=True):
         key = i["title"].lower()[:60]
-        if (now - i["ts"]).days <= 10 and key not in seen:
+        pub = (i["publisher"] or "").lower()
+        if (now - i["ts"]).days <= 10 and key not in seen and pub not in LOW_QUALITY \
+                and _relevant(i["title"], name, t.replace(".AX", "")):
             seen.add(key)
             out.append({"title": i["title"], "link": i["link"], "publisher": i["publisher"],
                         "date": i["ts"].strftime("%Y-%m-%d")})

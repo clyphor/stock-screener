@@ -40,6 +40,7 @@ details.box summary{cursor:pointer;color:var(--mute);font-size:13px}
 .sig.HALAL{border:1px solid #3a9d6b;color:#3a9d6b}.sig.HDOUBT{border:1px dashed var(--mute);color:var(--mute);font-weight:600}
 .sig.flag{border:1px dashed var(--mute);color:var(--ink);font-weight:600}
 .card.SELL{border:2px solid var(--neg)}
+.chip.good-chip{background:var(--acc);color:#fff}.chip.halal-chip{border:1px solid #3a9d6b;color:#3a9d6b;background:none}
 details.why{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
 details.why summary{cursor:pointer;color:var(--acc);font-size:13px;font-weight:600;list-style:none}
 details.why summary::before{content:"ⓘ  "}
@@ -125,9 +126,9 @@ svg text{fill:var(--mute);font-size:10px}
 <div class="clock" id="clock"></div>
 <details class="box" id="ovbox" open><summary><b style="color:var(--ink)">Market overview</b> <span id="ovsum"></span></summary><div id="ov" style="margin-top:8px"></div></details>
 <input class="search" id="q" placeholder="Search any stock (e.g. CBA, Apple, OGDC)" autocomplete="off">
-<div id="sigs" class="box"></div>
+
 <details class="box" id="macrobox"><summary><b style="color:var(--ink)">Market &amp; politics today</b> <span id="macrosum"></span></summary><div id="macro" style="margin-top:8px"></div></details>
-<details class="box" id="statsbox"><summary>How reliable is this? (backtest)</summary><div id="stats" style="margin-top:8px"></div></details>
+<details class="box" id="statsbox"><summary>How reliable is this? (labels, scorecard, backtest)</summary><div id="stats" style="margin-top:8px"></div></details>
 <div id="mine"></div>
 <div class="fbar"><button id="fbtn">Filters</button><button id="sortbtn" style="flex:1;text-align:left"></button><button id="freset" style="display:none">Clear</button></div>
 <div id="fpanel"></div>
@@ -148,23 +149,42 @@ const pct = (v,d=1) => v==null ? "–" : (v>0?"+":"") + (v*100).toFixed(d) + "%"
 const esc = s => String(s??"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 $("gen").textContent = "Updated " + new Date(D.generated).toLocaleString(undefined,{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit",timeZoneName:"short"}) + (D.demo ? " · DEMO DATA" : "");
 
-function badge(sg){ return sg ? `<span class="sig ${sg}">${sg==="BUY"?"MED BUY":sg}</span>` : ""; }
-function hzBadges(hz){ if(!hz) return ""; const [s,m,l] = hz;
-  return (s==="BUY"?`<span class="sig BUY">SHORT BUY</span>`:"") + (l==="BUY"?`<span class="sig BUY">LONG BUY</span>`:""); }
+function badge(sg){ return sg ? `<span class="sig ${sg}">${sg}</span>` : ""; }
+/* Stocks you hold in Paper (open trades) */
+function owned(t){ return PT.get().some(x=>x.ticker===t && x.status==="open"); }
+/* Main label: BUY / WATCH / AVOID — or HOLD / SELL if you already own it in Paper */
+function mainLabel(r){
+  const sg = r.signal||"HOLD", hz = r.hz||["","",""], bad = sg==="SELL"||sg==="AVOID";
+  if (owned(r.ticker)) return bad ? "SELL" : "HOLD";
+  if (bad) return "AVOID";
+  if (hz.includes("BUY")) return "BUY";
+  if (hz.includes("WATCH") || sg==="WATCH") return "WATCH";
+  return "";
+}
+/* Sub-labels shown with the other tags */
+function subTags(r){
+  const hz = r.hz||["","",""], names = ["Short-term","Medium-term","Long-term"], out = [];
+  hz.forEach((v,i)=>{ if(v==="BUY") out.push(`<span class="chip good-chip">${names[i]} buy</span>`); });
+  hz.forEach((v,i)=>{ if(v==="WATCH") out.push(`<span class="chip">${names[i]} watch</span>`); });
+  if (r.hl==="HALAL") out.push(`<span class="chip halal-chip">Halal</span>`);
+  (r.flags||[]).forEach(f=>out.push(`<span class="chip">${f==="REBOUND"?"Rebound candidate":"Take profit?"}</span>`));
+  return out.join("");
+}
 const LABEL_INFO = {
-  BUY:"medium-term (1–6 months): passes every buy check", WATCH:"one check short of a buy", HOLD:"no strong reason to buy or sell",
-  AVOID:"recent red flag, or bottom-ranked with weak fundamentals — don't buy now", SELL:"fails on every front — exit if you own it"};
+  BUY:"passes every buy check for at least one time horizon (see the tags)", WATCH:"one check short of a buy",
+  "":"no strong reason to buy or avoid right now", HOLD:"you hold this in Paper and there's no reason to sell",
+  AVOID:"recent red flag or weak on every front — don't buy now", SELL:"you hold this in Paper and it now has a red flag or fails on every front — consider selling"};
 function card(r, i, extra=""){
-  return `<div class="card ${r.signal||""}" onclick="openStock('${r.ticker}')">${extra}<div class="top"><div style="min-width:0"><span class="rank">${MINE(M)?r.market+" ":""}#${(r.rank||i+1)}</span><span class="tk">${tk(r.ticker)}</span>${badge(r.signal)}${hzBadges(r.hz)}${r.hl==="HALAL"?'<span class="sig HALAL">HALAL</span>':""}${(r.flags||[]).map(f=>`<span class="sig flag">${f}</span>`).join("")}
+  return `<div class="card ${mainLabel(r)}" onclick="openStock('${r.ticker}')">${extra}<div class="top"><div style="min-width:0"><span class="rank">${MINE(M)?r.market+" ":""}#${(r.rank||i+1)}</span><span class="tk">${tk(r.ticker)}</span>${badge(mainLabel(r))}
    <div class="nm">${esc(r.name)} · ${esc(r.sector)}</div></div><div class="sc">${r.score}</div></div>
    <div class="bars">${Object.entries(r.parts).map(([k,v])=>`<div class="bar"><small>${L[k]}</small><i><span style="width:${v}%"></span></i></div>`).join("")}</div>
    <div class="meta">${CUR(r.market||M)} ${r.price??"–"} · 3m ${r.ret3m??"–"}% · P/E ${r.pe??"–"}</div>
-   <div class="chips">${r.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div></div>`;
+   <div class="chips">${subTags(r)}${r.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div></div>`;
 }
 function render(){
   [...$("tabs").children].forEach(b=>b.classList.toggle("on", b.textContent===M));
   const mine = MINE(M);
-  ["clock","ovbox","sigs","macrobox","statsbox"].forEach(id=>$(id).style.display = mine ? "none" : "");
+  ["clock","ovbox","macrobox","statsbox"].forEach(id=>$(id).style.display = mine ? "none" : "");
   $("mine").style.display = mine ? "" : "none";
   renderLog();
   if (mine) return renderMine();
@@ -176,29 +196,20 @@ function render(){
   const reb = rows.filter(r=>(r.flags||[]).includes("REBOUND")), tp = rows.filter(r=>(r.flags||[]).includes("TAKE PROFIT"));
   const T = s.track||{};
   const trl = lab => T[lab] ? `${lab}: ${T[lab].n} past calls, right <b>${Math.round(T[lab].win_rate*100)}%</b> of the time (avg ${(T[lab].avg_excess*100).toFixed(2)}% vs index)` : null;
-  const trs = ["SHORT BUY","BUY","LONG BUY","SELL","AVOID"].map(trl).filter(Boolean);
+  const trl2 = (lab, name) => T[lab] ? `${name}: ${T[lab].n} past calls, right <b>${Math.round(T[lab].win_rate*100)}%</b> of the time (avg ${(T[lab].avg_excess*100).toFixed(2)}% vs index)` : null;
+  const trs = [["SHORT BUY","Short-term buys"],["BUY","Medium-term buys"],["LONG BUY","Long-term buys"],["AVOID","Avoids"],["SELL","Weak-on-every-front"]].map(([a,b])=>trl2(a,b)).filter(Boolean);
   const link = r => `<a href="#" onclick="openStock('${r.ticker}');return false" style="color:inherit">${tk(r.ticker)}</a>`;
-  const tr = trs.length ? "Scorecard — " + trs.join("; ") + "." : `Scorecard is building — check back in a week or two.`;
-  $("sigs").innerHTML = s.error ? `<h2>${M} run failed</h2><div class="mute">${esc(s.error)}</div>` :
-    `<h2>${buys.length ? "Medium-term BUY: "+buys.map(link).join(", ") : "No medium-term buys today"}</h2>`
-    + `<div><b>Short-term BUY</b> (days–weeks): ${sbuy.length?sbuy.slice(0,15).map(link).join(", ")+(sbuy.length>15?` +${sbuy.length-15}`:""):"none"}</div>`
-    + `<div><b>Long-term BUY</b> (1 year+): ${lbuy.length?lbuy.slice(0,15).map(link).join(", ")+(lbuy.length>15?` +${lbuy.length-15}`:""):"none"}</div>`
-    + (watch.length ? `<div>Watch: ${watch.map(link).join(", ")}</div>` : "")
-    + (sells.length ? `<div style="margin-top:4px"><b style="color:var(--neg)">Sell:</b> ${sells.slice(0,15).map(link).join(", ")}${sells.length>15?` +${sells.length-15} more`:""}</div>` : "")
-    + (avoids.length ? `<div style="margin-top:4px"><b style="color:var(--ma50)">Avoid:</b> ${avoids.length} stocks <a href="#" onclick="quickSig('AVOID');return false" style="color:inherit">(show)</a></div>` : "")
-    + (reb.length||tp.length ? `<div style="margin-top:4px">${reb.length?`Rebound: ${reb.slice(0,8).map(link).join(", ")}`:""}${reb.length&&tp.length?" · ":""}${tp.length?`Take profit: ${tp.slice(0,8).map(link).join(", ")}`:""}</div>` : "")
-    + (nHalal?`<div style="margin-top:4px"><span class="sig HALAL" style="margin-left:0">HALAL</span> ${nHalal} stocks pass the Shariah screen <a href="#" onclick="resetF();getF().hal='HALAL';saveF();render();window.scrollTo({top:$('count').offsetTop-60,behavior:'smooth'});return false" style="color:inherit">(show)</a></div>`:"")
-    + `<details class="why"><summary>What do the labels mean?</summary><ul>
-        <li><b>SHORT BUY</b> (days–weeks) — strong momentum, fresh positive news, above the 50-day average, RSI 50–70, rising interest, no red flags.</li>
-        <li><b>LONG BUY</b> (1 year+) — top fundamentals, strong financial health (F-score 7+), no bankruptcy risk, not expensive, high quality, long-term uptrend, no structural headwind.</li>
-        <li><b>MED BUY</b> (1–6 months) — passes every check: top 15% score, uptrend, not overbought, solid fundamentals, no bad company/competitor news, no strong sector/political headwind${s.model_used ? ", price model agrees" : ""}.</li>
-        <li><b>WATCH</b> — passes all but one buy check.</li><li><b>HOLD</b> — nothing notable either way.</li>
-        <li><b>AVOID</b> — a red flag in the last 10 days (scandal/probe, profit warning, capital raising, CEO exit, debt stress, failed trial…) or a strong sector/political headwind, or bottom-ranked with weak fundamentals.</li>
-        <li><b>SELL</b> — the mirror of BUY: bottom 15% score, downtrend, weak fundamentals, negative news, model negative.</li>
-        <li><b>REBOUND</b> — good company that looks oversold (RSI under 30, no red flags). <b>TAKE PROFIT</b> — big run, overbought, support fading.</li></ul></details>
-      <div class="mute" style="margin-top:6px">${tr}</div>`;
-  $("stats").innerHTML = s.error ? "" :
-    `Tested on ${s.test_from} onwards (data the model never saw): top-20% picks beat bottom-20% by <b>${((s.top_minus_bottom||0)*100).toFixed(2)}%</b> a month; ranking accuracy (IC) <b>${s.ic_mean}</b> (0 = random); top picks beat the index <b>${Math.round((s.top_hit_rate||0)*100)}%</b> of the time. ${s.screened} stocks passed the screen.<br><br><b>Data check:</b> prices up to the ${s.price_date||"–"} close (holidays not shown on the clock); ${Math.round((s.news_coverage||0)*100)}% of stocks had news in the last 10 days (scored by ${s.news_method}). AI scoring: <b>${s.ai_scoring==="on"||s.ai_scoring===true?"on":s.ai_scoring==="failed"?"FAILED today (out of API credit or key problem) — using free rules":"off — add an ANTHROPIC_API_KEY secret to turn it on"}</b>.${(s.news_coverage||0)<0.5?" <b>News coverage is low — treat the News and Peers parts with caution.</b>":""}`
+  const tr = trs.length ? trs.join("; ") + "." : `building — check back in a week or two.`;
+  const labelHelp = `<details class="why" open><summary>What do the labels mean?</summary><ul>
+        <li><b>BUY</b> — passes every buy check for at least one time horizon. The tags say which: <b>Short-term buy</b> (days–weeks: momentum, fresh positive news, above the 50-day average, RSI 50–70, rising interest), <b>Medium-term buy</b> (1–6 months: top 15% score, uptrend, not overbought, solid fundamentals, no bad news or headwind${s.model_used ? ", price model agrees" : ""}), <b>Long-term buy</b> (1 year+: top fundamentals, F-score 7+, no bankruptcy risk, fairly priced, high quality, long-term uptrend).</li>
+        <li><b>WATCH</b> — one check short of a buy.</li>
+        <li><b>AVOID</b> — a red flag in the last 10 days (scandal/probe, profit warning, capital raising, CEO exit, debt stress…), a strong sector/political headwind, or weak on every front.</li>
+        <li>No badge — nothing notable either way.</li>
+        <li><b>HOLD / SELL</b> — only for stocks you hold in Paper: SELL when a red flag appears or it turns weak on every front, otherwise HOLD.</li>
+        <li>Tags: <b>Halal</b> passes the Shariah screen; <b>Rebound candidate</b> = good company that looks oversold; <b>Take profit?</b> = big run, overheated, support fading.</li></ul></details>`;
+  const scoreLine = `<div style="margin:8px 0"><b>Scorecard:</b> ${tr}</div>`;
+  $("stats").innerHTML = s.error ? `<b class="bad">${M} run failed: ${esc(s.error)}</b>` : labelHelp + scoreLine +
+    `<b>Backtest:</b> tested on ${s.test_from} onwards (data the model never saw): top-20% picks beat bottom-20% by <b>${((s.top_minus_bottom||0)*100).toFixed(2)}%</b> a month; ranking accuracy (IC) <b>${s.ic_mean}</b> (0 = random); top picks beat the index <b>${Math.round((s.top_hit_rate||0)*100)}%</b> of the time. ${s.screened} stocks passed the screen.<br><br><b>Data check:</b> prices up to the ${s.price_date||"–"} close (holidays not shown on the clock); ${Math.round((s.news_coverage||0)*100)}% of stocks had news in the last 10 days (scored by ${s.news_method}). AI scoring: <b>${s.ai_scoring==="on"||s.ai_scoring===true?"on":s.ai_scoring==="failed"?"FAILED today (out of API credit or key problem) — using free rules":"off — add an ANTHROPIC_API_KEY secret to turn it on"}</b>.${(s.news_coverage||0)<0.5?" <b>News coverage is low — treat the News and Peers parts with caution.</b>":""}`
     + (s.model_used===false ? " <b>The price model failed this test here, so it counts for only 10%.</b>" : "");
   renderOverview(s);
   const mc = s.macro;
@@ -432,7 +443,7 @@ function renderMine(){
     <div class="row"><div><span class="tk" onclick="openStock('${x.ticker}')" style="cursor:pointer">${tk(x.ticker)}</span> <span class="mute">${x.market}</span> ${x.status==="closed"?'<span class="sig HOLD">CLOSED</span>':""}</div>
       <div class="big2 ${ret>=0?"good":"bad"}">${fp(ret)}</div></div>
     <div class="mute">${esc(now?.name||"")}</div>
-    <div style="font-size:13px;margin-top:6px">Bought ${x.date} at ${cur(x.market)}${x.price} as ${badge(x.label)}${hzBadges(x.hz)} (score ${x.score}) · ${x.status==="closed"?`sold ${x.exit_date} at ${cur(x.market)}${x.exit_price}`:`now ${cur(x.market)}${px??"–"} ${now?badge(now.signal||"HOLD"):""}`}</div>
+    <div style="font-size:13px;margin-top:6px">Bought ${x.date} at ${cur(x.market)}${x.price} as ${badge(x.label==="SELL"?"AVOID":x.label==="HOLD"?"":(x.hz||[]).includes("BUY")?"BUY":x.label)} ${subTags({hz:x.hz})} (score ${x.score}) · ${x.status==="closed"?`sold ${x.exit_date} at ${cur(x.market)}${x.exit_price}`:`now ${cur(x.market)}${px??"–"} ${now?badge(mainLabel(now)):""}`}</div>
     <div style="font-size:13px;margin-top:4px">Index ${fp(iret)} over the same ${days} days → <b class="${vs>=0?"good":"bad"}">${fp(vs)} vs index</b> · ${cur(x.market)}${x.amount} invested → ${ret!=null?`${ret>=0?"+":"−"}${cur(x.market)}${Math.abs(x.amount*ret).toFixed(0)}`:"–"}</div>
     ${x.note?`<div class="mute" style="margin-top:4px">“${esc(x.note)}”</div>`:""}
     <div class="btnrow">${x.status==="open"?`<button class="sbtn" onclick="paperSell(${x.id})">Close (sell)</button>`:""}<button class="sbtn" onclick="openStock('${x.ticker}')">Details</button><button class="sbtn neg" onclick="paperDel(${x.id})">Delete</button></div></div>`).join("");
@@ -510,7 +521,7 @@ const SORTS = {
 const DEF = () => ({hal:"", hz:[], mk:[], flg:[], sig:[], sec:[], smin:"", smax:"", parts:{}, pemin:"", pemax:"", rmin:"", rmax:"", rsimin:"", rsimax:"",
   cap:"", news:"", macro:"", good:[], bad:[], tags:[], sort:"score", vqmin:{}});
 const FS = {};
-function getF(){ if(!FS[M]){ try{ FS[M] = Object.assign(DEF(), JSON.parse(localStorage.getItem("f_"+M)||"{}")); }catch(e){ FS[M]=DEF(); } FS[M].sig = (FS[M].sig||[]).map(x=>x==="NONE"?"HOLD":x); } return FS[M]; }
+function getF(){ if(!FS[M]){ try{ FS[M] = Object.assign(DEF(), JSON.parse(localStorage.getItem("f_"+M)||"{}")); }catch(e){ FS[M]=DEF(); } FS[M].sig = FS[M].sig||[]; } return FS[M]; }
 function saveF(){ try{ localStorage.setItem("f_"+M, JSON.stringify(FS[M])); }catch(e){} }
 const num = v => v===""||v==null ? null : Number(v);
 function activeCount(F){ let n=0;
@@ -523,7 +534,7 @@ function passes(r, F){
   if (F.hal==="HALAL" && r.hl!=="HALAL") return false;
   if (F.hal==="OK" && !(r.hl==="HALAL"||r.hl==="DOUBTFUL")) return false;
   if (F.hal==="NOT HALAL" && r.hl!=="NOT HALAL") return false;
-  if (F.sig.length){ const sg = r.signal||"HOLD"; if(!F.sig.includes(sg)) return false; }
+  if (F.sig.length){ const sg = mainLabel(r)||"NONE"; if(!F.sig.includes(sg)) return false; }
   if ((F.flg||[]).length && !F.flg.some(f=>(r.flags||[]).includes(f))) return false;
   if ((F.hz||[]).length){ const h = r.hz||["","",""]; const ok = {S:h[0]==="BUY", M:h[1]==="BUY", L:h[2]==="BUY", SW:h[0]==="WATCH", LW:h[2]==="WATCH"};
     if (!F.hz.some(k=>ok[k])) return false; }
@@ -567,7 +578,7 @@ function drawPanel(){
              : [["",'Any'],["5e10",">PKR 50B"],["2e11",">PKR 200B"],["5e11",">PKR 500B"],["-5e10","<PKR 50B"]];
   $("fpanel").innerHTML = `
    ${MINE(M)?`<div class="fg"><span class="fl">Market</span>${pills("mk",MARKETS.map(m=>[m,m]),F.mk||[])}</div>`:""}
-   <div class="fg"><span class="fl">Signal</span>${pills("sig",[["BUY","BUY"],["WATCH","WATCH"],["HOLD","HOLD"],["AVOID","AVOID"],["SELL","SELL"]],F.sig)}
+   <div class="fg"><span class="fl">Signal</span>${pills("sig",[["BUY","BUY"],["WATCH","WATCH"],["AVOID","AVOID"],["NONE","No label"],["HOLD","HOLD (in Paper)"],["SELL","SELL (in Paper)"]],F.sig)}
      <div class="mute" style="margin-top:4px">Tap several to combine, e.g. BUY + WATCH.</div></div>
    <div class="fg"><span class="fl">Time horizon</span>${pills("hz",[["S","Short-term BUY"],["M","Medium-term BUY"],["L","Long-term BUY"],["SW","Short WATCH"],["LW","Long WATCH"]],F.hz||[])}</div>
    <div class="fg"><span class="fl">Shariah (halal)</span>${one("hal",[["","Any"],["HALAL","Halal only"],["OK","Halal + doubtful"],["NOT HALAL","Not halal"]],F.hal||"")}</div>
@@ -655,16 +666,16 @@ async function openStock(t, push=true){
   try { d = await getJSON(`stocks/${t}.json`); base = await getJSON(`stocks/_${d.market}.json`); }
   catch(e){ sh.innerHTML = sh.innerHTML.replace("Loading…","Details not available for this stock yet."); return; }
   const up = d.analyst.target && d.price ? d.analyst.target/d.price-1 : null;
-  sh.innerHTML = `<div class="shead"><button class="back" onclick="history.back()">‹ Back</button><b>${tk(d.ticker)}</b>${badge(d.signal)}${d.halal&&d.halal.status==="HALAL"?'<span class="sig HALAL">HALAL</span>':""}${(d.flags||[]).map(f=>`<span class="sig flag">${f}</span>`).join("")}</div>
+  sh.innerHTML = `<div class="shead"><button class="back" onclick="history.back()">‹ Back</button><b>${tk(d.ticker)}</b>${badge(mainLabel(dRow(d)))}</div>
   <div class="sec"><div class="hero"><div style="min-width:0"><div class="tk" style="font-size:20px">${esc(d.name)}</div>
     <div class="mute">${esc(d.sector)}${d.industry?" · "+esc(d.industry):""}</div>
     <div style="margin-top:8px">Price <b>${CUR(d.market)} ${d.price??"–"}</b> · Market cap <b>${CUR(d.market)} ${fmtCap(d.mcap)}</b></div></div>
     <div style="text-align:right"><div class="big">${d.score}</div><div class="mute">#${d.rank} of ${d.of}</div></div></div>
-    <div class="chips" style="margin-top:8px">${d.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div>
+    <div class="chips" style="margin-top:8px">${subTags(dRow(d))}${d.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div>
     <div class="btnrow"><button class="sbtn" onclick="addToList('${d.ticker}')">☆ Watchlist</button><button class="sbtn pri" onclick="paperBuy('${d.ticker}')">Paper buy</button></div>
     ${why(xOverview(d), "In plain English")}</div>
 
-  <div class="sec"><h3>Label: ${badge(d.signal||"HOLD")} <span class="mute" style="font-weight:400">${LABEL_INFO[d.signal||"HOLD"]}</span></h3>
+  <div class="sec"><h3>Label: ${badge(mainLabel(dRow(d)))||'<span class="mute">none</span>'} <span class="mute" style="font-weight:400">${LABEL_INFO[mainLabel(dRow(d))]}</span></h3>
     ${(d.red_flags||[]).length?`<div style="margin-bottom:8px"><b style="color:var(--neg)">Red flags:</b> ${d.red_flags.map(esc).join(", ")}</div>`:""}
     <div class="fl" style="font-size:13px;font-weight:600;margin:4px 0">Buy checks (${d.checks.filter(c=>c.pass||c.skipped).length}/${d.checks.length})</div>
     ${d.checks.map(c=>`<div class="chk"><b class="${c.skipped?"skip":c.pass?"ok":"no"}">${c.skipped?"–":c.pass?"✓":"✗"}</b><span>${c.label}${c.skipped?' <span class="mute">(not used: model failed its test in this market)</span>':""}</span></div>`).join("")}
@@ -723,6 +734,8 @@ async function openStock(t, push=true){
   drawChart(d, base, 252);
 }
 
+/* the list-row shape of a stock, for label logic on the detail page */
+function dRow(d){ return ALL[d.ticker] || {ticker:d.ticker, signal:d.signal, hz:[d.hz?.short||"", d.hz?.medium||"", d.hz?.long||""], hl:d.halal?.status, flags:d.flags}; }
 function horizonSection(d){
   if (!d.short_checks) return "";
   const hz = d.hz||{};
@@ -785,7 +798,7 @@ function xOverview(d){
   const parts = [...d.parts].sort((a,b)=>b.value-a.value);
   return `<p><b>${esc(d.name)}</b> scores <b>${d.score}</b> out of 100, which puts it at <b>#${d.rank} of ${d.of}</b> ${d.market} stocks — better than about ${top}% of them.
     Its strongest area is <b>${parts[0].label.toLowerCase()}</b> (${parts[0].value}/100) and its weakest is <b>${parts[parts.length-1].label.toLowerCase()}</b> (${parts[parts.length-1].value}/100).
-    The label is <b>${d.signal||"HOLD"}</b>: ${LABEL_INFO[d.signal||"HOLD"]}.${(d.flags||[]).includes("REBOUND")?" It's also flagged <b>REBOUND</b>: a decent company whose price has fallen hard recently, which sometimes bounces back.":""}${(d.flags||[]).includes("TAKE PROFIT")?" It's flagged <b>TAKE PROFIT</b>: it has risen a lot very quickly and the support behind the move is fading.":""}</p>`;
+    ${mainLabel(dRow(d))?`The label is <b>${mainLabel(dRow(d))}</b>: ${LABEL_INFO[mainLabel(dRow(d))]}.`:"It has no label: nothing notable either way right now."}${(d.flags||[]).includes("REBOUND")?" It's also flagged <b>REBOUND</b>: a decent company whose price has fallen hard recently, which sometimes bounces back.":""}${(d.flags||[]).includes("TAKE PROFIT")?" It's flagged <b>TAKE PROFIT</b>: it has risen a lot very quickly and the support behind the move is fading.":""}</p>`;
 }
 function xLabel(d){
   const failB = d.checks.filter(c=>!c.pass&&!c.skipped).map(c=>c.label.toLowerCase());
@@ -885,7 +898,7 @@ function drawChart(d, base, span){
   const chg = p0 && P[P.length-1] ? P[P.length-1]/p0-1 : null;
   $("tip").textContent = chg!=null ? `Change over period: ${pct(chg)} · tap the chart for prices` : "";
 }
-function closeSheet(){ $("sheet").classList.remove("open"); document.body.style.overflow=""; }
+function closeSheet(){ $("sheet").classList.remove("open"); document.body.style.overflow=""; render(); }
 window.addEventListener("popstate", e => { if (e.state && e.state.t) openStock(e.state.t, false); else closeSheet(); });
 if (location.hash.length > 1) { history.replaceState(null, "", location.pathname); openStock(decodeURIComponent(location.hash.slice(1))); }
 render();

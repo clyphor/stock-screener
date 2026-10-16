@@ -35,6 +35,15 @@ details.box summary{cursor:pointer;color:var(--mute);font-size:13px}
 .chip.bad{color:var(--neg)}
 .sig{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:6px;margin-left:8px;vertical-align:3px}
 .sig.BUY{background:var(--acc);color:#fff}.sig.WATCH{border:1px solid var(--acc);color:var(--acc)}
+.sig.HOLD{border:1px solid var(--line);color:var(--mute);font-weight:600}
+.sig.AVOID{border:1px solid var(--ma50);color:var(--ma50)}.sig.SELL{background:var(--neg);color:#fff}
+.sig.flag{border:1px dashed var(--mute);color:var(--ink);font-weight:600}
+.card.SELL{border:2px solid var(--neg)}
+details.why{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+details.why summary{cursor:pointer;color:var(--acc);font-size:13px;font-weight:600;list-style:none}
+details.why summary::before{content:"ⓘ  "}
+details.why p{margin:8px 0 0;font-size:14px;line-height:1.55}
+details.why ul{margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.55}
 .more{display:block;margin:12px 16px 4px;width:calc(100% - 32px);padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-weight:600}
 .clock{margin:6px 16px 0;padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:14px;display:flex;justify-content:space-between;gap:8px;align-items:center}
 .clock .st{font-weight:700;white-space:nowrap}.clock .open{color:var(--acc)}.clock .closed{color:var(--neg)}
@@ -111,8 +120,12 @@ const pct = (v,d=1) => v==null ? "–" : (v>0?"+":"") + (v*100).toFixed(d) + "%"
 const esc = s => String(s??"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 $("gen").textContent = "Updated " + new Date(D.generated).toLocaleString(undefined,{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit",timeZoneName:"short"}) + (D.demo ? " · DEMO DATA" : "");
 
+function badge(sg){ return sg ? `<span class="sig ${sg}">${sg}</span>` : ""; }
+const LABEL_INFO = {
+  BUY:"passes every buy check", WATCH:"one check short of a buy", HOLD:"no strong reason to buy or sell",
+  AVOID:"recent red flag, or bottom-ranked with weak fundamentals — don't buy now", SELL:"fails on every front — exit if you own it"};
 function card(r, i){
-  return `<div class="card ${r.signal||""}" onclick="openStock('${r.ticker}')"><div class="top"><div style="min-width:0"><span class="rank">#${i+1}</span><span class="tk">${tk(r.ticker)}</span>${r.signal?`<span class="sig ${r.signal}">${r.signal}</span>`:""}
+  return `<div class="card ${r.signal||""}" onclick="openStock('${r.ticker}')"><div class="top"><div style="min-width:0"><span class="rank">#${i+1}</span><span class="tk">${tk(r.ticker)}</span>${badge(r.signal)}${(r.flags||[]).map(f=>`<span class="sig flag">${f}</span>`).join("")}
    <div class="nm">${esc(r.name)} · ${esc(r.sector)}</div></div><div class="sc">${r.score}</div></div>
    <div class="bars">${Object.entries(r.parts).map(([k,v])=>`<div class="bar"><small>${L[k]}</small><i><span style="width:${v}%"></span></i></div>`).join("")}</div>
    <div class="meta">Price ${r.price??"–"}${M==="PSX"?" PKR":""} · 3m ${r.ret3m??"–"}% · P/E ${r.pe??"–"}</div>
@@ -122,13 +135,26 @@ function render(){
   [...$("tabs").children].forEach(b=>b.classList.toggle("on", b.textContent===M));
   const s = D.stats[M]||{}, rows = D.markets[M]||[];
   const buys = rows.filter(r=>r.signal==="BUY"), watch = rows.filter(r=>r.signal==="WATCH");
+  const sells = rows.filter(r=>r.signal==="SELL"), avoids = rows.filter(r=>r.signal==="AVOID");
+  const reb = rows.filter(r=>(r.flags||[]).includes("REBOUND")), tp = rows.filter(r=>(r.flags||[]).includes("TAKE PROFIT"));
+  const T = s.track||{};
+  const trl = lab => T[lab] ? `${lab}: ${T[lab].n} past calls, right <b>${Math.round(T[lab].win_rate*100)}%</b> of the time (avg ${(T[lab].avg_excess*100).toFixed(2)}% vs index)` : null;
+  const trs = ["BUY","SELL","AVOID"].map(trl).filter(Boolean);
   const link = r => `<a href="#" onclick="openStock('${r.ticker}');return false" style="color:inherit">${tk(r.ticker)}</a>`;
-  const tr = s.track_n ? `Past signals (${s.track_n} so far): beat the index <b>${Math.round(s.track_win_rate*100)}%</b> of the time, by <b>${(s.track_avg_excess*100).toFixed(2)}%</b> on average.`
-                       : `Scorecard is building — check back in a week or two.`;
+  const tr = trs.length ? "Scorecard — " + trs.join("; ") + "." : `Scorecard is building — check back in a week or two.`;
   $("sigs").innerHTML = s.error ? `<h2>${M} run failed</h2><div class="mute">${esc(s.error)}</div>` :
     `<h2>${buys.length ? "Buy signals: "+buys.map(link).join(", ") : "No buy signals today"}</h2>`
     + (watch.length ? `<div>Watch: ${watch.map(link).join(", ")}</div>` : "")
-    + `<div class="mute" style="margin-top:6px">BUY = passes every check: top-ranked, uptrend, not overbought, solid fundamentals, no bad news, no strong sector/political headwind${s.model_used ? ", price model agrees" : ""}. WATCH = all but one. ${tr}</div>`;
+    + (sells.length ? `<div style="margin-top:4px"><b style="color:var(--neg)">Sell:</b> ${sells.slice(0,15).map(link).join(", ")}${sells.length>15?` +${sells.length-15} more`:""}</div>` : "")
+    + (avoids.length ? `<div style="margin-top:4px"><b style="color:var(--ma50)">Avoid:</b> ${avoids.length} stocks <a href="#" onclick="quickSig('AVOID');return false" style="color:inherit">(show)</a></div>` : "")
+    + (reb.length||tp.length ? `<div style="margin-top:4px">${reb.length?`Rebound: ${reb.slice(0,8).map(link).join(", ")}`:""}${reb.length&&tp.length?" · ":""}${tp.length?`Take profit: ${tp.slice(0,8).map(link).join(", ")}`:""}</div>` : "")
+    + `<details class="why"><summary>What do the labels mean?</summary><ul>
+        <li><b>BUY</b> — passes every check: top 15% score, uptrend, not overbought, solid fundamentals, no bad company/competitor news, no strong sector/political headwind${s.model_used ? ", price model agrees" : ""}.</li>
+        <li><b>WATCH</b> — passes all but one buy check.</li><li><b>HOLD</b> — nothing notable either way.</li>
+        <li><b>AVOID</b> — a red flag in the last 10 days (scandal/probe, profit warning, capital raising, CEO exit, debt stress, failed trial…) or a strong sector/political headwind, or bottom-ranked with weak fundamentals.</li>
+        <li><b>SELL</b> — the mirror of BUY: bottom 15% score, downtrend, weak fundamentals, negative news, model negative.</li>
+        <li><b>REBOUND</b> — good company that looks oversold (RSI under 30, no red flags). <b>TAKE PROFIT</b> — big run, overbought, support fading.</li></ul></details>
+      <div class="mute" style="margin-top:6px">${tr}</div>`;
   $("stats").innerHTML = s.error ? "" :
     `Tested on ${s.test_from} onwards (data the model never saw): top-20% picks beat bottom-20% by <b>${((s.top_minus_bottom||0)*100).toFixed(2)}%</b> a month; ranking accuracy (IC) <b>${s.ic_mean}</b> (0 = random); top picks beat the index <b>${Math.round((s.top_hit_rate||0)*100)}%</b> of the time. ${s.screened} stocks passed the screen.<br><br><b>Data check:</b> prices up to the ${s.price_date||"–"} close (holidays not shown on the clock); ${Math.round((s.news_coverage||0)*100)}% of stocks had news in the last 10 days (scored by ${s.news_method}). AI scoring: <b>${s.ai_scoring==="on"||s.ai_scoring===true?"on":s.ai_scoring==="failed"?"FAILED today (out of API credit or key problem) — using free rules":"off — add an ANTHROPIC_API_KEY secret to turn it on"}</b>.${(s.news_coverage||0)<0.5?" <b>News coverage is low — treat the News and Peers parts with caution.</b>":""}`
     + (s.model_used===false ? " <b>The price model failed this test here, so it counts for only 10%.</b>" : "");
@@ -188,19 +214,20 @@ const SORTS = {
   rsi_lo:{l:"RSI (most oversold first)", f:(a,b)=>(a.rsi??999)-(b.rsi??999)},
   mcap:{l:"Market cap (largest first)", f:(a,b)=>(b.mcap??0)-(a.mcap??0)},
 };
-const DEF = () => ({sig:[], sec:[], smin:"", smax:"", parts:{}, pemin:"", pemax:"", rmin:"", rmax:"", rsimin:"", rsimax:"",
+const DEF = () => ({flg:[], sig:[], sec:[], smin:"", smax:"", parts:{}, pemin:"", pemax:"", rmin:"", rmax:"", rsimin:"", rsimax:"",
   cap:"", news:"", macro:"", good:[], bad:[], tags:[], sort:"score", vqmin:{}});
 const FS = {};
-function getF(){ if(!FS[M]){ try{ FS[M] = Object.assign(DEF(), JSON.parse(localStorage.getItem("f_"+M)||"{}")); }catch(e){ FS[M]=DEF(); } } return FS[M]; }
+function getF(){ if(!FS[M]){ try{ FS[M] = Object.assign(DEF(), JSON.parse(localStorage.getItem("f_"+M)||"{}")); }catch(e){ FS[M]=DEF(); } FS[M].sig = (FS[M].sig||[]).map(x=>x==="NONE"?"HOLD":x); } return FS[M]; }
 function saveF(){ try{ localStorage.setItem("f_"+M, JSON.stringify(FS[M])); }catch(e){} }
 const num = v => v===""||v==null ? null : Number(v);
 function activeCount(F){ let n=0;
-  if(F.sig.length) n++; if(F.sec.length) n++; if(F.smin!==""||F.smax!=="") n++;
+  if(F.sig.length) n++; if((F.flg||[]).length) n++; if(F.sec.length) n++; if(F.smin!==""||F.smax!=="") n++;
   n += Object.values(F.parts).filter(v=>v>0).length; n += Object.values(F.vqmin).filter(v=>v>0).length;
   if(F.pemin!==""||F.pemax!=="") n++; if(F.rmin!==""||F.rmax!=="") n++; if(F.rsimin!==""||F.rsimax!=="") n++;
   if(F.cap) n++; if(F.news) n++; if(F.macro) n++; n += F.good.length?1:0; n += F.bad.length?1:0; n += F.tags.length?1:0; return n; }
 function passes(r, F){
-  if (F.sig.length){ const sg = r.signal||"NONE"; if(!F.sig.includes(sg)) return false; }
+  if (F.sig.length){ const sg = r.signal||"HOLD"; if(!F.sig.includes(sg)) return false; }
+  if ((F.flg||[]).length && !F.flg.some(f=>(r.flags||[]).includes(f))) return false;
   if (F.sec.length && !F.sec.includes(r.sector)) return false;
   if (num(F.smin)!=null && r.score < num(F.smin)) return false;
   if (num(F.smax)!=null && r.score > num(F.smax)) return false;
@@ -240,8 +267,9 @@ function drawPanel(){
              : M==="ASX" ? [["",'Any'],["2e9",">A$2B"],["1e10",">A$10B"],["5e10",">A$50B"],["-5e9","<A$5B"]]
              : [["",'Any'],["5e10",">PKR 50B"],["2e11",">PKR 200B"],["5e11",">PKR 500B"],["-5e10","<PKR 50B"]];
   $("fpanel").innerHTML = `
-   <div class="fg"><span class="fl">Signal</span>${pills("sig",[["BUY","BUY"],["WATCH","WATCH"],["NONE","No signal"]],F.sig)}
-     <div class="mute" style="margin-top:4px">Tap BUY + WATCH for both.</div></div>
+   <div class="fg"><span class="fl">Signal</span>${pills("sig",[["BUY","BUY"],["WATCH","WATCH"],["HOLD","HOLD"],["AVOID","AVOID"],["SELL","SELL"]],F.sig)}
+     <div class="mute" style="margin-top:4px">Tap several to combine, e.g. BUY + WATCH.</div></div>
+   <div class="fg"><span class="fl">Flags</span>${pills("flg",[["REBOUND","REBOUND (oversold quality)"],["TAKE PROFIT","TAKE PROFIT"]],F.flg)}</div>
    <div class="fg"><span class="fl">Sector</span>${pills("sec",secs.map(x=>[x,x]),F.sec)}</div>
    <div class="fg"><span class="fl">Overall score</span>${rng("smin","smax","min e.g. 60","max")}</div>
    <div class="fg"><span class="fl">Minimum part scores (0–100 rank)</span>
@@ -263,6 +291,7 @@ function tog(g,v){ const F=getF(); const a=F[g]; const i=a.indexOf(v); i>=0?a.sp
 function setF(k,v){ const F=getF(); F[k]=v; saveF(); render(); }
 function F_part(k,v){ getF().parts[k]=Number(v); saveF(); render(); }
 function F_vq(k,v){ getF().vqmin[k]=Number(v); saveF(); render(); }
+function quickSig(sg){ resetF(); getF().sig=[sg]; saveF(); render(); window.scrollTo({top:$("count").offsetTop-60,behavior:"smooth"}); }
 function resetF(){ FS[M]=DEF(); saveF(); render(); }
 $("fbtn").onclick = ()=>{ $("fpanel").classList.toggle("open"); render(); };
 $("freset").onclick = resetF;
@@ -315,54 +344,147 @@ async function openStock(t, push=true){
   try { d = await getJSON(`stocks/${t}.json`); base = await getJSON(`stocks/_${d.market}.json`); }
   catch(e){ sh.innerHTML = sh.innerHTML.replace("Loading…","Details not available for this stock yet."); return; }
   const up = d.analyst.target && d.price ? d.analyst.target/d.price-1 : null;
-  sh.innerHTML = `<div class="shead"><button class="back" onclick="history.back()">‹ Back</button><b>${tk(d.ticker)}</b>${d.signal?`<span class="sig ${d.signal}">${d.signal}</span>`:""}</div>
+  sh.innerHTML = `<div class="shead"><button class="back" onclick="history.back()">‹ Back</button><b>${tk(d.ticker)}</b>${badge(d.signal)}${(d.flags||[]).map(f=>`<span class="sig flag">${f}</span>`).join("")}</div>
   <div class="sec"><div class="hero"><div style="min-width:0"><div class="tk" style="font-size:20px">${esc(d.name)}</div>
     <div class="mute">${esc(d.sector)}${d.industry?" · "+esc(d.industry):""}</div>
     <div style="margin-top:8px">Price <b>${d.price??"–"}${d.market==="PSX"?" PKR":""}</b> · Market cap <b>${fmtCap(d.mcap)}${d.market==="PSX"?" PKR":""}</b></div></div>
     <div style="text-align:right"><div class="big">${d.score}</div><div class="mute">#${d.rank} of ${d.of}</div></div></div>
-    <div class="chips" style="margin-top:8px">${d.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div></div>
+    <div class="chips" style="margin-top:8px">${d.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div>
+    ${why(xOverview(d), "In plain English")}</div>
 
-  <div class="sec"><h3>${d.signal==="BUY"?"Buy signal — every check passed":d.signal==="WATCH"?"Watch — one check short of a buy":"Buy-signal checklist"}</h3>
-    ${d.checks.map(c=>`<div class="chk"><b class="${c.skipped?"skip":c.pass?"ok":"no"}">${c.skipped?"–":c.pass?"✓":"✗"}</b><span>${c.label}${c.skipped?' <span class="mute">(not used: model failed its test in this market)</span>':""}</span></div>`).join("")}</div>
+  <div class="sec"><h3>Label: ${badge(d.signal||"HOLD")} <span class="mute" style="font-weight:400">${LABEL_INFO[d.signal||"HOLD"]}</span></h3>
+    ${(d.red_flags||[]).length?`<div style="margin-bottom:8px"><b style="color:var(--neg)">Red flags:</b> ${d.red_flags.map(esc).join(", ")}</div>`:""}
+    <div class="fl" style="font-size:13px;font-weight:600;margin:4px 0">Buy checks (${d.checks.filter(c=>c.pass||c.skipped).length}/${d.checks.length})</div>
+    ${d.checks.map(c=>`<div class="chk"><b class="${c.skipped?"skip":c.pass?"ok":"no"}">${c.skipped?"–":c.pass?"✓":"✗"}</b><span>${c.label}${c.skipped?' <span class="mute">(not used: model failed its test in this market)</span>':""}</span></div>`).join("")}
+    ${d.sell_checks?`<div class="fl" style="font-size:13px;font-weight:600;margin:10px 0 4px">Sell warnings (${d.sell_checks.filter(c=>c.pass&&!c.skipped).length}/${d.sell_checks.filter(c=>!c.skipped).length})</div>
+    ${d.sell_checks.map(c=>`<div class="chk"><b class="${c.skipped?"skip":c.pass?"no":"ok"}">${c.skipped?"–":c.pass?"!":"·"}</b><span>${c.label}</span></div>`).join("")}`:""}
+    ${why(xLabel(d), "Why this label?")}</div>
 
   <div class="sec"><h3>Score breakdown</h3><div class="mute" style="margin-bottom:6px">Each part is a 0–100 rank vs the other ${d.market} stocks, weighted into the total.</div>
     ${d.parts.map(p=>`<div class="prow"><span>${p.label} <span class="mute">× ${Math.round(p.weight*100)}%</span></span><span class="v">${p.value}</span><i><span style="width:${p.value}%"></span></i></div>`).join("")}
     <div class="grid" style="margin-top:10px"><div class="kv"><small>Value vs sector</small><b>${d.sub.value}</b></div><div class="kv"><small>Quality</small><b>${d.sub.quality}</b></div><div class="kv"><small>Growth</small><b>${d.sub.growth}</b></div><div class="kv"><small>Analysts</small><b>${d.analyst.rating?esc(d.analyst.rating).replace("_"," "):"–"}</b></div></div>
-    ${up!=null?`<div class="mute" style="margin-top:8px">Average analyst target ${d.analyst.target} (${pct(up)} from here).</div>`:""}</div>
+    ${up!=null?`<div class="mute" style="margin-top:8px">Average analyst target ${d.analyst.target} (${pct(up)} from here).</div>`:""}
+    ${why(xScore(d, up))}</div>
 
   <div class="sec"><h3>Price chart</h3><div class="rng" id="rng"></div><div id="chart"></div><div id="tip"></div>
-    <div class="legend"><span style="--c:var(--acc)">Price</span><span style="--c:var(--ma50)">50-day avg</span><span style="--c:var(--ma200)">200-day avg</span><span style="--c:var(--idx)">Index (scaled)</span></div></div>
+    <div class="legend"><span style="--c:var(--acc)">Price</span><span style="--c:var(--ma50)">50-day avg</span><span style="--c:var(--ma200)">200-day avg</span><span style="--c:var(--idx)">Index (scaled)</span></div>
+    ${why(xChart(d, base))}</div>
 
   <div class="sec"><h3>Technicals</h3><div class="grid">${Object.entries(d.tech).map(([k,v])=>{
       const isPct = !/RSI|Volume/.test(k), s = v==null?"–": /Volatility/.test(k)? (v*100).toFixed(1)+"%" : isPct? pct(v) : (k.startsWith("Volume")? v.toFixed(2)+"x" : v);
       const cls = v==null?"": k.startsWith("RSI") ? (v>70?"bad":v<30?"good":"") : isPct && !/Volatility/.test(k) ? (v>0?"good":"bad") : "";
-      return `<div class="kv"><small>${k}</small><b class="${cls}">${s}</b></div>`}).join("")}</div></div>
+      return `<div class="kv"><small>${k}</small><b class="${cls}">${s}</b></div>`}).join("")}</div>
+    ${why(xTech(d))}</div>
 
   <div class="sec"><h3>Fundamentals vs sector</h3><table><tr><th>Metric</th><th>${tk(d.ticker)}</th><th>Sector median</th></tr>
     ${d.fund.map(f=>{ let cls=""; if(f.value!=null&&f.sector!=null){ const better = f.better==="high" ? f.value>f.sector : f.value<f.sector; cls = better?"good":"bad"; }
       return `<tr><td>${f.label}</td><td class="${cls}">${fmtF(f.value,f.kind)}</td><td>${fmtF(f.sector,f.kind)}</td></tr>`}).join("")}</table>
-    <div class="mute" style="margin-top:6px">Green = better than the typical company in its sector.</div></div>
+    <div class="mute" style="margin-top:6px">Green = better than the typical company in its sector.</div>
+    ${why(xFund(d))}</div>
 
   <div class="sec"><h3>News (last 10 days)</h3>
     ${d.events&&d.events.length?`<div class="chips" style="margin:0 0 8px">${d.events.map(e=>`<span class="chip ${e.impact<0?"bad":""}">${e.impact>0?"▲":e.impact<0?"▼":"•"} ${esc(e.label)}</span>`).join("")}</div>`:""}
     <div class="mute" style="margin-bottom:6px">Recency-weighted sentiment: <b style="color:${sentColor(d.news_avg)}">${d.news_avg??0}</b> · competitors: <b style="color:${sentColor(d.peer_avg)}">${d.peer_avg??0}</b>${d.macro_share>0?` · ${Math.round(d.macro_share*100)}% about policy/macro`:""}</div>
     ${d.news.length ? d.news.map(n=>`<div class="news"><span class="dot" style="background:${sentColor(n.score)}"></span>${n.link?`<a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(n.title)}</a>`:esc(n.title)}
-      <div class="mute">${esc(n.publisher||"")}${n.quality==="promo"?" (promotional, half weight)":""} ${n.date||""}${n.macro?" · policy/macro":""}${(n.events||[]).map(e=>` · <b style="color:${BAD.includes(e)?"var(--neg)":"var(--acc)"}">${esc(e)}</b>`).join("")}</div></div>`).join("") : `<div class="mute">No recent headlines.</div>`}</div>
+      <div class="mute">${esc(n.publisher||"")}${n.quality==="promo"?" (promotional, half weight)":""} ${n.date||""}${n.macro?" · policy/macro":""}${(n.events||[]).map(e=>` · <b style="color:${BAD.includes(e)?"var(--neg)":"var(--acc)"}">${esc(e)}</b>`).join("")}</div></div>`).join("") : `<div class="mute">No recent headlines.</div>`}
+    ${why(xNews(d))}</div>
 
   <div class="sec"><h3>Sector &amp; politics</h3>
     <div class="grid"><div class="kv"><small>Macro score (−1 to 1)</small><b class="${d.macro.score>0.05?"good":d.macro.score<-0.05?"bad":""}">${d.macro.score>0?"+":""}${d.macro.score}</b></div>
     <div class="kv"><small>${esc(d.sector)} news mood</small><b class="${d.macro.sector_news>0.05?"good":d.macro.sector_news<-0.05?"bad":""}">${d.macro.sector_news>0?"+":""}${d.macro.sector_news}</b></div></div>
     ${d.macro.sector_why?`<div class="mute" style="margin-top:8px">${esc(d.macro.sector_why)}</div>`:""}
     ${d.macro.effects.length?`<div style="margin-top:10px;font-size:14px">${d.macro.effects.map(e=>`<div class="chk"><b class="${e.effect>0?"ok":"no"}">${e.effect>0?"▲":"▼"}</b><span>${esc(e.theme)} <span class="mute">(${e.effect>0?"+":""}${e.effect})</span></span></div>`).join("")}</div>`:`<div class="mute" style="margin-top:8px">No political or macro theme is notably affecting this stock right now.</div>`}
-    ${d.macro.sector_headlines.length?`<div class="mute" style="margin:8px 0 2px">Sector headlines:</div>`+d.macro.sector_headlines.map(n=>`<div class="news"><span class="dot" style="background:${sentColor(n.score)}"></span>${n.link?`<a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(n.title)}</a>`:esc(n.title)}<div class="mute">${esc(n.publisher||"")} ${n.date||""}</div></div>`).join(""):""}</div>
+    ${d.macro.sector_headlines.length?`<div class="mute" style="margin:8px 0 2px">Sector headlines:</div>`+d.macro.sector_headlines.map(n=>`<div class="news"><span class="dot" style="background:${sentColor(n.score)}"></span>${n.link?`<a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(n.title)}</a>`:esc(n.title)}<div class="mute">${esc(n.publisher||"")} ${n.date||""}</div></div>`).join(""):""}
+    ${why(xMacro(d))}</div>
 
   <div class="sec"><h3>Peers in ${esc(d.sector)}</h3>
     ${d.peers.length ? d.peers.map(p=>`<div class="peer" onclick="openStock('${p.ticker}')"><span><b>${tk(p.ticker)}</b>${p.signal?`<span class="sig ${p.signal}">${p.signal}</span>`:""}<div class="mute">${esc(p.name)}</div></span>
-      <span style="text-align:right"><b>${p.score}</b><div class="mute">3m ${pct(p.ret3m,0)} · P/E ${p.pe??"–"} · news <span style="color:${sentColor(p.news)}">${p.news??0}</span></div></span></div>`).join("") : `<div class="mute">No peers in the screened list.</div>`}</div>
+      <span style="text-align:right"><b>${p.score}</b><div class="mute">3m ${pct(p.ret3m,0)} · P/E ${p.pe??"–"} · news <span style="color:${sentColor(p.news)}">${p.news??0}</span></div></span></div>`).join("") : `<div class="mute">No peers in the screened list.</div>`}
+    ${why(xPeers(d))}</div>
   <footer>Not financial advice. Data from Yahoo Finance; may be delayed or incomplete.</footer>`;
   drawChart(d, base, 252);
 }
 
+/* ---------- plain-English explanations ---------- */
+function why(html, title="What this means"){ return html ? `<details class="why"><summary>${title}</summary>${html}</details>` : ""; }
+const P = v => v==null ? "–" : Math.round(v*100)+"%";
+const rankWord = v => v>=80?"among the best":v>=60?"above average":v>=40?"about average":v>=20?"below average":"among the weakest";
+function xOverview(d){
+  const top = Math.max(0, Math.round((d.of - d.rank)/d.of*100));
+  const parts = [...d.parts].sort((a,b)=>b.value-a.value);
+  return `<p><b>${esc(d.name)}</b> scores <b>${d.score}</b> out of 100, which puts it at <b>#${d.rank} of ${d.of}</b> ${d.market} stocks — better than about ${top}% of them.
+    Its strongest area is <b>${parts[0].label.toLowerCase()}</b> (${parts[0].value}/100) and its weakest is <b>${parts[parts.length-1].label.toLowerCase()}</b> (${parts[parts.length-1].value}/100).
+    The label is <b>${d.signal||"HOLD"}</b>: ${LABEL_INFO[d.signal||"HOLD"]}.${(d.flags||[]).includes("REBOUND")?" It's also flagged <b>REBOUND</b>: a decent company whose price has fallen hard recently, which sometimes bounces back.":""}${(d.flags||[]).includes("TAKE PROFIT")?" It's flagged <b>TAKE PROFIT</b>: it has risen a lot very quickly and the support behind the move is fading.":""}</p>`;
+}
+function xLabel(d){
+  const failB = d.checks.filter(c=>!c.pass&&!c.skipped).map(c=>c.label.toLowerCase());
+  const passS = (d.sell_checks||[]).filter(c=>c.pass&&!c.skipped).map(c=>c.label.toLowerCase());
+  const sg = d.signal||"HOLD";
+  let t = "";
+  if (sg==="BUY") t = "Every buy check passes: it's highly ranked, the price is trending up without being overheated, the business looks solid compared with similar companies, and the news backdrop isn't hurting it.";
+  else if (sg==="WATCH") t = `It passes every buy check except one: <b>${failB.join(", ")}</b>. If that changes, it would become a BUY.`;
+  else if (sg==="SELL") t = "It fails on every front at once — low ranking, falling price, weak business numbers, negative news and a negative price model. If you own it, the screener suggests getting out.";
+  else if (sg==="AVOID") t = (d.red_flags||[]).length ? `There's recent serious bad news: <b>${d.red_flags.map(esc).join(", ")}</b>. Stocks often keep falling for a while after news like this, so it's safer to wait.` : "It's near the bottom of the rankings and its business numbers are weak compared with its sector. Not a good time to buy.";
+  else t = `Nothing stands out. It fails ${failB.length} buy check${failB.length===1?"":"s"}${failB.length?` (${failB.slice(0,3).join(", ")}${failB.length>3?"…":""})`:""} and shows ${passS.length} of ${(d.sell_checks||[]).length} sell warnings.`;
+  return `<p>${t}</p><p class="mute">✓ = passes, ✗ = fails, ! = warning present, – = not used in this market.</p>`;
+}
+function xScore(d, up){
+  const L = d.parts.map(p=>`<li><b>${p.label}</b> ${p.value}/100 — ${rankWord(p.value)}.</li>`).join("");
+  const v = d.sub;
+  return `<p>Each part compares this stock with the other ${d.market} stocks (100 = best). The total is a weighted average of the parts.</p><ul>${L}</ul>
+    <p>Inside fundamentals: it looks ${rankWord(v.value)} on <b>value</b> (how cheap it is vs its sector), ${rankWord(v.quality)} on <b>quality</b> (profitability and debt), and ${rankWord(v.growth)} on <b>growth</b>.
+    ${d.analyst.rating?` Professional analysts' average view is <b>${esc(d.analyst.rating).replace("_"," ")}</b>${up!=null?`, with a price target ${pct(up)} from today`:""}.`:""}</p>`;
+}
+function xChart(d, base){
+  const c = d.close, n = c.length; if(!n) return "";
+  const last = c[n-1], m50 = sma(c,50)[n-1], m200 = sma(c,200)[n-1];
+  const y0 = c[Math.max(0,n-252)], i0 = base.index[Math.max(0,n-252)], i1 = base.index[n-1];
+  const yr = y0&&last ? last/y0-1 : null, ir = i0&&i1 ? i1/i0-1 : null;
+  let trend = "";
+  if (m50&&m200) trend = last>m50&&last>m200 ? (m50>m200?"a clear <b>uptrend</b> — the price is above both its short-term (50-day) and long-term (200-day) averages, and the short-term average is above the long-term one":"<b>recovering</b> — above both averages, but the longer trend hasn't fully turned up yet")
+    : last<m50&&last<m200 ? (m50<m200?"a clear <b>downtrend</b> — below both averages, with the short-term average under the long-term one":"<b>weakening</b> — it has slipped below both averages")
+    : last>m200 ? "a <b>long-term uptrend with a short-term dip</b> (above the 200-day average but below the 50-day)" : "<b>bouncing within a downtrend</b> (above the 50-day average but still below the 200-day)";
+  return `<p>The chart shows ${trend}.</p>
+    <p>Over the past year the stock is ${yr!=null?`<b>${pct(yr)}</b>`:"–"} versus ${ir!=null?`${pct(ir)} for the index`:"the index"}${yr!=null&&ir!=null?` — it has <b>${yr>ir?"beaten":"lagged"}</b> the market`:""}.</p>
+    <p class="mute">How to read it: green = price, orange = 50-day average (short-term trend), blue = 200-day average (long-term trend), dashed grey = the whole market for comparison. Price above the lines is generally healthy; below them is weak.</p>`;
+}
+function xTech(d){
+  const t = d.tech, rsi = t["RSI (14 day)"], vol = t["Volatility (annual)"], vs = t["Volume vs normal"], hi = t["Off 52-week high"], m12 = t["12-month momentum"];
+  const r = rsi==null?"":rsi>70?`<b>RSI ${rsi}</b> means it has risen fast recently and may be <b>overheated</b> — short-term pullbacks are common from here.`:rsi<30?`<b>RSI ${rsi}</b> means it has fallen hard recently and may be <b>oversold</b> — sometimes a bounce follows.`:`<b>RSI ${rsi}</b> is in the normal range (30–70): neither overheated nor oversold.`;
+  const v = vol==null?"":`It swings about <b>${Math.round(vol*100)}% a year</b>, which is ${vol>0.45?"<b>very volatile</b> — expect big moves":vol>0.28?"fairly volatile":"relatively calm"}.`;
+  const vv = vs==null?"":vs>1.5?`Trading volume is <b>${vs.toFixed(1)}×</b> normal — something is attracting attention.`:vs<0.7?"Trading is quieter than usual.":"Trading volume is normal.";
+  return `<p>${r}</p><p>${v} ${vv}</p><p>${m12!=null?`Over 12 months (excluding the last month) it's ${pct(m12)}; `:""}${hi!=null?`it's ${hi>-0.02?"at or near its 52-week high":Math.round(-hi*100)+"% below its 52-week high"}.`:""}</p>`;
+}
+function xFund(d){
+  const f = Object.fromEntries(d.fund.map(x=>[x.label,x]));
+  const cmp = x => x&&x.value!=null&&x.sector!=null ? (x.better==="high"? x.value>x.sector : x.value<x.sector) : null;
+  const good = d.fund.filter(x=>cmp(x)===true).map(x=>x.label.toLowerCase()), bad = d.fund.filter(x=>cmp(x)===false).map(x=>x.label.toLowerCase());
+  const pe = f["P/E (forward)"]; let pel = "";
+  if (pe&&pe.value!=null&&pe.sector) { const r = pe.value/pe.sector-1; pel = `Investors pay <b>${pe.value.toFixed(1)}×</b> its expected yearly profit, vs ${pe.sector.toFixed(1)}× for a typical company in its sector — it's <b>${Math.abs(Math.round(r*100))}% ${r<0?"cheaper":"more expensive"}</b>. ${r<0?"Cheaper can mean a bargain, or that the market expects problems.":"A premium usually means the market expects faster growth."}`; }
+  const de = f["Debt / equity"]; const del = de&&de.value!=null ? ` Debt is <b>${(de.value/100).toFixed(2)}×</b> shareholders' equity${de.value>200?" — <b>high</b>, which adds risk if business slows":de.value<50?" — low and comfortable":""}.` : "";
+  return `<p>${pel}</p><p>Better than the sector on: <b>${good.join(", ")||"none"}</b>. Worse on: <b>${bad.join(", ")||"none"}</b>.${del}</p>
+    <p class="mute">Profit margin = how much of each dollar of sales becomes profit. Return on equity = profit made per dollar shareholders have invested. Free-cash-flow yield = spare cash generated as a % of the company's value.</p>`;
+}
+function xNews(d){
+  const n = d.news||[], pos = n.filter(x=>x.score>0.15).length, neg = n.filter(x=>x.score<-0.15).length, promo = n.filter(x=>x.quality==="promo").length;
+  if (!n.length) return `<p>No headlines about this company in the last 10 days — so news isn't helping or hurting its score.</p>`;
+  const ev = (d.events||[]).filter(e=>Math.abs(e.impact)>=0.3);
+  return `<p>Out of ${n.length} recent headlines, <b>${pos} look positive</b> and <b>${neg} negative</b>; the rest are neutral. Newer headlines count more than older ones.</p>
+    ${ev.length?`<p>Key events spotted: ${ev.map(e=>`<b style="color:${e.impact<0?"var(--neg)":"var(--acc)"}">${esc(e.label)}</b>`).join(", ")}. Events like these tend to move a share price for days or weeks.</p>`:""}
+    <p>Competitors' news is ${d.peer_avg>0.05?"mostly positive, which can lift the whole group":d.peer_avg<-0.05?"mostly negative, which can drag the whole group down":"fairly neutral"}.${promo?` ${promo} headline${promo>1?"s are":" is"} from promotional sites and count${promo>1?"":"s"} half.`:""}</p>`;
+}
+function xMacro(d){
+  const m = d.macro, ups = m.effects.filter(e=>e.effect>0).map(e=>esc(e.theme.replace(/^AI: /,""))), dns = m.effects.filter(e=>e.effect<0).map(e=>esc(e.theme.replace(/^AI: /,"")));
+  return `<p>This looks at the bigger picture — news about its whole industry and political or economic events — rather than the company itself. Overall it's <b>${m.score>0.1?"a tailwind (helping)":m.score<-0.1?"a headwind (hurting)":"roughly neutral"}</b> for this stock right now.</p>
+    ${ups.length?`<p>Helping: ${ups.join(", ")}.</p>`:""}${dns.length?`<p>Hurting: ${dns.join(", ")}.</p>`:""}
+    <p class="mute">For example, a war tends to lift oil and defence stocks but hurt airlines; interest-rate cuts usually help property and tech.</p>`;
+}
+function xPeers(d){
+  if (!d.peers.length) return "";
+  const better = d.peers.filter(p=>p.score!=null && p.score < d.score).length;
+  const best = [...d.peers].sort((a,b)=>b.score-a.score)[0];
+  return `<p>Compared with its ${d.peers.length} largest competitors, ${esc(d.name)} scores higher than <b>${better}</b> of them.${best&&best.score>d.score?` The highest-scoring competitor is <b>${tk(best.ticker)}</b> (${best.score}) — worth a look if you like this sector.`:" It's the top scorer in this group."}</p>`;
+}
 function sma(a, n){ const o=[]; let s=0, c=0; for(let i=0;i<a.length;i++){ const v=a[i]; if(v!=null){s+=v;c++;} if(i>=n){ const w=a[i-n]; if(w!=null){s-=w;c--;} } o.push(i>=n-1 && c===n ? s/n : null); } return o; }
 function drawChart(d, base, span){
   $("rng").innerHTML = [[63,"3M"],[126,"6M"],[252,"1Y"]].map(([n,l])=>`<button class="${n===span?"on":""}" onclick='drawChart(cache["stocks/${d.ticker}.json"], cache["stocks/_${d.market}.json"], ${n})'>${l}</button>`).join("");

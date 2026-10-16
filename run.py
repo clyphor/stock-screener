@@ -66,13 +66,64 @@ def signal_checks(df, model_ok):
     })
 
 
-def signals(checks):
-    """BUY only when every check passes; WATCH when all but one do (and it's top-ranked)."""
-    passed = checks.sum(axis=1)
-    n = checks.shape[1]
-    out = np.where(passed == n, "BUY",
-                   np.where((passed == n - 1) & checks["top_ranked"], "WATCH", ""))
-    return pd.Series(out, index=checks.index)
+RED_FLAG_EVENTS = {"scandal", "guidance_down", "capital_raise", "bankruptcy", "debt", "ceo_exit",
+                   "trial_fail", "rejection", "dividend_cut", "recall"}
+SELL_LABELS = {
+    "bottom_ranked": "Bottom 15% overall score",
+    "downtrend": "Downtrend (below 50 & 200-day average)",
+    "weak_fundamentals": "Weak fundamentals vs sector",
+    "bad_news": "Negative company, competitor or sector news",
+    "model_negative": "Price model is negative",
+}
+
+
+def sell_checks(df, model_ok):
+    return pd.DataFrame({
+        "bottom_ranked": df["score"].rank(pct=True) <= 0.15,
+        "downtrend": (df["dist_ma50"] < 0) & (df["dist_ma200"] < 0),
+        "weak_fundamentals": df["fundamental"] < 0.4,
+        "bad_news": (df["news_sent"] < 0) | (df["peer_sent"] < -0.05) | (df["macro_raw"] < -0.1),
+        "model_negative": (df["ml"] <= 0.3) if model_ok else pd.Series(True, index=df.index),
+    })
+
+
+def red_flags(df):
+    """Recent serious bad news (event taxonomy) or a strong sector/political headwind."""
+    out = {}
+    for t, r in df.iterrows():
+        evs = r.get("events") if isinstance(r.get("events"), list) else []
+        f = [__import__("events").LABEL[k] for k in evs if k in RED_FLAG_EVENTS]
+        if r["macro_raw"] <= -0.3:
+            f.append("Strong sector / political headwind")
+        out[t] = f
+    return pd.Series(out)
+
+
+def labels(df, buy, sell, flags_red):
+    """One label per stock, in priority order: SELL > AVOID (red flag) > BUY > WATCH > AVOID (weak) > HOLD."""
+    nb, ns = buy.shape[1], sell.shape[1]
+    lab = pd.Series("HOLD", index=df.index)
+    weak = sell["bottom_ranked"] & sell["weak_fundamentals"]
+    lab[weak] = "AVOID"
+    lab[(buy.sum(axis=1) == nb - 1) & buy["top_ranked"]] = "WATCH"
+    lab[buy.sum(axis=1) == nb] = "BUY"
+    lab[flags_red.map(len) > 0] = "AVOID"
+    lab[sell.sum(axis=1) == ns] = "SELL"
+    return lab
+
+
+def extra_flags(df, flags_red):
+    """REBOUND: good company that's oversold. TAKE PROFIT: big run, overbought, support fading."""
+    out = {}
+    run_hi = df["ret_63"].quantile(0.9)
+    for t, r in df.iterrows():
+        f = []
+        if r["rsi_14"] < 30 and r["fundamental"] >= 0.6 and not flags_red[t] and r["news_sent"] >= -0.05:
+            f.append("REBOUND")
+        if r["rsi_14"] > 75 and r["ret_63"] >= max(0.2, run_hi) and (r["ml"] < 0.5 or r["news_sent"] < 0):
+            f.append("TAKE PROFIT")
+        out[t] = f
+    return pd.Series(out)
 
 
 def run_market(name, cfg, demo):
@@ -147,7 +198,11 @@ def run_market(name, cfg, demo):
     df["reasons"] = df.apply(reasons, axis=1)
     df["market"] = name
     checks = signal_checks(df, model_ok)
-    df["signal"] = signals(checks)
+    schecks = sell_checks(df, model_ok)
+    reds = red_flags(df)
+    df["signal"] = labels(df, checks, schecks, reds)
+    df["red_flags"] = reds
+    df["flags"] = extra_flags(df, reds)
     stats.update(news_method=nf.attrs.get("method"), screened=int(ok.sum()),
                  news_coverage=round(float((df["news_count"].fillna(0) > 0).mean()), 2),
                  ai_scoring=("off" if not os.environ.get("ANTHROPIC_API_KEY")
@@ -165,39 +220,53 @@ def run_market(name, cfg, demo):
         "events": ctx.get("events", []),
     }
     extras = {"close": close, "volume": volume, "idx": idx, "fund": fund, "checks": checks,
-              "headlines": nf.attrs.get("headlines", {}), "weights": w, "model_ok": model_ok, "ctx": ctx}
+              "headlines": nf.attrs.get("headlines", {}), "weights": w, "model_ok": model_ok, "ctx": ctx,
+              "schecks": schecks}
     return df, stats, extras
 
 
 SIGNAL_LOG = "results/signals.csv"
 
 
+TRACKED = ("BUY", "SELL", "AVOID")
+
+
 def track_record(market, df, close, idx):
-    """Log today's BUY signals and score every past one against the index."""
+    """Log today's BUY / SELL / AVOID labels and score every past one against the index.
+    A BUY 'wins' if it beat the index; a SELL or AVOID 'wins' if it lagged the index."""
     os.makedirs("results", exist_ok=True)
-    cols = ["date", "market", "ticker", "price", "index_price"]
+    cols = ["date", "market", "ticker", "price", "index_price", "label"]
     log = pd.read_csv(SIGNAL_LOG) if os.path.exists(SIGNAL_LOG) else pd.DataFrame(columns=cols)
+    if "label" not in log:
+        log["label"] = "BUY"
+    log["label"] = log["label"].fillna("BUY")
     today = close.index[-1]
     last_px, last_idx = close.iloc[-1], float(idx.iloc[-1])
 
     past = log[log["market"] == market].copy()
-    out = {"track_n": 0}
+    out = {"track_n": 0, "track": {}}
     recent = set()
     if len(past):
         past["days"] = [int((close.index > pd.Timestamp(d)).sum()) for d in past["date"]]
         past["ret"] = [last_px.get(t, np.nan) / p - 1 for t, p in zip(past["ticker"], past["price"])]
         past["excess"] = past["ret"] - (last_idx / past["index_price"] - 1)
         mature = past[(past["days"] >= 5) & past["excess"].notna()]
-        if len(mature):
-            out = {"track_n": int(len(mature)),
-                   "track_avg_excess": round(float(mature["excess"].mean()), 4),
-                   "track_win_rate": round(float((mature["excess"] > 0).mean()), 2)}
+        for lab in TRACKED:
+            m = mature[mature["label"] == lab]
+            if len(m):
+                win = (m["excess"] > 0) if lab == "BUY" else (m["excess"] < 0)
+                out["track"][lab] = {"n": int(len(m)), "avg_excess": round(float(m["excess"].mean()), 4),
+                                     "win_rate": round(float(win.mean()), 2)}
+        if "BUY" in out["track"]:  # keep the old fields for the BUY box
+            b = out["track"]["BUY"]
+            out.update(track_n=b["n"], track_avg_excess=b["avg_excess"], track_win_rate=b["win_rate"])
         out["track_open"] = int(len(past))
-        recent = set(past.loc[past["days"] < config.HORIZON_DAYS, "ticker"])
+        recent = set(zip(past.loc[past["days"] < config.HORIZON_DAYS, "ticker"],
+                         past.loc[past["days"] < config.HORIZON_DAYS, "label"]))
 
     new = [{"date": str(today.date()), "market": market, "ticker": t,
-            "price": round(float(df.at[t, "price"]), 4), "index_price": round(last_idx, 4)}
-           for t in df.index[df["signal"] == "BUY"] if t not in recent]
+            "price": round(float(df.at[t, "price"]), 4), "index_price": round(last_idx, 4), "label": lab}
+           for lab in TRACKED for t in df.index[df["signal"] == lab] if (t, lab) not in recent]
     if new:
         log = pd.concat([log, pd.DataFrame(new)], ignore_index=True)
         log.to_csv(SIGNAL_LOG, index=False)
@@ -264,6 +333,10 @@ def write_details(df, ex, market, outdir):
                         "skipped": c == "model_agrees" and not ex["model_ok"]}
                        for c in ex["checks"].columns],
             "reasons": r["reasons"],
+            "sell_checks": [{"label": SELL_LABELS[c], "pass": bool(ex["schecks"].at[t, c]),
+                             "skipped": c == "model_negative" and not ex["model_ok"]} for c in ex["schecks"].columns],
+            "red_flags": r["red_flags"], "flags": r["flags"],
+            "rsi": _num(r["rsi_14"], 1), "ret3m_raw": _num(r["ret_63"]),
             "tech": {
                 "RSI (14 day)": _num(r["rsi_14"], 1),
                 "1-month return": _num(r["ret_21"]), "3-month return": _num(r["ret_63"]),
@@ -320,7 +393,7 @@ def main():
             stats[name] = {"error": str(e)}
 
     cols = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers", "macro", "macro_raw",
-            "mcap", "news_sent", "events", "value", "quality", "growth",
+            "mcap", "news_sent", "events", "value", "quality", "growth", "flags", "red_flags",
             "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons", "signal"]
     allres = pd.concat(tables)[cols] if tables else pd.DataFrame(columns=cols)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -334,6 +407,8 @@ def main():
         payload["markets"][name] = [
             {"ticker": t, "name": r["name"], "sector": r["sector"],
              "price": _num(r["price"], 2), "score": _num(r["score"], 1), "signal": r["signal"],
+             "flags": r["flags"] if isinstance(r["flags"], list) else [],
+             "red": r["red_flags"] if isinstance(r["red_flags"], list) else [],
              "parts": {k: round(float(r[k]) * 100) for k in config.WEIGHTS},
              "pe": _num(r["fwd_pe"], 1),
              "ret3m": None if pd.isna(r["ret_63"]) else round(float(r["ret_63"]) * 100, 1),

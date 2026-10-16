@@ -1,5 +1,1234 @@
 [
  {
+  "started": "2026-10-16T17:11:16+00:00",
+  "finished": "2026-10-16T17:21:25+00:00",
+  "minutes": 10.1,
+  "trigger": "workflow_dispatch",
+  "commit": "3e36ee4",
+  "status": "warnings",
+  "fatal": null,
+  "warnings": [
+   "17:12:26 WARNING no price data for: FDXF, HONA, Q, VYLR",
+   "17:17:41 WARNING no price data for: ASK.AX, IFL.AX, NSR.AX, QUB.AX, XYX.AX",
+   "17:19:11 WARNING Claude macro scoring failed, using word list: Expecting ',' delimiter: line 1 column 6791 (char 6790)",
+   "17:19:55 WARNING no price data for: AHCL.KA, BML.KA, ENGROH.KA, GAL.KA, HUBC.KA, TPLRF1.KA",
+   "17:21:16 WARNING Claude macro scoring failed, using word list: Expecting ',' delimiter: line 1 column 5513 (char 5512)",
+   "17:21:24 WARNING missing value for ABL.KA ml \u2014 shown as 50",
+   "17:21:24 WARNING missing value for ABL.KA fundamental \u2014 shown as 50",
+   "17:21:24 WARNING missing value for ABL.KA news \u2014 shown as 50",
+   "17:21:24 WARNING missing value for ABL.KA peers \u2014 shown as 50",
+   "17:21:24 WARNING missing value for ABL.KA macro \u2014 shown as 50",
+   "17:21:24 WARNING missing value for ABOT.KA ml \u2014 shown as 50",
+   "17:21:24 WARNING missing value for ABOT.KA fundamental \u2014 shown as 50",
+   "17:21:24 WARNING missing value for ABOT.KA news \u2014 shown as 50",
+   "17:21:24 WARNING missing value for ABOT.KA peers \u2014 shown as 50",
+   "17:21:24 WARNING missing value for ABOT.KA macro \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AGP.KA ml \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AGP.KA fundamental \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AGP.KA news \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AGP.KA peers \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AGP.KA macro \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AICL.KA ml \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AICL.KA fundamental \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AICL.KA news \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AICL.KA peers \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AICL.KA macro \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AIRLINK.KA ml \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AIRLINK.KA fundamental \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AIRLINK.KA news \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AIRLINK.KA peers \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AIRLINK.KA macro \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AKBL.KA ml \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AKBL.KA fundamental \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AKBL.KA news \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AKBL.KA peers \u2014 shown as 50",
+   "17:21:24 WARNING missing value for AKBL.KA macro \u2014 shown as 50",
+   "17:21:24 WARNING missing value for APL.KA ml \u2014 shown as 50",
+   "17:21:24 WARNING missing value for APL.KA fundamental \u2014 shown as 50",
+   "17:21:24 WARNING missing value for APL.KA news \u2014 shown as 50",
+   "17:21:24 WARNING missing value for APL.KA peers \u2014 shown as 50",
+   "17:21:24 WARNING missing value for APL.KA macro \u2014 shown as 50"
+  ],
+  "markets": {
+   "US": {
+    "error": null,
+    "downloaded": 499,
+    "screened": 498,
+    "news_coverage": 1.0,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-10-16",
+    "ic_mean": 0.063,
+    "model_used": true,
+    "timings": {
+     "index list": 0.2,
+     "prices": 69.5,
+     "fundamentals": 19.7,
+     "company news": 57.2,
+     "financial health": 0.0,
+     "model": 2.7,
+     "news scoring": 160.9,
+     "sector & politics": 41.1,
+     "scoring & labels": 0.3
+    },
+    "missing_prices": [
+     "FDXF",
+     "HONA",
+     "Q",
+     "VYLR"
+    ],
+    "labels": {
+     "AVOID": 282,
+     "HOLD": 195,
+     "WATCH": 8,
+     "SELL": 8,
+     "BUY": 2,
+     "SHORT BUY": 4,
+     "LONG BUY": 0
+    },
+    "ai_events": 10
+   },
+   "ASX": {
+    "error": null,
+    "downloaded": 195,
+    "screened": 151,
+    "news_coverage": 0.98,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-10-16",
+    "ic_mean": -0.017,
+    "model_used": false,
+    "timings": {
+     "index list": 0.5,
+     "prices": 31.8,
+     "fundamentals": 7.8,
+     "company news": 22.0,
+     "financial health": 0.0,
+     "model": 1.1,
+     "news scoring": 38.3,
+     "sector & politics": 37.7,
+     "scoring & labels": 0.1
+    },
+    "missing_prices": [
+     "ASK.AX",
+     "IFL.AX",
+     "NSR.AX",
+     "QUB.AX",
+     "XYX.AX"
+    ],
+    "labels": {
+     "HOLD": 93,
+     "AVOID": 37,
+     "WATCH": 12,
+     "SELL": 6,
+     "BUY": 3,
+     "SHORT BUY": 2,
+     "LONG BUY": 4
+    },
+    "ai_events": 11
+   },
+   "PSX": {
+    "error": null,
+    "downloaded": 94,
+    "screened": 0,
+    "news_coverage": 0.0,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-10-16",
+    "ic_mean": -0.098,
+    "model_used": false,
+    "timings": {
+     "index list": 2.5,
+     "prices": 24.1,
+     "fundamentals": 37.0,
+     "company news": 10.1,
+     "financial health": 3.0,
+     "model": 0.6,
+     "news scoring": 9.0,
+     "sector & politics": 29.7,
+     "scoring & labels": 0.0
+    },
+    "missing_prices": [
+     "AHCL.KA",
+     "BML.KA",
+     "ENGROH.KA",
+     "GAL.KA",
+     "HUBC.KA",
+     "TPLRF1.KA"
+    ],
+    "labels": {
+     "HOLD": 93,
+     "SHORT BUY": 0,
+     "LONG BUY": 0
+    },
+    "ai_events": 9
+   }
+  },
+  "checks": {
+   "US": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "503 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "499/503 stocks downloaded, 0 batch errors, 2 retries; last date 2026-10-16",
+     "hint": ""
+    },
+    {
+     "stage": "Index",
+     "status": "OK",
+     "msg": "used SPY",
+     "hint": ""
+    },
+    {
+     "stage": "Fundamentals",
+     "status": "OK",
+     "msg": "499 companies; ",
+     "hint": ""
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 100%; Yahoo items 0, Google items 74731, Google requests 998 (0 failed); dropped: 8155 off-topic, 5999 junk sites, 54 law-firm ads, 4719 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Financial health",
+     "status": "OK",
+     "msg": "0 refreshed, 499 from cache, 0 errors, 498 with an F-score",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "OK",
+     "msg": "121902 training rows; backtest IC 0.063",
+     "hint": ""
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "OK",
+     "msg": "170 calls, 0 failed, 420,129 in / 341,713 out tokens, \u2248 US$0.213",
+     "hint": ""
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "4500 headlines from 45 searches (0 failed); 10 AI events",
+     "hint": ""
+    }
+   ],
+   "ASX": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "200 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "195/200 stocks downloaded, 0 batch errors, 2 retries; last date 2026-10-16",
+     "hint": ""
+    },
+    {
+     "stage": "Index",
+     "status": "OK",
+     "msg": "used ^AXJO",
+     "hint": ""
+    },
+    {
+     "stage": "Fundamentals",
+     "status": "OK",
+     "msg": "195 companies; trailingPE missing 11%",
+     "hint": ""
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 98%; Yahoo items 0, Google items 23090, Google requests 390 (0 failed); dropped: 2407 off-topic, 673 junk sites, 1 law-firm ads, 2092 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Financial health",
+     "status": "OK",
+     "msg": "0 refreshed, 195 from cache, 0 errors, 172 with an F-score",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "INFO",
+     "msg": "46445 training rows; backtest IC -0.017",
+     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "WARN",
+     "msg": "35 calls, 1 failed, 105,991 in / 75,567 out tokens, \u2248 US$0.048",
+     "hint": "Check API credit and key in console.anthropic.com; errors listed below."
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "4621 headlines from 47 searches (0 failed); 11 AI events",
+     "hint": ""
+    }
+   ],
+   "PSX": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "100 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "94/100 stocks downloaded, 0 batch errors, 2 retries; last date 2026-10-16",
+     "hint": ""
+    },
+    {
+     "stage": "Fundamentals",
+     "status": "WARN",
+     "msg": "94 companies; debtToEquity missing 100%, profitMargins missing 26%, returnOnEquity missing 100%, revenueGrowth missing 26%",
+     "hint": "Yahoo / PSX pages returned gaps \u2014 data.py get_fundamentals / _psx_info."
+    },
+    {
+     "stage": "Company news",
+     "status": "FAIL",
+     "msg": "coverage 0%; Yahoo items 0, Google items 9912, Google requests 188 (0 failed); dropped: 2199 off-topic, 150 junk sites, 0 law-firm ads, 46 over promo cap",
+     "hint": "Google News may be blocking requests \u2014 data.py _google_news; errors listed below."
+    },
+    {
+     "stage": "Price model",
+     "status": "INFO",
+     "msg": "11828 training rows; backtest IC -0.098",
+     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "WARN",
+     "msg": "9 calls, 1 failed, 51,610 in / 18,636 out tokens, \u2248 US$0.014",
+     "hint": "Check API credit and key in console.anthropic.com; errors listed below."
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "4400 headlines from 44 searches (0 failed); 9 AI events",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "US": {},
+   "ASX": {
+    "claude.errors": [
+     "sector/theme scoring: reply cut off at max_tokens=4000",
+     "sector/theme scoring: couldn't parse JSON (Expecting ',' delimiter: line 1 column 6791 (char 6790)); reply began: '{\"sectors\": {\"Energy\": {\"score\": 0.1, \"why\": \"Iran-war SPR releases and Black Sea tan"
+    ]
+   },
+   "PSX": {
+    "claude.errors": [
+     "sector/theme scoring: reply cut off at max_tokens=4000",
+     "sector/theme scoring: couldn't parse JSON (Expecting ',' delimiter: line 1 column 5513 (char 5512)); reply began: '{\"sectors\": {\"Energy\": {\"score\": 0.4, \"why\": \"Middle East supply risks and Hormuz att"
+    ],
+    "scoring.errors": [
+     "missing ABL.KA ml",
+     "missing ABL.KA fundamental",
+     "missing ABL.KA news",
+     "missing ABL.KA peers",
+     "missing ABL.KA macro",
+     "missing ABOT.KA ml",
+     "missing ABOT.KA fundamental",
+     "missing ABOT.KA news"
+    ]
+   }
+  },
+  "diag": {
+   "US": {
+    "universe": {
+     "source": "live",
+     "count": 503
+    },
+    "prices": {
+     "requested": 503,
+     "retries": 2,
+     "missing": [
+      "FDXF",
+      "HONA",
+      "Q",
+      "VYLR"
+     ],
+     "received": 499,
+     "last_date": "2026-10-16",
+     "first_date": "2020-10-16",
+     "stale": []
+    },
+    "index": {
+     "used": "SPY",
+     "preferred": "SPY"
+    },
+    "fundamentals": {
+     "count": 499,
+     "missing_marketCap": 0.0,
+     "missing_trailingPE": 0.05,
+     "missing_profitMargins": 0.0,
+     "missing_revenueGrowth": 0.0,
+     "missing_returnOnEquity": 0.07,
+     "missing_debtToEquity": 0.1
+    },
+    "news": {
+     "google_requests": 998,
+     "google_items": 74731,
+     "dropped_lowq": 5999,
+     "dropped_irrelevant": 8155,
+     "dropped_promo_cap": 4719,
+     "dropped_lawfirm_ads": 54,
+     "stocks": 499,
+     "with_news": 498,
+     "kept": 6716,
+     "no_news_sample": [
+      "T"
+     ]
+    },
+    "health": {
+     "refreshed": 0,
+     "cached": 499,
+     "with_fscore": 498
+    },
+    "model": {
+     "train_rows": 121902,
+     "dates": 1255
+    },
+    "claude": {
+     "calls": 170,
+     "input_tokens": 420129,
+     "output_tokens": 341713,
+     "cost_usd": 0.21286,
+     "headline_batches": 168,
+     "headline_batches_ok": 168
+    },
+    "macro": {
+     "requests": 45,
+     "headlines": 4500,
+     "ai_events": 10,
+     "method": "claude"
+    },
+    "halal": {
+     "halal": 233,
+     "not_halal": 221,
+     "doubtful": 41
+    }
+   },
+   "ASX": {
+    "universe": {
+     "source": "live",
+     "count": 200
+    },
+    "prices": {
+     "requested": 200,
+     "retries": 2,
+     "missing": [
+      "ASK.AX",
+      "IFL.AX",
+      "NSR.AX",
+      "QUB.AX",
+      "XYX.AX"
+     ],
+     "received": 195,
+     "last_date": "2026-10-16",
+     "first_date": "2020-10-16",
+     "stale": []
+    },
+    "index": {
+     "used": "^AXJO",
+     "preferred": "^AXJO"
+    },
+    "fundamentals": {
+     "count": 195,
+     "missing_marketCap": 0.06,
+     "missing_trailingPE": 0.11,
+     "missing_profitMargins": 0.01,
+     "missing_revenueGrowth": 0.09,
+     "missing_returnOnEquity": 0.04,
+     "missing_debtToEquity": 0.08
+    },
+    "news": {
+     "google_requests": 390,
+     "google_items": 23090,
+     "dropped_irrelevant": 2407,
+     "dropped_promo_cap": 2092,
+     "dropped_lowq": 673,
+     "dropped_lawfirm_ads": 1,
+     "stocks": 195,
+     "with_news": 189,
+     "kept": 1281,
+     "no_news_sample": [
+      "ANZ.AX",
+      "BFL.AX",
+      "L1G.AX",
+      "REH.AX",
+      "WOR.AX",
+      "ZIM.AX"
+     ]
+    },
+    "health": {
+     "refreshed": 0,
+     "cached": 195,
+     "with_fscore": 172
+    },
+    "model": {
+     "train_rows": 46445,
+     "dates": 1267
+    },
+    "claude": {
+     "calls": 35,
+     "input_tokens": 105991,
+     "output_tokens": 75567,
+     "cost_usd": 0.04839,
+     "headline_batches": 33,
+     "headline_batches_ok": 33,
+     "errors": [
+      "sector/theme scoring: reply cut off at max_tokens=4000",
+      "sector/theme scoring: couldn't parse JSON (Expecting ',' delimiter: line 1 column 6791 (char 6790)); reply began: '{\"sectors\": {\"Energy\": {\"score\": 0.1, \"why\": \"Iran-war SPR releases and Black Sea tan"
+     ],
+     "failures": 1
+    },
+    "macro": {
+     "requests": 47,
+     "headlines": 4621,
+     "ai_events": 11,
+     "method": "wordlist"
+    },
+    "halal": {
+     "not_halal": 72,
+     "halal": 67,
+     "doubtful": 12
+    }
+   },
+   "PSX": {
+    "universe": {
+     "source": "live",
+     "count": 100
+    },
+    "prices": {
+     "requested": 100,
+     "retries": 2,
+     "missing": [
+      "AHCL.KA",
+      "BML.KA",
+      "ENGROH.KA",
+      "GAL.KA",
+      "HUBC.KA",
+      "TPLRF1.KA"
+     ],
+     "received": 94,
+     "last_date": "2026-10-16",
+     "first_date": "2020-10-16",
+     "stale": []
+    },
+    "fundamentals": {
+     "count": 94,
+     "missing_marketCap": 0.0,
+     "missing_trailingPE": 0.06,
+     "missing_profitMargins": 0.26,
+     "missing_revenueGrowth": 0.26,
+     "missing_returnOnEquity": 1.0,
+     "missing_debtToEquity": 1.0
+    },
+    "news": {
+     "google_requests": 188,
+     "google_items": 9912,
+     "dropped_irrelevant": 2199,
+     "dropped_lowq": 150,
+     "dropped_promo_cap": 46,
+     "stocks": 94,
+     "with_news": 63,
+     "kept": 249,
+     "no_news_sample": [
+      "AGP.KA",
+      "AICL.KA",
+      "AIRLINK.KA",
+      "AKBL.KA",
+      "APL.KA",
+      "BNWM.KA",
+      "BWCL.KA",
+      "FFL.KA",
+      "GADT.KA",
+      "HALEON.KA",
+      "HGFA.KA",
+      "HINOON.KA",
+      "IBFL.KA",
+      "IMAGE.KA",
+      "INIL.KA"
+     ]
+    },
+    "halal": {
+     "kmi_source": "live",
+     "kmi_count": 313,
+     "halal": 64,
+     "not_halal": 29
+    },
+    "model": {
+     "train_rows": 11828,
+     "dates": 785
+    },
+    "claude": {
+     "calls": 9,
+     "input_tokens": 51610,
+     "output_tokens": 18636,
+     "cost_usd": 0.01446,
+     "headline_batches": 7,
+     "headline_batches_ok": 7,
+     "errors": [
+      "sector/theme scoring: reply cut off at max_tokens=4000",
+      "sector/theme scoring: couldn't parse JSON (Expecting ',' delimiter: line 1 column 5513 (char 5512)); reply began: '{\"sectors\": {\"Energy\": {\"score\": 0.4, \"why\": \"Middle East supply risks and Hormuz att"
+     ],
+     "failures": 1
+    },
+    "macro": {
+     "requests": 44,
+     "headlines": 4400,
+     "ai_events": 9,
+     "method": "wordlist"
+    },
+    "scoring": {
+     "errors": [
+      "missing ABL.KA ml",
+      "missing ABL.KA fundamental",
+      "missing ABL.KA news",
+      "missing ABL.KA peers",
+      "missing ABL.KA macro",
+      "missing ABOT.KA ml",
+      "missing ABOT.KA fundamental",
+      "missing ABOT.KA news"
+     ]
+    }
+   }
+  }
+ },
+ {
+  "started": "2026-10-16T16:57:59+00:00",
+  "finished": "2026-10-16T17:08:01+00:00",
+  "minutes": 10.0,
+  "trigger": "workflow_dispatch",
+  "commit": "47182ff",
+  "status": "failed",
+  "fatal": null,
+  "warnings": [
+   "16:59:17 WARNING no price data for: FDXF, HONA, Q, VYLR",
+   "17:00:45 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:00:46 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:00:46 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:00:47 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:00:48 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:00:53 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:00:55 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:00:55 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:00:56 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:00:56 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:00:59 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:03 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:03 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:04 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:05 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:06 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:06 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:13 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:14 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:14 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:15 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:16 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:22 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:23 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:24 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:25 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:28 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:31 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:32 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:33 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:33 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:35 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:38 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:41 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:41 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:42 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:44 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:50 WARNING Claude batch failed, using rules for it: length mismatch",
+   "17:01:53 WARNING Claude batch failed, using rules for it: length mismatch"
+  ],
+  "markets": {
+   "US": {
+    "error": null,
+    "downloaded": 499,
+    "screened": 498,
+    "news_coverage": 1.0,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-10-16",
+    "ic_mean": 0.06,
+    "model_used": true,
+    "timings": {
+     "index list": 3.6,
+     "prices": 74.5,
+     "fundamentals": 29.2,
+     "company news": 47.0,
+     "financial health": 0.0,
+     "model": 2.9,
+     "news scoring": 137.7,
+     "sector & politics": 40.4,
+     "scoring & labels": 0.3
+    },
+    "missing_prices": [
+     "FDXF",
+     "HONA",
+     "Q",
+     "VYLR"
+    ],
+    "labels": {
+     "AVOID": 297,
+     "HOLD": 171,
+     "WATCH": 16,
+     "SELL": 8,
+     "BUY": 3,
+     "SHORT BUY": 3,
+     "LONG BUY": 1
+    },
+    "ai_events": 11
+   },
+   "ASX": {
+    "error": null,
+    "downloaded": 195,
+    "screened": 151,
+    "news_coverage": 0.99,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-10-16",
+    "ic_mean": -0.013,
+    "model_used": false,
+    "timings": {
+     "index list": 0.2,
+     "prices": 39.7,
+     "fundamentals": 12.0,
+     "company news": 14.9,
+     "financial health": 0.0,
+     "model": 1.2,
+     "news scoring": 32.4,
+     "sector & politics": 38.6,
+     "scoring & labels": 0.1
+    },
+    "missing_prices": [
+     "ASK.AX",
+     "IFL.AX",
+     "NSR.AX",
+     "QUB.AX",
+     "XYX.AX"
+    ],
+    "labels": {
+     "AVOID": 79,
+     "HOLD": 52,
+     "WATCH": 15,
+     "SELL": 4,
+     "BUY": 1,
+     "SHORT BUY": 1,
+     "LONG BUY": 5
+    },
+    "ai_events": 12
+   },
+   "PSX": {
+    "error": "TypeError: 'float' object is not iterable",
+    "downloaded": null,
+    "screened": null,
+    "news_coverage": null,
+    "ai_scoring": null,
+    "news_method": null,
+    "price_date": null,
+    "ic_mean": null,
+    "model_used": null,
+    "timings": null,
+    "missing_prices": [],
+    "labels": null,
+    "ai_events": 0
+   }
+  },
+  "checks": {
+   "US": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "503 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "499/503 stocks downloaded, 0 batch errors, 2 retries; last date 2026-10-16",
+     "hint": ""
+    },
+    {
+     "stage": "Index",
+     "status": "OK",
+     "msg": "used SPY",
+     "hint": ""
+    },
+    {
+     "stage": "Fundamentals",
+     "status": "OK",
+     "msg": "499 companies; ",
+     "hint": ""
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 100%; Yahoo items 0, Google items 75617, Google requests 998 (0 failed); dropped: 8185 off-topic, 6094 junk sites, 55 law-firm ads, 4788 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Financial health",
+     "status": "OK",
+     "msg": "0 refreshed, 499 from cache, 0 errors, 498 with an F-score",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "OK",
+     "msg": "121902 training rows; backtest IC 0.06",
+     "hint": ""
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "OK",
+     "msg": "115 calls, 0 failed, 385,453 in / 299,058 out tokens, \u2248 US$0.188",
+     "hint": ""
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "4500 headlines from 45 searches (0 failed); 11 AI events",
+     "hint": ""
+    }
+   ],
+   "ASX": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "200 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "195/200 stocks downloaded, 0 batch errors, 2 retries; last date 2026-10-16",
+     "hint": ""
+    },
+    {
+     "stage": "Index",
+     "status": "OK",
+     "msg": "used ^AXJO",
+     "hint": ""
+    },
+    {
+     "stage": "Fundamentals",
+     "status": "OK",
+     "msg": "195 companies; trailingPE missing 11%",
+     "hint": ""
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 99%; Yahoo items 0, Google items 23119, Google requests 390 (0 failed); dropped: 2418 off-topic, 677 junk sites, 0 law-firm ads, 2125 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Financial health",
+     "status": "OK",
+     "msg": "0 refreshed, 195 from cache, 0 errors, 172 with an F-score",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "INFO",
+     "msg": "46445 training rows; backtest IC -0.013",
+     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "OK",
+     "msg": "24 calls, 0 failed, 99,453 in / 67,816 out tokens, \u2248 US$0.044",
+     "hint": ""
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "4621 headlines from 47 searches (0 failed); 12 AI events",
+     "hint": ""
+    }
+   ],
+   "PSX": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "100 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "94/100 stocks downloaded, 0 batch errors, 2 retries; last date 2026-10-16",
+     "hint": ""
+    },
+    {
+     "stage": "Fundamentals",
+     "status": "WARN",
+     "msg": "94 companies; debtToEquity missing 100%, profitMargins missing 26%, returnOnEquity missing 100%, revenueGrowth missing 26%",
+     "hint": "Yahoo / PSX pages returned gaps \u2014 data.py get_fundamentals / _psx_info."
+    },
+    {
+     "stage": "Company news",
+     "status": "FAIL",
+     "msg": "coverage 0%; Yahoo items 0, Google items 10128, Google requests 188 (0 failed); dropped: 2217 off-topic, 151 junk sites, 0 law-firm ads, 47 over promo cap",
+     "hint": "Google News may be blocking requests \u2014 data.py _google_news; errors listed below."
+    },
+    {
+     "stage": "Price model",
+     "status": "INFO",
+     "msg": "11828 training rows; backtest IC None",
+     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "WARN",
+     "msg": "7 calls, 1 failed, 50,714 in / 17,350 out tokens, \u2248 US$0.014",
+     "hint": "Check API credit and key in console.anthropic.com; errors listed below."
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "4400 headlines from 44 searches (0 failed); 7 AI events",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "US": {
+    "claude.errors": [
+     "headline scoring: got 61 answers for 60 headlines",
+     "headline scoring: got 59 answers for 60 headlines",
+     "headline scoring: got 63 answers for 60 headlines",
+     "headline scoring: got 62 answers for 60 headlines",
+     "headline scoring: got 64 answers for 60 headlines",
+     "headline scoring: got 58 answers for 60 headlines",
+     "headline scoring: got 57 answers for 60 headlines"
+    ]
+   },
+   "ASX": {
+    "claude.errors": [
+     "headline scoring: got 64 answers for 60 headlines",
+     "headline scoring: got 59 answers for 60 headlines",
+     "headline scoring: got 61 answers for 60 headlines",
+     "headline scoring: got 63 answers for 60 headlines",
+     "headline scoring: got 66 answers for 60 headlines",
+     "headline scoring: got 67 answers for 60 headlines",
+     "headline scoring: got 62 answers for 60 headlines",
+     "headline scoring: got 34 answers for 35 headlines"
+    ]
+   },
+   "PSX": {
+    "claude.errors": [
+     "headline scoring: got 63 answers for 60 headlines",
+     "headline scoring: got 64 answers for 60 headlines",
+     "headline scoring: got 61 answers for 60 headlines",
+     "sector/theme scoring: reply cut off at max_tokens=4000",
+     "sector/theme scoring: couldn't parse JSON (Expecting ',' delimiter: line 1 column 6797 (char 6796)); reply began: '{\"sectors\": {\"Energy\": {\"score\": 0.2, \"why\": \"Middle East supply risks and Hormuz tan"
+    ],
+    "scoring.errors": [
+     "missing ABL.KA ml",
+     "missing ABL.KA fundamental",
+     "missing ABL.KA news",
+     "missing ABL.KA peers",
+     "missing ABL.KA macro"
+    ]
+   }
+  },
+  "diag": {
+   "US": {
+    "universe": {
+     "source": "live",
+     "count": 503
+    },
+    "prices": {
+     "requested": 503,
+     "retries": 2,
+     "missing": [
+      "FDXF",
+      "HONA",
+      "Q",
+      "VYLR"
+     ],
+     "received": 499,
+     "last_date": "2026-10-16",
+     "first_date": "2020-10-16",
+     "stale": []
+    },
+    "index": {
+     "used": "SPY",
+     "preferred": "SPY"
+    },
+    "fundamentals": {
+     "count": 499,
+     "missing_marketCap": 0.0,
+     "missing_trailingPE": 0.05,
+     "missing_profitMargins": 0.0,
+     "missing_revenueGrowth": 0.0,
+     "missing_returnOnEquity": 0.07,
+     "missing_debtToEquity": 0.1
+    },
+    "news": {
+     "google_requests": 998,
+     "google_items": 75617,
+     "dropped_lowq": 6094,
+     "dropped_irrelevant": 8185,
+     "dropped_promo_cap": 4788,
+     "dropped_lawfirm_ads": 55,
+     "stocks": 499,
+     "with_news": 498,
+     "kept": 6752,
+     "no_news_sample": [
+      "T"
+     ]
+    },
+    "health": {
+     "refreshed": 0,
+     "cached": 499,
+     "with_fscore": 498
+    },
+    "model": {
+     "train_rows": 121902,
+     "dates": 1255
+    },
+    "claude": {
+     "calls": 115,
+     "input_tokens": 385453,
+     "output_tokens": 299058,
+     "cost_usd": 0.18809,
+     "errors": [
+      "headline scoring: got 61 answers for 60 headlines",
+      "headline scoring: got 59 answers for 60 headlines",
+      "headline scoring: got 63 answers for 60 headlines",
+      "headline scoring: got 62 answers for 60 headlines",
+      "headline scoring: got 64 answers for 60 headlines",
+      "headline scoring: got 58 answers for 60 headlines",
+      "headline scoring: got 57 answers for 60 headlines"
+     ],
+     "headline_batches": 113,
+     "headline_batches_ok": 42
+    },
+    "macro": {
+     "requests": 45,
+     "headlines": 4500,
+     "ai_events": 11,
+     "method": "claude"
+    },
+    "halal": {
+     "halal": 233,
+     "not_halal": 222,
+     "doubtful": 40
+    }
+   },
+   "ASX": {
+    "universe": {
+     "source": "live",
+     "count": 200
+    },
+    "prices": {
+     "requested": 200,
+     "retries": 2,
+     "missing": [
+      "ASK.AX",
+      "IFL.AX",
+      "NSR.AX",
+      "QUB.AX",
+      "XYX.AX"
+     ],
+     "received": 195,
+     "last_date": "2026-10-16",
+     "first_date": "2020-10-16",
+     "stale": []
+    },
+    "index": {
+     "used": "^AXJO",
+     "preferred": "^AXJO"
+    },
+    "fundamentals": {
+     "count": 195,
+     "missing_marketCap": 0.06,
+     "missing_trailingPE": 0.11,
+     "missing_profitMargins": 0.01,
+     "missing_revenueGrowth": 0.09,
+     "missing_returnOnEquity": 0.04,
+     "missing_debtToEquity": 0.08
+    },
+    "news": {
+     "google_requests": 390,
+     "google_items": 23119,
+     "dropped_lowq": 677,
+     "dropped_promo_cap": 2125,
+     "dropped_irrelevant": 2418,
+     "stocks": 195,
+     "with_news": 190,
+     "kept": 1295,
+     "no_news_sample": [
+      "ANZ.AX",
+      "BFL.AX",
+      "L1G.AX",
+      "REH.AX",
+      "ZIM.AX"
+     ]
+    },
+    "health": {
+     "refreshed": 0,
+     "cached": 195,
+     "with_fscore": 172
+    },
+    "model": {
+     "train_rows": 46445,
+     "dates": 1267
+    },
+    "claude": {
+     "calls": 24,
+     "input_tokens": 99453,
+     "output_tokens": 67816,
+     "cost_usd": 0.04383,
+     "errors": [
+      "headline scoring: got 64 answers for 60 headlines",
+      "headline scoring: got 59 answers for 60 headlines",
+      "headline scoring: got 61 answers for 60 headlines",
+      "headline scoring: got 63 answers for 60 headlines",
+      "headline scoring: got 66 answers for 60 headlines",
+      "headline scoring: got 67 answers for 60 headlines",
+      "headline scoring: got 62 answers for 60 headlines",
+      "headline scoring: got 34 answers for 35 headlines"
+     ],
+     "headline_batches": 22,
+     "headline_batches_ok": 6
+    },
+    "macro": {
+     "requests": 47,
+     "headlines": 4621,
+     "ai_events": 12,
+     "method": "claude"
+    },
+    "halal": {
+     "not_halal": 72,
+     "halal": 67,
+     "doubtful": 12
+    }
+   },
+   "PSX": {
+    "universe": {
+     "source": "live",
+     "count": 100
+    },
+    "prices": {
+     "requested": 100,
+     "retries": 2,
+     "missing": [
+      "AHCL.KA",
+      "BML.KA",
+      "ENGROH.KA",
+      "GAL.KA",
+      "HUBC.KA",
+      "TPLRF1.KA"
+     ],
+     "received": 94,
+     "last_date": "2026-10-16",
+     "first_date": "2020-10-16",
+     "stale": []
+    },
+    "fundamentals": {
+     "count": 94,
+     "missing_marketCap": 0.0,
+     "missing_trailingPE": 0.06,
+     "missing_profitMargins": 0.26,
+     "missing_revenueGrowth": 0.26,
+     "missing_returnOnEquity": 1.0,
+     "missing_debtToEquity": 1.0
+    },
+    "news": {
+     "google_requests": 188,
+     "google_items": 10128,
+     "dropped_irrelevant": 2217,
+     "dropped_lowq": 151,
+     "dropped_promo_cap": 47,
+     "stocks": 94,
+     "with_news": 66,
+     "kept": 262,
+     "no_news_sample": [
+      "AICL.KA",
+      "AIRLINK.KA",
+      "AKBL.KA",
+      "APL.KA",
+      "BNWM.KA",
+      "BWCL.KA",
+      "FFL.KA",
+      "GADT.KA",
+      "HALEON.KA",
+      "HGFA.KA",
+      "HINOON.KA",
+      "IBFL.KA",
+      "IMAGE.KA",
+      "INIL.KA",
+      "JDWS.KA"
+     ]
+    },
+    "halal": {
+     "kmi_source": "live",
+     "kmi_count": 313,
+     "halal": 64,
+     "not_halal": 29
+    },
+    "model": {
+     "train_rows": 11828,
+     "dates": 785
+    },
+    "claude": {
+     "calls": 7,
+     "input_tokens": 50714,
+     "output_tokens": 17350,
+     "cost_usd": 0.01373,
+     "errors": [
+      "headline scoring: got 63 answers for 60 headlines",
+      "headline scoring: got 64 answers for 60 headlines",
+      "headline scoring: got 61 answers for 60 headlines",
+      "sector/theme scoring: reply cut off at max_tokens=4000",
+      "sector/theme scoring: couldn't parse JSON (Expecting ',' delimiter: line 1 column 6797 (char 6796)); reply began: '{\"sectors\": {\"Energy\": {\"score\": 0.2, \"why\": \"Middle East supply risks and Hormuz tan"
+     ],
+     "headline_batches": 5,
+     "headline_batches_ok": 1,
+     "failures": 1
+    },
+    "macro": {
+     "requests": 44,
+     "headlines": 4400,
+     "ai_events": 7,
+     "method": "wordlist"
+    },
+    "scoring": {
+     "errors": [
+      "missing ABL.KA ml",
+      "missing ABL.KA fundamental",
+      "missing ABL.KA news",
+      "missing ABL.KA peers",
+      "missing ABL.KA macro"
+     ]
+    }
+   }
+  }
+ },
+ {
   "started": "2026-10-16T16:37:20+00:00",
   "finished": "2026-10-16T16:46:03+00:00",
   "minutes": 8.7,

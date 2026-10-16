@@ -140,7 +140,7 @@ def _psx_info(t):
 
 def get_fundamentals(tickers):
     if tickers and all(t.endswith(".KA") for t in tickers):
-        with ThreadPoolExecutor(4) as ex:
+        with ThreadPoolExecutor(6) as ex:
             return pd.DataFrame(list(ex.map(_psx_info, tickers))).set_index("ticker")
     with ThreadPoolExecutor(6) as ex:
         rows = list(ex.map(_info, tickers))
@@ -300,7 +300,7 @@ def _news(args):
 
 
 def get_news(tickers, names, market):
-    with ThreadPoolExecutor(4) as ex:
+    with ThreadPoolExecutor(10) as ex:
         res = dict(ex.map(_news, [(t, names.get(t) or t, market) for t in tickers]))
     n = sum(1 for v in res.values() if v)
     print(f"[{market}] news: {n}/{len(res)} stocks have headlines, {sum(map(len, res.values()))} total")

@@ -236,7 +236,7 @@ def _fetch_all(market):
     jobs = {("sector", s): f"{q} {MARKET_WORD[market]}{EXCLUDE} when:10d" for s, q in SECTOR_QUERIES.items()}
     jobs.update({("theme", k): f"{v['query']}{THEME_CONTEXT.get(market, '')}{EXCLUDE} when:10d"
                  for k, v in THEMES.items() if market in v.get("markets", [market])})
-    with ThreadPoolExecutor(4) as ex:
+    with ThreadPoolExecutor(8) as ex:
         res = dict(zip(jobs, ex.map(lambda q: _google_news(q, market), jobs.values())))
     now = datetime.now(timezone.utc)
     out = {}

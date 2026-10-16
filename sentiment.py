@@ -70,7 +70,7 @@ def claude_scores(items):
         return None
     chunks = [items[i:i + 60] for i in range(0, len(items), 60)]
     try:
-        with ThreadPoolExecutor(4) as ex:
+        with ThreadPoolExecutor(8) as ex:
             res = list(ex.map(lambda c: _claude_batch(c, key), chunks))
         return [x for r in res for x in r]
     except Exception as e:

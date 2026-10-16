@@ -333,7 +333,11 @@ def _claude_events(market, heads, broad, universe):
         "for producers, good for refiners and airlines; a US minerals deal with another country may compete with "
         "Australian rare-earth producers or help them via US demand).\n"
         "For each event give the affected targets and an effect from -1 to 1 on their share prices over the "
-        "next month, scaled by how big and how certain it is (most should be within ±0.4).\n"
+        "next month, scaled by how big and how certain it is (most should be within ±0.3).\n"
+        "Rules: only FORWARD-LOOKING news (a decision, deal, policy, data release, guidance). Do NOT create events that "
+        "merely describe past price moves (e.g. 'stocks fell 8 days') — that is already in the price. Use the NARROWEST "
+        "target that fits: specific tickers first, then an industry; use a whole sector only if every company in it is "
+        "affected. Don't treat all semiconductors alike (AI/data-centre chips vs analog/industrial vs memory differ).\n"
         "Targets must be one of: 'sector:<name>', 'industry:<name>' or 'ticker:<code>' using ONLY these names.\n"
         f"Sectors: {', '.join(universe['sectors'])}\nIndustries: {', '.join(universe['industries'])}\n"
         f"Tickers: {', '.join(universe['tickers'])}\n\n"
@@ -344,8 +348,9 @@ def _claude_events(market, heads, broad, universe):
         ok = []
         for e in evs:
             imps = [i for i in e.get("impacts", []) if isinstance(i, dict) and ":" in str(i.get("target", ""))]
-            for i in imps:
-                i["effect"] = float(np.clip(float(i.get("effect", 0)), -1, 1))
+            for i in imps:  # broad targets get smaller caps, so one story can't swamp a whole sector
+                cap = {"sector": 0.15, "industry": 0.25}.get(str(i["target"]).split(":")[0], 0.4)
+                i["effect"] = float(np.clip(float(i.get("effect", 0)), -cap, cap))
             if imps:
                 ok.append({"event": str(e.get("event", ""))[:120], "why": str(e.get("why", ""))[:300], "impacts": imps})
         print(f"[{market}] AI analyst found {len(ok)} events")

@@ -99,8 +99,8 @@ def red_flags(df):
     for t, r in df.iterrows():
         evs = r.get("events") if isinstance(r.get("events"), list) else []
         f = [__import__("events").LABEL[k] for k in evs if k in RED_FLAG_EVENTS]
-        if r["macro_raw"] <= MACRO_RED and mrank[t] <= 0.07:  # strongly negative AND among the most exposed
-            f.append("Strong sector / political headwind")
+        # A sector-wide/political headwind blocks BUY (see "macro_ok") and shows as a tag, but is not a
+        # company red flag: it shouldn't by itself tell you to sell a company whose own picture is fine.
         if pd.notna(r["altman_z"]) and r["altman_z"] < 1.8 and pd.notna(r["f_score"]) and r["f_score"] <= 3:
             f.append("Financial distress risk")
         if pd.notna(r["interest_cover"]) and r["interest_cover"] < 1 and r["sector"] not in ("Financial Services", "Real Estate"):
@@ -226,6 +226,17 @@ def run_market(name, cfg, demo):
         tm.lap("index list")
         close, volume = get_prices(list(uni.index), config.HISTORY)
         missing = [t for t in uni.index if t not in close.columns]
+        # Use completed closes only: if this market is open right now, today's bar is a moving intraday price
+        from zoneinfo import ZoneInfo
+        tz, open_m, close_m = {"US": ("America/New_York", 570, 960), "ASX": ("Australia/Sydney", 600, 975),
+                               "PSX": ("Asia/Karachi", 555, 960)}[name]
+        now_l = datetime.now(ZoneInfo(tz))
+        mins = now_l.hour * 60 + now_l.minute
+        if (len(close) and close.index[-1].date() == now_l.date() and now_l.weekday() < 5
+                and open_m <= mins < close_m + 30):
+            print(f"[{name}] market is open ({now_l:%a %H:%M} local) — using the previous close, not intraday prices")
+            diag.put("prices", intraday_bar_dropped=str(close.index[-1].date()))
+            close, volume = close.iloc[:-1], volume.iloc[:-1]
         # An incomplete latest day (e.g. a market's data not fully in yet) would make most stocks look price-less
         dropped_days = []
         while len(close) > 300 and close.iloc[-1].notna().mean() < 0.6:

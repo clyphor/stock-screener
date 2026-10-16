@@ -38,8 +38,8 @@ jobs:
           publish_dir: ./docs
           publish_branch: gh-pages
           force_orphan: true
-      - name: Save results and run log to main (even if the run failed)
-        if: always()
+      - name: Save results and run log to main (also when the screener failed, never when cancelled)
+        if: always() && (steps.screener.outcome == 'success' || steps.screener.outcome == 'failure')
         run: |
           git config user.name "screener-bot"
           git config user.email "actions@users.noreply.github.com"

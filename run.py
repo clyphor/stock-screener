@@ -18,6 +18,7 @@ from model import train_and_predict
 from report import write_page
 from sentiment import news_features
 import diag
+import halal
 import macro
 
 CHECK_LABELS = {
@@ -209,6 +210,7 @@ class Timer:
 def run_market(name, cfg, demo):
     diag.MARKET = name
     tm = Timer()
+    kmi = None
     missing = []
     if demo:
         from demo_data import fake_market
@@ -248,6 +250,8 @@ def run_market(name, cfg, demo):
         from data import get_health
         if name == "PSX":
             health = fund[[c for c in ("f_score", "f_tests") if c in fund]].copy()
+            from universe import kmi_members
+            kmi = kmi_members()
         else:
             health = get_health(list(close.columns), pd.to_numeric(fund["marketCap"], errors="coerce").to_dict(),
                                 fund["sector"].to_dict(), name)
@@ -264,10 +268,11 @@ def run_market(name, cfg, demo):
     nf = news_features(news, fund["sector"])
     tm.lap("news scoring")
 
-    hcols = [c for c in ("f_score", "f_tests", "altman_z", "interest_cover", "cash_conversion", "dilution", "margin_trend")
-             if c in health]
+    hcols = [c for c in ("f_score", "f_tests", "altman_z", "interest_cover", "cash_conversion", "dilution", "margin_trend",
+                         "total_debt", "cash", "interest_income", "revenue") if c in health]
     df = pd.concat([latest, ranks, fs, nf, health[hcols]], axis=1).reindex(ml.index)
-    for c in ("f_score", "altman_z", "interest_cover", "cash_conversion", "dilution", "margin_trend"):
+    for c in ("f_score", "altman_z", "interest_cover", "cash_conversion", "dilution", "margin_trend",
+              "total_debt", "cash", "interest_income", "revenue"):
         if c not in df:
             df[c] = np.nan
     df["ml"] = ml
@@ -312,6 +317,14 @@ def run_market(name, cfg, demo):
     df["sector"] = fund["sector"].reindex(df.index).fillna("Unknown")
     df["reasons"] = df.apply(reasons, axis=1)
     df["market"] = name
+    # Shariah screen
+    ind_s = fund["industry"].reindex(df.index) if "industry" in fund else pd.Series(None, index=df.index)
+    hres = {t: halal.screen(t, name, r["sector"], ind_s.get(t), r["name"], r["mcap"], r["total_debt"], r["cash"],
+                            r["interest_income"], r["revenue"], (t in kmi) if kmi is not None else None)
+            for t, r in df.iterrows()}
+    df["halal"] = pd.Series({t: v["status"] for t, v in hres.items()})
+    df["halal_info"] = pd.Series(hres)
+    diag.put("halal", **{k.lower().replace(" ", "_"): int(v) for k, v in df["halal"].value_counts().items()})
     checks = signal_checks(df, model_ok)
     schecks = sell_checks(df, model_ok)
     reds = red_flags(df)
@@ -526,6 +539,7 @@ def write_details(df, ex, market, outdir):
             "sell_checks": [{"label": SELL_LABELS[c], "pass": bool(ex["schecks"].at[t, c]),
                              "skipped": c == "model_negative" and not ex["model_ok"]} for c in ex["schecks"].columns],
             "red_flags": r["red_flags"], "flags": r["flags"],
+            "halal": dict(r["halal_info"], purification=halal.purification(r["halal_info"].get("ratios"))),
             "hz": {"short": r["hz_short"], "medium": r["signal"] if r["signal"] in ("BUY", "WATCH") else "", "long": r["hz_long"]},
             "short_checks": [{"label": SHORT_LABELS[c], "pass": bool(ex["hshort"].at[t, c])} for c in ex["hshort"].columns],
             "long_checks": [{"label": LONG_LABELS[c], "pass": bool(ex["hlong"].at[t, c])} for c in ex["hlong"].columns],
@@ -667,7 +681,7 @@ def _main(a, stats):
 
     cols = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers", "macro", "macro_raw",
             "mcap", "news_sent", "events", "value", "quality", "growth", "health", "f_score", "flags", "red_flags",
-            "hz_short", "hz_long",
+            "hz_short", "hz_long", "halal",
             "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons", "signal"]
     allres = pd.concat(tables)[cols] if tables else pd.DataFrame(columns=cols)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -682,6 +696,7 @@ def _main(a, stats):
             {"ticker": t, "name": r["name"], "sector": r["sector"],
              "price": _num(r["price"], 2), "score": _num(r["score"], 1), "signal": r["signal"],
              "flags": r["flags"] if isinstance(r["flags"], list) else [],
+             "hl": r["halal"],
              "hz": [r["hz_short"] or "", r["signal"] if r["signal"] in ("BUY", "WATCH") else "", r["hz_long"] or ""],
              "red": r["red_flags"] if isinstance(r["red_flags"], list) else [],
              "parts": {k: round(float(r[k]) * 100) for k in config.WEIGHTS},

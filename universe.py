@@ -81,6 +81,29 @@ def _fetch_psx():
     return df
 
 
+def kmi_members():
+    """Symbols in PSX's KMI All-Share Islamic Index (Shariah-compliant), or None if unavailable."""
+    cache = "results/kmi_allshare.csv"
+    try:
+        req = urllib.request.Request("https://dps.psx.com.pk/indices/KMIALLSHR", headers={"User-Agent": "Mozilla/5.0"})
+        html = urllib.request.urlopen(req, timeout=30).read().decode()
+        syms = sorted(set(re.findall(r'href="/company/([A-Z0-9]+)"', html)))
+        if len(syms) < 100:
+            raise ValueError(f"only {len(syms)} members found")
+        os.makedirs("results", exist_ok=True)
+        pd.Series(syms, name="symbol").to_csv(cache, index=False)
+        diag.put("halal", kmi_source="live", kmi_count=len(syms))
+        return set(s + ".KA" for s in syms)
+    except Exception as e:
+        print(f"WARNING [PSX] KMI Islamic index list unavailable ({e})")
+        diag.sample("halal", "errors", f"KMI list: {e}")
+        if os.path.exists(cache):
+            syms = pd.read_csv(cache)["symbol"].astype(str)
+            diag.put("halal", kmi_source="saved list", kmi_count=len(syms))
+            return set(s + ".KA" for s in syms)
+    return None
+
+
 def get_universe(market, fallback):
     """Return DataFrame indexed by ticker with columns sector, name (may be empty)."""
     cache = f"results/universe_{market}.csv"

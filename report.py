@@ -7,7 +7,7 @@ PAGE = r"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <style>
 :root{--bg:#f6f5f2;--card:#fff;--ink:#1c1c1a;--mute:#6b6a65;--line:#e4e2dc;--acc:#2f6f4f;--neg:#b0432c;--chip:#eef3ef;--ma50:#c9822b;--ma200:#5b6fb5;--idx:#9a988f}
 @media (prefers-color-scheme:dark){:root{--bg:#141413;--card:#1e1e1c;--ink:#ecebe6;--mute:#9a988f;--line:#2e2d2a;--acc:#6fbf93;--neg:#e08a74;--chip:#24302a;--ma50:#e0a75c;--ma200:#8fa0e0;--idx:#77756e}}
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,system-ui,Segoe UI,sans-serif;-webkit-text-size-adjust:100%}
+*{box-sizing:border-box;min-width:0}html,body{overflow-x:hidden;margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,system-ui,Segoe UI,sans-serif;-webkit-text-size-adjust:100%}
 button{font:inherit;color:inherit}
 header{padding:20px 16px 8px}h1{font-size:22px;margin:0}.sub{color:var(--mute);font-size:13px;margin-top:4px}
 .tabs{display:flex;gap:8px;padding:8px 16px;position:sticky;top:0;background:var(--bg);z-index:2}
@@ -37,6 +37,7 @@ details.box summary{cursor:pointer;color:var(--mute);font-size:13px}
 .sig.BUY{background:var(--acc);color:#fff}.sig.WATCH{border:1px solid var(--acc);color:var(--acc)}
 .sig.HOLD{border:1px solid var(--line);color:var(--mute);font-weight:600}
 .sig.AVOID{border:1px solid var(--ma50);color:var(--ma50)}.sig.SELL{background:var(--neg);color:#fff}
+.sig.HALAL{border:1px solid #3a9d6b;color:#3a9d6b}.sig.HDOUBT{border:1px dashed var(--mute);color:var(--mute);font-weight:600}
 .sig.flag{border:1px dashed var(--mute);color:var(--ink);font-weight:600}
 .card.SELL{border:2px solid var(--neg)}
 details.why{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
@@ -154,7 +155,7 @@ const LABEL_INFO = {
   BUY:"medium-term (1–6 months): passes every buy check", WATCH:"one check short of a buy", HOLD:"no strong reason to buy or sell",
   AVOID:"recent red flag, or bottom-ranked with weak fundamentals — don't buy now", SELL:"fails on every front — exit if you own it"};
 function card(r, i, extra=""){
-  return `<div class="card ${r.signal||""}" onclick="openStock('${r.ticker}')">${extra}<div class="top"><div style="min-width:0"><span class="rank">${MINE(M)?r.market+" ":""}#${(r.rank||i+1)}</span><span class="tk">${tk(r.ticker)}</span>${badge(r.signal)}${hzBadges(r.hz)}${(r.flags||[]).map(f=>`<span class="sig flag">${f}</span>`).join("")}
+  return `<div class="card ${r.signal||""}" onclick="openStock('${r.ticker}')">${extra}<div class="top"><div style="min-width:0"><span class="rank">${MINE(M)?r.market+" ":""}#${(r.rank||i+1)}</span><span class="tk">${tk(r.ticker)}</span>${badge(r.signal)}${hzBadges(r.hz)}${r.hl==="HALAL"?'<span class="sig HALAL">HALAL</span>':""}${(r.flags||[]).map(f=>`<span class="sig flag">${f}</span>`).join("")}
    <div class="nm">${esc(r.name)} · ${esc(r.sector)}</div></div><div class="sc">${r.score}</div></div>
    <div class="bars">${Object.entries(r.parts).map(([k,v])=>`<div class="bar"><small>${L[k]}</small><i><span style="width:${v}%"></span></i></div>`).join("")}</div>
    <div class="meta">${CUR(r.market||M)} ${r.price??"–"} · 3m ${r.ret3m??"–"}% · P/E ${r.pe??"–"}</div>
@@ -169,6 +170,7 @@ function render(){
   if (mine) return renderMine();
   const s = D.stats[M]||{}, rows = D.markets[M]||[];
   const buys = rows.filter(r=>r.signal==="BUY"), watch = rows.filter(r=>r.signal==="WATCH");
+  const nHalal = rows.filter(r=>r.hl==="HALAL").length;
   const sbuy = rows.filter(r=>(r.hz||[])[0]==="BUY"), lbuy = rows.filter(r=>(r.hz||[])[2]==="BUY");
   const sells = rows.filter(r=>r.signal==="SELL"), avoids = rows.filter(r=>r.signal==="AVOID");
   const reb = rows.filter(r=>(r.flags||[]).includes("REBOUND")), tp = rows.filter(r=>(r.flags||[]).includes("TAKE PROFIT"));
@@ -185,6 +187,7 @@ function render(){
     + (sells.length ? `<div style="margin-top:4px"><b style="color:var(--neg)">Sell:</b> ${sells.slice(0,15).map(link).join(", ")}${sells.length>15?` +${sells.length-15} more`:""}</div>` : "")
     + (avoids.length ? `<div style="margin-top:4px"><b style="color:var(--ma50)">Avoid:</b> ${avoids.length} stocks <a href="#" onclick="quickSig('AVOID');return false" style="color:inherit">(show)</a></div>` : "")
     + (reb.length||tp.length ? `<div style="margin-top:4px">${reb.length?`Rebound: ${reb.slice(0,8).map(link).join(", ")}`:""}${reb.length&&tp.length?" · ":""}${tp.length?`Take profit: ${tp.slice(0,8).map(link).join(", ")}`:""}</div>` : "")
+    + (nHalal?`<div style="margin-top:4px"><span class="sig HALAL" style="margin-left:0">HALAL</span> ${nHalal} stocks pass the Shariah screen <a href="#" onclick="resetF();getF().hal='HALAL';saveF();render();window.scrollTo({top:$('count').offsetTop-60,behavior:'smooth'});return false" style="color:inherit">(show)</a></div>`:"")
     + `<details class="why"><summary>What do the labels mean?</summary><ul>
         <li><b>SHORT BUY</b> (days–weeks) — strong momentum, fresh positive news, above the 50-day average, RSI 50–70, rising interest, no red flags.</li>
         <li><b>LONG BUY</b> (1 year+) — top fundamentals, strong financial health (F-score 7+), no bankruptcy risk, not expensive, high quality, long-term uptrend, no structural headwind.</li>
@@ -475,8 +478,8 @@ function renderOverview(s){
     <div class="heatwrap"><table class="heat"><tr><th></th>${PER.map(k=>`<th>${k}</th>`).join("")}</tr>
     ${sec.map(r=>`<tr><td onclick="sectorFilter('${esc(r.name).replace(/'/g,"\\'")}')"><b style="font-weight:600">${esc(r.name)}</b> <span class="mute">${r.n}</span></td>${PER.map(k=>`<td style="background:${heatBg(r.ret[k],k)}">${fp(r.ret[k])}</td>`).join("")}</tr>`).join("")}</table></div>
     <div class="mute" style="font-size:11px;margin-top:2px">Swipe the table sideways for 1Y and 5Y.</div>
-    ${ind.length?`<div class="grid" style="margin-top:10px"><div><div class="mute" style="margin-bottom:4px">Best industries (1M)</div>${best.map(r=>`<div style="font-size:13px;display:flex;justify-content:space-between;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.name)}</span><b class="good">${fp(r.ret["1M"])}</b></div>`).join("")}</div>
-      <div><div class="mute" style="margin-bottom:4px">Worst industries (1M)</div>${worst.map(r=>`<div style="font-size:13px;display:flex;justify-content:space-between;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.name)}</span><b class="bad">${fp(r.ret["1M"])}</b></div>`).join("")}</div></div>`:""}
+    ${ind.length?`<div style="margin-top:10px"><div><div class="mute" style="margin-bottom:4px">Best industries (1M)</div>${best.map(r=>`<div style="font-size:13px;display:flex;justify-content:space-between;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.name)}</span><b class="good">${fp(r.ret["1M"])}</b></div>`).join("")}</div>
+      <div style="margin-top:10px"><div class="mute" style="margin-bottom:4px">Worst industries (1M)</div>${worst.map(r=>`<div style="font-size:13px;display:flex;justify-content:space-between;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.name)}</span><b class="bad">${fp(r.ret["1M"])}</b></div>`).join("")}</div></div>`:""}
     ${why(xOverviewMarket(p, idxName))}`;
 }
 function xOverviewMarket(p, idxName){
@@ -504,19 +507,22 @@ const SORTS = {
   rsi_lo:{l:"RSI (most oversold first)", f:(a,b)=>(a.rsi??999)-(b.rsi??999)},
   mcap:{l:"Market cap (largest first)", f:(a,b)=>(b.mcap??0)-(a.mcap??0)},
 };
-const DEF = () => ({hz:[], mk:[], flg:[], sig:[], sec:[], smin:"", smax:"", parts:{}, pemin:"", pemax:"", rmin:"", rmax:"", rsimin:"", rsimax:"",
+const DEF = () => ({hal:"", hz:[], mk:[], flg:[], sig:[], sec:[], smin:"", smax:"", parts:{}, pemin:"", pemax:"", rmin:"", rmax:"", rsimin:"", rsimax:"",
   cap:"", news:"", macro:"", good:[], bad:[], tags:[], sort:"score", vqmin:{}});
 const FS = {};
 function getF(){ if(!FS[M]){ try{ FS[M] = Object.assign(DEF(), JSON.parse(localStorage.getItem("f_"+M)||"{}")); }catch(e){ FS[M]=DEF(); } FS[M].sig = (FS[M].sig||[]).map(x=>x==="NONE"?"HOLD":x); } return FS[M]; }
 function saveF(){ try{ localStorage.setItem("f_"+M, JSON.stringify(FS[M])); }catch(e){} }
 const num = v => v===""||v==null ? null : Number(v);
 function activeCount(F){ let n=0;
-  if(F.sig.length) n++; if((F.flg||[]).length) n++; if((F.hz||[]).length) n++; if((F.mk||[]).length) n++; if(F.sec.length) n++; if(F.smin!==""||F.smax!=="") n++;
+  if(F.sig.length) n++; if((F.flg||[]).length) n++; if((F.hz||[]).length) n++; if(F.hal) n++; if((F.mk||[]).length) n++; if(F.sec.length) n++; if(F.smin!==""||F.smax!=="") n++;
   n += Object.values(F.parts).filter(v=>v>0).length; n += Object.values(F.vqmin).filter(v=>v>0).length;
   if(F.pemin!==""||F.pemax!=="") n++; if(F.rmin!==""||F.rmax!=="") n++; if(F.rsimin!==""||F.rsimax!=="") n++;
   if(F.cap) n++; if(F.news) n++; if(F.macro) n++; n += F.good.length?1:0; n += F.bad.length?1:0; n += F.tags.length?1:0; return n; }
 function passes(r, F){
   if ((F.mk||[]).length && !F.mk.includes(r.market)) return false;
+  if (F.hal==="HALAL" && r.hl!=="HALAL") return false;
+  if (F.hal==="OK" && !(r.hl==="HALAL"||r.hl==="DOUBTFUL")) return false;
+  if (F.hal==="NOT HALAL" && r.hl!=="NOT HALAL") return false;
   if (F.sig.length){ const sg = r.signal||"HOLD"; if(!F.sig.includes(sg)) return false; }
   if ((F.flg||[]).length && !F.flg.some(f=>(r.flags||[]).includes(f))) return false;
   if ((F.hz||[]).length){ const h = r.hz||["","",""]; const ok = {S:h[0]==="BUY", M:h[1]==="BUY", L:h[2]==="BUY", SW:h[0]==="WATCH", LW:h[2]==="WATCH"};
@@ -564,6 +570,7 @@ function drawPanel(){
    <div class="fg"><span class="fl">Signal</span>${pills("sig",[["BUY","BUY"],["WATCH","WATCH"],["HOLD","HOLD"],["AVOID","AVOID"],["SELL","SELL"]],F.sig)}
      <div class="mute" style="margin-top:4px">Tap several to combine, e.g. BUY + WATCH.</div></div>
    <div class="fg"><span class="fl">Time horizon</span>${pills("hz",[["S","Short-term BUY"],["M","Medium-term BUY"],["L","Long-term BUY"],["SW","Short WATCH"],["LW","Long WATCH"]],F.hz||[])}</div>
+   <div class="fg"><span class="fl">Shariah (halal)</span>${one("hal",[["","Any"],["HALAL","Halal only"],["OK","Halal + doubtful"],["NOT HALAL","Not halal"]],F.hal||"")}</div>
    <div class="fg"><span class="fl">Flags</span>${pills("flg",[["REBOUND","REBOUND (oversold quality)"],["TAKE PROFIT","TAKE PROFIT"]],F.flg)}</div>
    <div class="fg"><span class="fl">Sector</span>${pills("sec",secs.map(x=>[x,x]),F.sec)}</div>
    <div class="fg"><span class="fl">Overall score</span>${rng("smin","smax","min e.g. 60","max")}</div>
@@ -648,7 +655,7 @@ async function openStock(t, push=true){
   try { d = await getJSON(`stocks/${t}.json`); base = await getJSON(`stocks/_${d.market}.json`); }
   catch(e){ sh.innerHTML = sh.innerHTML.replace("Loading…","Details not available for this stock yet."); return; }
   const up = d.analyst.target && d.price ? d.analyst.target/d.price-1 : null;
-  sh.innerHTML = `<div class="shead"><button class="back" onclick="history.back()">‹ Back</button><b>${tk(d.ticker)}</b>${badge(d.signal)}${(d.flags||[]).map(f=>`<span class="sig flag">${f}</span>`).join("")}</div>
+  sh.innerHTML = `<div class="shead"><button class="back" onclick="history.back()">‹ Back</button><b>${tk(d.ticker)}</b>${badge(d.signal)}${d.halal&&d.halal.status==="HALAL"?'<span class="sig HALAL">HALAL</span>':""}${(d.flags||[]).map(f=>`<span class="sig flag">${f}</span>`).join("")}</div>
   <div class="sec"><div class="hero"><div style="min-width:0"><div class="tk" style="font-size:20px">${esc(d.name)}</div>
     <div class="mute">${esc(d.sector)}${d.industry?" · "+esc(d.industry):""}</div>
     <div style="margin-top:8px">Price <b>${CUR(d.market)} ${d.price??"–"}</b> · Market cap <b>${CUR(d.market)} ${fmtCap(d.mcap)}</b></div></div>
@@ -691,6 +698,8 @@ async function openStock(t, push=true){
 
   ${healthSection(d)}
 
+  ${halalSection(d)}
+
   <div class="sec"><h3>News (last 10 days)</h3>
     ${d.events&&d.events.length?`<div class="chips" style="margin:0 0 8px">${d.events.map(e=>`<span class="chip ${e.impact<0?"bad":""}">${e.impact>0?"▲":e.impact<0?"▼":"•"} ${esc(e.label)}</span>`).join("")}</div>`:""}
     <div class="mute" style="margin-bottom:6px">Recency-weighted sentiment: <b style="color:${sentColor(d.news_avg)}">${d.news_avg??0}</b> · competitors: <b style="color:${sentColor(d.peer_avg)}">${d.peer_avg??0}</b>${d.macro_share>0?` · ${Math.round(d.macro_share*100)}% about policy/macro`:""}</div>
@@ -725,6 +734,20 @@ function horizonSection(d){
     <div class="fl" style="font-size:13px;font-weight:600;margin:10px 0 4px">Long-term checks (${d.long_checks.filter(c=>c.pass).length}/${d.long_checks.length})</div>${list(d.long_checks)}
     ${why(`<p>Different investors care about different things. <b>Short term</b> looks for momentum and a fresh reason for the price to move (news, events, rising volume) and ignores valuation. <b>Medium term</b> is the main balanced score. <b>Long term</b> cares about the quality and financial strength of the business and whether it's reasonably priced, and mostly ignores short-term news.</p>
       <p>${hz.long==="BUY"&&hz.short!=="BUY"?"This looks like a solid long-term holding even if the short-term setup isn't there.":hz.short==="BUY"&&hz.long!=="BUY"?"This is a short-term momentum idea — the business itself doesn't pass the long-term quality tests, so it's not one to hold for years without a reason.":hz.short==="BUY"&&hz.long==="BUY"?"Rare: it passes both the short-term and long-term tests.":"It doesn't fully pass the short- or long-term tests right now; WATCH means one check short."}</p>`)}</div>`;
+}
+function halalSection(d){
+  const h = d.halal; if(!h) return "";
+  const cls = h.status==="HALAL"?"good":h.status==="NOT HALAL"?"bad":"";
+  const r = h.ratios||{};
+  const row = (l,v,lim) => v==null ? `<tr><td>${l}</td><td>–</td><td>${lim}</td></tr>` : `<tr><td>${l}</td><td class="${v<parseFloat(lim)/100?"good":"bad"}">${(v*100).toFixed(1)}%</td><td>${lim}</td></tr>`;
+  return `<div class="sec"><h3>Shariah screen: <span class="${cls}">${h.status}</span></h3>
+    ${h.reasons.map(x=>`<div class="chk"><b class="${cls==="good"?"ok":cls==="bad"?"no":"skip"}">${cls==="good"?"✓":cls==="bad"?"✗":"?"}</b><span>${esc(x)}</span></div>`).join("")}
+    ${h.method==="AAOIFI"&&(r.debt!=null||r.cash!=null)?`<table style="margin-top:8px"><tr><th>AAOIFI test</th><th>${tk(d.ticker)}</th><th>Limit</th></tr>
+      ${row("Interest-bearing debt / market value", r.debt, "30%")}${row("Cash & interest investments / market value", r.cash, "30%")}${row("Interest income / revenue", r.interest_income, "5%")}</table>`:""}
+    ${h.purification?`<div class="mute" style="margin-top:6px">Purification: give about <b>${(h.purification*100).toFixed(2)}%</b> of dividends/gains to charity.</div>`:""}
+    ${why(`<p>${h.method==="KMI"?"For Pakistan this uses the <b>KMI All-Share Islamic Index</b> published by the Pakistan Stock Exchange, whose members are screened by Shariah advisors — the most reliable source available.":"For US and Australian stocks there's no free official list, so this applies the <b>AAOIFI</b> standard used by most Islamic funds: the company's main business must be permissible (no conventional banking/insurance, alcohol, tobacco, gambling, pork, adult content or weapons), its interest-bearing debt and its cash/interest-bearing investments must each be under 30% of its market value, and interest income must be under 5% of revenue."}</p>
+      <p><b>HALAL</b> = passes every test. <b>DOUBTFUL</b> = permissible business but some data is missing or the industry often has mixed revenue — check the company's revenue breakdown. <b>NOT HALAL</b> = fails a test.</p>
+      <p class="mute">This is an automated screen, not a religious ruling. Scholars differ on some thresholds; confirm with a Shariah-compliance service (e.g. Zoya, Musaffa, Islamicly) or a scholar before investing.</p>`)}</div>`;
 }
 function healthSection(d){
   const h = d.health; if(!h) return "";

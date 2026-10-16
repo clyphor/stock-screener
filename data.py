@@ -355,6 +355,7 @@ def get_news(tickers, names, market):
 
 # ---------------------------------------------------------------- financial health
 HEALTH_CACHE = "results/health.csv"
+HEALTH_VERSION = 2   # bump when new fields are added, so cached rows refresh
 
 
 def _row(df, *names):
@@ -399,6 +400,11 @@ def _health_one(args):
     re_ = _row(bal, "Retained Earnings")
     sh = _row(bal, "Ordinary Shares Number", "Share Issued")
     cfo = _row(cf, "Operating Cash Flow", "Cash Flow From Continuing Operating Activities")
+    # For the Shariah screen
+    debt = _row(bal, "Total Debt")
+    cash = _row(bal, "Cash Cash Equivalents And Short Term Investments", "Cash And Cash Equivalents")
+    intinc = _row(inc, "Interest Income", "Interest Income Non Operating")
+    out.update(total_debt=_v(debt, 0), cash=_v(cash, 0), interest_income=_v(intinc, 0), revenue=_v(rev, 0))
 
     tests = {}
     roa0 = _v(ni, 0) / _v(ta, 0) if _v(ni, 0) is not None and _v(ta, 0) else None
@@ -435,6 +441,7 @@ def _health_one(args):
     if all(_v(x, i) for x in (ebit, rev) for i in (0, 2)):
         out["margin_trend"] = round(_v(ebit, 0) / _v(rev, 0) - _v(ebit, 2) / _v(rev, 2), 3)
     out["asof"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    out["v"] = HEALTH_VERSION
     return out
 
 
@@ -445,7 +452,8 @@ def get_health(tickers, mcaps, sectors, market, max_age_days=7):
     fresh = set()
     if len(cache) and "asof" in cache:
         age = (pd.Timestamp(today) - pd.to_datetime(cache["asof"], errors="coerce")).dt.days
-        fresh = set(cache.index[age <= max_age_days])
+        ver = cache["v"] if "v" in cache else pd.Series(0, index=cache.index)
+        fresh = set(cache.index[(age <= max_age_days) & (ver.fillna(0) >= HEALTH_VERSION)])
     todo = [t for t in tickers if t not in fresh and not t.endswith(".KA")]
     if todo:
         with ThreadPoolExecutor(6) as ex:

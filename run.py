@@ -134,7 +134,24 @@ def extra_flags(df, flags_red):
     return pd.Series(out)
 
 
+import time as _time
+
+
+class Timer:
+    """Records how long each stage of a market's run takes."""
+    def __init__(self):
+        self.t = {}
+        self._last = _time.time()
+
+    def lap(self, stage):
+        now = _time.time()
+        self.t[stage] = round(now - self._last, 1)
+        self._last = now
+
+
 def run_market(name, cfg, demo):
+    tm = Timer()
+    missing = []
     if demo:
         from demo_data import fake_market
         close, volume, idx, fund, news = fake_market(cfg["tickers"], cfg["index"])
@@ -144,12 +161,16 @@ def run_market(name, cfg, demo):
         from data import get_fundamentals, get_index, get_news, get_prices
         from universe import get_universe
         uni = get_universe(name, cfg["tickers"])
+        tm.lap("index list")
         close, volume = get_prices(list(uni.index), config.HISTORY)
+        missing = [t for t in uni.index if t not in close.columns]
+        tm.lap("prices")
         if cfg["index_candidates"]:
             idx = get_index(cfg["index_candidates"], config.HISTORY).reindex(close.index).ffill()
         else:  # no index feed (Pakistan): equal-weighted index of the members' daily moves
             idx = (1 + close.pct_change().clip(-0.3, 0.3).mean(axis=1).fillna(0)).cumprod() * 100
         fund = get_fundamentals(list(close.columns))
+        tm.lap("fundamentals")
         fund["sector"] = fund["sector"].fillna(uni["sector"].reindex(fund.index))
         if name == "PSX" and "psx_sector" in fund:  # sector from the exchange's own company page
             from universe import psx_sector
@@ -161,21 +182,25 @@ def run_market(name, cfg, demo):
         fund["shortName"] = fund["shortName"].fillna(uni["name"].reindex(fund.index))
         names = uni["name"].reindex(fund.index).fillna(fund["longName"]).fillna(fund["shortName"])
         news = get_news(list(close.columns), names.to_dict(), name)
+        tm.lap("company news")
         from data import get_health
         if name == "PSX":
             health = fund[[c for c in ("f_score", "f_tests") if c in fund]].copy()
         else:
             health = get_health(list(close.columns), pd.to_numeric(fund["marketCap"], errors="coerce").to_dict(),
                                 fund["sector"].to_dict(), name)
+        tm.lap("financial health")
     print(f"[{name}] {close.shape[1]} stocks, {len(close)} days")
 
     panel = technical_panel(close, volume, idx, config.HORIZON_DAYS)
     ml, stats = train_and_predict(panel, config.HORIZON_DAYS, config.TEST_DAYS)
+    tm.lap("model")
 
     latest = panel.xs(panel.index.get_level_values("date").max(), level="date")
     ranks = latest[TECH_COLS].rank(pct=True).add_suffix("_r")
     fs = fundamental_score(fund, health)
     nf = news_features(news, fund["sector"])
+    tm.lap("news scoring")
 
     hcols = [c for c in ("f_score", "f_tests", "altman_z", "interest_cover", "cash_conversion", "dilution", "margin_trend")
              if c in health]
@@ -202,6 +227,7 @@ def run_market(name, cfg, demo):
                 "industries": sorted(fund["industry"].dropna().astype(str).unique()) if "industry" in fund else [],
                 "tickers": list(df.index)}
     ctx = macro.macro_context(name, demo, universe)
+    tm.lap("sector & politics")
     macro.apply(ctx, df, fund)
     df["macro"] = df["macro_raw"].rank(pct=True).fillna(0.5)
 
@@ -236,7 +262,12 @@ def run_market(name, cfg, demo):
     try:
         stats["perf"] = performance(df, close, idx, fund)
     except Exception as e:
-        print(f"[{name}] performance failed: {e}")
+        print(f"[{name}] WARNING performance failed: {e}")
+    stats["index_level"] = round(float(idx.dropna().iloc[-1]), 4)
+    tm.lap("scoring & labels")
+    stats["timings"] = tm.t
+    stats["downloaded"] = int(close.shape[1])
+    stats["missing_prices"] = missing
 
     stats["macro"] = {
         "method": ctx["method"],
@@ -452,25 +483,92 @@ def write_details(df, ex, market, outdir):
             json.dump(rec, f, separators=(",", ":"), default=str)
 
 
+LOG_JSON = "results/runlog.json"
+_LINES = []
+
+
+def _tee_print():
+    import builtins
+    orig = builtins.print
+
+    def p(*args, **kw):
+        line = " ".join(str(x) for x in args)
+        _LINES.append(f"{datetime.now(timezone.utc).strftime('%H:%M:%S')} {line}")
+        orig(*args, **kw)
+    builtins.print = p
+
+
+def write_log(started, stats, fatal=None):
+    """results/runlog.json keeps the last 60 runs; results/logs/ keeps full text logs for 30 runs."""
+    os.makedirs("results/logs", exist_ok=True)
+    finished = datetime.now(timezone.utc)
+    warn = [l for l in _LINES if any(k in l for k in ("WARNING", "FAILED", "failed", "Traceback", "ERR", "no price data", "unavailable"))]
+    entry = {
+        "started": started.isoformat(timespec="seconds"), "finished": finished.isoformat(timespec="seconds"),
+        "minutes": round((finished - started).total_seconds() / 60, 1),
+        "trigger": os.environ.get("GITHUB_EVENT_NAME", "manual"), "commit": os.environ.get("GITHUB_SHA", "")[:7],
+        "status": "failed" if fatal or any(v.get("error") for v in stats.values()) else ("warnings" if warn else "ok"),
+        "fatal": fatal, "warnings": warn[:40], "markets": {},
+    }
+    for m, v in stats.items():
+        entry["markets"][m] = {k: v.get(k) for k in (
+            "error", "downloaded", "screened", "news_coverage", "ai_scoring", "news_method", "price_date",
+            "ic_mean", "model_used", "timings")}
+        entry["markets"][m]["missing_prices"] = (v.get("missing_prices") or [])[:25]
+        entry["markets"][m]["labels"] = v.get("label_counts")
+        entry["markets"][m]["ai_events"] = len((v.get("macro") or {}).get("events", []))
+    log = []
+    if os.path.exists(LOG_JSON):
+        try:
+            log = json.load(open(LOG_JSON))
+        except Exception:
+            log = []
+    log = ([entry] + log)[:60]
+    json.dump(log, open(LOG_JSON, "w"), indent=1, default=str)
+    name = finished.strftime("results/logs/%Y-%m-%d_%H%M.txt")
+    open(name, "w").write("\n".join(_LINES))
+    for old in sorted(glob.glob("results/logs/*.txt"))[:-30]:
+        os.remove(old)
+    os.makedirs("docs", exist_ok=True)
+    json.dump(log[:20], open("docs/runlog.json", "w"), default=str)
+    print(f"Run {entry['status']} in {entry['minutes']} min")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--demo", action="store_true")
     a = ap.parse_args()
+    _tee_print()
+    started = datetime.now(timezone.utc)
+    stats = {}
+    try:
+        _main(a, stats)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        write_log(started, stats, fatal=f"{type(e).__name__}: {e}")
+        raise
+    write_log(started, stats)
+
+
+def _main(a, stats):
 
     os.makedirs("results/history", exist_ok=True)
     os.makedirs("docs/stocks", exist_ok=True)
     for f in glob.glob("docs/stocks/*.json"):  # fresh detail files each run
         os.remove(f)
 
-    tables, stats = [], {}
+    tables = []
     for name, cfg in config.MARKETS.items():
         try:
             df, st, ex = run_market(name, cfg, a.demo)
             write_details(df, ex, name, "docs/stocks")
+            st["label_counts"] = {k: int(v) for k, v in df["signal"].value_counts().items()}
             tables.append(df); stats[name] = st
         except Exception as e:  # one market failing shouldn't kill the other
             import traceback; traceback.print_exc()
-            stats[name] = {"error": str(e)}
+            print(f"[{name}] FAILED: {type(e).__name__}: {e}")
+            stats[name] = {"error": f"{type(e).__name__}: {e}"}
 
     cols = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers", "macro", "macro_raw",
             "mcap", "news_sent", "events", "value", "quality", "growth", "health", "f_score", "flags", "red_flags",

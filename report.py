@@ -74,6 +74,19 @@ details.why ul{margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.55}
 .heat td,.heat th{min-width:46px}
 .heat td:first-child,.heat th:first-child{position:sticky;left:0;z-index:1;background:var(--card);min-width:96px;max-width:96px}
 .heat td:first-child{text-align:left;padding-left:4px;font-size:12px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mine-head{margin:10px 16px 0;padding:12px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.btnrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.sbtn{padding:7px 11px;border-radius:9px;border:1px solid var(--line);background:var(--bg);font-size:13px;font-weight:600}
+.sbtn.pri{background:var(--acc);border-color:var(--acc);color:#fff}.sbtn.neg{color:var(--neg)}
+.trade{margin:10px 16px;padding:14px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+.trade .row{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.big2{font-size:20px;font-weight:700}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.modal .mbox{background:var(--card);width:100%;max-width:520px;border-radius:16px 16px 0 0;padding:16px 16px 28px;max-height:80vh;overflow:auto}
+.modal input,.modal textarea{width:100%;padding:10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;margin:6px 0}
+.logrow{padding:8px 0;border-top:1px solid var(--line);font-size:13px}.logrow:first-child{border-top:0}
+.st-ok{color:var(--acc)}.st-warnings{color:var(--ma50)}.st-failed{color:var(--neg)}
+.cardx{float:right;margin:-6px -6px 0 8px;border:0;background:none;color:var(--mute);font-size:18px;padding:4px 8px}
 .count{margin:8px 16px 0;font-size:13px;color:var(--mute)}
 footer{padding:16px 16px 40px;color:var(--mute);font-size:12px}
 #sheet{position:fixed;inset:0;background:var(--bg);overflow-y:auto;z-index:10;display:none;-webkit-overflow-scrolling:touch}
@@ -114,10 +127,12 @@ svg text{fill:var(--mute);font-size:10px}
 <div id="sigs" class="box"></div>
 <details class="box" id="macrobox"><summary><b style="color:var(--ink)">Market &amp; politics today</b> <span id="macrosum"></span></summary><div id="macro" style="margin-top:8px"></div></details>
 <details class="box" id="statsbox"><summary>How reliable is this? (backtest)</summary><div id="stats" style="margin-top:8px"></div></details>
+<div id="mine"></div>
 <div class="fbar"><button id="fbtn">Filters</button><button id="sortbtn" style="flex:1;text-align:left"></button><button id="freset" style="display:none">Clear</button></div>
 <div id="fpanel"></div>
 <div class="count" id="count"></div>
 <div id="list"></div><button class="more" id="more"></button>
+<details class="box" id="logbox"><summary>Run log <span id="logsum"></span></summary><div id="runlog" style="margin-top:8px"></div></details>
 <footer>Ranks stocks by blending a price-trend model, fundamentals vs sector peers, and news sentiment for the company and its competitors. Scores are relative rankings, not price targets. Not financial advice — paper-trade first.</footer>
 <div id="sheet"></div>
 <script>
@@ -135,15 +150,20 @@ function badge(sg){ return sg ? `<span class="sig ${sg}">${sg}</span>` : ""; }
 const LABEL_INFO = {
   BUY:"passes every buy check", WATCH:"one check short of a buy", HOLD:"no strong reason to buy or sell",
   AVOID:"recent red flag, or bottom-ranked with weak fundamentals — don't buy now", SELL:"fails on every front — exit if you own it"};
-function card(r, i){
-  return `<div class="card ${r.signal||""}" onclick="openStock('${r.ticker}')"><div class="top"><div style="min-width:0"><span class="rank">#${i+1}</span><span class="tk">${tk(r.ticker)}</span>${badge(r.signal)}${(r.flags||[]).map(f=>`<span class="sig flag">${f}</span>`).join("")}
+function card(r, i, extra=""){
+  return `<div class="card ${r.signal||""}" onclick="openStock('${r.ticker}')">${extra}<div class="top"><div style="min-width:0"><span class="rank">${MINE(M)?r.market+" ":""}#${(r.rank||i+1)}</span><span class="tk">${tk(r.ticker)}</span>${badge(r.signal)}${(r.flags||[]).map(f=>`<span class="sig flag">${f}</span>`).join("")}
    <div class="nm">${esc(r.name)} · ${esc(r.sector)}</div></div><div class="sc">${r.score}</div></div>
    <div class="bars">${Object.entries(r.parts).map(([k,v])=>`<div class="bar"><small>${L[k]}</small><i><span style="width:${v}%"></span></i></div>`).join("")}</div>
-   <div class="meta">Price ${r.price??"–"}${M==="PSX"?" PKR":""} · 3m ${r.ret3m??"–"}% · P/E ${r.pe??"–"}</div>
+   <div class="meta">Price ${r.price??"–"}${(r.market||M)==="PSX"?" PKR":""} · 3m ${r.ret3m??"–"}% · P/E ${r.pe??"–"}</div>
    <div class="chips">${r.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div></div>`;
 }
 function render(){
   [...$("tabs").children].forEach(b=>b.classList.toggle("on", b.textContent===M));
+  const mine = MINE(M);
+  ["clock","ovbox","sigs","macrobox","statsbox"].forEach(id=>$(id).style.display = mine ? "none" : "");
+  $("mine").style.display = mine ? "" : "none";
+  renderLog();
+  if (mine) return renderMine();
   const s = D.stats[M]||{}, rows = D.markets[M]||[];
   const buys = rows.filter(r=>r.signal==="BUY"), watch = rows.filter(r=>r.signal==="WATCH");
   const sells = rows.filter(r=>r.signal==="SELL"), avoids = rows.filter(r=>r.signal==="AVOID");
@@ -212,6 +232,141 @@ function render(){
   clockTick();
 }
 
+/* ---------------- my watchlists & paper trades (saved on this device) ---------------- */
+function store(key, def){ return {
+  get(){ if(!this.v){ try{ this.v = JSON.parse(localStorage.getItem(key)) || def(); }catch(e){ this.v = def(); } } return this.v; },
+  save(){ try{ localStorage.setItem(key, JSON.stringify(this.v)); }catch(e){ alert("Couldn't save on this device (private browsing?)"); } } }; }
+const WL = store("watchlists", ()=>({lists:{"My watchlist":[]}, cur:"My watchlist"}));
+const PT = store("paper_trades", ()=>[]);
+function modal(html){ const m=document.createElement("div"); m.className="modal"; m.innerHTML=`<div class="mbox">${html}</div>`; m.onclick=e=>{ if(e.target===m) m.remove(); }; document.body.appendChild(m); return m; }
+function closeModal(){ document.querySelectorAll(".modal").forEach(m=>m.remove()); }
+
+function addToList(t){
+  const w = WL.get(); const names = Object.keys(w.lists);
+  modal(`<h3 style="margin:0 0 8px">Add ${tk(t)} to a watchlist</h3>
+    ${names.map(n=>`<button class="pill ${w.lists[n].includes(t)?"on":""}" style="margin:4px 4px 0 0" onclick="toggleInList('${t}', decodeURIComponent('${encodeURIComponent(n)}'))">${w.lists[n].includes(t)?"✓ ":""}${esc(n)} (${w.lists[n].length})</button>`).join("")}
+    <div style="margin-top:12px" class="mute">Or create a new list:</div>
+    <input id="nl" placeholder="e.g. Oil plays, Dividend ideas">
+    <div class="btnrow"><button class="sbtn pri" onclick="const n=$('nl').value.trim(); if(n){ newList(n); toggleInList('${t}', n); }">Create &amp; add</button><button class="sbtn" onclick="closeModal()">Done</button></div>`);
+}
+function toggleInList(t, n){ const w=WL.get(); const a=w.lists[n]||(w.lists[n]=[]); const i=a.indexOf(t); i>=0?a.splice(i,1):a.push(t); WL.save(); closeModal(); addToList(t); }
+function newList(n){ const w=WL.get(); if(!w.lists[n]) w.lists[n]=[]; w.cur=n; WL.save(); }
+
+function paperBuy(t){
+  const r = ALL[t]; if(!r) return alert("No current price for this stock.");
+  const cur = {US:"US$",ASX:"A$",PSX:"PKR "}[r.market]||"";
+  modal(`<h3 style="margin:0 0 4px">Paper buy ${tk(t)}</h3><div class="mute">Pretend purchase at the latest close: <b>${cur}${r.price}</b>. Label today: ${badge(r.signal||"HOLD")} score ${r.score}.</div>
+    <label class="mute" style="display:block;margin-top:10px">Amount to invest (${cur.trim()})</label><input id="amt" inputmode="decimal" value="${r.market==="PSX"?100000:1000}">
+    <label class="mute">Note (optional)</label><input id="nt" placeholder="Why I'm buying">
+    <div class="btnrow"><button class="sbtn pri" onclick="doPaperBuy('${t}')">Buy (paper)</button><button class="sbtn" onclick="closeModal()">Cancel</button></div>`);
+}
+function doPaperBuy(t){
+  const r = ALL[t], amt = Number($("amt").value)||0; if(amt<=0) return;
+  const s = D.stats[r.market]||{};
+  PT.get().unshift({id:Date.now(), ticker:t, market:r.market, date:s.price_date||D.generated.slice(0,10), price:r.price, idx:s.index_level,
+    label:r.signal||"HOLD", flags:r.flags||[], score:r.score, amount:amt, shares:amt/r.price, note:$("nt").value.trim(), status:"open"});
+  PT.save(); closeModal(); alert(`Paper bought ${tk(t)}. See the Paper tab.`);
+}
+function paperSell(id){
+  const x = PT.get().find(z=>z.id===id), r = ALL[x.ticker], s = D.stats[x.market]||{};
+  if(!r) return alert("No current price — can't close today.");
+  if(!confirm(`Close ${tk(x.ticker)} at ${r.price}?`)) return;
+  Object.assign(x, {status:"closed", exit_price:r.price, exit_date:s.price_date, exit_idx:s.index_level, exit_label:r.signal||"HOLD"}); PT.save(); render();
+}
+function paperDel(id){ if(!confirm("Delete this paper trade?")) return; PT.v = PT.get().filter(z=>z.id!==id); PT.save(); render(); }
+function tradeStats(x){
+  const r = ALL[x.ticker], s = D.stats[x.market]||{};
+  const px = x.status==="closed" ? x.exit_price : r?.price, ix = x.status==="closed" ? x.exit_idx : s.index_level;
+  const ret = px && x.price ? px/x.price-1 : null, iret = ix && x.idx ? ix/x.idx-1 : null;
+  const days = Math.max(0, Math.round((new Date((x.status==="closed"?x.exit_date:s.price_date)||Date.now()) - new Date(x.date))/864e5));
+  return {px, ret, vs: ret!=null&&iret!=null ? ret-iret : null, iret, days, now: r};
+}
+function exportData(){
+  const blob = new Blob([JSON.stringify({watchlists:WL.get(), paper:PT.get()}, null, 1)], {type:"application/json"});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "screener-backup.json"; a.click();
+}
+function importData(){
+  modal(`<h3 style="margin:0 0 6px">Restore backup</h3><div class="mute">Choose a screener-backup.json file. This replaces the lists and trades on this device.</div>
+    <input type="file" id="imf" accept=".json,application/json"><div class="btnrow"><button class="sbtn pri" onclick="doImport()">Restore</button><button class="sbtn" onclick="closeModal()">Cancel</button></div>`);
+}
+function doImport(){ const f=$("imf").files[0]; if(!f) return; f.text().then(txt=>{ try{ const j=JSON.parse(txt); if(j.watchlists){WL.v=j.watchlists;WL.save();} if(j.paper){PT.v=j.paper;PT.save();} closeModal(); render(); }catch(e){ alert("That file isn't a valid backup."); } }); }
+
+function renderMine(){
+  const F = getF(), q = $("q").value.trim().toLowerCase();
+  const backup = `<div class="mute" style="margin-top:8px;font-size:12px">Saved on this phone/browser only. <a href="#" onclick="exportData();return false" style="color:var(--acc)">Back up</a> · <a href="#" onclick="importData();return false" style="color:var(--acc)">Restore</a></div>`;
+  let rows = rowsFor(M);
+  if (q) rows = rows.filter(r=>r.ticker.toLowerCase().startsWith(q) || (r.name||"").toLowerCase().includes(q));
+  const active = activeCount(F);
+  const key = SORTS[F.sort] ? F.sort : "score";
+  $("fbtn").textContent = active ? `Filters (${active})` : "Filters"; $("fbtn").classList.toggle("on", !!active);
+  $("freset").style.display = active ? "block" : "none"; $("sortbtn").textContent = "Sort: " + SORTS[key].l;
+  $("more").style.display = "none";
+  if ($("fpanel").classList.contains("open")) drawPanel();
+  if (M==="Lists"){
+    const w = WL.get(), names = Object.keys(w.lists);
+    if (!w.lists[w.cur]) w.cur = names[0];
+    $("mine").innerHTML = `<div class="mine-head"><b>Watchlists</b><div class="pills" style="margin-top:8px">${names.map(n=>`<button class="pill ${n===w.cur?"on":""}" onclick="WL.get().cur=decodeURIComponent('${encodeURIComponent(n)}');WL.save();render()">${esc(n)} (${w.lists[n].length})</button>`).join("")}</div>
+      <div class="btnrow"><button class="sbtn" onclick="const n=prompt('New list name'); if(n&&n.trim()){ newList(n.trim()); render(); }">+ New list</button>
+      ${w.cur?`<button class="sbtn" onclick="const n=prompt('Rename list', WL.get().cur); if(n&&n.trim()&&n!==WL.get().cur){ const w=WL.get(); w.lists[n.trim()]=w.lists[w.cur]; delete w.lists[w.cur]; w.cur=n.trim(); WL.save(); render(); }">Rename</button>
+      <button class="sbtn neg" onclick="if(confirm('Delete this list?')){ const w=WL.get(); delete w.lists[w.cur]; if(!Object.keys(w.lists).length) w.lists['My watchlist']=[]; w.cur=Object.keys(w.lists)[0]; WL.save(); render(); }">Delete list</button>`:""}</div>
+      <div class="mute" style="margin-top:8px">Add stocks from any market: open a stock and tap ☆ Watchlist.</div>${backup}</div>`;
+    let shown = rows.filter(r=>passes(r,F)); if (key!=="score") shown.sort((a,b)=>SORTS[key].f(a,b)); else shown.sort((a,b)=>b.score-a.score);
+    const missing = (w.lists[w.cur]||[]).filter(t=>!ALL[t]);
+    $("count").textContent = `${shown.length} of ${(w.lists[w.cur]||[]).length} stocks${active?" match":""}`;
+    $("list").innerHTML = shown.map((r,i)=>card(r,i,`<button class="cardx" onclick="event.stopPropagation(); const w=WL.get(); w.lists[w.cur]=w.lists[w.cur].filter(x=>x!=='${r.ticker}'); WL.save(); render();" title="Remove">✕</button>`)).join("")
+      + (missing.length?`<div class="box mute">Not in today's data: ${missing.map(tk).join(", ")}</div>`:"")
+      + (!(w.lists[w.cur]||[]).length?`<div class="box mute">This list is empty. Open any stock and tap ☆ Watchlist.</div>`:"");
+    return;
+  }
+  // Paper trades
+  const all = PT.get();
+  const st = F.st || "all";
+  let trades = all.filter(x=>{ const r = ALL[x.ticker]; if (st!=="all" && x.status!==st) return false;
+    if (q && !(x.ticker.toLowerCase().startsWith(q) || (r?.name||"").toLowerCase().includes(q))) return false;
+    if (!active) return true; return r ? passes(r,F) : !(F.mk||[]).length || F.mk.includes(x.market); });
+  const S = trades.map(x=>({x, ...tradeStats(x)}));
+  const done = S.filter(z=>z.ret!=null), wins = done.filter(z=>z.vs>0).length;
+  const avg = a => a.length ? a.reduce((p,c)=>p+c,0)/a.length : null;
+  const byLab = {}; done.forEach(z=>{ (byLab[z.x.label] ||= []).push(z); });
+  if (key!=="score") {} 
+  S.sort((a,b)=> (b.x.id - a.x.id));
+  $("mine").innerHTML = `<div class="mine-head"><b>Paper trades</b>
+    <div class="pills" style="margin-top:8px">${[["all","All"],["open","Open"],["closed","Closed"]].map(([v,l])=>`<button class="pill ${st===v?"on":""}" onclick="getF().st='${v}';saveF();render()">${l} (${v==="all"?all.length:all.filter(x=>x.status===v).length})</button>`).join("")}</div>
+    ${done.length?`<div class="grid" style="margin-top:10px">
+      <div class="kv"><small>Average return</small><b class="${avg(done.map(z=>z.ret))>=0?"good":"bad"}">${fp(avg(done.map(z=>z.ret)))}</b></div>
+      <div class="kv"><small>Average vs index</small><b class="${avg(done.map(z=>z.vs).filter(v=>v!=null))>=0?"good":"bad"}">${fp(avg(done.map(z=>z.vs).filter(v=>v!=null)))}</b></div>
+      <div class="kv"><small>Beat the index</small><b>${wins} of ${done.length} (${Math.round(wins/done.length*100)}%)</b></div>
+      <div class="kv"><small>Total P&amp;L</small><b>${(()=>{ const byCur={}; done.forEach(z=>{ const c={US:"US$",ASX:"A$",PSX:"PKR "}[z.x.market]; byCur[c]=(byCur[c]||0)+z.x.amount*z.ret; }); return Object.entries(byCur).map(([c,v])=>`${v>=0?"+":"−"}${c}${Math.abs(v).toFixed(0)}`).join(" · "); })()}</b></div></div>
+      <div class="mute" style="margin-top:8px">By label when bought: ${Object.entries(byLab).map(([l,a])=>`${l} ${fp(avg(a.map(z=>z.vs).filter(v=>v!=null)))} vs index (${a.length})`).join(" · ")}</div>`:`<div class="mute" style="margin-top:8px">No paper trades yet. Open a stock and tap “Paper buy” to test a signal.</div>`}
+    ${backup}</div>`;
+  $("count").textContent = active||q ? `${trades.length} of ${all.length} trades match` : "";
+  const cur = m => ({US:"US$",ASX:"A$",PSX:"PKR "})[m]||"";
+  $("list").innerHTML = S.map(({x,px,ret,vs,iret,days,now})=>`<div class="trade">
+    <div class="row"><div><span class="tk" onclick="openStock('${x.ticker}')" style="cursor:pointer">${tk(x.ticker)}</span> <span class="mute">${x.market}</span> ${x.status==="closed"?'<span class="sig HOLD">CLOSED</span>':""}</div>
+      <div class="big2 ${ret>=0?"good":"bad"}">${fp(ret)}</div></div>
+    <div class="mute">${esc(now?.name||"")}</div>
+    <div style="font-size:13px;margin-top:6px">Bought ${x.date} at ${cur(x.market)}${x.price} as ${badge(x.label)} (score ${x.score}) · ${x.status==="closed"?`sold ${x.exit_date} at ${cur(x.market)}${x.exit_price}`:`now ${cur(x.market)}${px??"–"} ${now?badge(now.signal||"HOLD"):""}`}</div>
+    <div style="font-size:13px;margin-top:4px">Index ${fp(iret)} over the same ${days} days → <b class="${vs>=0?"good":"bad"}">${fp(vs)} vs index</b> · ${cur(x.market)}${x.amount} invested → ${ret!=null?`${ret>=0?"+":"−"}${cur(x.market)}${Math.abs(x.amount*ret).toFixed(0)}`:"–"}</div>
+    ${x.note?`<div class="mute" style="margin-top:4px">“${esc(x.note)}”</div>`:""}
+    <div class="btnrow">${x.status==="open"?`<button class="sbtn" onclick="paperSell(${x.id})">Close (sell)</button>`:""}<button class="sbtn" onclick="openStock('${x.ticker}')">Details</button><button class="sbtn neg" onclick="paperDel(${x.id})">Delete</button></div></div>`).join("");
+}
+
+/* ---------------- run log ---------------- */
+let LOG = null;
+fetch("runlog.json").then(r=>r.ok?r.json():[]).then(j=>{ LOG=j; renderLog(); }).catch(()=>{ LOG=[]; });
+function renderLog(){
+  if (!LOG) return;
+  if (!LOG.length){ $("logsum").textContent=""; $("runlog").innerHTML='<div class="mute">No runs logged yet.</div>'; return; }
+  const l0 = LOG[0];
+  $("logsum").innerHTML = `· last run <b class="st-${l0.status}">${l0.status.toUpperCase()}</b>`;
+  const when = iso => new Date(iso).toLocaleString(undefined,{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
+  $("runlog").innerHTML = LOG.slice(0,12).map(l=>`<div class="logrow"><b class="st-${l.status}">${l.status.toUpperCase()}</b> · ${when(l.started)} · ${l.minutes} min · ${l.trigger==="schedule"?"scheduled":"manual"}
+    <div class="mute">${Object.entries(l.markets||{}).map(([m,v])=>v.error?`${m}: <b class="bad">failed</b> — ${esc(v.error)}`:`${m}: ${v.screened}/${v.downloaded} stocks, news ${Math.round((v.news_coverage||0)*100)}%, AI ${v.ai_scoring}${v.ai_events?` (${v.ai_events} events)`:""}${(v.missing_prices||[]).length?`, no prices for ${v.missing_prices.length}`:""}`).join("<br>")}</div>
+    ${l.fatal?`<div class="bad">${esc(l.fatal)}</div>`:""}
+    ${(l.warnings||[]).length?`<details><summary class="mute" style="font-size:12px">${l.warnings.length} warning(s)</summary><div class="mute" style="font-size:12px;white-space:pre-wrap">${l.warnings.map(esc).join("\n")}</div></details>`:""}</div>`).join("")
+    + `<div class="mute" style="margin-top:6px;font-size:12px">Full logs are kept in the repo under results/logs.</div>`;
+}
+
 /* ---------------- market overview ---------------- */
 const PER = ["1D","1W","1M","3M","YTD","1Y","5Y"];
 const fp = v => v==null ? "–" : (v>0?"+":"") + (v*100).toFixed(Math.abs(v)<0.1?1:0) + "%";
@@ -258,18 +413,19 @@ const SORTS = {
   rsi_lo:{l:"RSI (most oversold first)", f:(a,b)=>(a.rsi??999)-(b.rsi??999)},
   mcap:{l:"Market cap (largest first)", f:(a,b)=>(b.mcap??0)-(a.mcap??0)},
 };
-const DEF = () => ({flg:[], sig:[], sec:[], smin:"", smax:"", parts:{}, pemin:"", pemax:"", rmin:"", rmax:"", rsimin:"", rsimax:"",
+const DEF = () => ({mk:[], flg:[], sig:[], sec:[], smin:"", smax:"", parts:{}, pemin:"", pemax:"", rmin:"", rmax:"", rsimin:"", rsimax:"",
   cap:"", news:"", macro:"", good:[], bad:[], tags:[], sort:"score", vqmin:{}});
 const FS = {};
 function getF(){ if(!FS[M]){ try{ FS[M] = Object.assign(DEF(), JSON.parse(localStorage.getItem("f_"+M)||"{}")); }catch(e){ FS[M]=DEF(); } FS[M].sig = (FS[M].sig||[]).map(x=>x==="NONE"?"HOLD":x); } return FS[M]; }
 function saveF(){ try{ localStorage.setItem("f_"+M, JSON.stringify(FS[M])); }catch(e){} }
 const num = v => v===""||v==null ? null : Number(v);
 function activeCount(F){ let n=0;
-  if(F.sig.length) n++; if((F.flg||[]).length) n++; if(F.sec.length) n++; if(F.smin!==""||F.smax!=="") n++;
+  if(F.sig.length) n++; if((F.flg||[]).length) n++; if((F.mk||[]).length) n++; if(F.sec.length) n++; if(F.smin!==""||F.smax!=="") n++;
   n += Object.values(F.parts).filter(v=>v>0).length; n += Object.values(F.vqmin).filter(v=>v>0).length;
   if(F.pemin!==""||F.pemax!=="") n++; if(F.rmin!==""||F.rmax!=="") n++; if(F.rsimin!==""||F.rsimax!=="") n++;
   if(F.cap) n++; if(F.news) n++; if(F.macro) n++; n += F.good.length?1:0; n += F.bad.length?1:0; n += F.tags.length?1:0; return n; }
 function passes(r, F){
+  if ((F.mk||[]).length && !F.mk.includes(r.market)) return false;
   if (F.sig.length){ const sg = r.signal||"HOLD"; if(!F.sig.includes(sg)) return false; }
   if ((F.flg||[]).length && !F.flg.some(f=>(r.flags||[]).includes(f))) return false;
   if (F.sec.length && !F.sec.includes(r.sector)) return false;
@@ -302,7 +458,7 @@ function pills(group, opts, sel, neg){ return `<div class="pills">${opts.map(([v
 function one(group, opts, cur){ return `<div class="pills">${opts.map(([v,l])=>`<button class="pill ${cur===v?"on":""}" onclick="setF('${group}', ${JSON.stringify(v).replace(/"/g,"&quot;")})">${esc(l)}</button>`).join("")}</div>`; }
 function rng(a,b,ph1,ph2){ const F=getF(); return `<div class="rangerow"><input inputmode="decimal" placeholder="${ph1}" value="${esc(F[a])}" onchange="setF('${a}', this.value)"><span class="mute">to</span><input inputmode="decimal" placeholder="${ph2}" value="${esc(F[b])}" onchange="setF('${b}', this.value)"></div>`; }
 function drawPanel(){
-  const F = getF(), rows = D.markets[M]||[];
+  const F = getF(), rows = rowsFor(M);
   const secs = [...new Set(rows.map(r=>r.sector).filter(Boolean))].sort();
   const evs = [...new Set(rows.flatMap(r=>r.events||[]))];
   const good = evs.filter(e=>!BAD.includes(e)).sort(), bad = evs.filter(e=>BAD.includes(e)).sort();
@@ -311,6 +467,7 @@ function drawPanel(){
              : M==="ASX" ? [["",'Any'],["2e9",">A$2B"],["1e10",">A$10B"],["5e10",">A$50B"],["-5e9","<A$5B"]]
              : [["",'Any'],["5e10",">PKR 50B"],["2e11",">PKR 200B"],["5e11",">PKR 500B"],["-5e10","<PKR 50B"]];
   $("fpanel").innerHTML = `
+   ${MINE(M)?`<div class="fg"><span class="fl">Market</span>${pills("mk",MARKETS.map(m=>[m,m]),F.mk||[])}</div>`:""}
    <div class="fg"><span class="fl">Signal</span>${pills("sig",[["BUY","BUY"],["WATCH","WATCH"],["HOLD","HOLD"],["AVOID","AVOID"],["SELL","SELL"]],F.sig)}
      <div class="mute" style="margin-top:4px">Tap several to combine, e.g. BUY + WATCH.</div></div>
    <div class="fg"><span class="fl">Flags</span>${pills("flg",[["REBOUND","REBOUND (oversold quality)"],["TAKE PROFIT","TAKE PROFIT"]],F.flg)}</div>
@@ -326,10 +483,10 @@ function drawPanel(){
    <div class="fg"><span class="fl">P/E</span>${rng("pemin","pemax","min","max e.g. 20")}</div>
    <div class="fg"><span class="fl">3-month return %</span>${rng("rmin","rmax","min e.g. 0","max")}</div>
    <div class="fg"><span class="fl">RSI (14 day)</span>${rng("rsimin","rsimax","min","max e.g. 70")}<div class="mute" style="margin-top:4px">Under 30 = oversold, over 70 = overbought.</div></div>
-   <div class="fg"><span class="fl">Market cap</span>${one("cap",caps,F.cap)}</div>
+   ${MINE(M)?"":`<div class="fg"><span class="fl">Market cap</span>${one("cap",caps,F.cap)}</div>`}
    ${tags.length?`<div class="fg"><span class="fl">Must have all of these tags</span>${pills("tags",tags.map(x=>[x,x]),F.tags)}</div>`:""}
    <div class="fg"><label>Sort by</label><select onchange="setF('sort',this.value)">${Object.entries(SORTS).map(([k,v])=>`<option value="${k}" ${F.sort===k?"selected":""}>${v.l}</option>`).join("")}</select></div>
-   <div class="fact"><button onclick="resetF()">Clear all</button><button class="pri" onclick="$('fpanel').classList.remove('open');window.scrollTo({top:$('count').offsetTop-60,behavior:'smooth'})">Show ${(D.markets[M]||[]).filter(r=>passes(r,F)).length} stocks</button></div>`;
+   <div class="fact"><button onclick="resetF()">Clear all</button><button class="pri" onclick="$('fpanel').classList.remove('open');window.scrollTo({top:$('count').offsetTop-60,behavior:'smooth'})">Show ${rowsFor(M).filter(r=>passes(r,F)).length} stocks</button></div>`;
 }
 function tog(g,v){ const F=getF(); const a=F[g]; const i=a.indexOf(v); i>=0?a.splice(i,1):a.push(v); saveF(); render(); }
 function setF(k,v){ const F=getF(); F[k]=v; saveF(); render(); }
@@ -361,11 +518,20 @@ function clockTick(){
   $("clock").innerHTML = `<div><b>${M}</b> · ${m.city} ${local}<div class="mute">${open?"Closes":"Opens"} in ${fmtDur(t-now)} (${when} your time)</div></div><span class="st ${open?"open":"closed"}">${open?"● OPEN":"● CLOSED"}</span>`;
 }
 setInterval(clockTick, 30000);
-render();
 
 $("more").onclick = ()=>{ showAll=!showAll; render(); };
 $("q").oninput = render;
-Object.keys(D.markets).forEach(m=>{const b=document.createElement("button");b.textContent=m;b.onclick=()=>{M=m;showAll=false;$("q").value="";render()};$("tabs").appendChild(b)});
+const MARKETS = Object.keys(D.markets);
+[...MARKETS, "Lists", "Paper"].forEach(m=>{const b=document.createElement("button");b.textContent=m;b.onclick=()=>{M=m;showAll=false;$("q").value="";$("fpanel").classList.remove("open");render()};$("tabs").appendChild(b)});
+const MINE = v => v==="Lists" || v==="Paper";
+/* every stock from every market, keyed by ticker, with its market and rank */
+const ALL = {};
+MARKETS.forEach(m => (D.markets[m]||[]).forEach((r,i)=>{ ALL[r.ticker] = Object.assign({market:m, rank:i+1}, r); }));
+function rowsFor(view){
+  if (view==="Lists") return (WL.get().lists[WL.get().cur]||[]).map(t=>ALL[t]).filter(Boolean);
+  if (view==="Paper") return [...new Set(PT.get().map(x=>x.ticker))].map(t=>ALL[t]).filter(Boolean);
+  return (D.markets[view]||[]).map((r,i)=>Object.assign({market:view, rank:i+1}, r));
+}
 
 const cache = {};
 async function getJSON(u){ if(!cache[u]){ const r = await fetch(u); if(!r.ok) throw new Error(r.status); cache[u] = await r.json(); } return cache[u]; }
@@ -394,6 +560,7 @@ async function openStock(t, push=true){
     <div style="margin-top:8px">Price <b>${d.price??"–"}${d.market==="PSX"?" PKR":""}</b> · Market cap <b>${fmtCap(d.mcap)}${d.market==="PSX"?" PKR":""}</b></div></div>
     <div style="text-align:right"><div class="big">${d.score}</div><div class="mute">#${d.rank} of ${d.of}</div></div></div>
     <div class="chips" style="margin-top:8px">${d.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div>
+    <div class="btnrow"><button class="sbtn" onclick="addToList('${d.ticker}')">☆ Watchlist</button><button class="sbtn pri" onclick="paperBuy('${d.ticker}')">Paper buy</button></div>
     ${why(xOverview(d), "In plain English")}</div>
 
   <div class="sec"><h3>Label: ${badge(d.signal||"HOLD")} <span class="mute" style="font-weight:400">${LABEL_INFO[d.signal||"HOLD"]}</span></h3>
@@ -590,6 +757,7 @@ function drawChart(d, base, span){
 function closeSheet(){ $("sheet").classList.remove("open"); document.body.style.overflow=""; }
 window.addEventListener("popstate", e => { if (e.state && e.state.t) openStock(e.state.t, false); else closeSheet(); });
 if (location.hash.length > 1) { history.replaceState(null, "", location.pathname); openStock(decodeURIComponent(location.hash.slice(1))); }
+render();
 </script></body></html>"""
 
 

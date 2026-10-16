@@ -296,6 +296,12 @@ def run_market(name, cfg, demo):
     # If the price model failed its backtest in this market, lean on the other parts
     model_ok = stats.get("ic_mean", 0) > config.MIN_MODEL_IC
     w = config.WEIGHTS if model_ok else config.WEIGHTS_NO_MODEL
+    for k in config.WEIGHTS:  # a missing part counts as neutral rather than breaking the run
+        n_missing = int(df[k].isna().sum())
+        if n_missing:
+            print(f"WARNING [{name}] {n_missing} stocks missing '{k}' score — set to neutral")
+            diag.put("scoring", **{f"missing_{k}": n_missing})
+        df[k] = df[k].fillna(0.5)
     df["score"] = sum(w[k] * df[k] for k in w) * 100
     df = df.sort_values("score", ascending=False)
     df["price"] = price
@@ -507,8 +513,7 @@ def write_details(df, ex, market, outdir):
                                            "news": "Company news", "peers": "Competitors' news",
                                            "macro": "Sector & politics"}[k],
                        "value": round(float(r[k]) * 100), "weight": w[k]} for k in w],
-            "sub": {"value": round(float(r["value"]) * 100), "quality": round(float(r["quality"]) * 100),
-                    "growth": round(float(r["growth"]) * 100), "health": round(float(r["health"]) * 100)},
+            "sub": {k: (round(float(r[k]) * 100) if pd.notna(r[k]) else None) for k in ("value", "quality", "growth", "health")},
             "health": {"f_score": _num(r["f_score"], 1),
                        "f_tests": json.loads(r["f_tests"]) if isinstance(r.get("f_tests"), str) else {},
                        "altman_z": _num(r["altman_z"], 2), "interest_cover": _num(r["interest_cover"], 1),

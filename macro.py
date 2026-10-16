@@ -218,20 +218,22 @@ HIST = "results/macro_history.csv"
 
 
 def _heat(market, counts):
-    """Heat 0..1 = how unusual today's headline count is vs that theme's own recent history."""
+    """Heat 0..1 = how unusual today's 48-hour headline count is vs that theme's own history.
+    Until 5 days of history exist, themes are ranked against each other and capped at 0.45."""
     os.makedirs("results", exist_ok=True)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     hist = pd.read_csv(HIST) if os.path.exists(HIST) else pd.DataFrame(columns=["date", "market", "theme", "n"])
     past = hist[(hist["market"] == market) & (hist["date"] != today)]
+    ranks = pd.Series(counts, dtype=float).rank(pct=True) if counts else pd.Series(dtype=float)
     heat = {}
     for k, n in counts.items():
         h = past.loc[past["theme"] == k, "n"].tail(60)
         if len(h) >= 5:
             med = float(h.median())
-            z = (n - med) / max(5.0, 0.5 * med)
-            heat[k] = float(np.clip(0.35 + 0.35 * z, 0, 1))
-        else:  # no baseline yet: scale by volume but cap, so one theme can't dominate
-            heat[k] = float(np.clip(n / 100 * 0.6, 0, 0.6))
+            z = (n - med) / max(3.0, 0.5 * med)
+            heat[k] = float(np.clip(0.3 + 0.35 * z, 0, 1))
+        else:
+            heat[k] = float(0.45 * ranks[k] ** 2) if n else 0.0  # only the busiest few matter
     rows = pd.DataFrame([{"date": today, "market": market, "theme": k, "n": n} for k, n in counts.items()])
     hist = pd.concat([hist[~((hist["market"] == market) & (hist["date"] == today))], rows], ignore_index=True)
     hist.to_csv(HIST, index=False)
@@ -339,7 +341,10 @@ def macro_context(market, demo=False, universe=None):
         sectors[s] = {"score": round(float(np.clip(score, -1, 1)), 2), "n": len(hs), "why": None,
                       "headlines": hs[:6]}
     live = {k: t for k, t in THEMES.items() if market in t.get("markets", [market])}
-    heat = _heat(market, {k: len(heads.get(("theme", k), [])) for k in live}) if not demo else \
+    def n48(hs):
+        cut = (datetime.now(timezone.utc).date() - pd.Timedelta(days=2)).strftime("%Y-%m-%d")
+        return sum(1 for h in hs if h.get("date", "") >= cut)
+    heat = _heat(market, {k: n48(heads.get(("theme", k), [])) for k in live}) if not demo else \
         {k: min(1.0, len(heads.get(("theme", k), [])) / 10) for k in live}
     for k, t in live.items():
         hs = heads.get(("theme", k), [])

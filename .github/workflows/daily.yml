@@ -25,22 +25,32 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
       - name: Run screener
+        id: screener
         env:
           # optional: either secret name works
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY || secrets.CLAUDE_API_KEY }}
         run: python run.py
-      - name: Save results and run log to main (even if the run failed)
-        if: always()
-        run: |
-          git config user.name "screener-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add results
-          git commit -m "Daily results $(date -u +%F)" || echo "No changes"
-          git pull --rebase origin main && git push
       - name: Publish the web page (replaced each day, no history kept)
+        if: steps.screener.outcome == 'success'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
           publish_branch: gh-pages
           force_orphan: true
+      - name: Save results and run log to main (even if the run failed)
+        if: always()
+        run: |
+          git config user.name "screener-bot"
+          git config user.email "actions@users.noreply.github.com"
+          cp -r results /tmp/results_new
+          for i in 1 2 3; do
+            git fetch -q origin main
+            git reset -q --hard origin/main          # start from the latest code
+            rm -rf results && cp -r /tmp/results_new results   # this run's results win
+            git add -A results
+            git commit -qm "Daily results $(date -u +%F)" || { echo "No changes"; exit 0; }
+            git push -q origin HEAD:main && exit 0
+            echo "push raced with another change, retrying ($i)"; sleep 5
+          done
+          exit 1

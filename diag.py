@@ -91,7 +91,7 @@ def checks(market, stats):
         add("Company news", st,
             f"coverage {round(cov * 100)}%; Yahoo items {n.get('yahoo_items', 0)}, Google items {n.get('google_items', 0)}, "
             f"Google requests {reqs} ({fails} failed); dropped: {n.get('dropped_irrelevant', 0)} off-topic, "
-            f"{n.get('dropped_lowq', 0)} junk sites, {n.get('dropped_promo_cap', 0)} over promo cap",
+            f"{n.get('dropped_lowq', 0)} junk sites, {n.get('dropped_lawfirm_ads', 0)} law-firm ads, {n.get('dropped_promo_cap', 0)} over promo cap",
             "" if st == "OK" else "Google News may be blocking requests — data.py _google_news; errors listed below.")
 
     h = d.get("health", {})

@@ -494,6 +494,20 @@ FUND_ROWS = [  # (key, label, kind, higher_is_better)
 ]
 
 
+def _p100(v, what=""):
+    """0..1 -> 0..100, treating a missing value as neutral (50) and logging it."""
+    try:
+        f = float(v)
+        if np.isfinite(f):
+            return round(f * 100)
+    except (TypeError, ValueError):
+        pass
+    if what:
+        print(f"WARNING missing value for {what} — shown as 50")
+        diag.sample("scoring", "errors", f"missing {what}")
+    return 50
+
+
 def write_details(df, ex, market, outdir):
     """One small JSON per stock with everything the detail view needs."""
     fund = ex["fund"].copy()
@@ -525,7 +539,7 @@ def write_details(df, ex, market, outdir):
             "parts": [{"key": k, "label": {"ml": "Price model", "fundamental": "Fundamentals",
                                            "news": "Company news", "peers": "Competitors' news",
                                            "macro": "Sector & politics"}[k],
-                       "value": round(float(r[k]) * 100), "weight": w[k]} for k in w],
+                       "value": _p100(r[k], f"{t} {k}"), "weight": w[k]} for k in w],
             "sub": {k: (round(float(r[k]) * 100) if pd.notna(r[k]) else None) for k in ("value", "quality", "growth", "health")},
             "health": {"f_score": _num(r["f_score"], 1),
                        "f_tests": json.loads(r["f_tests"]) if isinstance(r.get("f_tests"), str) else {},
@@ -699,7 +713,7 @@ def _main(a, stats):
              "hl": r["halal"],
              "hz": [r["hz_short"] or "", r["signal"] if r["signal"] in ("BUY", "WATCH") else "", r["hz_long"] or ""],
              "red": r["red_flags"] if isinstance(r["red_flags"], list) else [],
-             "parts": {k: round(float(r[k]) * 100) for k in config.WEIGHTS},
+             "parts": {k: _p100(r[k], f"{t} {k}") for k in config.WEIGHTS},
              "pe": _num(r["fwd_pe"], 1),
              "ret3m": None if pd.isna(r["ret_63"]) else round(float(r["ret_63"]) * 100, 1),
              "rsi": _num(r["rsi_14"], 0), "mcap": _num(r["mcap"], 0),

@@ -249,6 +249,13 @@ def _clean_name(name):
 
 
 # Auto-generated price-tick sites: lots of headlines, no information
+# US "shareholder alert" ads from class-action law firms — not real news about the company
+LAW_FIRM_SPAM = re.compile(
+    r"(rosen law|pomerantz|levi & korsinsky|bragar eagel|faruqi|bronstein|kessler topaz|glancy|schall law|"
+    r"robbins geller|robbins llp|johnson fistel|kahn swick|gainey mckenna|bernstein liebhard|block & leviton|"
+    r"hagens berman|portnoy law|frank r\. cruz|holzer|khang & khang|rigrodsky|halper sadeh|ademi|monteverde|"
+    r"shareholder alert|investor alert|class action (reminder|filed|lawsuit filed)|lead plaintiff deadline|"
+    r"investors who lost money|encourages investors|announces investigation|investigation on behalf)", re.I)
 LOW_QUALITY = {"ad-hoc-news.de", "marketbeat", "marketbeat.com", "defense world", "etf daily news",
                "the lincolnian online", "modern readers", "watchlist news", "zolmax", "ticker report",
                "american banking news", "the cerbat gem", "dailypolitical.com", "stocktitan.net",
@@ -312,7 +319,7 @@ def _news(args):
     sites = " OR ".join(f"site:{d}" for d in QUALITY_SITES.get(market, []))
     ctx = {"ASX": "(ASX OR shares OR stock)", "US": "(stock OR shares OR NYSE OR Nasdaq)",
            "PSX": "(PSX OR shares OR stock OR Pakistan)"}.get(market, "(stock OR shares)")
-    items = _yahoo_news(t)
+    items = []  # Yahoo's news endpoint rate-limits large runs; Google News covers everything we need
     items += _google_news(f'"{nm}" ({sites}) when:10d', market) if sites else []
     items += _google_news(f'"{nm}" {ctx} when:10d', market)
     seen, out, promo = set(), [], 0
@@ -323,6 +330,9 @@ def _news(args):
             continue
         if pub in LOW_QUALITY:
             diag.inc("news", "dropped_lowq")
+            continue
+        if LAW_FIRM_SPAM.search(i["title"]) or LAW_FIRM_SPAM.search(pub):
+            diag.inc("news", "dropped_lawfirm_ads")
             continue
         if not _relevant(i["title"], name, code, strict=(market == "PSX")):
             diag.inc("news", "dropped_irrelevant")

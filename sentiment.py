@@ -51,13 +51,22 @@ def _claude_batch(items, key):
     prompt = ("For each headline about the named company, judge its likely impact on THAT company's share "
               "price over the next few weeks, from -1 (very negative) to 1 (very positive); 0 if irrelevant "
               "or old news. Also tag the event types it describes using these keys (or [] if none): " + ev +
-              ".\nReply with only a JSON array, one object per headline in order: {\"s\": number, \"e\": [keys]}.\n\n"
+              ".\nReply with only a JSON array with exactly one object per numbered headline: "
+              "{\"i\": headline number, \"s\": number, \"e\": [keys]}.\n\n"
               + "\n".join(f"{j+1}. [{t}] {h}" for j, (t, h) in enumerate(items)))
     arr = claude_api.ask_json(prompt, 4000, "headline scoring", "array")
-    if len(arr) != len(items):
-        diag.sample("claude", "errors", f"headline scoring: got {len(arr)} answers for {len(items)} headlines")
-        raise ValueError("length mismatch")
-    return [(float(np.clip(a.get("s", 0), -1, 1)), [e for e in a.get("e", []) if e in EVENTS]) for a in arr]
+    by_i = {}
+    for a in arr:  # match answers by headline number; anything missing falls back to the rules
+        try:
+            by_i[int(a.get("i"))] = (float(np.clip(float(a.get("s", 0)), -1, 1)), [e for e in a.get("e", []) if e in EVENTS])
+        except (TypeError, ValueError):
+            pass
+    missing = [j for j in range(1, len(items) + 1) if j not in by_i]
+    if missing:
+        diag.inc("claude", "headlines_unanswered", len(missing))
+    if len(missing) > len(items) // 2:
+        raise ValueError(f"only {len(by_i)} of {len(items)} headlines answered")
+    return [by_i.get(j + 1) or rule_score(h) for j, (_, h) in enumerate(items)]
 
 
 def claude_scores(items):
@@ -65,7 +74,7 @@ def claude_scores(items):
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key or not items:
         return None
-    chunks = [items[i:i + 60] for i in range(0, len(items), 60)]
+    chunks = [items[i:i + 40] for i in range(0, len(items), 40)]
 
     def one(c):  # a failed batch falls back to the rules for just those headlines
         try:

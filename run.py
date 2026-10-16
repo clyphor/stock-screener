@@ -70,6 +70,7 @@ def signal_checks(df, model_ok):
     })
 
 
+MACRO_RED = -0.5   # sector/political score at or below this = red flag (AI events stack up, so keep it strict)
 RED_FLAG_EVENTS = {"scandal", "guidance_down", "capital_raise", "bankruptcy", "debt", "ceo_exit",
                    "trial_fail", "rejection", "dividend_cut", "recall"}
 SELL_LABELS = {
@@ -97,7 +98,7 @@ def red_flags(df):
     for t, r in df.iterrows():
         evs = r.get("events") if isinstance(r.get("events"), list) else []
         f = [__import__("events").LABEL[k] for k in evs if k in RED_FLAG_EVENTS]
-        if r["macro_raw"] <= -0.3:
+        if r["macro_raw"] <= MACRO_RED:
             f.append("Strong sector / political headwind")
         if pd.notna(r["altman_z"]) and r["altman_z"] < 1.8 and pd.notna(r["f_score"]) and r["f_score"] <= 3:
             f.append("Financial distress risk")
@@ -287,6 +288,12 @@ def run_market(name, cfg, demo):
     price = close.iloc[-1].reindex(df.index)
     ok = (df["dollar_vol"] >= cfg["min_dollar_vol"]) & (price >= 1) & ~(mcap < cfg["min_mcap"])
     df = df[ok].copy()
+    # Drop duplicate tickers and rows with no usable price data (logged so we can see which)
+    bad = df.index[df.index.duplicated() | df["dollar_vol"].isna() | price.reindex(df.index).isna()]
+    if len(bad):
+        print(f"WARNING [{name}] dropped {len(bad)} stocks with no usable price data: {', '.join(map(str, bad[:15]))}")
+        diag.put("scoring", dropped_no_data=[str(t) for t in bad[:30]])
+    df = df[~df.index.duplicated() & df["dollar_vol"].notna() & price.reindex(df.index).notna()].copy()
 
     # Sector news + political/macro themes
     df["sector"] = fund["sector"].reindex(df.index).fillna("Unknown")
@@ -580,7 +587,7 @@ def write_details(df, ex, market, outdir):
             "news_avg": _num(r["news_sent"], 2), "peer_avg": _num(r["peer_sent"], 2),
             "macro_share": _num(r["macro_share"], 2),
             "macro": {"score": _num(r["macro_raw"], 2), "sector_news": _num(r["sector_news"], 2),
-                      "effects": [{"theme": th, "effect": e} for th, e in r["macro_effects"]],
+                      "effects": [{"theme": th, "effect": e} for th, e in (r["macro_effects"] if isinstance(r["macro_effects"], list) else [])],
                       "sector_why": ex["ctx"]["sectors"].get(sec, {}).get("why"),
                       "sector_headlines": ex["ctx"]["sectors"].get(sec, {}).get("headlines", [])[:4]},
             "peers": [{"ticker": p, "name": pr["name"], "score": _num(pr["score"], 1),

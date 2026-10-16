@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 
 from config import CLAUDE_MODEL
+import claude_api
 import diag
 from events import EVENTS, IMPACT, LABEL, classify, event_score
 
@@ -52,16 +53,9 @@ def _claude_batch(items, key):
               "or old news. Also tag the event types it describes using these keys (or [] if none): " + ev +
               ".\nReply with only a JSON array, one object per headline in order: {\"s\": number, \"e\": [keys]}.\n\n"
               + "\n".join(f"{j+1}. [{t}] {h}" for j, (t, h) in enumerate(items)))
-    body = json.dumps({"model": CLAUDE_MODEL, "max_tokens": 4000,
-                       "messages": [{"role": "user", "content": prompt}]}).encode()
-    req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers={
-        "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
-    with urllib.request.urlopen(req, timeout=180) as r:
-        resp = json.loads(r.read())
-    diag.claude_ok(resp)
-    text = resp["content"][0]["text"]
-    arr = json.loads(text[text.index("["): text.rindex("]") + 1])
+    arr = claude_api.ask_json(prompt, 4000, "headline scoring", "array")
     if len(arr) != len(items):
+        diag.sample("claude", "errors", f"headline scoring: got {len(arr)} answers for {len(items)} headlines")
         raise ValueError("length mismatch")
     return [(float(np.clip(a.get("s", 0), -1, 1)), [e for e in a.get("e", []) if e in EVENTS]) for a in arr]
 
@@ -72,15 +66,20 @@ def claude_scores(items):
     if not key or not items:
         return None
     chunks = [items[i:i + 60] for i in range(0, len(items), 60)]
-    try:
-        with ThreadPoolExecutor(8) as ex:
-            res = list(ex.map(lambda c: _claude_batch(c, key), chunks))
-        return [x for r in res for x in r]
-    except Exception as e:
-        diag.claude_fail(e, "headline scoring")
-        msg = getattr(e, "read", lambda: b"")()[:300]
-        print("Claude scoring failed, using rules:", e, msg)
+
+    def one(c):  # a failed batch falls back to the rules for just those headlines
+        try:
+            return _claude_batch(c, key), True
+        except Exception as e:
+            print("WARNING Claude batch failed, using rules for it:", str(e)[:200])
+            return [rule_score(h) for _, h in c], False
+
+    with ThreadPoolExecutor(8) as ex:
+        res = list(ex.map(one, chunks))
+    if not any(ok for _, ok in res):
         return None
+    diag.put("claude", headline_batches=len(chunks), headline_batches_ok=sum(ok for _, ok in res))
+    return [x for r, _ in res for x in r]
 
 
 def rule_score(title):

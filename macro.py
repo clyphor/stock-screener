@@ -20,6 +20,7 @@ from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 
+import claude_api
 import diag
 from config import CLAUDE_MODEL
 from data import _google_news
@@ -294,17 +295,8 @@ def _claude(market, heads):
               "Reply with only JSON: {\"sectors\": {name: {score, why}}, \"themes\": {label: {heat, why}}}.\n\n"
               + "\n\n".join(blocks))
     try:
-        body = json.dumps({"model": CLAUDE_MODEL, "max_tokens": 3000,
-                           "messages": [{"role": "user", "content": prompt}]}).encode()
-        req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers={
-            "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
-        with urllib.request.urlopen(req, timeout=180) as r:
-            resp = json.loads(r.read())
-        diag.claude_ok(resp)
-        text = resp["content"][0]["text"]
-        return json.loads(text[text.index("{"): text.rindex("}") + 1])
+        return claude_api.ask_json(prompt, 4000, "sector/theme scoring", "object")
     except Exception as e:
-        diag.claude_fail(e, "sector/theme scoring")
         print("WARNING Claude macro scoring failed, using word list:", e)
         return None
 
@@ -348,15 +340,7 @@ def _claude_events(market, heads, broad, universe):
         "Reply with only JSON: [{\"event\": short title, \"why\": one sentence, \"impacts\": "
         "[{\"target\": \"industry:Gold\", \"effect\": 0.3}]}]")
     try:
-        body = json.dumps({"model": CLAUDE_MODEL, "max_tokens": 6000,
-                           "messages": [{"role": "user", "content": prompt}]}).encode()
-        req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers={
-            "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
-        with urllib.request.urlopen(req, timeout=240) as r:
-            resp = json.loads(r.read())
-        diag.claude_ok(resp)
-        text = resp["content"][0]["text"]
-        evs = json.loads(text[text.index("["): text.rindex("]") + 1])
+        evs = claude_api.ask_json(prompt, 8000, "event analyst", "array")
         ok = []
         for e in evs:
             imps = [i for i in e.get("impacts", []) if isinstance(i, dict) and ":" in str(i.get("target", ""))]
@@ -368,7 +352,6 @@ def _claude_events(market, heads, broad, universe):
         return ok
     except Exception as e:
         print("WARNING Claude event analyst failed:", e)
-        diag.claude_fail(e, "event analyst")
         return []
 
 

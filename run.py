@@ -77,8 +77,9 @@ def run_market(name, cfg, demo):
         close, volume = get_prices(list(uni.index), config.HISTORY)
         idx = idx.reindex(close.index).ffill()
         fund = get_fundamentals(list(close.columns))
-        fund["sector"] = fund["sector"].fillna(uni.reindex(fund.index))
-        news = get_news(list(close.columns))
+        fund["sector"] = fund["sector"].fillna(uni["sector"].reindex(fund.index))
+        names = uni["name"].reindex(fund.index).fillna(fund["longName"]).fillna(fund["shortName"])
+        news = get_news(list(close.columns), names.to_dict(), name)
     print(f"[{name}] {close.shape[1]} stocks, {len(close)} days")
 
     panel = technical_panel(close, volume, idx, config.HORIZON_DAYS)
@@ -119,6 +120,8 @@ def run_market(name, cfg, demo):
     checks = signal_checks(df, model_ok)
     df["signal"] = signals(checks)
     stats.update(news_method=nf.attrs.get("method"), screened=int(ok.sum()),
+                 news_coverage=round(float((df["news_count"].fillna(0) > 0).mean()), 2),
+                 price_date=str(close.index[-1].date()),
                  model_used=bool(model_ok), weights=w)
     stats.update(track_record(name, df, close, idx))
 

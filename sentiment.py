@@ -72,8 +72,9 @@ def claude_scores(titles):
 
 
 def news_features(news, sectors):
-    """news: {ticker: [titles]}, sectors: Series ticker->sector. Returns DataFrame."""
-    flat = [(t, h) for t, hs in news.items() for h in hs]
+    """news: {ticker: [ {title, link, ...} ]}, sectors: Series ticker->sector."""
+    news = {t: [h if isinstance(h, dict) else {"title": h} for h in hs] for t, hs in news.items()}
+    flat = [(t, h["title"]) for t, hs in news.items() for h in hs]
     titles = [h for _, h in flat]
     scores = claude_scores(titles)
     method = "claude" if scores else "wordlist"
@@ -82,9 +83,14 @@ def news_features(news, sectors):
 
     rows = {t: {"news_sent": 0.0, "news_count": 0, "macro_share": 0.0, "macro_sent": 0.0}
             for t in news}
-    by_t = {}
-    for (t, h), s in zip(flat, scores):
-        by_t.setdefault(t, []).append((s, is_macro(h)))
+    by_t, heads = {}, {}
+    i = 0
+    for t, hs in news.items():
+        for h in hs:
+            sc, mac = scores[i], is_macro(h["title"])
+            i += 1
+            by_t.setdefault(t, []).append((sc, mac))
+            heads.setdefault(t, []).append({**h, "score": round(float(sc), 2), "macro": mac})
     for t, lst in by_t.items():
         s = np.array([x for x, _ in lst])
         m = np.array([y for _, y in lst])
@@ -100,4 +106,5 @@ def news_features(news, sectors):
         peer.append(df.loc[mates, "news_sent"].mean() if len(mates) else 0.0)
     df["peer_sent"] = np.nan_to_num(peer)
     df.attrs["method"] = method
+    df.attrs["headlines"] = heads
     return df

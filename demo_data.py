@@ -20,7 +20,8 @@ def fake_market(tickers, index_name, days=1000, seed=0):
         "priceToBook": rng.uniform(1, 15, len(tickers)), "profitMargins": rng.uniform(-0.05, 0.4, len(tickers)),
         "revenueGrowth": rng.normal(0.08, 0.1, len(tickers)), "earningsGrowth": rng.normal(0.1, 0.2, len(tickers)),
         "debtToEquity": rng.uniform(0, 200, len(tickers)), "returnOnEquity": rng.uniform(0, 0.4, len(tickers)),
-        "freeCashflow": rng.uniform(-1e9, 5e10, len(tickers)),
+        "freeCashflow": rng.uniform(-1e9, 5e10, len(tickers)), "dividendYield": rng.uniform(0, 5, len(tickers)),
+        "recommendationKey": "buy", "targetMeanPrice": 100.0,
     }, index=pd.Index(tickers, name="ticker"))
     heads = ["{t} beats estimates and raises guidance", "{t} shares fall on weak outlook",
              "{t} faces new tariff risk as China policy shifts", "{t} announces buyback",

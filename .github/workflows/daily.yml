@@ -9,10 +9,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: screener
+  cancel-in-progress: false
+
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -24,10 +28,17 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}  # optional
         run: python run.py
-      - name: Save results
+      - name: Save results (small CSVs) to main
         run: |
           git config user.name "screener-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add results docs
+          git add results
           git commit -m "Daily results $(date -u +%F)" || echo "No changes"
-          git push
+          git pull --rebase origin main && git push
+      - name: Publish the web page (replaced each day, no history kept)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
+          force_orphan: true

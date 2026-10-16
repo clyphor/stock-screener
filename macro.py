@@ -290,12 +290,12 @@ def _claude(market, heads):
         blocks.append(f"## {kind.upper()}: {label}\n" + "\n".join("- " + h["title"] for h in hs[:15]))
     prompt = (f"You are a markets analyst for the {market} stock market. Below are recent headlines grouped "
               "by sector and by political/macro theme.\n\nFor each SECTOR give 'score' from -1 (very bad "
-              "news for that sector's stocks) to 1 (very good), and a one-line 'why'.\nFor each THEME give "
-              "'heat' from 0 (not a live issue) to 1 (dominating markets right now), and a one-line 'why'.\n"
+              "news for that sector's stocks) to 1 (very good), and a 'why' of at most 15 words.\nFor each THEME give "
+              "'heat' from 0 (not a live issue) to 1 (dominating markets right now), and a 'why' of at most 15 words.\n"
               "Reply with only JSON: {\"sectors\": {name: {score, why}}, \"themes\": {label: {heat, why}}}.\n\n"
               + "\n\n".join(blocks))
     try:
-        return claude_api.ask_json(prompt, 4000, "sector/theme scoring", "object")
+        return claude_api.ask_json(prompt, 10000, "sector/theme scoring", "object")
     except Exception as e:
         print("WARNING Claude macro scoring failed, using word list:", e)
         return None

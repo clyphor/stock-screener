@@ -158,16 +158,19 @@ def _psx_info(t, name=None):
     from universe import PSX_SECTORS
     kws = [k.upper() for k, _, _ in PSX_SECTORS] + ["SUGAR", "COMPOSITE", "VANASPATI", "LEATHER", "JUTE", "SYNTHETIC", "WOOLLEN"]
     tok = r"[A-Z&/][A-Z&/\.,'-]*(?![a-z])"
-    start = 0
-    if name:  # the sector line sits directly under the company name — search only after it
-        k = txt.find(name)
-        if k < 0:
-            k = txt.lower().find(name.lower()[:25])
-        start = max(0, k + len(name)) if k >= 0 else 0
-    window = txt[start:start + 160] if start else txt
-    for cand in re.findall(r"((?:" + tok + r"\s){0,9}" + tok + ")", window):
-        if len(cand) < 90 and any(k in cand for k in kws) and cand.strip() != sym:
-            row["psx_sector"] = cand.strip()
+    # The sector line sits directly under the company name. The name also appears in the page title and
+    # menus, so try the text right after EVERY place the name appears and take the first sector found.
+    windows = []
+    if name:
+        low, key = txt.lower(), name.lower()[:30]
+        k = low.find(key)
+        while k >= 0 and len(windows) < 6:
+            windows.append(txt[k + len(name): k + len(name) + 120])
+            k = low.find(key, k + 1)
+    for window in windows:
+        m = re.match(r"\s*((?:" + tok + r"\s){0,9}" + tok + ")", window)
+        if m and len(m.group(1)) < 90 and any(k in m.group(1) for k in kws):
+            row["psx_sector"] = m.group(1).strip()
             break
     row["currency"] = "PKR"
     return row

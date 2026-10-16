@@ -72,7 +72,7 @@ def signal_checks(df, model_ok):
 
 MACRO_RED = -0.5   # sector/political score at or below this = red flag (AI events stack up, so keep it strict)
 RED_FLAG_EVENTS = {"scandal", "guidance_down", "capital_raise", "bankruptcy", "debt", "ceo_exit",
-                   "trial_fail", "rejection", "dividend_cut", "recall"}
+                   "trial_fail", "rejection", "dividend_cut"}
 SELL_LABELS = {
     "bottom_ranked": "Bottom 15% overall score",
     "downtrend": "Downtrend (below 50 & 200-day average)",
@@ -103,7 +103,7 @@ def red_flags(df):
             f.append("Strong sector / political headwind")
         if pd.notna(r["altman_z"]) and r["altman_z"] < 1.8 and pd.notna(r["f_score"]) and r["f_score"] <= 3:
             f.append("Financial distress risk")
-        if pd.notna(r["interest_cover"]) and r["interest_cover"] < 1:
+        if pd.notna(r["interest_cover"]) and r["interest_cover"] < 1 and r["sector"] not in ("Financial Services", "Real Estate"):
             f.append("Profit doesn't cover interest")
         if pd.notna(r["dilution"]) and r["dilution"] > 0.2:
             f.append("Heavy share dilution")
@@ -251,6 +251,13 @@ def run_market(name, cfg, demo):
             mapped = fund["psx_sector"].map(lambda x: psx_sector(x) if isinstance(x, str) else (None, None))
             fund["sector"] = [m[0] for m in mapped]
             fund["industry"] = [m[1] for m in mapped]
+            unknown = fund["sector"].isna()
+            if unknown.any():  # fall back to the index list's sector
+                print(f"WARNING [PSX] sector not found on {int(unknown.sum())} company pages — using index list sector")
+                diag.put("fundamentals", psx_sector_missing=int(unknown.sum()))
+                for c in ("sector", "industry"):
+                    if c in uni:
+                        fund.loc[unknown, c] = uni[c].reindex(fund.index)[unknown]
         if "industry" in uni:
             fund["industry"] = fund["industry"].fillna(uni["industry"].reindex(fund.index))
         fund["shortName"] = fund["shortName"].fillna(uni["name"].reindex(fund.index))

@@ -40,51 +40,140 @@ SECTOR_QUERIES = {
 }
 MARKET_WORD = {"US": "(stocks OR Wall Street)", "ASX": "(ASX OR Australia)"}
 
-# Political / macro themes. Exposures: keys are sectors, or "ind:<industry keyword>", or "*" (all).
+# Political / macro / sector themes.
+# Exposure keys: a sector name, "ind:<text in Yahoo industry>", "tk:<ticker>", or "*" (every stock).
+# Values: how much the theme helps (+) or hurts (-) at full heat. Split by direction where it matters
+# (e.g. oil supply up vs down), because the same topic can be good or bad depending on what happened.
+T = lambda label, query, exp, markets=None: {"label": label, "query": query, "exp": exp,
+                                             **({"markets": markets} if markets else {})}
 THEMES = {
-    "war": {
-        "label": "War / geopolitical conflict",
-        "query": '(war OR invasion OR "missile strike" OR "military conflict" OR "Middle East tensions") markets',
-        "exp": {"*": -0.15, "Energy": 0.5, "ind:Aerospace": 0.7, "ind:Gold": 0.6,
-                "ind:Airlines": -0.7, "ind:Travel": -0.5, "Consumer Cyclical": -0.25},
-    },
-    "tariffs": {
-        "label": "Tariffs / trade war",
-        "query": '(tariff OR tariffs OR "trade war" OR "export ban" OR "trade restrictions")',
-        "exp": {"*": -0.1, "Basic Materials": -0.4, "Industrials": -0.35, "Technology": -0.3,
-                "Consumer Cyclical": -0.35, "ind:Auto": -0.5, "ind:Semiconductor": -0.4,
-                "Utilities": 0.1, "Consumer Defensive": 0.05},
-    },
-    "rates_down": {
-        "label": "Interest-rate cuts",
-        "query": '("rate cut" OR "cuts rates" OR "rate cuts" OR "easing") (Fed OR RBA OR "central bank")',
-        "exp": {"Real Estate": 0.5, "Utilities": 0.35, "Technology": 0.3, "Consumer Cyclical": 0.3,
-                "Financial Services": -0.15, "ind:Banks": -0.25},
-    },
-    "rates_up": {
-        "label": "Interest-rate hikes / sticky inflation",
-        "query": '("rate hike" OR "raises rates" OR "higher for longer" OR "inflation surge") (Fed OR RBA OR "central bank")',
-        "exp": {"Real Estate": -0.5, "Utilities": -0.35, "Technology": -0.3, "Consumer Cyclical": -0.3,
-                "ind:Banks": 0.2, "ind:Insurance": 0.15},
-    },
-    "election": {
-        "label": "Elections / political uncertainty",
-        "query": '(election OR midterms OR "government shutdown" OR "political uncertainty") markets',
-        "exp": {"*": -0.1, "Healthcare": -0.15, "ind:Defense": 0.1},
-    },
-    "recession": {
-        "label": "Recession / slowdown fears",
-        "query": '(recession OR "economic slowdown" OR "job cuts" OR "weak jobs") markets',
-        "exp": {"Consumer Cyclical": -0.45, "Industrials": -0.35, "Basic Materials": -0.35,
-                "Energy": -0.3, "Financial Services": -0.25, "Consumer Defensive": 0.25,
-                "Utilities": 0.25, "Healthcare": 0.2},
-    },
-    "china": {
-        "label": "China stimulus / demand",
-        "query": '(China stimulus OR "China demand" OR "China economy") (commodities OR "iron ore" OR markets)',
-        "exp": {"Basic Materials": 0.5, "Energy": 0.2, "Industrials": 0.1},
-        "markets": ["ASX", "US"],
-    },
+    # --- Geopolitics -----------------------------------------------------------------------
+    "war": T("War / geopolitical conflict",
+        '(war OR invasion OR "missile strike" OR airstrike OR "military conflict" OR escalation) (markets OR stocks OR oil)',
+        {"*": -0.15, "Energy": 0.4, "ind:Aerospace": 0.7, "ind:Gold": 0.6, "ind:Airlines": -0.7,
+         "ind:Travel": -0.5, "ind:Lodging": -0.3, "Consumer Cyclical": -0.2}),
+    "ceasefire": T("Ceasefire / peace deal",
+        '(ceasefire OR "peace deal" OR "peace talks" OR truce OR "end of war") (markets OR stocks OR oil)',
+        {"*": 0.1, "Energy": -0.3, "ind:Aerospace": -0.3, "ind:Gold": -0.3, "ind:Airlines": 0.4,
+         "ind:Travel": 0.3, "ind:Building Materials": 0.15, "ind:Engineering": 0.15}),
+    "china_tensions": T("US–China / Taiwan tensions",
+        '(Taiwan OR "South China Sea" OR "US-China tensions" OR "China sanctions" OR "decoupling")',
+        {"*": -0.05, "ind:Semiconductor": -0.35, "ind:Consumer Electronics": -0.3, "Basic Materials": -0.15,
+         "ind:Aerospace": 0.3, "ind:Other Industrial Metals": 0.2}),
+    "critical_minerals": T("Critical minerals / rare-earth deals",
+        '("critical minerals" OR "rare earths" OR "rare earth" OR lithium OR cobalt OR graphite OR antimony) '
+        '(deal OR agreement OR pact OR "supply chain" OR "export ban" OR "export controls" OR stockpile OR offtake)',
+        {"ind:Other Industrial Metals": 0.45, "ind:Other Precious Metals": 0.2, "ind:Copper": 0.15,
+         "tk:LYC.AX": 0.6, "tk:ILU.AX": 0.45, "tk:MP": 0.6, "tk:ALB": 0.3, "tk:PLS.AX": 0.3,
+         "tk:MIN.AX": 0.2, "tk:IGO.AX": 0.25, "tk:SFR.AX": 0.15, "ind:Uranium": 0.1, "ind:Semiconductor": -0.05}),
+    "sanctions": T("New sanctions on major producers",
+        '(sanctions OR embargo OR "price cap") (Russia OR Iran OR Venezuela OR China) (oil OR gas OR metals OR exports)',
+        {"ind:Oil & Gas E&P": 0.35, "ind:Oil & Gas Integrated": 0.25, "ind:Refining": -0.1,
+         "ind:Aluminum": 0.2, "ind:Steel": 0.1, "ind:Airlines": -0.2}),
+    # --- Oil & energy supply --------------------------------------------------------------
+    "oil_supply_down": T("Oil supply disruption / OPEC cuts",
+        '("OPEC cut" OR "output cut" OR "production cut" OR "Strait of Hormuz" OR "supply disruption" '
+        'OR "pipeline attack" OR "refinery attack" OR "tanker attack") oil',
+        {"*": -0.05, "ind:Oil & Gas E&P": 0.6, "ind:Oil & Gas Integrated": 0.45, "ind:Oil & Gas Midstream": 0.2,
+         "ind:Oil & Gas Equipment": 0.3, "ind:Airlines": -0.5, "ind:Trucking": -0.2, "ind:Chemicals": -0.15}),
+    "oil_supply_up": T("More oil supply (new reserves, OPEC hikes, Venezuela/Iran barrels)",
+        '("OPEC increase" OR "raise output" OR "boost output" OR "oil glut" OR oversupply OR "new oil discovery" '
+        'OR "oil reserves" OR "Venezuela oil" OR "Venezuelan oil" OR "sanctions lifted" OR "Iran oil exports" OR "record output")',
+        {"ind:Oil & Gas E&P": -0.5, "ind:Oil & Gas Integrated": -0.35, "ind:Oil & Gas Equipment": -0.2,
+         "ind:Refining": 0.3, "ind:Airlines": 0.35, "ind:Trucking": 0.1, "ind:Chemicals": 0.1}),
+    "drilling_policy": T("Pro-drilling / LNG approvals policy",
+        '("drilling permits" OR "LNG approvals" OR "LNG export" OR "oil leasing" OR "expand drilling" '
+        'OR "gas approvals" OR "offshore drilling") (government OR administration OR policy OR approves)',
+        {"ind:Oil & Gas Equipment": 0.4, "ind:Oil & Gas Midstream": 0.3, "ind:Oil & Gas E&P": 0.1, "ind:Solar": -0.2}),
+    "climate_policy": T("Climate & clean-energy policy",
+        '("carbon tax" OR "emissions target" OR "clean energy" OR renewables OR "Inflation Reduction Act" OR "net zero") '
+        '(policy OR subsidies OR credits OR law OR government)',
+        {"ind:Solar": 0.4, "ind:Utilities - Renewable": 0.4, "ind:Coal": -0.4, "ind:Uranium": 0.15,
+         "Energy": -0.1, "ind:Auto Manufacturers": 0.05}),
+    # --- Trade ----------------------------------------------------------------------------
+    "tariffs": T("New tariffs / trade war",
+        '(tariff OR tariffs OR "trade war" OR "export ban" OR "trade restrictions") (new OR threat OR imposes OR raises OR hike)',
+        {"*": -0.1, "Basic Materials": -0.35, "Industrials": -0.3, "Technology": -0.25, "Consumer Cyclical": -0.3,
+         "ind:Auto": -0.45, "ind:Semiconductor": -0.35, "ind:Farm": -0.3, "ind:Steel": 0.25, "Utilities": 0.1}),
+    "trade_deal": T("Trade deals / tariff relief",
+        '("trade deal" OR "trade agreement" OR "tariff relief" OR "tariffs lifted" OR "tariff pause" OR "trade truce" OR "free trade")',
+        {"*": 0.1, "Basic Materials": 0.25, "Industrials": 0.2, "Technology": 0.2, "Consumer Cyclical": 0.25,
+         "ind:Auto": 0.3, "ind:Farm": 0.3, "ind:Steel": -0.15}),
+    "chip_controls": T("Chip export controls / tech restrictions",
+        '("export controls" OR "chip ban" OR "chip restrictions" OR "entity list") (chips OR semiconductors OR Nvidia OR AI)',
+        {"ind:Semiconductor": -0.45, "ind:Semiconductor Equipment": -0.5}),
+    "shipping": T("Shipping chokepoints / freight disruption",
+        '("Red Sea" OR Suez OR "Panama Canal" OR "shipping disruption" OR "freight rates" OR "port strike")',
+        {"ind:Marine Shipping": 0.4, "Consumer Cyclical": -0.1, "ind:Integrated Freight": 0.1, "ind:Auto Parts": -0.1}),
+    # --- Rates, growth, currency ---------------------------------------------------------
+    "rates_down": T("Interest-rate cuts",
+        '("rate cut" OR "cuts rates" OR "rate cuts" OR easing) (Fed OR RBA OR "central bank")',
+        {"Real Estate": 0.5, "Utilities": 0.35, "Technology": 0.25, "Consumer Cyclical": 0.3,
+         "ind:Residential Construction": 0.4, "ind:Banks": -0.2}),
+    "rates_up": T("Interest-rate hikes / sticky inflation",
+        '("rate hike" OR "raises rates" OR "higher for longer" OR "inflation surge" OR "hot inflation") (Fed OR RBA OR "central bank")',
+        {"Real Estate": -0.5, "Utilities": -0.35, "Technology": -0.3, "Consumer Cyclical": -0.3,
+         "ind:Residential Construction": -0.4, "ind:Banks": 0.2, "ind:Insurance": 0.15}),
+    "recession": T("Recession / slowdown fears",
+        '(recession OR "economic slowdown" OR "job cuts" OR "weak jobs" OR "rising unemployment") (markets OR economy)',
+        {"Consumer Cyclical": -0.45, "Industrials": -0.35, "Basic Materials": -0.35, "Energy": -0.3,
+         "Financial Services": -0.25, "Consumer Defensive": 0.25, "Utilities": 0.25, "Healthcare": 0.2}),
+    "stimulus": T("Government spending / infrastructure / stimulus",
+        '("infrastructure spending" OR "infrastructure bill" OR "stimulus package" OR "spending package" OR "tax cuts")',
+        {"*": 0.05, "ind:Engineering": 0.35, "ind:Building Materials": 0.3, "ind:Steel": 0.2, "ind:Copper": 0.15,
+         "ind:Railroads": 0.1, "Consumer Cyclical": 0.1}),
+    "china": T("China stimulus / demand",
+        '("China stimulus" OR "China demand" OR "China economy" OR "Chinese steel") (commodities OR "iron ore" OR markets)',
+        {"Basic Materials": 0.5, "Energy": 0.2, "Industrials": 0.1, "ind:Luxury": 0.2}),
+    "aud_down": T("Australian dollar falling", '("Australian dollar" OR "Aussie dollar") (falls OR slumps OR drops OR weakens OR low)',
+        {"Basic Materials": 0.2, "Energy": 0.15, "Healthcare": 0.15, "ind:Travel": -0.2, "ind:Airlines": -0.15}, ["ASX"]),
+    "aud_up": T("Australian dollar rising", '("Australian dollar" OR "Aussie dollar") (rises OR jumps OR surges OR strengthens OR high)',
+        {"Basic Materials": -0.15, "Energy": -0.1, "Healthcare": -0.15, "ind:Travel": 0.15, "ind:Airlines": 0.1}, ["ASX"]),
+    # --- Industry policy -----------------------------------------------------------------
+    "ai_capex": T("AI / data-centre spending boom",
+        '("AI spending" OR "AI capex" OR "data center" OR "data centre" OR hyperscaler) (demand OR investment OR boom OR billion)',
+        {"ind:Semiconductor": 0.4, "ind:Semiconductor Equipment": 0.3, "ind:Software - Infrastructure": 0.2,
+         "ind:Utilities - Regulated Electric": 0.15, "ind:Copper": 0.15, "ind:Uranium": 0.2,
+         "ind:REIT - Specialty": 0.2, "tk:NXT.AX": 0.4, "tk:GMG.AX": 0.2}),
+    "defense_spending": T("Defence spending increases",
+        '("defense spending" OR "defence spending" OR "defence budget" OR "defense budget" OR "military aid" OR "NATO spending" OR AUKUS)',
+        {"ind:Aerospace": 0.6}),
+    "drug_pricing": T("Drug-pricing / pharma policy",
+        '("drug pricing" OR "drug prices" OR "most favored nation" OR "Medicare negotiation" OR "pharma tariffs" OR "pharmaceutical tariffs" OR PBS)',
+        {"ind:Drug Manufacturers": -0.45, "ind:Biotechnology": -0.25, "ind:Health Care Plans": -0.1}),
+    "bank_regulation": T("Bank regulation / levies",
+        '("bank regulation" OR "capital requirements" OR Basel OR "bank levy" OR "bank tax" OR APRA OR "stress test")',
+        {"ind:Banks": -0.3, "ind:Capital Markets": -0.1}),
+    "deregulation": T("Deregulation (finance / energy / mining)",
+        '(deregulation OR "cut red tape" OR "easing rules" OR "rollback" OR "fast-track approvals") (banks OR energy OR oil OR mining OR permits)',
+        {"ind:Banks": 0.3, "Energy": 0.2, "Basic Materials": 0.15}),
+    "antitrust": T("Antitrust action on Big Tech",
+        '(antitrust OR monopoly OR "break up" OR DOJ OR FTC OR "competition regulator") (Google OR Apple OR Meta OR Amazon OR Microsoft OR Nvidia)',
+        {"tk:GOOGL": -0.4, "tk:GOOG": -0.4, "tk:AAPL": -0.3, "tk:META": -0.3, "tk:AMZN": -0.3,
+         "tk:MSFT": -0.2, "tk:NVDA": -0.2}, ["US"]),
+    "mining_tax": T("Mining tax / royalty changes",
+        '("mining tax" OR royalty OR royalties OR "windfall tax" OR "resource rent") (mining OR miners OR gas OR LNG)',
+        {"Basic Materials": -0.3, "Energy": -0.2}, ["ASX"]),
+    "housing_policy": T("Housing & property policy",
+        '("housing policy" OR "first home buyer" OR "housing affordability" OR "negative gearing" OR "housing target" OR "home loan")',
+        {"ind:Residential Construction": 0.25, "ind:REIT - Residential": 0.2, "Real Estate": 0.1, "ind:Building Materials": 0.15}),
+    "gold_haven": T("Safe-haven / central-bank gold buying",
+        '("central bank gold" OR "gold buying" OR "safe haven" OR "gold demand" OR "gold reserves")',
+        {"ind:Gold": 0.55}),
+    # --- Shocks --------------------------------------------------------------------------
+    "election": T("Elections / political uncertainty / shutdown",
+        '(election OR midterms OR "government shutdown" OR "political uncertainty" OR "hung parliament") (markets OR stocks)',
+        {"*": -0.1, "Healthcare": -0.1, "ind:Aerospace": 0.05}),
+    "pandemic": T("Disease outbreak / pandemic",
+        '(outbreak OR pandemic OR epidemic OR "bird flu" OR "new virus" OR lockdown) (cases OR spread OR markets)',
+        {"*": -0.1, "ind:Airlines": -0.6, "ind:Travel": -0.5, "ind:Lodging": -0.4, "ind:Resorts": -0.4,
+         "ind:Diagnostics": 0.4, "Healthcare": 0.1}),
+    "disasters": T("Natural disasters / extreme weather",
+        '(hurricane OR cyclone OR bushfire OR wildfire OR flood OR earthquake) (damage OR insurers OR losses OR supply)',
+        {"ind:Insurance": -0.35, "ind:Building Materials": 0.2, "ind:Home Improvement": 0.2, "Utilities": -0.1}),
+    "food_ag": T("Farm & food shocks (drought, crop prices)",
+        '(drought OR "crop prices" OR "wheat prices" OR "grain prices" OR "beef prices" OR "fertiliser prices" OR "fertilizer prices")',
+        {"ind:Agricultural Inputs": 0.3, "ind:Farm": 0.1, "ind:Packaged Foods": -0.15, "ind:Grocery": -0.1}),
 }
 
 
@@ -176,7 +265,64 @@ def _claude(market, heads):
         return None
 
 
-def macro_context(market, demo=False):
+BROAD = {
+    "US": ['(stocks OR "Wall Street" OR markets) when:3d', '(sanctions OR "trade deal" OR agreement OR "executive order" OR tariffs) when:3d',
+           '(oil OR gold OR copper OR "rare earths" OR lithium) (deal OR supply OR prices) when:3d',
+           '(Congress OR "White House" OR Pentagon OR Fed) (companies OR industry OR stocks) when:3d'],
+    "ASX": ['(ASX OR "Australian shares") when:3d', '(Australia OR Canberra OR Albanese) (deal OR agreement OR policy OR tariffs) when:3d',
+            '("iron ore" OR gold OR lithium OR "rare earths" OR LNG OR coal) (deal OR supply OR prices OR China) when:3d',
+            '(RBA OR APRA OR ACCC OR "federal budget") when:3d'],
+}
+
+
+def _claude_events(market, heads, broad, universe):
+    """Open-ended: Claude reads today's top business/political news and names specific events and
+    which industries/stocks they move. Catches things no fixed theme list anticipates."""
+    key = os.environ.get("ANTHROPIC_API_KEY")
+    if not key:
+        return []
+    lines = [h["title"] for h in broad][:160]
+    for (kind, name), hs in heads.items():
+        lines += [h["title"] for h in hs[:5]]
+    lines = list(dict.fromkeys(lines))[:260]
+    prompt = (
+        f"You are a buy-side macro and policy analyst covering the {market} stock market. Today's headlines:\n"
+        + "\n".join("- " + x for x in lines)
+        + "\n\nIdentify the 5-15 most market-relevant concrete EVENTS (e.g. a bilateral minerals deal, a regime "
+        "change in an oil producer, a new sanction, a policy announcement, a major company event that ripples "
+        "to its industry). Think through second-order effects (e.g. more Venezuelan oil = lower oil prices = bad "
+        "for producers, good for refiners and airlines; a US minerals deal with another country may compete with "
+        "Australian rare-earth producers or help them via US demand).\n"
+        "For each event give the affected targets and an effect from -1 to 1 on their share prices over the "
+        "next month, scaled by how big and how certain it is (most should be within ±0.4).\n"
+        "Targets must be one of: 'sector:<name>', 'industry:<name>' or 'ticker:<code>' using ONLY these names.\n"
+        f"Sectors: {', '.join(universe['sectors'])}\nIndustries: {', '.join(universe['industries'])}\n"
+        f"Tickers: {', '.join(universe['tickers'])}\n\n"
+        "Reply with only JSON: [{\"event\": short title, \"why\": one sentence, \"impacts\": "
+        "[{\"target\": \"industry:Gold\", \"effect\": 0.3}]}]")
+    try:
+        body = json.dumps({"model": CLAUDE_MODEL, "max_tokens": 6000,
+                           "messages": [{"role": "user", "content": prompt}]}).encode()
+        req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers={
+            "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
+        with urllib.request.urlopen(req, timeout=240) as r:
+            text = json.loads(r.read())["content"][0]["text"]
+        evs = json.loads(text[text.index("["): text.rindex("]") + 1])
+        ok = []
+        for e in evs:
+            imps = [i for i in e.get("impacts", []) if isinstance(i, dict) and ":" in str(i.get("target", ""))]
+            for i in imps:
+                i["effect"] = float(np.clip(float(i.get("effect", 0)), -1, 1))
+            if imps:
+                ok.append({"event": str(e.get("event", ""))[:120], "why": str(e.get("why", ""))[:300], "impacts": imps})
+        print(f"[{market}] AI analyst found {len(ok)} events")
+        return ok
+    except Exception as e:
+        print("Claude event analyst failed:", e)
+        return []
+
+
+def macro_context(market, demo=False, universe=None):
     """Sector scores and theme heat for one market (plus headlines to show on the page)."""
     if demo:
         from demo_data import fake_macro
@@ -214,31 +360,50 @@ def macro_context(market, demo=False):
             k = by_label.get(lab)
             if k:
                 themes[k].update(heat=round(float(np.clip(v.get("heat", 0), 0, 1)), 2), why=v.get("why"))
+    events = []
+    if universe and not demo and os.environ.get("ANTHROPIC_API_KEY"):
+        with ThreadPoolExecutor(4) as ex:
+            broad = [h for hs in ex.map(_google_news, BROAD[market]) for h in hs]
+        broad = sorted(broad, key=lambda x: x["ts"], reverse=True)
+        events = _claude_events(market, heads, broad, universe)
     total = sum(v["n"] for v in sectors.values()) + sum(v["n"] for v in themes.values())
     print(f"[{market}] macro: {total} sector/theme headlines, scored by {method}")
-    return {"sectors": sectors, "themes": themes, "method": method, "headline_count": total}
+    return {"sectors": sectors, "themes": themes, "events": events, "method": method, "headline_count": total}
 
 
-def _matches(key, sector, industry):
+def _matches(key, sector, industry, ticker=None):
     if key == "*":
         return True
+    if key.startswith("tk:"):
+        return key[3:] == ticker
     if key.startswith("ind:"):
         return isinstance(industry, str) and key[4:].lower() in industry.lower()
     return key == sector
 
 
-def stock_macro(ctx, sector, industry):
-    """(score -1..1, list of (theme label, effect)) for one stock."""
+def stock_macro(ctx, ticker, sector, industry):
+    """(score -1..1, list of (theme or event label, effect)) for one stock."""
     sec = ctx["sectors"].get(sector, {}).get("score", 0.0)
     effects = []
     for k, t in ctx["themes"].items():
         e = 0.0
         for key, w in t["exp"].items():
-            if _matches(key, sector, industry):
+            if _matches(key, sector, industry, ticker):
                 e += w
         e *= t["heat"]
         if abs(e) >= 0.02:
             effects.append((t["label"], round(e, 2)))
+    # Events found by the AI analyst (already scaled by how big/likely the impact is)
+    for ev in ctx.get("events", []):
+        e = 0.0
+        for imp in ev.get("impacts", []):
+            tgt = str(imp.get("target", ""))
+            kind, _, val = tgt.partition(":")
+            key = {"ticker": "tk:", "industry": "ind:"}.get(kind, "") + val if kind in ("ticker", "industry") else val
+            if kind == "ticker" and val == ticker or kind != "ticker" and _matches(key, sector, industry, ticker):
+                e = max(-1.0, min(1.0, e + float(imp.get("effect", 0))))
+        if abs(e) >= 0.02:
+            effects.append(("AI: " + ev.get("event", "event"), round(e, 2)))
     score = float(np.clip(0.5 * sec + sum(e for _, e in effects), -1, 1))
     return round(score, 3), sorted(effects, key=lambda x: -abs(x[1]))
 
@@ -246,7 +411,7 @@ def stock_macro(ctx, sector, industry):
 def apply(ctx, df, fund):
     """Add macro_raw (-1..1), macro_effects and sector_news columns to df."""
     ind = fund["industry"].reindex(df.index) if "industry" in fund else pd.Series(None, index=df.index)
-    res = {t: stock_macro(ctx, df.at[t, "sector"], ind.get(t)) for t in df.index}
+    res = {t: stock_macro(ctx, t, df.at[t, "sector"], ind.get(t)) for t in df.index}
     df["macro_raw"] = pd.Series({t: r[0] for t, r in res.items()})
     df["macro_effects"] = pd.Series({t: r[1] for t, r in res.items()})
     df["sector_news"] = df["sector"].map(lambda s: ctx["sectors"].get(s, {}).get("score", 0.0))

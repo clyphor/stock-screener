@@ -78,7 +78,7 @@ svg text{fill:var(--mute);font-size:10px}
 <div id="sheet"></div>
 <script>
 const D = __DATA__;
-const BAD = ["Negative news","Sector headwind","Overbought (RSI)"];
+const BAD = ["Negative news","Sector headwind","Overbought (RSI)","Macro headwind",__BAD_EVENTS__];
 const L = {ml:"Model",fundamental:"Fundam.",news:"News",peers:"Peers",macro:"Macro"};
 let M = Object.keys(D.markets)[0], showAll = false;
 const $ = id => document.getElementById(id);
@@ -115,8 +115,14 @@ function render(){
     const hot = th.filter(t=>t.heat>=0.5).map(t=>t.label);
     $("macrosum").textContent = hot.length ? "· hot: " + hot.join(", ") : "· no unusual political news";
     const bar = v => `<div class="mbar"><span style="left:${v<0?50+v*50:50}%;width:${Math.abs(v)*50}%;background:${v<0?"var(--neg)":"var(--acc)"}"></span></div>`;
-    $("macro").innerHTML = `<div class="mute" style="margin-bottom:6px">Political &amp; macro themes — how much each is in the news vs normal:</div>`
-      + th.map(t=>`<div class="theme"><div class="mrow" style="grid-template-columns:1fr 90px 34px"><b style="font-weight:600">${esc(t.label)}</b><div class="mbar"><span style="left:0;width:${t.heat*100}%;background:${t.heat>=0.5?"var(--ma50)":"var(--mute)"}"></span></div><span class="mute">${Math.round(t.heat*100)}</span></div>
+    const evs = mc.events || [];
+    $("macro").innerHTML = (evs.length ? `<div class="mute" style="margin-bottom:6px"><b style="color:var(--ink)">Key events today</b> (AI analyst — including second-order effects):</div>`
+        + evs.map(e=>`<div class="theme"><b style="font-weight:600">${esc(e.event)}</b><div class="mute">${esc(e.why)}</div>
+          <div class="chips">${e.impacts.slice(0,6).map(i=>`<span class="chip ${i.effect<0?"bad":""}">${i.effect>0?"▲":"▼"} ${esc(String(i.target).split(":").slice(1).join(":").replace(".AX",""))}</span>`).join("")}</div></div>`).join("")
+        + `<div style="height:12px"></div>`
+      : `<div class="mute" style="margin-bottom:8px">Tip: add an Anthropic API key to turn on the AI event analyst, which spots specific events (e.g. a minerals deal or a change in who controls an oil supply) and works out which stocks they affect.</div>`)
+      + `<div class="mute" style="margin-bottom:6px">Themes — how much each is in the news vs normal (top 12):</div>`
+      + th.slice(0,12).map(t=>`<div class="theme"><div class="mrow" style="grid-template-columns:1fr 90px 34px"><b style="font-weight:600">${esc(t.label)}</b><div class="mbar"><span style="left:0;width:${t.heat*100}%;background:${t.heat>=0.5?"var(--ma50)":"var(--mute)"}"></span></div><span class="mute">${Math.round(t.heat*100)}</span></div>
         ${t.why?`<div class="mute">${esc(t.why)}</div>`:""}${t.headlines.slice(0,2).map(h=>`<div class="hl">• ${h.link?`<a href="${esc(h.link)}" target="_blank" rel="noopener" style="color:inherit">${esc(h.title)}</a>`:esc(h.title)}</div>`).join("")}</div>`).join("")
       + `<div class="mute" style="margin:12px 0 6px">Sector news mood (red = bad for that sector, green = good):</div>`
       + sc.map(([k,v])=>`<div class="mrow"><span>${esc(k)}</span>${bar(v.score)}<span class="mute">${v.score>0?"+":""}${v.score}</span></div>`).join("")
@@ -185,9 +191,10 @@ async function openStock(t, push=true){
     <div class="mute" style="margin-top:6px">Green = better than the typical company in its sector.</div></div>
 
   <div class="sec"><h3>News (last 10 days)</h3>
-    <div class="mute" style="margin-bottom:6px">Average sentiment: <b style="color:${sentColor(d.news_avg)}">${d.news_avg??0}</b> · competitors: <b style="color:${sentColor(d.peer_avg)}">${d.peer_avg??0}</b>${d.macro_share>0?` · ${Math.round(d.macro_share*100)}% about policy/macro`:""}</div>
+    ${d.events&&d.events.length?`<div class="chips" style="margin:0 0 8px">${d.events.map(e=>`<span class="chip ${e.impact<0?"bad":""}">${e.impact>0?"▲":e.impact<0?"▼":"•"} ${esc(e.label)}</span>`).join("")}</div>`:""}
+    <div class="mute" style="margin-bottom:6px">Recency-weighted sentiment: <b style="color:${sentColor(d.news_avg)}">${d.news_avg??0}</b> · competitors: <b style="color:${sentColor(d.peer_avg)}">${d.peer_avg??0}</b>${d.macro_share>0?` · ${Math.round(d.macro_share*100)}% about policy/macro`:""}</div>
     ${d.news.length ? d.news.map(n=>`<div class="news"><span class="dot" style="background:${sentColor(n.score)}"></span>${n.link?`<a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(n.title)}</a>`:esc(n.title)}
-      <div class="mute">${esc(n.publisher||"")} ${n.date||""}${n.macro?" · policy/macro":""}</div></div>`).join("") : `<div class="mute">No recent headlines.</div>`}</div>
+      <div class="mute">${esc(n.publisher||"")} ${n.date||""}${n.macro?" · policy/macro":""}${(n.events||[]).map(e=>` · <b style="color:${BAD.includes(e)?"var(--neg)":"var(--acc)"}">${esc(e)}</b>`).join("")}</div></div>`).join("") : `<div class="mute">No recent headlines.</div>`}</div>
 
   <div class="sec"><h3>Sector &amp; politics</h3>
     <div class="grid"><div class="kv"><small>Macro score (−1 to 1)</small><b class="${d.macro.score>0.05?"good":d.macro.score<-0.05?"bad":""}">${d.macro.score>0?"+":""}${d.macro.score}</b></div>
@@ -239,5 +246,7 @@ if (location.hash.length > 1) { history.replaceState(null, "", location.pathname
 
 
 def write_page(payload, path):
+    from events import BAD
+    page = PAGE.replace("__BAD_EVENTS__", ",".join(json.dumps(b) for b in sorted(BAD)))
     with open(path, "w") as f:
-        f.write(PAGE.replace("__DATA__", json.dumps(payload, default=str, separators=(",", ":"))))
+        f.write(page.replace("__DATA__", json.dumps(payload, default=str, separators=(",", ":"))))

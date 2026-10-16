@@ -32,6 +32,11 @@ CHECK_LABELS = {
 
 def reasons(row):
     r = []
+    from events import IMPACT, LABEL
+    evs = row.get("events")
+    for k in (evs if isinstance(evs, list) else [])[:2]:
+        if abs(IMPACT[k]) >= 0.3:
+            r.append(LABEL[k])
     if row["mom_12_1_r"] > 0.8: r.append("Strong 12m trend")
     if row["rel_str_63_r"] > 0.8: r.append("Beating index (3m)")
     if row["dist_ma200"] < -0.1 and row["ml"] > 0.7: r.append("Rebound setup")
@@ -111,7 +116,10 @@ def run_market(name, cfg, demo):
 
     # Sector news + political/macro themes
     df["sector"] = fund["sector"].reindex(df.index).fillna("Unknown")
-    ctx = macro.macro_context(name, demo)
+    universe = {"sectors": sorted(df["sector"].dropna().unique()),
+                "industries": sorted(fund["industry"].dropna().astype(str).unique()) if "industry" in fund else [],
+                "tickers": list(df.index)}
+    ctx = macro.macro_context(name, demo, universe)
     macro.apply(ctx, df, fund)
     df["macro"] = df["macro_raw"].rank(pct=True).fillna(0.5)
 
@@ -140,6 +148,7 @@ def run_market(name, cfg, demo):
         "method": ctx["method"],
         "sectors": {k: {kk: v[kk] for kk in ("score", "n", "why", "headlines")} for k, v in ctx["sectors"].items()},
         "themes": {k: {kk: v[kk] for kk in ("label", "heat", "n", "why", "headlines")} for k, v in ctx["themes"].items()},
+        "events": ctx.get("events", []),
     }
     extras = {"close": close, "volume": volume, "idx": idx, "fund": fund, "checks": checks,
               "headlines": nf.attrs.get("headlines", {}), "weights": w, "model_ok": model_ok, "ctx": ctx}
@@ -258,6 +267,8 @@ def write_details(df, ex, market, outdir):
             "analyst": {"rating": fund.at[t, "recommendationKey"] if "recommendationKey" in fund else None,
                         "target": _num(fund.at[t, "targetMeanPrice"], 2) if "targetMeanPrice" in fund else None},
             "news": ex["headlines"].get(t, [])[:12],
+            "events": [{"label": __import__("events").LABEL[k], "impact": __import__("events").IMPACT[k]}
+                       for k in (r.get("events") if isinstance(r.get("events"), list) else [])],
             "news_avg": _num(r["news_sent"], 2), "peer_avg": _num(r["peer_sent"], 2),
             "macro_share": _num(r["macro_share"], 2),
             "macro": {"score": _num(r["macro_raw"], 2), "sector_news": _num(r["sector_news"], 2),

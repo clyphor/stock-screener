@@ -6,11 +6,14 @@ import json
 import os
 import re
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
 
 import numpy as np
 import pandas as pd
 
 from config import CLAUDE_MODEL
+from events import EVENTS, IMPACT, LABEL, classify, event_score
 
 POS = {"beat", "beats", "surge", "surges", "soar", "soars", "jump", "jumps", "rally", "record",
        "upgrade", "upgraded", "raises", "raised", "growth", "profit", "strong", "buyback",
@@ -40,62 +43,87 @@ def is_macro(title):
     return any(x in MACRO for x in _words(title))
 
 
-def claude_scores(titles):
-    """Return list of floats in [-1, 1] from Claude, or None on any failure."""
+def _claude_batch(items, key):
+    """items: list of (ticker, title). Returns list of (score, [event keys])."""
+    ev = ", ".join(f"{k} ({v[0]})" for k, v in EVENTS.items())
+    prompt = ("For each headline about the named company, judge its likely impact on THAT company's share "
+              "price over the next few weeks, from -1 (very negative) to 1 (very positive); 0 if irrelevant "
+              "or old news. Also tag the event types it describes using these keys (or [] if none): " + ev +
+              ".\nReply with only a JSON array, one object per headline in order: {\"s\": number, \"e\": [keys]}.\n\n"
+              + "\n".join(f"{j+1}. [{t}] {h}" for j, (t, h) in enumerate(items)))
+    body = json.dumps({"model": CLAUDE_MODEL, "max_tokens": 4000,
+                       "messages": [{"role": "user", "content": prompt}]}).encode()
+    req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers={
+        "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
+    with urllib.request.urlopen(req, timeout=180) as r:
+        text = json.loads(r.read())["content"][0]["text"]
+    arr = json.loads(text[text.index("["): text.rindex("]") + 1])
+    if len(arr) != len(items):
+        raise ValueError("length mismatch")
+    return [(float(np.clip(a.get("s", 0), -1, 1)), [e for e in a.get("e", []) if e in EVENTS]) for a in arr]
+
+
+def claude_scores(items):
+    """items: list of (ticker, title). Returns list of (score, events) from Claude, or None."""
     key = os.environ.get("ANTHROPIC_API_KEY")
-    if not key or not titles:
+    if not key or not items:
         return None
-    scores = []
+    chunks = [items[i:i + 60] for i in range(0, len(items), 60)]
     try:
-        for i in range(0, len(titles), 80):
-            chunk = titles[i:i + 80]
-            prompt = ("Score each stock-news headline for its likely impact on that company's "
-                      "share price, from -1 (very negative) to 1 (very positive). Reply with only "
-                      "a JSON array of numbers, same order.\n\n" +
-                      "\n".join(f"{j+1}. {t}" for j, t in enumerate(chunk)))
-            body = json.dumps({"model": CLAUDE_MODEL, "max_tokens": 2000,
-                               "messages": [{"role": "user", "content": prompt}]}).encode()
-            req = urllib.request.Request(
-                "https://api.anthropic.com/v1/messages", data=body,
-                headers={"x-api-key": key, "anthropic-version": "2023-06-01",
-                         "content-type": "application/json"})
-            with urllib.request.urlopen(req, timeout=120) as r:
-                text = json.loads(r.read())["content"][0]["text"]
-            arr = json.loads(text[text.index("["): text.rindex("]") + 1])
-            if len(arr) != len(chunk):
-                return None
-            scores += [float(np.clip(x, -1, 1)) for x in arr]
-        return scores
+        with ThreadPoolExecutor(4) as ex:
+            res = list(ex.map(lambda c: _claude_batch(c, key), chunks))
+        return [x for r in res for x in r]
     except Exception as e:
-        print("Claude scoring failed, using word list:", e)
+        print("Claude scoring failed, using rules:", e)
         return None
+
+
+def rule_score(title):
+    """Event taxonomy first; plain word list only if no event is recognised."""
+    keys = classify(title)
+    sc = event_score(keys)
+    return (lexicon_score(title) * 0.6 if sc is None else sc), keys
+
+
+def _recency_weight(date_str, today):
+    try:
+        days = (today - datetime.strptime(date_str, "%Y-%m-%d").date()).days
+    except Exception:
+        days = 5
+    return 1.0 / (1.0 + max(0, days) / 3.0)  # today 1.0, 3 days ago 0.5, 9 days ago 0.25
 
 
 def news_features(news, sectors):
-    """news: {ticker: [ {title, link, ...} ]}, sectors: Series ticker->sector."""
+    """news: {ticker: [ {title, link, date, ...} ]}, sectors: Series ticker->sector."""
     news = {t: [h if isinstance(h, dict) else {"title": h} for h in hs] for t, hs in news.items()}
     flat = [(t, h["title"]) for t, hs in news.items() for h in hs]
-    titles = [h for _, h in flat]
-    scores = claude_scores(titles)
-    method = "claude" if scores else "wordlist"
-    if not scores:
-        scores = [lexicon_score(h) for h in titles]
+    res = claude_scores(flat)
+    method = "claude" if res else "event rules"
+    if not res:
+        res = [rule_score(h) for _, h in flat]
 
-    rows = {t: {"news_sent": 0.0, "news_count": 0, "macro_share": 0.0, "macro_sent": 0.0}
+    today = datetime.now(timezone.utc).date()
+    rows = {t: {"news_sent": 0.0, "news_count": 0, "macro_share": 0.0, "macro_sent": 0.0, "events": []}
             for t in news}
-    by_t, heads = {}, {}
+    heads = {}
     i = 0
     for t, hs in news.items():
+        sc_l, w_l, m_l, evs = [], [], [], {}
         for h in hs:
-            sc, mac = scores[i], is_macro(h["title"])
+            sc, keys = res[i]
             i += 1
-            by_t.setdefault(t, []).append((sc, mac))
-            heads.setdefault(t, []).append({**h, "score": round(float(sc), 2), "macro": mac})
-    for t, lst in by_t.items():
-        s = np.array([x for x, _ in lst])
-        m = np.array([y for _, y in lst])
-        rows[t] = {"news_sent": s.mean(), "news_count": len(s), "macro_share": m.mean(),
-                   "macro_sent": s[m].mean() if m.any() else 0.0}
+            mac = is_macro(h["title"])
+            w = _recency_weight(h.get("date"), today)
+            sc_l.append(sc); w_l.append(w); m_l.append(mac)
+            for k in keys:
+                evs[k] = max(evs.get(k, 0), w)  # remember the most recent occurrence
+            heads.setdefault(t, []).append({**h, "score": round(float(sc), 2), "macro": mac,
+                                            "events": [LABEL[k] for k in keys]})
+        if sc_l:
+            sc_a, w_a, m_a = np.array(sc_l), np.array(w_l), np.array(m_l)
+            rows[t] = {"news_sent": float((sc_a * w_a).sum() / w_a.sum()), "news_count": len(sc_l),
+                       "macro_share": float(m_a.mean()), "macro_sent": float(sc_a[m_a].mean()) if m_a.any() else 0.0,
+                       "events": sorted(evs, key=lambda k: -abs(IMPACT[k]) * evs[k])}
     df = pd.DataFrame.from_dict(rows, orient="index")
 
     # Competitor sentiment: average of OTHER companies in the same sector

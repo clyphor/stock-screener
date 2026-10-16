@@ -61,5 +61,5 @@ CLAUDE_MODEL = "claude-haiku-5-5"
 # ---- Database for watchlists & paper trades (Supabase) -------------------------
 # The URL and the *anon/publishable* key are meant to be public (they sit in the web page);
 # row-level security in db/schema.sql keeps each user's data private.
-SUPABASE_URL = ""
-SUPABASE_ANON_KEY = ""
+SUPABASE_URL = "https://eqwcuyfqaytdrravkaaw.supabase.co"
+SUPABASE_ANON_KEY = "sb_publishable_MfqpFg_wuKzO1EN5NQW69w_SopvIz8l"  # publishable key: safe in the page

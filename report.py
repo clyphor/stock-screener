@@ -263,7 +263,7 @@ function dbInit(){
     SB.auth.onAuthStateChange((ev, sess) => { const u = sess?.user || null; if ((u&&u.id) !== (USER&&USER.id)) { USER = u; dbLoad(); } });
     const { data } = await SB.auth.getSession(); USER = data.session?.user || null; dbLoad();
   };
-  sc.onerror = () => { DBSTATE = "error"; render(); };
+  sc.onerror = () => { DBSTATE = "error"; DBERR = "couldn't load the database library — check your internet connection"; render(); };
   document.head.appendChild(sc);
 }
 const toRow = x => ({id:x.id, ticker:x.ticker, market:x.market, currency:x.currency||CUR(x.market), entry_date:x.date, entry_price:x.price,

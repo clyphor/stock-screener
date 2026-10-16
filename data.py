@@ -101,6 +101,7 @@ def _psx_info(t):
     sym = t.replace(".KA", "")
     row = {k: None for k in FUND_FIELDS}
     row["ticker"] = t
+    row["psx_sector"] = None
     try:
         req = urllib.request.Request(f"https://dps.psx.com.pk/company/{sym}", headers={"User-Agent": "Mozilla/5.0"})
         page = urllib.request.urlopen(req, timeout=30).read().decode(errors="replace")
@@ -125,6 +126,14 @@ def _psx_info(t):
         row["revenueGrowth"] = sales[0] / sales[1] - 1
         if sales[0]:
             row["profitMargins"] = prof[0] / sales[0]
+    # Sector: the capitalised line under the company name, e.g. "OIL & GAS EXPLORATION COMPANIES"
+    from universe import PSX_SECTORS
+    kws = [k.upper() for k, _, _ in PSX_SECTORS] + ["SUGAR", "COMPOSITE", "VANASPATI", "LEATHER", "JUTE", "SYNTHETIC", "WOOLLEN"]
+    tok = r"[A-Z&/][A-Z&/\.,'-]*(?![a-z])"
+    for cand in re.findall(r"((?:" + tok + r"\s){0,9}" + tok + ")", txt):
+        if len(cand) < 90 and any(k in cand for k in kws) and cand.strip() != sym:
+            row["psx_sector"] = cand.strip()
+            break
     row["currency"] = "PKR"
     return row
 
@@ -205,9 +214,11 @@ def _clean_name(name):
 # Auto-generated price-tick sites: lots of headlines, no information
 LOW_QUALITY = {"ad-hoc-news.de", "marketbeat", "marketbeat.com", "defense world", "etf daily news",
                "the lincolnian online", "modern readers", "watchlist news", "zolmax", "ticker report",
-               "american banking news", "the cerbat gem", "dailypolitical.com", "stocktitan.net"}
+               "american banking news", "the cerbat gem", "dailypolitical.com", "stocktitan.net",
+               "youtube", "facebook", "instagram", "x.com", "tiktok", "linkedin", "reddit", "pinterest",
+               "cricinfo", "espncricinfo", "geo super", "cricbuzz"}
 _STOP = {"the", "and", "group", "holdings", "company", "corp", "resources", "energy", "bank", "limited",
-         "international", "financial", "technologies", "systems", "services", "trust", "of", "&"}
+         "international", "financial", "technologies", "services", "trust", "of", "&"}
 
 
 # Reputable outlets searched directly (Google News "site:" filter), per market
@@ -231,13 +242,26 @@ def quality_of(pub):
     return "promo" if p in PROMO or "kalkine" in p else "normal"
 
 
-def _relevant(title, name, code):
-    """Keep a headline only if it names the company (or its ticker)."""
+_GENERIC = {"oil", "gas", "development", "cement", "power", "pakistan", "national", "united", "first", "general",
+            "global", "fertilizer", "fertiliser", "textile", "mills", "motor", "motors", "sugar", "petroleum",
+            "engineering", "industries", "chemical", "chemicals", "steel", "insurance", "foods", "investment"}
+
+
+def _relevant(title, name, code, strict=False):
+    """Keep a headline only if it names the company (or its ticker).
+    strict (Pakistan): company names are often generic ('Oil & Gas Development'), so require the
+    ticker, or two distinctive name words, or the one distinctive word if that's all there is."""
     t = title.lower()
     if re.search(r"\b" + re.escape(code.lower()) + r"\b", t) and len(code) >= 3:
         return True
     words = [w for w in re.findall(r"[a-z0-9]+", _clean_name(name).lower()) if w not in _STOP and len(w) >= 3]
-    return bool(words) and words[0] in t
+    if not strict:
+        return bool(words) and words[0] in t
+    distinct = [w for w in words if w not in _GENERIC]
+    hits = [w for w in words if re.search(r"\b" + re.escape(w) + r"\b", t)]
+    if len(words) >= 2 and len(hits) >= 2:
+        return True
+    return len(distinct) == 1 and distinct[0] in hits and len(distinct[0]) >= 4
 
 
 def _news(args):
@@ -258,7 +282,7 @@ def _news(args):
     for i in sorted(items, key=lambda x: x["ts"], reverse=True):
         key = i["title"].lower()[:60]
         pub = (i["publisher"] or "").lower()
-        if (now - i["ts"]).days > 10 or key in seen or pub in LOW_QUALITY or not _relevant(i["title"], name, code):
+        if (now - i["ts"]).days > 10 or key in seen or pub in LOW_QUALITY or not _relevant(i["title"], name, code, strict=(market == "PSX")):
             continue
         q = quality_of(i["publisher"])
         if q == "promo":

@@ -42,7 +42,8 @@ MARKET_WORD = {"US": "(stocks OR Wall Street)", "ASX": "(ASX OR Australia OR Aus
                "PSX": "(Pakistan OR PSX OR KSE)"}
 # Themes get a local angle for each market, and promotional/micro-cap sites are excluded
 THEME_CONTEXT = {"US": "", "ASX": " (Australia OR Australian OR ASX OR RBA OR Canberra)", "PSX": ""}
-EXCLUDE = " -site:kalkinemedia.com -site:simplywall.st -site:tipranks.com -site:stocksdownunder.com"
+EXCLUDE = (" -site:kalkinemedia.com -site:simplywall.st -site:tipranks.com -site:stocksdownunder.com"
+           " -site:youtube.com -site:facebook.com -site:instagram.com -site:x.com -site:tiktok.com")
 
 # Political / macro / sector themes.
 # Exposure keys: a sector name, "ind:<text in Yahoo industry>", "tk:<ticker>", or "*" (every stock).

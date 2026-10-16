@@ -90,6 +90,11 @@ def run_market(name, cfg, demo):
             idx = (1 + close.pct_change().clip(-0.3, 0.3).mean(axis=1).fillna(0)).cumprod() * 100
         fund = get_fundamentals(list(close.columns))
         fund["sector"] = fund["sector"].fillna(uni["sector"].reindex(fund.index))
+        if name == "PSX" and "psx_sector" in fund:  # sector from the exchange's own company page
+            from universe import psx_sector
+            mapped = fund["psx_sector"].map(lambda x: psx_sector(x) if isinstance(x, str) else (None, None))
+            fund["sector"] = [m[0] for m in mapped]
+            fund["industry"] = [m[1] for m in mapped]
         if "industry" in uni:
             fund["industry"] = fund["industry"].fillna(uni["industry"].reindex(fund.index))
         fund["shortName"] = fund["shortName"].fillna(uni["name"].reindex(fund.index))

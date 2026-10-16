@@ -49,8 +49,25 @@ def _pct(s, higher_is_better=True):
     return r.fillna(0.5)
 
 
-def fundamental_score(fund):
-    """Value + quality + growth, ranked within the market's universe (0..1)."""
+def health_score(h):
+    """0..1 from Piotroski F-score, Altman Z zone, interest cover and share dilution (whatever is available)."""
+    out = {}
+    for t, r in h.iterrows():
+        parts = []
+        f = r.get("f_score")
+        if pd.notna(f): parts.append((float(f) / 9, 0.5))
+        z = r.get("altman_z")
+        if pd.notna(z): parts.append((1.0 if z >= 3 else 0.5 if z >= 1.8 else 0.0, 0.2))
+        ic = r.get("interest_cover")
+        if pd.notna(ic): parts.append((1.0 if ic >= 5 else 0.5 if ic >= 1.5 else 0.0, 0.15))
+        d = r.get("dilution")
+        if pd.notna(d): parts.append((1.0 if d <= 0.02 else 0.5 if d <= 0.1 else 0.0, 0.15))
+        out[t] = sum(v * w for v, w in parts) / sum(w for _, w in parts) if parts else np.nan
+    return pd.Series(out, dtype=float)
+
+
+def fundamental_score(fund, health=None):
+    """Value + quality + growth + financial health, ranked within the market's universe (0..1)."""
     f = fund.copy()
     num = ["trailingPE", "forwardPE", "priceToBook", "profitMargins", "revenueGrowth",
            "earningsGrowth", "debtToEquity", "returnOnEquity", "freeCashflow", "marketCap"]
@@ -68,6 +85,9 @@ def fundamental_score(fund):
     growth = pd.concat([_pct(f["revenueGrowth"]), _pct(f["earningsGrowth"])], axis=1).mean(axis=1)
 
     out = pd.DataFrame({"value": value.fillna(0.5), "quality": quality, "growth": growth})
-    out["fundamental"] = (0.35 * out["value"] + 0.35 * out["quality"] + 0.30 * out["growth"])
+    hs = health_score(health).reindex(out.index) if health is not None else pd.Series(np.nan, index=out.index)
+    out["health_raw"] = hs
+    out["health"] = hs.rank(pct=True).fillna(0.5)
+    out["fundamental"] = (0.30 * out["value"] + 0.25 * out["quality"] + 0.20 * out["growth"] + 0.25 * out["health"])
     out["fwd_pe"] = pe
     return out

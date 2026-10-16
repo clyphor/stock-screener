@@ -44,6 +44,8 @@ def reasons(row):
     if row["value"] > 0.75: r.append("Cheap vs sector")
     if row["quality"] > 0.75: r.append("High quality")
     if row["growth"] > 0.75: r.append("Fast growth")
+    if pd.notna(row.get("f_score")) and row["f_score"] >= 7: r.append("Strong financial health")
+    if pd.notna(row.get("f_score")) and row["f_score"] <= 2: r.append("Weak financial health")
     if row["news_sent"] > 0.15: r.append("Positive news")
     if row["news_sent"] < -0.15: r.append("Negative news")
     if row["peer_sent"] > 0.1: r.append("Sector tailwind")
@@ -95,6 +97,12 @@ def red_flags(df):
         f = [__import__("events").LABEL[k] for k in evs if k in RED_FLAG_EVENTS]
         if r["macro_raw"] <= -0.3:
             f.append("Strong sector / political headwind")
+        if pd.notna(r["altman_z"]) and r["altman_z"] < 1.8 and pd.notna(r["f_score"]) and r["f_score"] <= 3:
+            f.append("Financial distress risk")
+        if pd.notna(r["interest_cover"]) and r["interest_cover"] < 1:
+            f.append("Profit doesn't cover interest")
+        if pd.notna(r["dilution"]) and r["dilution"] > 0.2:
+            f.append("Heavy share dilution")
         out[t] = f
     return pd.Series(out)
 
@@ -130,6 +138,8 @@ def run_market(name, cfg, demo):
     if demo:
         from demo_data import fake_market
         close, volume, idx, fund, news = fake_market(cfg["tickers"], cfg["index"])
+        from demo_data import fake_health
+        health = fake_health(cfg["tickers"])
     else:
         from data import get_fundamentals, get_index, get_news, get_prices
         from universe import get_universe
@@ -151,6 +161,12 @@ def run_market(name, cfg, demo):
         fund["shortName"] = fund["shortName"].fillna(uni["name"].reindex(fund.index))
         names = uni["name"].reindex(fund.index).fillna(fund["longName"]).fillna(fund["shortName"])
         news = get_news(list(close.columns), names.to_dict(), name)
+        from data import get_health
+        if name == "PSX":
+            health = fund[[c for c in ("f_score", "f_tests") if c in fund]].copy()
+        else:
+            health = get_health(list(close.columns), pd.to_numeric(fund["marketCap"], errors="coerce").to_dict(),
+                                fund["sector"].to_dict(), name)
     print(f"[{name}] {close.shape[1]} stocks, {len(close)} days")
 
     panel = technical_panel(close, volume, idx, config.HORIZON_DAYS)
@@ -158,10 +174,15 @@ def run_market(name, cfg, demo):
 
     latest = panel.xs(panel.index.get_level_values("date").max(), level="date")
     ranks = latest[TECH_COLS].rank(pct=True).add_suffix("_r")
-    fs = fundamental_score(fund)
+    fs = fundamental_score(fund, health)
     nf = news_features(news, fund["sector"])
 
-    df = pd.concat([latest, ranks, fs, nf], axis=1).reindex(ml.index)
+    hcols = [c for c in ("f_score", "f_tests", "altman_z", "interest_cover", "cash_conversion", "dilution", "margin_trend")
+             if c in health]
+    df = pd.concat([latest, ranks, fs, nf, health[hcols]], axis=1).reindex(ml.index)
+    for c in ("f_score", "altman_z", "interest_cover", "cash_conversion", "dilution", "margin_trend"):
+        if c not in df:
+            df[c] = np.nan
     df["ml"] = ml
     df["news"] = df["news_sent"].rank(pct=True).fillna(0.5)
     df["peers"] = df["peer_sent"].rank(pct=True).fillna(0.5)
@@ -212,6 +233,10 @@ def run_market(name, cfg, demo):
                  price_date=str(close.index[-1].date()),
                  model_used=bool(model_ok), weights=w)
     stats.update(track_record(name, df, close, idx))
+    try:
+        stats["perf"] = performance(df, close, idx, fund)
+    except Exception as e:
+        print(f"[{name}] performance failed: {e}")
 
     stats["macro"] = {
         "method": ctx["method"],
@@ -223,6 +248,56 @@ def run_market(name, cfg, demo):
               "headlines": nf.attrs.get("headlines", {}), "weights": w, "model_ok": model_ok, "ctx": ctx,
               "schecks": schecks}
     return df, stats, extras
+
+
+# ---------------------------------------------------------------- market & sector performance
+PERIODS = [("1D", 1), ("1W", 5), ("1M", 21), ("3M", 63), ("YTD", None), ("1Y", 252), ("5Y", 1260)]
+
+
+def _period_returns(px):
+    """px: Series or DataFrame of closes. Returns {period: return} (Series per column for DataFrames)."""
+    px = px.ffill()
+    last = px.iloc[-1]
+    out = {}
+    for lab, n in PERIODS:
+        if n is None:
+            prev = px[px.index.year < px.index[-1].year]
+            base = prev.iloc[-1] if len(prev) else None
+        else:
+            base = px.iloc[-n - 1] if len(px) > n else None
+        out[lab] = None if base is None else last / base - 1
+    return out
+
+
+def performance(df, close, idx, fund):
+    """Index returns plus market-cap-weighted sector and industry returns, within this market."""
+    def clean(v):
+        return None if v is None or not np.isfinite(v) else round(float(v), 4)
+    ir = _period_returns(idx.dropna())
+    res = {"index": {k: clean(v) for k, v in ir.items()}, "sectors": [], "industries": []}
+    stock = _period_returns(close[df.index])
+    w = df["mcap"].fillna(df["mcap"].median()).clip(lower=0)
+    ind = fund["industry"].reindex(df.index) if "industry" in fund else pd.Series(None, index=df.index)
+    for kind, key in (("sectors", df["sector"]), ("industries", ind)):
+        for g, members in df.groupby(key):
+            if kind == "industries" and len(members) < 3:
+                continue
+            m = members.index
+            row = {"name": str(g), "n": int(len(m)), "ret": {},
+                   "score": round(float(members["score"].mean()), 1),
+                   "labels": {l: int((members["signal"] == l).sum()) for l in ("BUY", "WATCH", "AVOID", "SELL")}}
+            for lab, _ in PERIODS:
+                r = stock[lab]
+                if r is None:
+                    row["ret"][lab] = None
+                    continue
+                rr = r.reindex(m)
+                ok = rr.notna()
+                row["ret"][lab] = clean((rr[ok] * w[m][ok]).sum() / w[m][ok].sum()) if ok.sum() else None
+            res[kind].append(row)
+    res["sectors"].sort(key=lambda x: -(x["ret"]["1M"] or -9))
+    res["industries"].sort(key=lambda x: -(x["ret"]["1M"] or -9))
+    return res
 
 
 SIGNAL_LOG = "results/signals.csv"
@@ -328,7 +403,12 @@ def write_details(df, ex, market, outdir):
                                            "macro": "Sector & politics"}[k],
                        "value": round(float(r[k]) * 100), "weight": w[k]} for k in w],
             "sub": {"value": round(float(r["value"]) * 100), "quality": round(float(r["quality"]) * 100),
-                    "growth": round(float(r["growth"]) * 100)},
+                    "growth": round(float(r["growth"]) * 100), "health": round(float(r["health"]) * 100)},
+            "health": {"f_score": _num(r["f_score"], 1),
+                       "f_tests": json.loads(r["f_tests"]) if isinstance(r.get("f_tests"), str) else {},
+                       "altman_z": _num(r["altman_z"], 2), "interest_cover": _num(r["interest_cover"], 1),
+                       "cash_conversion": _num(r["cash_conversion"], 2), "dilution": _num(r["dilution"], 3),
+                       "margin_trend": _num(r["margin_trend"], 3), "financial": sec == "Financial Services"},
             "checks": [{"label": CHECK_LABELS[c], "pass": bool(ex["checks"].at[t, c]),
                         "skipped": c == "model_agrees" and not ex["model_ok"]}
                        for c in ex["checks"].columns],
@@ -393,7 +473,7 @@ def main():
             stats[name] = {"error": str(e)}
 
     cols = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers", "macro", "macro_raw",
-            "mcap", "news_sent", "events", "value", "quality", "growth", "flags", "red_flags",
+            "mcap", "news_sent", "events", "value", "quality", "growth", "health", "f_score", "flags", "red_flags",
             "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons", "signal"]
     allres = pd.concat(tables)[cols] if tables else pd.DataFrame(columns=cols)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -414,7 +494,8 @@ def main():
              "ret3m": None if pd.isna(r["ret_63"]) else round(float(r["ret_63"]) * 100, 1),
              "rsi": _num(r["rsi_14"], 0), "mcap": _num(r["mcap"], 0),
              "ns": _num(r["news_sent"], 2), "ms": _num(r["macro_raw"], 2),
-             "vq": [round(float(r[k]) * 100) if pd.notna(r[k]) else None for k in ("value", "quality", "growth")],
+             "vq": [round(float(r[k]) * 100) if pd.notna(r[k]) else None for k in ("value", "quality", "growth", "health")],
+             "f": _num(r["f_score"], 1),
              "events": [__import__("events").LABEL[k] for k in (r["events"] if isinstance(r["events"], list) else [])][:4],
              "reasons": r["reasons"]}
             for t, r in sub.iterrows()]

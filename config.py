@@ -35,7 +35,7 @@ MARKETS = {
 
 # ---- Model -----------------------------------------------------------------
 HORIZON_DAYS = 21          # predict ~1 month ahead return vs the index
-HISTORY = "4y"             # price history to download
+HISTORY = "6y"             # price history to download (6y so 5-year performance can be shown)
 TEST_DAYS = 126            # last ~6 months held out for the honest backtest
 
 # How the final score blends the parts (must sum to 1)

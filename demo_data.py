@@ -39,3 +39,13 @@ def fake_macro():
     for k in THEMES:
         out[("theme", k)] = [h(f"Markets watch {THEMES[k]['label'].lower()}")] * (8 if k in ("war", "tariffs") else 2)
     return out
+
+
+def fake_health(tickers):
+    rng = np.random.default_rng(7)
+    return pd.DataFrame({"f_score": rng.integers(1, 10, len(tickers)).astype(float),
+                         "altman_z": rng.uniform(0.5, 6, len(tickers)), "interest_cover": rng.uniform(0.5, 30, len(tickers)),
+                         "cash_conversion": rng.uniform(0.3, 2, len(tickers)), "dilution": rng.normal(0.01, 0.08, len(tickers)),
+                         "margin_trend": rng.normal(0, 0.03, len(tickers)),
+                         "f_tests": ['{"Profitable (positive return on assets)": true, "Positive operating cash flow": true, "Gross margin improving": false}'] * len(tickers)},
+                        index=pd.Index(tickers, name="ticker"))

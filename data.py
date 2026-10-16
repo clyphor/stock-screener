@@ -1,4 +1,6 @@
 """Download prices, fundamentals and news from Yahoo Finance (free)."""
+import json
+import os
 import re
 import time
 import urllib.parse
@@ -122,6 +124,17 @@ def _psx_info(t):
     eps, prof, sales = _num_list(ann, "EPS"), _num_list(ann, "Profit after Taxation"), _num_list(ann, "Sales")
     if len(eps) >= 2 and eps[1]:
         row["earningsGrowth"] = eps[0] / abs(eps[1]) - 1
+    tests = {}
+    if prof: tests["Profitable (positive profit after tax)"] = prof[0] > 0
+    if len(prof) >= 2: tests["Profit growing"] = prof[0] > prof[1]
+    if len(prof) >= 3: tests["Profit up two years running"] = prof[0] > prof[1] > prof[2]
+    if eps: tests["Positive earnings per share"] = eps[0] > 0
+    if len(eps) >= 2: tests["EPS growing"] = eps[0] > eps[1]
+    if len(prof) >= 2 and len(eps) >= 2 and prof[1] and eps[1] and eps[0]:
+        tests["No dilution (EPS keeping pace with profit)"] = (eps[0] / eps[1]) >= 0.98 * (prof[0] / prof[1])
+    if len(tests) >= 3:
+        row["f_score"] = round(9 * sum(tests.values()) / len(tests), 1)
+        row["f_tests"] = json.dumps(tests)
     if len(sales) >= 2 and len(sales) == len(prof) and sales[1]:
         row["revenueGrowth"] = sales[0] / sales[1] - 1
         if sales[0]:
@@ -305,3 +318,108 @@ def get_news(tickers, names, market):
     n = sum(1 for v in res.values() if v)
     print(f"[{market}] news: {n}/{len(res)} stocks have headlines, {sum(map(len, res.values()))} total")
     return res
+
+
+# ---------------------------------------------------------------- financial health
+HEALTH_CACHE = "results/health.csv"
+
+
+def _row(df, *names):
+    """First matching line item from a yfinance statement (columns = years, newest first)."""
+    if df is None or df.empty:
+        return None
+    for n in names:
+        if n in df.index:
+            s = pd.to_numeric(df.loc[n], errors="coerce")
+            return s if s.notna().any() else None
+    return None
+
+
+def _v(s, i):
+    try:
+        x = float(s.iloc[i])
+        return x if x == x else None
+    except Exception:
+        return None
+
+
+def _health_one(args):
+    """Piotroski F-score (9 tests), Altman Z, interest cover, cash conversion, dilution, margin trend."""
+    t, mcap, sector = args
+    out = {"ticker": t}
+    try:
+        tk = yf.Ticker(t)
+        inc, bal, cf = tk.income_stmt, tk.balance_sheet, tk.cashflow
+    except Exception as e:
+        out["error"] = str(e)[:100]
+        return out
+    ni = _row(inc, "Net Income", "Net Income Common Stockholders")
+    rev = _row(inc, "Total Revenue", "Operating Revenue")
+    gp = _row(inc, "Gross Profit")
+    ebit = _row(inc, "EBIT", "Operating Income")
+    intexp = _row(inc, "Interest Expense", "Interest Expense Non Operating")
+    ta = _row(bal, "Total Assets")
+    ca = _row(bal, "Current Assets")
+    cl = _row(bal, "Current Liabilities")
+    ltd = _row(bal, "Long Term Debt", "Long Term Debt And Capital Lease Obligation")
+    tl = _row(bal, "Total Liabilities Net Minority Interest", "Total Liabilities")
+    re_ = _row(bal, "Retained Earnings")
+    sh = _row(bal, "Ordinary Shares Number", "Share Issued")
+    cfo = _row(cf, "Operating Cash Flow", "Cash Flow From Continuing Operating Activities")
+
+    tests = {}
+    roa0 = _v(ni, 0) / _v(ta, 0) if _v(ni, 0) is not None and _v(ta, 0) else None
+    roa1 = _v(ni, 1) / _v(ta, 1) if _v(ni, 1) is not None and _v(ta, 1) else None
+    if roa0 is not None: tests["Profitable (positive return on assets)"] = roa0 > 0
+    if _v(cfo, 0) is not None: tests["Positive operating cash flow"] = _v(cfo, 0) > 0
+    if roa0 is not None and roa1 is not None: tests["Return on assets improving"] = roa0 > roa1
+    if _v(cfo, 0) is not None and _v(ni, 0) is not None: tests["Cash flow higher than reported profit"] = _v(cfo, 0) > _v(ni, 0)
+    if _v(ltd, 0) is not None and _v(ltd, 1) is not None and _v(ta, 0) and _v(ta, 1):
+        tests["Debt falling relative to assets"] = _v(ltd, 0) / _v(ta, 0) <= _v(ltd, 1) / _v(ta, 1)
+    if all(_v(x, i) for x in (ca, cl) for i in (0, 1)):
+        tests["Short-term liquidity improving"] = _v(ca, 0) / _v(cl, 0) > _v(ca, 1) / _v(cl, 1)
+    if _v(sh, 0) and _v(sh, 1): tests["No new shares issued"] = _v(sh, 0) <= _v(sh, 1) * 1.01
+    if all(_v(x, i) for x in (gp, rev) for i in (0, 1)):
+        tests["Gross margin improving"] = _v(gp, 0) / _v(rev, 0) > _v(gp, 1) / _v(rev, 1)
+    if all(_v(x, i) for x in (rev, ta) for i in (0, 1)):
+        tests["Asset turnover improving"] = _v(rev, 0) / _v(ta, 0) > _v(rev, 1) / _v(ta, 1)
+    if len(tests) >= 5:
+        out["f_score"] = round(9 * sum(tests.values()) / len(tests), 1)
+        out["f_tests"] = json.dumps({k: bool(v) for k, v in tests.items()})
+
+    # Altman Z (not meaningful for banks/insurers)
+    if sector != "Financial Services" and _v(ta, 0) and _v(tl, 0):
+        wc = (_v(ca, 0) or 0) - (_v(cl, 0) or 0)
+        z = (1.2 * wc + 1.4 * (_v(re_, 0) or 0) + 3.3 * (_v(ebit, 0) or 0) + 1.0 * (_v(rev, 0) or 0)) / _v(ta, 0) \
+            + 0.6 * (mcap or 0) / _v(tl, 0)
+        out["altman_z"] = round(z, 2)
+    if _v(ebit, 0) is not None and _v(intexp, 0):
+        out["interest_cover"] = round(_v(ebit, 0) / abs(_v(intexp, 0)), 1)
+    if _v(cfo, 0) is not None and _v(ni, 0) and _v(ni, 0) > 0:
+        out["cash_conversion"] = round(_v(cfo, 0) / _v(ni, 0), 2)
+    if _v(sh, 0) and _v(sh, 1):
+        out["dilution"] = round(_v(sh, 0) / _v(sh, 1) - 1, 3)
+    if all(_v(x, i) for x in (ebit, rev) for i in (0, 2)):
+        out["margin_trend"] = round(_v(ebit, 0) / _v(rev, 0) - _v(ebit, 2) / _v(rev, 2), 3)
+    out["asof"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    return out
+
+
+def get_health(tickers, mcaps, sectors, market, max_age_days=7):
+    """Statements only change quarterly, so results are cached for a week in results/health.csv."""
+    cache = pd.read_csv(HEALTH_CACHE, index_col="ticker") if os.path.exists(HEALTH_CACHE) else pd.DataFrame()
+    today = datetime.now(timezone.utc).date()
+    fresh = set()
+    if len(cache) and "asof" in cache:
+        age = (pd.Timestamp(today) - pd.to_datetime(cache["asof"], errors="coerce")).dt.days
+        fresh = set(cache.index[age <= max_age_days])
+    todo = [t for t in tickers if t not in fresh and not t.endswith(".KA")]
+    if todo:
+        with ThreadPoolExecutor(6) as ex:
+            rows = list(ex.map(_health_one, [(t, mcaps.get(t), sectors.get(t)) for t in todo]))
+        new = pd.DataFrame(rows).set_index("ticker")
+        cache = pd.concat([cache.drop(index=[t for t in new.index if t in cache.index], errors="ignore"), new])
+        os.makedirs("results", exist_ok=True)
+        cache.to_csv(HEALTH_CACHE, index_label="ticker")
+    print(f"[{market}] financial health: {len(todo)} refreshed, {len([t for t in tickers if t in fresh])} from cache")
+    return cache.reindex(tickers)

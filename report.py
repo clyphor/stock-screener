@@ -64,6 +64,16 @@ details.why ul{margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.55}
 .fact{display:flex;gap:8px;position:sticky;bottom:0;background:var(--card);padding-top:8px}
 .fact button{flex:1;padding:11px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-weight:600}
 .fact button.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
+.perf{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:6px 0 10px}
+.perf div{text-align:center;padding:6px 2px;border-radius:8px;background:var(--bg)}
+.perf small{display:block;font-size:11px;color:var(--mute)}.perf b{font-size:13px}
+.heat{width:100%;border-collapse:separate;border-spacing:2px;font-size:12px}
+.heat th{font-weight:500;color:var(--mute);font-size:11px;padding:2px;text-align:center}
+.heat td{padding:6px 3px;text-align:center;border-radius:5px;border:0}
+.heatwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
+.heat td,.heat th{min-width:46px}
+.heat td:first-child,.heat th:first-child{position:sticky;left:0;z-index:1;background:var(--card);min-width:96px;max-width:96px}
+.heat td:first-child{text-align:left;padding-left:4px;font-size:12px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .count{margin:8px 16px 0;font-size:13px;color:var(--mute)}
 footer{padding:16px 16px 40px;color:var(--mute);font-size:12px}
 #sheet{position:fixed;inset:0;background:var(--bg);overflow-y:auto;z-index:10;display:none;-webkit-overflow-scrolling:touch}
@@ -99,6 +109,7 @@ svg text{fill:var(--mute);font-size:10px}
 <header><h1>Stock Screener</h1><div class="sub" id="gen"></div></header>
 <div class="tabs" id="tabs"></div>
 <div class="clock" id="clock"></div>
+<details class="box" id="ovbox" open><summary><b style="color:var(--ink)">Market overview</b> <span id="ovsum"></span></summary><div id="ov" style="margin-top:8px"></div></details>
 <input class="search" id="q" placeholder="Search any stock (e.g. CBA, Apple, OGDC)" autocomplete="off">
 <div id="sigs" class="box"></div>
 <details class="box" id="macrobox"><summary><b style="color:var(--ink)">Market &amp; politics today</b> <span id="macrosum"></span></summary><div id="macro" style="margin-top:8px"></div></details>
@@ -158,6 +169,7 @@ function render(){
   $("stats").innerHTML = s.error ? "" :
     `Tested on ${s.test_from} onwards (data the model never saw): top-20% picks beat bottom-20% by <b>${((s.top_minus_bottom||0)*100).toFixed(2)}%</b> a month; ranking accuracy (IC) <b>${s.ic_mean}</b> (0 = random); top picks beat the index <b>${Math.round((s.top_hit_rate||0)*100)}%</b> of the time. ${s.screened} stocks passed the screen.<br><br><b>Data check:</b> prices up to the ${s.price_date||"–"} close (holidays not shown on the clock); ${Math.round((s.news_coverage||0)*100)}% of stocks had news in the last 10 days (scored by ${s.news_method}). AI scoring: <b>${s.ai_scoring==="on"||s.ai_scoring===true?"on":s.ai_scoring==="failed"?"FAILED today (out of API credit or key problem) — using free rules":"off — add an ANTHROPIC_API_KEY secret to turn it on"}</b>.${(s.news_coverage||0)<0.5?" <b>News coverage is low — treat the News and Peers parts with caution.</b>":""}`
     + (s.model_used===false ? " <b>The price model failed this test here, so it counts for only 10%.</b>" : "");
+  renderOverview(s);
   const mc = s.macro;
   if (mc) {
     const th = Object.values(mc.themes).sort((a,b)=>b.heat-a.heat);
@@ -200,6 +212,38 @@ function render(){
   clockTick();
 }
 
+/* ---------------- market overview ---------------- */
+const PER = ["1D","1W","1M","3M","YTD","1Y","5Y"];
+const fp = v => v==null ? "–" : (v>0?"+":"") + (v*100).toFixed(Math.abs(v)<0.1?1:0) + "%";
+function heatBg(v, lab){ if(v==null) return "transparent"; const scale = {"1D":0.03,"1W":0.06,"1M":0.12,"3M":0.2,"YTD":0.3,"1Y":0.4,"5Y":1}[lab]||0.2;
+  const a = Math.min(1, Math.abs(v)/scale)*0.55+0.08; return v>=0 ? `rgba(70,160,110,${a})` : `rgba(200,90,70,${a})`; }
+function renderOverview(s){
+  const p = s.perf; if(!p){ $("ov").innerHTML = '<div class="mute">Not available yet — appears after the next run.</div>'; $("ovsum").textContent=""; return; }
+  const idxName = {US:"S&P 500 (SPY)", ASX:"ASX 200", PSX:"KSE-100 (built from members)"}[M] || "Index";
+  $("ovsum").innerHTML = `· today <b style="color:${(p.index["1D"]||0)>=0?"var(--acc)":"var(--neg)"}">${fp(p.index["1D"])}</b> · 1Y ${fp(p.index["1Y"])}`;
+  const sec = p.sectors, ind = p.industries;
+  const best = ind.slice(0,5), worst = ind.slice(-5).reverse();
+  $("ov").innerHTML = `<div class="mute">${idxName}</div>
+    <div class="perf">${PER.map(k=>`<div style="background:${heatBg(p.index[k],k)}"><small>${k}</small><b>${fp(p.index[k])}</b></div>`).join("")}</div>
+    <div class="mute" style="margin:4px 0">Sectors (weighted by company size) — tap one to filter:</div>
+    <div class="heatwrap"><table class="heat"><tr><th></th>${PER.map(k=>`<th>${k}</th>`).join("")}</tr>
+    ${sec.map(r=>`<tr><td onclick="sectorFilter('${esc(r.name).replace(/'/g,"\\'")}')"><b style="font-weight:600">${esc(r.name)}</b> <span class="mute">${r.n}</span></td>${PER.map(k=>`<td style="background:${heatBg(r.ret[k],k)}">${fp(r.ret[k])}</td>`).join("")}</tr>`).join("")}</table></div>
+    <div class="mute" style="font-size:11px;margin-top:2px">Swipe the table sideways for 1Y and 5Y.</div>
+    ${ind.length?`<div class="grid" style="margin-top:10px"><div><div class="mute" style="margin-bottom:4px">Best industries (1M)</div>${best.map(r=>`<div style="font-size:13px;display:flex;justify-content:space-between;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.name)}</span><b class="good">${fp(r.ret["1M"])}</b></div>`).join("")}</div>
+      <div><div class="mute" style="margin-bottom:4px">Worst industries (1M)</div>${worst.map(r=>`<div style="font-size:13px;display:flex;justify-content:space-between;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.name)}</span><b class="bad">${fp(r.ret["1M"])}</b></div>`).join("")}</div></div>`:""}
+    ${why(xOverviewMarket(p, idxName))}`;
+}
+function xOverviewMarket(p, idxName){
+  const s = p.sectors.filter(r=>r.ret["1M"]!=null), lead = s[0], lag = s[s.length-1];
+  const y = p.index["1Y"], t = p.index["1D"];
+  const buyHeavy = [...p.sectors].sort((a,b)=>(b.labels.BUY+b.labels.WATCH)-(a.labels.BUY+a.labels.WATCH))[0];
+  return `<p>The ${idxName} moved <b>${fp(t)}</b> on the last trading day and is <b>${fp(y)}</b> over the past year${p.index["5Y"]!=null?` (${fp(p.index["5Y"])} over five years)`:""}.</p>
+    ${lead&&lag?`<p>Over the last month, <b>${esc(lead.name)}</b> led the market (${fp(lead.ret["1M"])}) and <b>${esc(lag.name)}</b> lagged (${fp(lag.ret["1M"])}).</p>`:""}
+    ${buyHeavy&&(buyHeavy.labels.BUY+buyHeavy.labels.WATCH)>0?`<p>The sector with the most BUY/WATCH labels right now is <b>${esc(buyHeavy.name)}</b> (${buyHeavy.labels.BUY} buy, ${buyHeavy.labels.WATCH} watch).</p>`:""}
+    <p class="mute">Green = up, red = down; stronger colour = bigger move for that time frame. Sector returns are weighted by company size, like an index.</p>`;
+}
+function sectorFilter(sec){ resetF(); getF().sec=[sec]; saveF(); render(); window.scrollTo({top:$("count").offsetTop-60,behavior:"smooth"}); }
+
 /* ---------------- filters ---------------- */
 const PARTS = [["ml","Price model"],["fundamental","Fundamentals"],["news","Company news"],["peers","Competitors' news"],["macro","Sector & politics"]];
 const SORTS = {
@@ -232,7 +276,7 @@ function passes(r, F){
   if (num(F.smin)!=null && r.score < num(F.smin)) return false;
   if (num(F.smax)!=null && r.score > num(F.smax)) return false;
   for (const [k,v] of Object.entries(F.parts)) if (v>0 && (r.parts[k]??0) < v) return false;
-  const vq = {value:r.vq?.[0], quality:r.vq?.[1], growth:r.vq?.[2]};
+  const vq = {value:r.vq?.[0], quality:r.vq?.[1], growth:r.vq?.[2], health:r.vq?.[3]};
   for (const [k,v] of Object.entries(F.vqmin)) if (v>0 && (vq[k]??0) < v) return false;
   if (num(F.pemin)!=null && !(r.pe!=null && r.pe >= num(F.pemin))) return false;
   if (num(F.pemax)!=null && !(r.pe!=null && r.pe > 0 && r.pe <= num(F.pemax))) return false;
@@ -274,7 +318,7 @@ function drawPanel(){
    <div class="fg"><span class="fl">Overall score</span>${rng("smin","smax","min e.g. 60","max")}</div>
    <div class="fg"><span class="fl">Minimum part scores (0–100 rank)</span>
      ${PARTS.map(([k,l])=>`<div class="sl"><span>${l}</span><input type="range" min="0" max="95" step="5" value="${F.parts[k]||0}" oninput="this.nextElementSibling.textContent=this.value" onchange="F_part('${k}',this.value)"><b>${F.parts[k]||0}</b></div>`).join("")}
-     ${[["value","Value vs sector"],["quality","Quality"],["growth","Growth"]].map(([k,l])=>`<div class="sl"><span>${l}</span><input type="range" min="0" max="95" step="5" value="${F.vqmin[k]||0}" oninput="this.nextElementSibling.textContent=this.value" onchange="F_vq('${k}',this.value)"><b>${F.vqmin[k]||0}</b></div>`).join("")}</div>
+     ${[["value","Value vs sector"],["quality","Quality"],["growth","Growth"],["health","Financial health"]].map(([k,l])=>`<div class="sl"><span>${l}</span><input type="range" min="0" max="95" step="5" value="${F.vqmin[k]||0}" oninput="this.nextElementSibling.textContent=this.value" onchange="F_vq('${k}',this.value)"><b>${F.vqmin[k]||0}</b></div>`).join("")}</div>
    <div class="fg"><span class="fl">Company news</span>${one("news",[["","Any"],["pos","Positive"],["notneg","Not negative"],["neg","Negative"],["has","Has news"]],F.news)}</div>
    <div class="fg"><span class="fl">Sector & politics</span>${one("macro",[["","Any"],["tail","Tailwind"],["nohead","No headwind"],["head","Headwind"]],F.macro)}</div>
    ${good.length?`<div class="fg"><span class="fl">Has a recent event (any of)</span>${pills("good",good.map(x=>[x,x]),F.good)}</div>`:""}
@@ -362,7 +406,7 @@ async function openStock(t, push=true){
 
   <div class="sec"><h3>Score breakdown</h3><div class="mute" style="margin-bottom:6px">Each part is a 0–100 rank vs the other ${d.market} stocks, weighted into the total.</div>
     ${d.parts.map(p=>`<div class="prow"><span>${p.label} <span class="mute">× ${Math.round(p.weight*100)}%</span></span><span class="v">${p.value}</span><i><span style="width:${p.value}%"></span></i></div>`).join("")}
-    <div class="grid" style="margin-top:10px"><div class="kv"><small>Value vs sector</small><b>${d.sub.value}</b></div><div class="kv"><small>Quality</small><b>${d.sub.quality}</b></div><div class="kv"><small>Growth</small><b>${d.sub.growth}</b></div><div class="kv"><small>Analysts</small><b>${d.analyst.rating?esc(d.analyst.rating).replace("_"," "):"–"}</b></div></div>
+    <div class="grid" style="margin-top:10px"><div class="kv"><small>Value vs sector</small><b>${d.sub.value}</b></div><div class="kv"><small>Quality</small><b>${d.sub.quality}</b></div><div class="kv"><small>Growth</small><b>${d.sub.growth}</b></div><div class="kv"><small>Financial health</small><b>${d.sub.health??"–"}</b></div><div class="kv"><small>Analysts</small><b>${d.analyst.rating?esc(d.analyst.rating).replace("_"," "):"–"}</b></div></div>
     ${up!=null?`<div class="mute" style="margin-top:8px">Average analyst target ${d.analyst.target} (${pct(up)} from here).</div>`:""}
     ${why(xScore(d, up))}</div>
 
@@ -381,6 +425,8 @@ async function openStock(t, push=true){
       return `<tr><td>${f.label}</td><td class="${cls}">${fmtF(f.value,f.kind)}</td><td>${fmtF(f.sector,f.kind)}</td></tr>`}).join("")}</table>
     <div class="mute" style="margin-top:6px">Green = better than the typical company in its sector.</div>
     ${why(xFund(d))}</div>
+
+  ${healthSection(d)}
 
   <div class="sec"><h3>News (last 10 days)</h3>
     ${d.events&&d.events.length?`<div class="chips" style="margin:0 0 8px">${d.events.map(e=>`<span class="chip ${e.impact<0?"bad":""}">${e.impact>0?"▲":e.impact<0?"▼":"•"} ${esc(e.label)}</span>`).join("")}</div>`:""}
@@ -405,6 +451,33 @@ async function openStock(t, push=true){
   drawChart(d, base, 252);
 }
 
+function healthSection(d){
+  const h = d.health; if(!h) return "";
+  const tests = Object.entries(h.f_tests||{});
+  const z = h.altman_z, zone = z==null?null: z>=3?["Safe","good"]: z>=1.8?["Grey zone",""]:["Distress zone","bad"];
+  const kv = (l,v,c="") => `<div class="kv"><small>${l}</small><b class="${c}">${v}</b></div>`;
+  return `<div class="sec"><h3>Financial health</h3>
+    <div class="grid">
+      ${kv(d.market==="PSX"?"Health score (partial)":"Piotroski F-score", h.f_score!=null?`${h.f_score} / 9`:"–", h.f_score>=7?"good":h.f_score!=null&&h.f_score<=3?"bad":"")}
+      ${kv("Bankruptcy risk (Altman Z)", h.financial?"n/a for banks":z!=null?`${z} · ${zone[0]}`:"–", zone?zone[1]:"")}
+      ${kv("Interest cover", h.interest_cover!=null?`${h.interest_cover}×`:"–", h.interest_cover==null?"":h.interest_cover>=5?"good":h.interest_cover<1.5?"bad":"")}
+      ${kv("Cash vs reported profit", h.cash_conversion!=null?`${h.cash_conversion}×`:"–", h.cash_conversion==null?"":h.cash_conversion>=1?"good":h.cash_conversion<0.7?"bad":"")}
+      ${kv("New shares issued (1y)", h.dilution!=null?fp(h.dilution):"–", h.dilution==null?"":h.dilution<=0.02?"good":h.dilution>0.1?"bad":"")}
+      ${kv("Operating margin trend (2y)", h.margin_trend!=null?(h.margin_trend>0?"+":"")+(h.margin_trend*100).toFixed(1)+" pts":"–", h.margin_trend==null?"":h.margin_trend>0?"good":"bad")}
+    </div>
+    ${tests.length?`<div style="margin-top:10px">${tests.map(([k,v])=>`<div class="chk"><b class="${v?"ok":"no"}">${v?"✓":"✗"}</b><span>${esc(k)}</span></div>`).join("")}</div>`:`<div class="mute" style="margin-top:8px">Financial statements not available for this company.</div>`}
+    ${why(xHealth(d))}</div>`;
+}
+function xHealth(d){
+  const h = d.health, f = h.f_score;
+  if (f==null && h.altman_z==null) return "";
+  const fs = f==null?"":f>=7?`An F-score of <b>${f}/9</b> is <b>strong</b> — most signs in the latest accounts point to an improving, healthy business.`:f>=4?`An F-score of <b>${f}/9</b> is <b>middling</b> — a mix of improving and worsening signs.`:`An F-score of <b>${f}/9</b> is <b>weak</b> — most signs in the accounts are getting worse.`;
+  const z = h.financial ? "Bankruptcy-risk scores don't work for banks and insurers, so it's skipped." : h.altman_z==null ? "" : h.altman_z>=3 ? "The Altman Z-score says bankruptcy risk is <b>low</b>." : h.altman_z>=1.8 ? "The Altman Z-score is in the <b>grey zone</b> — not alarming, but worth keeping an eye on." : "The Altman Z-score is in the <b>distress zone</b>, which historically signals elevated bankruptcy risk.";
+  const ic = h.interest_cover==null?"":h.interest_cover<1.5?` Its operating profit only covers interest payments <b>${h.interest_cover}×</b> — debt is a real burden.`:h.interest_cover>=5?` Operating profit covers interest <b>${h.interest_cover}×</b>, so debt is easily manageable.`:"";
+  const cc = h.cash_conversion==null?"":h.cash_conversion<0.7?` Cash coming in is well below reported profit (${h.cash_conversion}×), which can mean profits are "on paper" rather than in the bank.`:h.cash_conversion>=1?" Cash coming in matches or exceeds reported profit — a good sign the profits are real.":"";
+  const dl = h.dilution==null?"":h.dilution>0.1?` It issued <b>${fp(h.dilution)}</b> more shares last year, which shrinks each existing shareholder's slice.`:"";
+  return `<p>${fs} ${z}${ic}${cc}${dl}</p><p class="mute">${d.market==="PSX"?"For Pakistan only profit and EPS history are available, so this is a partial version of the test.":"The F-score runs 9 yes/no tests on the last two years of the income statement, balance sheet and cash-flow statement. Data refreshes weekly."}</p>`;
+}
 /* ---------- plain-English explanations ---------- */
 function why(html, title="What this means"){ return html ? `<details class="why"><summary>${title}</summary>${html}</details>` : ""; }
 const P = v => v==null ? "–" : Math.round(v*100)+"%";
@@ -432,7 +505,7 @@ function xScore(d, up){
   const L = d.parts.map(p=>`<li><b>${p.label}</b> ${p.value}/100 — ${rankWord(p.value)}.</li>`).join("");
   const v = d.sub;
   return `<p>Each part compares this stock with the other ${d.market} stocks (100 = best). The total is a weighted average of the parts.</p><ul>${L}</ul>
-    <p>Inside fundamentals: it looks ${rankWord(v.value)} on <b>value</b> (how cheap it is vs its sector), ${rankWord(v.quality)} on <b>quality</b> (profitability and debt), and ${rankWord(v.growth)} on <b>growth</b>.
+    <p>Inside fundamentals: it looks ${rankWord(v.value)} on <b>value</b> (how cheap it is vs its sector), ${rankWord(v.quality)} on <b>quality</b> (profitability and debt), ${rankWord(v.growth)} on <b>growth</b>${v.health!=null?`, and ${rankWord(v.health)} on <b>financial health</b>`:""}.
     ${d.analyst.rating?` Professional analysts' average view is <b>${esc(d.analyst.rating).replace("_"," ")}</b>${up!=null?`, with a price target ${pct(up)} from today`:""}.`:""}</p>`;
 }
 function xChart(d, base){

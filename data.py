@@ -81,7 +81,58 @@ def _info(t):
     return row
 
 
+def _num_list(txt, label, n=4):
+    m = re.search(re.escape(label) + r"((?:\s+\(?-?[\d,]+(?:\.\d+)?\)?){1,%d})" % n, txt)
+    if not m:
+        return []
+    vals = []
+    for v in m.group(1).split():
+        neg = v.startswith("(")
+        v = v.strip("()").replace(",", "")
+        try:
+            vals.append(-float(v) if neg else float(v))
+        except ValueError:
+            pass
+    return vals
+
+
+def _psx_info(t):
+    """Fundamentals scraped from dps.psx.com.pk/company/<SYMBOL> (Yahoo has little for Pakistan)."""
+    sym = t.replace(".KA", "")
+    row = {k: None for k in FUND_FIELDS}
+    row["ticker"] = t
+    try:
+        req = urllib.request.Request(f"https://dps.psx.com.pk/company/{sym}", headers={"User-Agent": "Mozilla/5.0"})
+        page = urllib.request.urlopen(req, timeout=30).read().decode(errors="replace")
+    except Exception as e:
+        print(f"[PSX] {sym} page failed: {e}")
+        return row
+    txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", page)).replace("&nbsp;", " ")
+    g = lambda rx: (lambda m: m.group(1) if m else None)(re.search(rx, txt))
+    try:
+        row["trailingPE"] = float(g(r"P/E Ratio \(TTM\)\s*\**\s*(-?[\d.,]+)").replace(",", ""))
+    except Exception:
+        pass
+    try:
+        row["marketCap"] = float(g(r"Market Cap \(000'\s*s\s*\)\s*([\d.,]+)").replace(",", "")) * 1000
+    except Exception:
+        pass
+    ann = txt[txt.find("Annual"):] if "Annual" in txt else txt
+    eps, prof, sales = _num_list(ann, "EPS"), _num_list(ann, "Profit after Taxation"), _num_list(ann, "Sales")
+    if len(eps) >= 2 and eps[1]:
+        row["earningsGrowth"] = eps[0] / abs(eps[1]) - 1
+    if len(sales) >= 2 and len(sales) == len(prof) and sales[1]:
+        row["revenueGrowth"] = sales[0] / sales[1] - 1
+        if sales[0]:
+            row["profitMargins"] = prof[0] / sales[0]
+    row["currency"] = "PKR"
+    return row
+
+
 def get_fundamentals(tickers):
+    if tickers and all(t.endswith(".KA") for t in tickers):
+        with ThreadPoolExecutor(4) as ex:
+            return pd.DataFrame(list(ex.map(_psx_info, tickers))).set_index("ticker")
     with ThreadPoolExecutor(6) as ex:
         rows = list(ex.map(_info, tickers))
     return pd.DataFrame(rows).set_index("ticker")
@@ -110,10 +161,14 @@ def _yahoo_news(t):
     return out
 
 
-def _google_news(query):
-    """Google News RSS search: free, current, covers US and ASX."""
+LOCALE = {"US": ("en-US", "US"), "ASX": ("en-AU", "AU"), "PSX": ("en-PK", "PK")}
+
+
+def _google_news(query, market="ASX"):
+    """Google News RSS search: free, current, covers US, ASX and Pakistan."""
+    hl, gl = LOCALE.get(market, ("en-AU", "AU"))
     url = ("https://news.google.com/rss/search?q=" + urllib.parse.quote(query)
-           + "&hl=en-AU&gl=AU&ceid=AU:en")
+           + f"&hl={hl}&gl={gl}&ceid={gl}:en")
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (stock-screener)"})
     out = []
     for attempt in range(3):
@@ -155,6 +210,27 @@ _STOP = {"the", "and", "group", "holdings", "company", "corp", "resources", "ene
          "international", "financial", "technologies", "systems", "services", "trust", "of", "&"}
 
 
+# Reputable outlets searched directly (Google News "site:" filter), per market
+QUALITY_SITES = {
+    "US": ["reuters.com", "cnbc.com", "wsj.com", "bloomberg.com", "marketwatch.com", "barrons.com",
+           "apnews.com", "ft.com", "nytimes.com", "investors.com", "finance.yahoo.com"],
+    "ASX": ["afr.com", "theaustralian.com.au", "abc.net.au", "smh.com.au", "reuters.com", "bloomberg.com",
+            "theguardian.com", "news.com.au", "marketindex.com.au", "fool.com.au", "stockhead.com.au",
+            "livewiremarkets.com", "theaustralian.com.au", "itnews.com.au", "miningweekly.com"],
+    "PSX": ["dawn.com", "tribune.com.pk", "brecorder.com", "thenews.com.pk", "profit.pakistantoday.com.pk",
+            "mettisglobal.news", "arynews.tv", "geo.tv", "reuters.com", "bloomberg.com", "propakistani.pk"],
+}
+# Content farms / promotional sites: kept but capped and down-weighted
+PROMO = {"kalkine", "kalkine media", "simply wall st", "simply wall street", "tipranks", "stocks down under",
+         "ad hoc news", "thebull.com.au", "investing.com", "benzinga", "zacks", "seeking alpha",
+         "insidermonkey", "yahoo! finance canada", "the globe and mail", "gurufocus", "www.marketscreener.com"}
+
+
+def quality_of(pub):
+    p = (pub or "").lower()
+    return "promo" if p in PROMO or "kalkine" in p else "normal"
+
+
 def _relevant(title, name, code):
     """Keep a headline only if it names the company (or its ticker)."""
     t = title.lower()
@@ -165,24 +241,37 @@ def _relevant(title, name, code):
 
 
 def _news(args):
-    """Headlines from the last 10 days, newest first. Yahoo first, Google News to fill gaps."""
+    """Headlines from the last 10 days, newest first.
+    Sources: Yahoo, Google News restricted to reputable outlets, then general Google News.
+    Promotional sites are capped at 3 per stock and marked so they count half."""
     t, name, market = args
     now = datetime.now(timezone.utc)
+    code = t.replace(".AX", "").replace(".KA", "")
+    nm = _clean_name(name)
+    sites = " OR ".join(f"site:{d}" for d in QUALITY_SITES.get(market, []))
+    ctx = {"ASX": "(ASX OR shares OR stock)", "US": "(stock OR shares OR NYSE OR Nasdaq)",
+           "PSX": "(PSX OR shares OR stock OR Pakistan)"}.get(market, "(stock OR shares)")
     items = _yahoo_news(t)
-    if len([i for i in items if (now - i["ts"]).days <= 10]) < 3:
-        code = t.replace(".AX", "")
-        q = (f'"{_clean_name(name)}" (ASX OR shares OR stock)' if market == "ASX"
-             else f'"{_clean_name(name)}" (stock OR shares OR NYSE OR Nasdaq)') + " when:10d"
-        items += _google_news(q)
-    seen, out = set(), []
+    items += _google_news(f'"{nm}" ({sites}) when:10d', market) if sites else []
+    items += _google_news(f'"{nm}" {ctx} when:10d', market)
+    seen, out, promo = set(), [], 0
     for i in sorted(items, key=lambda x: x["ts"], reverse=True):
         key = i["title"].lower()[:60]
         pub = (i["publisher"] or "").lower()
-        if (now - i["ts"]).days <= 10 and key not in seen and pub not in LOW_QUALITY \
-                and _relevant(i["title"], name, t.replace(".AX", "")):
-            seen.add(key)
-            out.append({"title": i["title"], "link": i["link"], "publisher": i["publisher"],
-                        "date": i["ts"].strftime("%Y-%m-%d")})
+        if (now - i["ts"]).days > 10 or key in seen or pub in LOW_QUALITY or not _relevant(i["title"], name, code):
+            continue
+        q = quality_of(i["publisher"])
+        if q == "promo":
+            if promo >= 3:
+                continue
+            promo += 1
+        seen.add(key)
+        out.append({"title": i["title"], "link": i["link"], "publisher": i["publisher"],
+                    "date": i["ts"].strftime("%Y-%m-%d"), "quality": q})
+    # Reputable sources first, then newest
+    out.sort(key=lambda h: (h["quality"] == "promo", h["date"]), reverse=False)
+    out.sort(key=lambda h: h["date"], reverse=True)
+    out.sort(key=lambda h: h["quality"] == "promo")
     return t, out[:15]
 
 

@@ -113,7 +113,7 @@ def news_features(news, sectors):
             sc, keys = res[i]
             i += 1
             mac = is_macro(h["title"])
-            w = _recency_weight(h.get("date"), today)
+            w = _recency_weight(h.get("date"), today) * (0.5 if h.get("quality") == "promo" else 1.0)
             sc_l.append(sc); w_l.append(w); m_l.append(mac)
             for k in keys:
                 evs[k] = max(evs.get(k, 0), w)  # remember the most recent occurrence

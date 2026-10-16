@@ -83,11 +83,16 @@ def run_market(name, cfg, demo):
         from data import get_fundamentals, get_index, get_news, get_prices
         from universe import get_universe
         uni = get_universe(name, cfg["tickers"])
-        idx = get_index(cfg["index_candidates"], config.HISTORY)
         close, volume = get_prices(list(uni.index), config.HISTORY)
-        idx = idx.reindex(close.index).ffill()
+        if cfg["index_candidates"]:
+            idx = get_index(cfg["index_candidates"], config.HISTORY).reindex(close.index).ffill()
+        else:  # no index feed (Pakistan): equal-weighted index of the members' daily moves
+            idx = (1 + close.pct_change().clip(-0.3, 0.3).mean(axis=1).fillna(0)).cumprod() * 100
         fund = get_fundamentals(list(close.columns))
         fund["sector"] = fund["sector"].fillna(uni["sector"].reindex(fund.index))
+        if "industry" in uni:
+            fund["industry"] = fund["industry"].fillna(uni["industry"].reindex(fund.index))
+        fund["shortName"] = fund["shortName"].fillna(uni["name"].reindex(fund.index))
         names = uni["name"].reindex(fund.index).fillna(fund["longName"]).fillna(fund["shortName"])
         news = get_news(list(close.columns), names.to_dict(), name)
     print(f"[{name}] {close.shape[1]} stocks, {len(close)} days")
@@ -140,6 +145,8 @@ def run_market(name, cfg, demo):
     df["signal"] = signals(checks)
     stats.update(news_method=nf.attrs.get("method"), screened=int(ok.sum()),
                  news_coverage=round(float((df["news_count"].fillna(0) > 0).mean()), 2),
+                 ai_scoring=bool(os.environ.get("ANTHROPIC_API_KEY")),
+                 currency=cfg.get("currency", "USD" if name == "US" else "AUD"), index_name=cfg["index"],
                  price_date=str(close.index[-1].date()),
                  model_used=bool(model_ok), weights=w)
     stats.update(track_record(name, df, close, idx))

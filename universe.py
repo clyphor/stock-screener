@@ -2,7 +2,9 @@
 
 Falls back to the last good list saved in results/, then to the short list in config.py.
 """
+import html as html_lib
 import io
+import re
 import os
 import urllib.request
 
@@ -28,11 +30,60 @@ def _fetch(market):
     raise ValueError("constituents table not found")
 
 
+PSX_SECTORS = [  # (PSX sector keyword, Yahoo-style sector, industry used by the theme maps)
+    ("investment", "Financial Services", "Capital Markets"), ("modaraba", "Financial Services", "Capital Markets"),
+    ("bank", "Financial Services", "Banks - Regional"), ("insurance", "Financial Services", "Insurance - Diversified"), ("leasing", "Financial Services", "Credit Services"),
+    ("exploration", "Energy", "Oil & Gas E&P"), ("oil & gas marketing", "Energy", "Oil & Gas Refining & Marketing"),
+    ("refinery", "Energy", "Oil & Gas Refining & Marketing"), ("cement", "Basic Materials", "Building Materials"),
+    ("fertilizer", "Basic Materials", "Agricultural Inputs"), ("chemical", "Basic Materials", "Chemicals"),
+    ("power", "Utilities", "Utilities - Independent Power Producers"), ("pharma", "Healthcare", "Drug Manufacturers - Specialty & Generic"),
+    ("technology", "Technology", "Information Technology Services"), ("automobile", "Consumer Cyclical", "Auto Manufacturers"),
+    ("auto parts", "Consumer Cyclical", "Auto Parts"), ("textile", "Consumer Cyclical", "Textile Manufacturing"),
+    ("food", "Consumer Defensive", "Packaged Foods"), ("tobacco", "Consumer Defensive", "Tobacco"),
+    ("engineering", "Industrials", "Steel"), ("glass", "Industrials", "Building Products & Equipment"),
+    ("paper", "Basic Materials", "Paper & Paper Products"), ("transport", "Industrials", "Marine Shipping"),
+    ("cable", "Industrials", "Electrical Equipment & Parts"), ("property", "Real Estate", "Real Estate - Development"),
+    ("real estate", "Real Estate", "REIT - Diversified"), ("communication", "Communication Services", "Telecom Services"),
+    ("holding", "Industrials", "Conglomerates"), ("miscellaneous", "Industrials", "Conglomerates"),
+]
+
+
+def psx_sector(name):
+    n = str(name or "").lower()
+    for kw, sec, ind in PSX_SECTORS:
+        if kw in n:
+            return sec, ind
+    return "Industrials", "Conglomerates"
+
+
+def _fetch_psx():
+    req = urllib.request.Request("https://dps.psx.com.pk/indices/KSE100", headers={"User-Agent": "Mozilla/5.0"})
+    html = urllib.request.urlopen(req, timeout=30).read().decode()
+    rows = re.findall(r'href="/company/([A-Z0-9]+)"[^>]*data-title="([^"]*)"', html)
+    if len(rows) < 80:
+        raise ValueError(f"only {len(rows)} KSE-100 members found")
+    sec = {}
+    try:  # PSX sectors from Wikipedia's KSE-100 table
+        req = urllib.request.Request("https://en.wikipedia.org/wiki/KSE_100_Index", headers={"User-Agent": "Mozilla/5.0 (stock-screener)"})
+        for t in pd.read_html(io.StringIO(urllib.request.urlopen(req, timeout=30).read().decode())):
+            if "Ticker" in t.columns and len(t) > 50:
+                scol = [c for c in t.columns if "sector" in str(c).lower()][0]
+                sec = dict(zip(t["Ticker"].astype(str).str.strip(), t[scol]))
+    except Exception as e:
+        print("[PSX] sector list unavailable:", e)
+    df = pd.DataFrame({"name": [html_lib.unescape(n) for _, n in rows], "psx_sector": [sec.get(s) for s, _ in rows]},
+                      index=pd.Index([s + ".KA" for s, _ in rows], name="ticker"))
+    df = df[~df.index.duplicated()]
+    df["sector"] = [psx_sector(x)[0] for x in df["psx_sector"]]
+    df["industry"] = [psx_sector(x)[1] for x in df["psx_sector"]]
+    return df
+
+
 def get_universe(market, fallback):
     """Return DataFrame indexed by ticker with columns sector, name (may be empty)."""
     cache = f"results/universe_{market}.csv"
     try:
-        s = _fetch(market)
+        s = _fetch_psx() if market == "PSX" else _fetch(market)
         os.makedirs("results", exist_ok=True)
         s.to_csv(cache)
         print(f"[{market}] universe: {len(s)} tickers from Wikipedia")

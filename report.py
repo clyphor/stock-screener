@@ -69,7 +69,7 @@ svg text{fill:var(--mute);font-size:10px}
 </style></head><body>
 <header><h1>Stock Screener</h1><div class="sub" id="gen"></div></header>
 <div class="tabs" id="tabs"></div>
-<input class="search" id="q" placeholder="Search any stock (e.g. CBA, Apple)" autocomplete="off">
+<input class="search" id="q" placeholder="Search any stock (e.g. CBA, Apple, OGDC)" autocomplete="off">
 <div id="sigs" class="box"></div>
 <details class="box" id="macrobox"><summary><b style="color:var(--ink)">Market &amp; politics today</b> <span id="macrosum"></span></summary><div id="macro" style="margin-top:8px"></div></details>
 <details class="box" id="statsbox"><summary>How reliable is this? (backtest)</summary><div id="stats" style="margin-top:8px"></div></details>
@@ -82,7 +82,7 @@ const BAD = ["Negative news","Sector headwind","Overbought (RSI)","Macro headwin
 const L = {ml:"Model",fundamental:"Fundam.",news:"News",peers:"Peers",macro:"Macro"};
 let M = Object.keys(D.markets)[0], showAll = false;
 const $ = id => document.getElementById(id);
-const tk = t => t.replace(".AX","");
+const tk = t => t.replace(".AX","").replace(".KA","");
 const pct = (v,d=1) => v==null ? "–" : (v>0?"+":"") + (v*100).toFixed(d) + "%";
 const esc = s => String(s??"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 $("gen").textContent = "Updated " + D.generated.replace("T"," ").replace("+00:00","") + " UTC" + (D.demo ? " · DEMO DATA" : "");
@@ -91,7 +91,7 @@ function card(r, i){
   return `<div class="card ${r.signal||""}" onclick="openStock('${r.ticker}')"><div class="top"><div style="min-width:0"><span class="rank">#${i+1}</span><span class="tk">${tk(r.ticker)}</span>${r.signal?`<span class="sig ${r.signal}">${r.signal}</span>`:""}
    <div class="nm">${esc(r.name)} · ${esc(r.sector)}</div></div><div class="sc">${r.score}</div></div>
    <div class="bars">${Object.entries(r.parts).map(([k,v])=>`<div class="bar"><small>${L[k]}</small><i><span style="width:${v}%"></span></i></div>`).join("")}</div>
-   <div class="meta">Price ${r.price??"–"} · 3m ${r.ret3m??"–"}% · P/E ${r.pe??"–"}</div>
+   <div class="meta">Price ${r.price??"–"}${M==="PSX"?" PKR":""} · 3m ${r.ret3m??"–"}% · P/E ${r.pe??"–"}</div>
    <div class="chips">${r.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div></div>`;
 }
 function render(){
@@ -106,7 +106,7 @@ function render(){
     + (watch.length ? `<div>Watch: ${watch.map(link).join(", ")}</div>` : "")
     + `<div class="mute" style="margin-top:6px">BUY = passes every check: top-ranked, uptrend, not overbought, solid fundamentals, no bad news, no strong sector/political headwind${s.model_used ? ", price model agrees" : ""}. WATCH = all but one. ${tr}</div>`;
   $("stats").innerHTML = s.error ? "" :
-    `Tested on ${s.test_from} onwards (data the model never saw): top-20% picks beat bottom-20% by <b>${((s.top_minus_bottom||0)*100).toFixed(2)}%</b> a month; ranking accuracy (IC) <b>${s.ic_mean}</b> (0 = random); top picks beat the index <b>${Math.round((s.top_hit_rate||0)*100)}%</b> of the time. ${s.screened} stocks passed the screen.<br><br><b>Data check:</b> prices up to ${s.price_date||"–"}; ${Math.round((s.news_coverage||0)*100)}% of stocks had news in the last 10 days (scored by ${s.news_method}).${(s.news_coverage||0)<0.5?" <b>News coverage is low — treat the News and Peers parts with caution.</b>":""}`
+    `Tested on ${s.test_from} onwards (data the model never saw): top-20% picks beat bottom-20% by <b>${((s.top_minus_bottom||0)*100).toFixed(2)}%</b> a month; ranking accuracy (IC) <b>${s.ic_mean}</b> (0 = random); top picks beat the index <b>${Math.round((s.top_hit_rate||0)*100)}%</b> of the time. ${s.screened} stocks passed the screen.<br><br><b>Data check:</b> prices up to ${s.price_date||"–"}; ${Math.round((s.news_coverage||0)*100)}% of stocks had news in the last 10 days (scored by ${s.news_method}). AI scoring: <b>${s.ai_scoring?"on":"off — add an ANTHROPIC_API_KEY secret to turn it on"}</b>.${(s.news_coverage||0)<0.5?" <b>News coverage is low — treat the News and Peers parts with caution.</b>":""}`
     + (s.model_used===false ? " <b>The price model failed this test here, so it counts for only 10%.</b>" : "");
   const mc = s.macro;
   if (mc) {
@@ -132,7 +132,7 @@ function render(){
   let shown = rows.map((r,i)=>[r,i]);
   if (q) shown = shown.filter(([r])=>r.ticker.toLowerCase().startsWith(q) || (r.name||"").toLowerCase().includes(q));
   else if (!showAll) shown = shown.slice(0, D.top_n);
-  $("list").innerHTML = shown.map(([r,i])=>card(r,i)).join("") || `<div class="box mute">No match in ${M}. It may be outside the S&P 500 / ASX 200, or filtered out as too small.</div>`;
+  $("list").innerHTML = shown.map(([r,i])=>card(r,i)).join("") || `<div class="box mute">No match in ${M}. It may be outside the S&P 500 / ASX 200 / KSE-100, or filtered out as too small.</div>`;
   $("more").style.display = q || rows.length <= D.top_n ? "none" : "block";
   $("more").textContent = showAll ? `Show top ${D.top_n} only` : `Show all ${rows.length} ranked stocks`;
 }
@@ -165,7 +165,7 @@ async function openStock(t, push=true){
   sh.innerHTML = `<div class="shead"><button class="back" onclick="history.back()">‹ Back</button><b>${tk(d.ticker)}</b>${d.signal?`<span class="sig ${d.signal}">${d.signal}</span>`:""}</div>
   <div class="sec"><div class="hero"><div style="min-width:0"><div class="tk" style="font-size:20px">${esc(d.name)}</div>
     <div class="mute">${esc(d.sector)}${d.industry?" · "+esc(d.industry):""}</div>
-    <div style="margin-top:8px">Price <b>${d.price??"–"}</b> · Market cap <b>${fmtCap(d.mcap)}</b></div></div>
+    <div style="margin-top:8px">Price <b>${d.price??"–"}${d.market==="PSX"?" PKR":""}</b> · Market cap <b>${fmtCap(d.mcap)}${d.market==="PSX"?" PKR":""}</b></div></div>
     <div style="text-align:right"><div class="big">${d.score}</div><div class="mute">#${d.rank} of ${d.of}</div></div></div>
     <div class="chips" style="margin-top:8px">${d.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div></div>
 
@@ -194,7 +194,7 @@ async function openStock(t, push=true){
     ${d.events&&d.events.length?`<div class="chips" style="margin:0 0 8px">${d.events.map(e=>`<span class="chip ${e.impact<0?"bad":""}">${e.impact>0?"▲":e.impact<0?"▼":"•"} ${esc(e.label)}</span>`).join("")}</div>`:""}
     <div class="mute" style="margin-bottom:6px">Recency-weighted sentiment: <b style="color:${sentColor(d.news_avg)}">${d.news_avg??0}</b> · competitors: <b style="color:${sentColor(d.peer_avg)}">${d.peer_avg??0}</b>${d.macro_share>0?` · ${Math.round(d.macro_share*100)}% about policy/macro`:""}</div>
     ${d.news.length ? d.news.map(n=>`<div class="news"><span class="dot" style="background:${sentColor(n.score)}"></span>${n.link?`<a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(n.title)}</a>`:esc(n.title)}
-      <div class="mute">${esc(n.publisher||"")} ${n.date||""}${n.macro?" · policy/macro":""}${(n.events||[]).map(e=>` · <b style="color:${BAD.includes(e)?"var(--neg)":"var(--acc)"}">${esc(e)}</b>`).join("")}</div></div>`).join("") : `<div class="mute">No recent headlines.</div>`}</div>
+      <div class="mute">${esc(n.publisher||"")}${n.quality==="promo"?" (promotional, half weight)":""} ${n.date||""}${n.macro?" · policy/macro":""}${(n.events||[]).map(e=>` · <b style="color:${BAD.includes(e)?"var(--neg)":"var(--acc)"}">${esc(e)}</b>`).join("")}</div></div>`).join("") : `<div class="mute">No recent headlines.</div>`}</div>
 
   <div class="sec"><h3>Sector &amp; politics</h3>
     <div class="grid"><div class="kv"><small>Macro score (−1 to 1)</small><b class="${d.macro.score>0.05?"good":d.macro.score<-0.05?"bad":""}">${d.macro.score>0?"+":""}${d.macro.score}</b></div>

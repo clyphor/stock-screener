@@ -38,7 +38,11 @@ SECTOR_QUERIES = {
     "Real Estate": '(REIT OR "property market" OR "house prices" OR "commercial property")',
     "Communication Services": '("media stocks" OR telecom OR "advertising market")',
 }
-MARKET_WORD = {"US": "(stocks OR Wall Street)", "ASX": "(ASX OR Australia)"}
+MARKET_WORD = {"US": "(stocks OR Wall Street)", "ASX": "(ASX OR Australia OR Australian)",
+               "PSX": "(Pakistan OR PSX OR KSE)"}
+# Themes get a local angle for each market, and promotional/micro-cap sites are excluded
+THEME_CONTEXT = {"US": "", "ASX": " (Australia OR Australian OR ASX OR RBA OR Canberra)", "PSX": ""}
+EXCLUDE = " -site:kalkinemedia.com -site:simplywall.st -site:tipranks.com -site:stocksdownunder.com"
 
 # Political / macro / sector themes.
 # Exposure keys: a sector name, "ind:<text in Yahoo industry>", "tk:<ticker>", or "*" (every stock).
@@ -84,7 +88,7 @@ THEMES = {
     "drilling_policy": T("Pro-drilling / LNG approvals policy",
         '("drilling permits" OR "LNG approvals" OR "LNG export" OR "oil leasing" OR "expand drilling" '
         'OR "gas approvals" OR "offshore drilling") (government OR administration OR policy OR approves)',
-        {"ind:Oil & Gas Equipment": 0.4, "ind:Oil & Gas Midstream": 0.3, "ind:Oil & Gas E&P": 0.1, "ind:Solar": -0.2}),
+        {"ind:Oil & Gas Equipment": 0.4, "ind:Oil & Gas Midstream": 0.3, "ind:Oil & Gas E&P": 0.1, "ind:Solar": -0.2}, ["US", "ASX"]),
     "climate_policy": T("Climate & clean-energy policy",
         '("carbon tax" OR "emissions target" OR "clean energy" OR renewables OR "Inflation Reduction Act" OR "net zero") '
         '(policy OR subsidies OR credits OR law OR government)',
@@ -106,14 +110,46 @@ THEMES = {
         '("Red Sea" OR Suez OR "Panama Canal" OR "shipping disruption" OR "freight rates" OR "port strike")',
         {"ind:Marine Shipping": 0.4, "Consumer Cyclical": -0.1, "ind:Integrated Freight": 0.1, "ind:Auto Parts": -0.1}),
     # --- Rates, growth, currency ---------------------------------------------------------
+    # --- Pakistan ------------------------------------------------------------------------
+    "pk_imf": T("IMF programme / reviews (Pakistan)",
+        '(IMF) (Pakistan) (tranche OR review OR programme OR program OR bailout OR "staff-level")',
+        {"*": 0.2, "ind:Banks": 0.1}, ["PSX"]),
+    "pk_rate_cut": T("SBP rate cuts",
+        '("State Bank of Pakistan" OR SBP) ("rate cut" OR "cuts policy rate" OR "cuts interest rate" OR "monetary easing")',
+        {"*": 0.2, "ind:Building Materials": 0.3, "ind:Auto": 0.3, "ind:Banks": -0.2, "Real Estate": 0.2}, ["PSX"]),
+    "pk_rate_hike": T("SBP rate hikes / inflation",
+        '("State Bank of Pakistan" OR SBP) ("rate hike" OR "raises policy rate" OR "inflation rises" OR "inflation surges")',
+        {"*": -0.2, "ind:Building Materials": -0.3, "ind:Auto": -0.3, "ind:Banks": 0.15}, ["PSX"]),
+    "pk_rupee_down": T("Pakistani rupee weakening",
+        '(rupee OR PKR) (falls OR depreciates OR "record low" OR slides OR weakens) (dollar OR Pakistan)',
+        {"*": -0.1, "ind:Oil & Gas E&P": 0.25, "ind:Textile": 0.3, "ind:Information Technology": 0.3,
+         "ind:Auto": -0.3, "ind:Oil & Gas Refining": -0.2, "ind:Drug Manufacturers": -0.2}, ["PSX"]),
+    "pk_politics": T("Pakistan political unrest",
+        '(Pakistan) (protest OR "political crisis" OR PTI OR "Imran Khan" OR unrest OR "no-confidence" OR "constitutional amendment")',
+        {"*": -0.25}, ["PSX"]),
+    "pk_india": T("India–Pakistan tensions",
+        '(India Pakistan) (tensions OR strike OR border OR LoC OR military OR escalation)',
+        {"*": -0.3, "ind:Aerospace": 0.1}, ["PSX"]),
+    "pk_circular_debt": T("Circular-debt measures (power & energy)",
+        '("circular debt") (Pakistan OR power OR gas OR settlement OR plan)',
+        {"Utilities": 0.3, "ind:Oil & Gas E&P": 0.3, "ind:Oil & Gas Refining": 0.2}, ["PSX"]),
+    "pk_cpec": T("CPEC / Chinese investment",
+        '(CPEC OR "China-Pakistan Economic Corridor" OR "Chinese investment") Pakistan',
+        {"ind:Building Materials": 0.2, "Utilities": 0.15, "ind:Steel": 0.15, "*": 0.05}, ["PSX"]),
+    "pk_minerals": T("Pakistan minerals deals (Reko Diq, US/Saudi)",
+        '(Pakistan) (minerals OR "Reko Diq" OR copper OR "rare earths" OR mining) (deal OR agreement OR US OR Saudi OR investment)',
+        {"tk:OGDC.KA": 0.4, "tk:PPL.KA": 0.4, "ind:Oil & Gas E&P": 0.15, "*": 0.05}, ["PSX"]),
+    "pk_budget_tax": T("Pakistan budget / new taxes",
+        '(Pakistan) (budget OR "finance bill" OR "super tax" OR "new taxes" OR FBR)',
+        {"*": -0.1, "ind:Banks": -0.15, "ind:Tobacco": -0.2}, ["PSX"]),
     "rates_down": T("Interest-rate cuts",
         '("rate cut" OR "cuts rates" OR "rate cuts" OR easing) (Fed OR RBA OR "central bank")',
         {"Real Estate": 0.5, "Utilities": 0.35, "Technology": 0.25, "Consumer Cyclical": 0.3,
-         "ind:Residential Construction": 0.4, "ind:Banks": -0.2}),
+         "ind:Residential Construction": 0.4, "ind:Banks": -0.2}, ["US", "ASX"]),
     "rates_up": T("Interest-rate hikes / sticky inflation",
         '("rate hike" OR "raises rates" OR "higher for longer" OR "inflation surge" OR "hot inflation") (Fed OR RBA OR "central bank")',
         {"Real Estate": -0.5, "Utilities": -0.35, "Technology": -0.3, "Consumer Cyclical": -0.3,
-         "ind:Residential Construction": -0.4, "ind:Banks": 0.2, "ind:Insurance": 0.15}),
+         "ind:Residential Construction": -0.4, "ind:Banks": 0.2, "ind:Insurance": 0.15}, ["US", "ASX"]),
     "recession": T("Recession / slowdown fears",
         '(recession OR "economic slowdown" OR "job cuts" OR "weak jobs" OR "rising unemployment") (markets OR economy)',
         {"Consumer Cyclical": -0.45, "Industrials": -0.35, "Basic Materials": -0.35, "Energy": -0.3,
@@ -124,7 +160,7 @@ THEMES = {
          "ind:Railroads": 0.1, "Consumer Cyclical": 0.1}),
     "china": T("China stimulus / demand",
         '("China stimulus" OR "China demand" OR "China economy" OR "Chinese steel") (commodities OR "iron ore" OR markets)',
-        {"Basic Materials": 0.5, "Energy": 0.2, "Industrials": 0.1, "ind:Luxury": 0.2}),
+        {"Basic Materials": 0.5, "Energy": 0.2, "Industrials": 0.1, "ind:Luxury": 0.2}, ["US", "ASX"]),
     "aud_down": T("Australian dollar falling", '("Australian dollar" OR "Aussie dollar") (falls OR slumps OR drops OR weakens OR low)',
         {"Basic Materials": 0.2, "Energy": 0.15, "Healthcare": 0.15, "ind:Travel": -0.2, "ind:Airlines": -0.15}, ["ASX"]),
     "aud_up": T("Australian dollar rising", '("Australian dollar" OR "Aussie dollar") (rises OR jumps OR surges OR strengthens OR high)',
@@ -134,16 +170,16 @@ THEMES = {
         '("AI spending" OR "AI capex" OR "data center" OR "data centre" OR hyperscaler) (demand OR investment OR boom OR billion)',
         {"ind:Semiconductor": 0.4, "ind:Semiconductor Equipment": 0.3, "ind:Software - Infrastructure": 0.2,
          "ind:Utilities - Regulated Electric": 0.15, "ind:Copper": 0.15, "ind:Uranium": 0.2,
-         "ind:REIT - Specialty": 0.2, "tk:NXT.AX": 0.4, "tk:GMG.AX": 0.2}),
+         "ind:REIT - Specialty": 0.2, "tk:NXT.AX": 0.4, "tk:GMG.AX": 0.2}, ["US", "ASX"]),
     "defense_spending": T("Defence spending increases",
         '("defense spending" OR "defence spending" OR "defence budget" OR "defense budget" OR "military aid" OR "NATO spending" OR AUKUS)',
-        {"ind:Aerospace": 0.6}),
+        {"ind:Aerospace": 0.6}, ["US", "ASX"]),
     "drug_pricing": T("Drug-pricing / pharma policy",
         '("drug pricing" OR "drug prices" OR "most favored nation" OR "Medicare negotiation" OR "pharma tariffs" OR "pharmaceutical tariffs" OR PBS)',
-        {"ind:Drug Manufacturers": -0.45, "ind:Biotechnology": -0.25, "ind:Health Care Plans": -0.1}),
+        {"ind:Drug Manufacturers": -0.45, "ind:Biotechnology": -0.25, "ind:Health Care Plans": -0.1}, ["US", "ASX"]),
     "bank_regulation": T("Bank regulation / levies",
         '("bank regulation" OR "capital requirements" OR Basel OR "bank levy" OR "bank tax" OR APRA OR "stress test")',
-        {"ind:Banks": -0.3, "ind:Capital Markets": -0.1}),
+        {"ind:Banks": -0.3, "ind:Capital Markets": -0.1}, ["US", "ASX"]),
     "deregulation": T("Deregulation (finance / energy / mining)",
         '(deregulation OR "cut red tape" OR "easing rules" OR "rollback" OR "fast-track approvals") (banks OR energy OR oil OR mining OR permits)',
         {"ind:Banks": 0.3, "Energy": 0.2, "Basic Materials": 0.15}),
@@ -156,14 +192,14 @@ THEMES = {
         {"Basic Materials": -0.3, "Energy": -0.2}, ["ASX"]),
     "housing_policy": T("Housing & property policy",
         '("housing policy" OR "first home buyer" OR "housing affordability" OR "negative gearing" OR "housing target" OR "home loan")',
-        {"ind:Residential Construction": 0.25, "ind:REIT - Residential": 0.2, "Real Estate": 0.1, "ind:Building Materials": 0.15}),
+        {"ind:Residential Construction": 0.25, "ind:REIT - Residential": 0.2, "Real Estate": 0.1, "ind:Building Materials": 0.15}, ["US", "ASX"]),
     "gold_haven": T("Safe-haven / central-bank gold buying",
         '("central bank gold" OR "gold buying" OR "safe haven" OR "gold demand" OR "gold reserves")',
         {"ind:Gold": 0.55}),
     # --- Shocks --------------------------------------------------------------------------
     "election": T("Elections / political uncertainty / shutdown",
         '(election OR midterms OR "government shutdown" OR "political uncertainty" OR "hung parliament") (markets OR stocks)',
-        {"*": -0.1, "Healthcare": -0.1, "ind:Aerospace": 0.05}),
+        {"*": -0.1, "Healthcare": -0.1, "ind:Aerospace": 0.05}, ["US", "ASX"]),
     "pandemic": T("Disease outbreak / pandemic",
         '(outbreak OR pandemic OR epidemic OR "bird flu" OR "new virus" OR lockdown) (cases OR spread OR markets)',
         {"*": -0.1, "ind:Airlines": -0.6, "ind:Travel": -0.5, "ind:Lodging": -0.4, "ind:Resorts": -0.4,
@@ -196,10 +232,11 @@ def headline_score(title, sector):
 
 def _fetch_all(market):
     """Return {('sector', name) | ('theme', key): [headline dicts]} for the last 10 days."""
-    jobs = {("sector", s): f"{q} {MARKET_WORD[market]} when:10d" for s, q in SECTOR_QUERIES.items()}
-    jobs.update({("theme", k): f"{v['query']} when:10d" for k, v in THEMES.items()})
+    jobs = {("sector", s): f"{q} {MARKET_WORD[market]}{EXCLUDE} when:10d" for s, q in SECTOR_QUERIES.items()}
+    jobs.update({("theme", k): f"{v['query']}{THEME_CONTEXT.get(market, '')}{EXCLUDE} when:10d"
+                 for k, v in THEMES.items() if market in v.get("markets", [market])})
     with ThreadPoolExecutor(4) as ex:
-        res = dict(zip(jobs, ex.map(_google_news, jobs.values())))
+        res = dict(zip(jobs, ex.map(lambda q: _google_news(q, market), jobs.values())))
     now = datetime.now(timezone.utc)
     out = {}
     for key, items in res.items():
@@ -271,6 +308,9 @@ BROAD = {
     "US": ['(stocks OR "Wall Street" OR markets) when:3d', '(sanctions OR "trade deal" OR agreement OR "executive order" OR tariffs) when:3d',
            '(oil OR gold OR copper OR "rare earths" OR lithium) (deal OR supply OR prices) when:3d',
            '(Congress OR "White House" OR Pentagon OR Fed) (companies OR industry OR stocks) when:3d'],
+    "PSX": ['(PSX OR KSE-100 OR "Pakistan Stock Exchange") when:3d', '(Pakistan) (IMF OR SBP OR budget OR rupee) when:3d',
+            '(Pakistan) (deal OR agreement OR minerals OR China OR US OR Saudi OR army) when:3d',
+            '(Pakistan) (oil OR gas OR power OR cement OR fertilizer OR textile) when:3d'],
     "ASX": ['(ASX OR "Australian shares") when:3d', '(Australia OR Canberra OR Albanese) (deal OR agreement OR policy OR tariffs) when:3d',
             '("iron ore" OR gold OR lithium OR "rare earths" OR LNG OR coal) (deal OR supply OR prices OR China) when:3d',
             '(RBA OR APRA OR ACCC OR "federal budget") when:3d'],
@@ -368,7 +408,7 @@ def macro_context(market, demo=False, universe=None):
     events = []
     if universe and not demo and os.environ.get("ANTHROPIC_API_KEY"):
         with ThreadPoolExecutor(4) as ex:
-            broad = [h for hs in ex.map(_google_news, BROAD[market]) for h in hs]
+            broad = [h for hs in ex.map(lambda q: _google_news(q, market), BROAD.get(market, [])) for h in hs]
         broad = sorted(broad, key=lambda x: x["ts"], reverse=True)
         events = _claude_events(market, heads, broad, universe)
     total = sum(v["n"] for v in sectors.values()) + sum(v["n"] for v in themes.values())

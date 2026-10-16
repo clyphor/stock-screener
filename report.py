@@ -130,14 +130,14 @@ function render(){
     + (watch.length ? `<div>Watch: ${watch.map(link).join(", ")}</div>` : "")
     + `<div class="mute" style="margin-top:6px">BUY = passes every check: top-ranked, uptrend, not overbought, solid fundamentals, no bad news, no strong sector/political headwind${s.model_used ? ", price model agrees" : ""}. WATCH = all but one. ${tr}</div>`;
   $("stats").innerHTML = s.error ? "" :
-    `Tested on ${s.test_from} onwards (data the model never saw): top-20% picks beat bottom-20% by <b>${((s.top_minus_bottom||0)*100).toFixed(2)}%</b> a month; ranking accuracy (IC) <b>${s.ic_mean}</b> (0 = random); top picks beat the index <b>${Math.round((s.top_hit_rate||0)*100)}%</b> of the time. ${s.screened} stocks passed the screen.<br><br><b>Data check:</b> prices up to the ${s.price_date||"–"} close (holidays not shown on the clock); ${Math.round((s.news_coverage||0)*100)}% of stocks had news in the last 10 days (scored by ${s.news_method}). AI scoring: <b>${s.ai_scoring?"on":"off — add an ANTHROPIC_API_KEY secret to turn it on"}</b>.${(s.news_coverage||0)<0.5?" <b>News coverage is low — treat the News and Peers parts with caution.</b>":""}`
+    `Tested on ${s.test_from} onwards (data the model never saw): top-20% picks beat bottom-20% by <b>${((s.top_minus_bottom||0)*100).toFixed(2)}%</b> a month; ranking accuracy (IC) <b>${s.ic_mean}</b> (0 = random); top picks beat the index <b>${Math.round((s.top_hit_rate||0)*100)}%</b> of the time. ${s.screened} stocks passed the screen.<br><br><b>Data check:</b> prices up to the ${s.price_date||"–"} close (holidays not shown on the clock); ${Math.round((s.news_coverage||0)*100)}% of stocks had news in the last 10 days (scored by ${s.news_method}). AI scoring: <b>${s.ai_scoring==="on"||s.ai_scoring===true?"on":s.ai_scoring==="failed"?"FAILED today (out of API credit or key problem) — using free rules":"off — add an ANTHROPIC_API_KEY secret to turn it on"}</b>.${(s.news_coverage||0)<0.5?" <b>News coverage is low — treat the News and Peers parts with caution.</b>":""}`
     + (s.model_used===false ? " <b>The price model failed this test here, so it counts for only 10%.</b>" : "");
   const mc = s.macro;
   if (mc) {
     const th = Object.values(mc.themes).sort((a,b)=>b.heat-a.heat);
     const sc = Object.entries(mc.sectors).sort((a,b)=>b[1].score-a[1].score);
     const hot = th.filter(t=>t.heat>=0.5).map(t=>t.label);
-    $("macrosum").textContent = hot.length ? "· hot: " + hot.join(", ") : "· no unusual political news";
+    $("macrosum").textContent = (s.ai_scoring==="failed" ? "· ⚠ AI off today (check API credit) " : "") + (hot.length ? "· hot: " + hot.join(", ") : "· no unusual political news");
     const bar = v => `<div class="mbar"><span style="left:${v<0?50+v*50:50}%;width:${Math.abs(v)*50}%;background:${v<0?"var(--neg)":"var(--acc)"}"></span></div>`;
     const evs = mc.events || [];
     $("macro").innerHTML = (evs.length ? `<div class="mute" style="margin-bottom:6px"><b style="color:var(--ink)">Key events today</b> (AI analyst — including second-order effects):</div>`

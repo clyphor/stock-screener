@@ -74,7 +74,8 @@ def claude_scores(items):
             res = list(ex.map(lambda c: _claude_batch(c, key), chunks))
         return [x for r in res for x in r]
     except Exception as e:
-        print("Claude scoring failed, using rules:", e)
+        msg = getattr(e, "read", lambda: b"")()[:300]
+        print("Claude scoring failed, using rules:", e, msg)
         return None
 
 

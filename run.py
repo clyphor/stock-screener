@@ -150,7 +150,9 @@ def run_market(name, cfg, demo):
     df["signal"] = signals(checks)
     stats.update(news_method=nf.attrs.get("method"), screened=int(ok.sum()),
                  news_coverage=round(float((df["news_count"].fillna(0) > 0).mean()), 2),
-                 ai_scoring=bool(os.environ.get("ANTHROPIC_API_KEY")),
+                 ai_scoring=("off" if not os.environ.get("ANTHROPIC_API_KEY")
+                             else "on" if "claude" in (nf.attrs.get("method"), ctx.get("method")) or ctx.get("events")
+                             else "failed"),
                  currency=cfg.get("currency", "USD" if name == "US" else "AUD"), index_name=cfg["index"],
                  price_date=str(close.index[-1].date()),
                  model_used=bool(model_ok), weights=w)

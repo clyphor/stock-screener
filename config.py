@@ -40,7 +40,11 @@ WEIGHTS = {
     "peers": 0.10,        # competitor / sector news sentiment
 }
 
-TOP_N = 20                 # how many picks to show per market
+# Used instead when the price model fails its backtest in a market (IC below this)
+MIN_MODEL_IC = 0.02
+WEIGHTS_NO_MODEL = {"ml": 0.10, "fundamental": 0.50, "news": 0.25, "peers": 0.15}
+
+TOP_N = 20                # how many picks to show per market
 
 # Optional: set ANTHROPIC_API_KEY as a GitHub secret to score news with Claude
 # instead of the built-in word list.

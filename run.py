@@ -68,7 +68,9 @@ def run_market(name, cfg, demo):
     ok = (df["dollar_vol"] >= cfg["min_dollar_vol"]) & (price >= 1) & ~(mcap < cfg["min_mcap"])
     df = df[ok].copy()
 
-    w = config.WEIGHTS
+    # If the price model failed its backtest in this market, lean on the other parts
+    model_ok = stats.get("ic_mean", 0) > config.MIN_MODEL_IC
+    w = config.WEIGHTS if model_ok else config.WEIGHTS_NO_MODEL
     df["score"] = sum(w[k] * df[k] for k in w) * 100
     df = df.sort_values("score", ascending=False)
     df["price"] = price
@@ -76,9 +78,65 @@ def run_market(name, cfg, demo):
     df["sector"] = fund["sector"].reindex(df.index)
     df["reasons"] = df.apply(reasons, axis=1)
     df["market"] = name
+    df["signal"] = signals(df, model_ok)
     stats["news_method"] = nf.attrs.get("method")
     stats["screened"] = int(ok.sum())
+    stats["model_used"] = bool(model_ok)
+    stats["weights"] = w
+    stats.update(track_record(name, df, close, idx))
     return df, stats
+
+
+def signals(df, model_ok):
+    """BUY only when every independent check agrees; WATCH when all but one do."""
+    checks = pd.DataFrame({
+        "top_ranked": df["score"].rank(pct=True) >= 0.85,
+        "uptrend": (df["dist_ma50"] > 0) & (df["dist_ma200"] > 0),
+        "not_overbought": df["rsi_14"] < 70,
+        "solid_fundamentals": df["fundamental"] >= 0.6,
+        "news_ok": (df["news_sent"] >= 0) & (df["peer_sent"] >= -0.05),
+        "model_agrees": (df["ml"] >= 0.7) if model_ok else True,
+    })
+    passed = checks.sum(axis=1)
+    out = np.where(passed == checks.shape[1], "BUY",
+                   np.where((passed == checks.shape[1] - 1) & checks["top_ranked"], "WATCH", ""))
+    return pd.Series(out, index=df.index)
+
+
+SIGNAL_LOG = "results/signals.csv"
+
+
+def track_record(market, df, close, idx):
+    """Log today's BUY signals and score every past one against the index."""
+    os.makedirs("results", exist_ok=True)
+    cols = ["date", "market", "ticker", "price", "index_price"]
+    log = pd.read_csv(SIGNAL_LOG) if os.path.exists(SIGNAL_LOG) else pd.DataFrame(columns=cols)
+    today = close.index[-1]
+    last_px, last_idx = close.iloc[-1], float(idx.iloc[-1])
+
+    # Score past signals for this market
+    past = log[log["market"] == market].copy()
+    out = {"track_n": 0}
+    if len(past):
+        past["days"] = [int((close.index > pd.Timestamp(d)).sum()) for d in past["date"]]
+        past["ret"] = [last_px.get(t, np.nan) / p - 1 for t, p in zip(past["ticker"], past["price"])]
+        past["excess"] = past["ret"] - (last_idx / past["index_price"] - 1)
+        mature = past[(past["days"] >= 5) & past["excess"].notna()]
+        if len(mature):
+            out = {"track_n": int(len(mature)),
+                   "track_avg_excess": round(float(mature["excess"].mean()), 4),
+                   "track_win_rate": round(float((mature["excess"] > 0).mean()), 2)}
+        out["track_open"] = int(len(past))
+
+    # Add today's new BUYs (skip tickers already signalled in the last ~month)
+    recent = set(past.loc[past.get("days", pd.Series(dtype=int)) < config.HORIZON_DAYS, "ticker"]) if len(past) else set()
+    new = [{"date": str(today.date()), "market": market, "ticker": t,
+            "price": round(float(df.at[t, "price"]), 4), "index_price": round(last_idx, 4)}
+           for t in df.index[df["signal"] == "BUY"] if t not in recent]
+    if new:
+        log = pd.concat([log, pd.DataFrame(new)], ignore_index=True)
+        log.to_csv(SIGNAL_LOG, index=False)
+    return out
 
 
 def main():
@@ -98,7 +156,7 @@ def main():
     os.makedirs("results/history", exist_ok=True)
     os.makedirs("docs", exist_ok=True)
     cols = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers",
-            "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons"]
+            "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons", "signal"]
     allres = pd.concat(tables)[cols] if tables else pd.DataFrame(columns=cols)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     allres.to_csv("results/latest.csv", index_label="ticker")
@@ -111,7 +169,7 @@ def main():
         payload["markets"][name] = [
             {"ticker": t, "name": r["name"], "sector": r["sector"],
              "price": None if pd.isna(r["price"]) else round(float(r["price"]), 2),
-             "score": round(float(r["score"]), 1),
+             "score": round(float(r["score"]), 1), "signal": r["signal"],
              "parts": {k: round(float(r[k]) * 100) for k in config.WEIGHTS},
              "pe": None if pd.isna(r["fwd_pe"]) else round(float(r["fwd_pe"]), 1),
              "ret3m": None if pd.isna(r["ret_63"]) else round(float(r["ret_63"]) * 100, 1),

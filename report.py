@@ -24,10 +24,15 @@ header{padding:20px 16px 8px}h1{font-size:22px;margin:0}.sub{color:var(--mute);f
 .meta{font-size:12px;color:var(--mute)}.chips{margin-top:6px}
 .chip{display:inline-block;font-size:12px;padding:2px 8px;margin:2px 4px 0 0;border-radius:20px;background:var(--chip)}
 .chip.bad{color:var(--neg)}
+.sig{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:6px;margin-left:8px;vertical-align:3px}
+.sig.BUY{background:var(--acc);color:#fff}.sig.WATCH{border:1px solid var(--acc);color:var(--acc)}
+.card.BUY{border:2px solid var(--acc)}
+.sigbox{margin:8px 16px;padding:12px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:14px}
+.sigbox h2{font-size:15px;margin:0 0 6px}.sigbox .mute{color:var(--mute);font-size:13px}
 footer{padding:16px;color:var(--mute);font-size:12px}
 </style></head><body>
 <header><h1>Stock Screener</h1><div class="sub" id="gen"></div></header>
-<div class="tabs" id="tabs"></div><div id="stats" class="stats"></div><div id="list"></div>
+<div class="tabs" id="tabs"></div><div id="sigs" class="sigbox"></div><div id="stats" class="stats"></div><div id="list"></div>
 <footer>Ranks stocks by a blend of an ML model on price trends, fundamentals vs sector peers, and news sentiment for the company and its competitors. Scores are relative rankings, not price targets. Not financial advice; test on paper first.</footer>
 <script>
 const D = __DATA__;
@@ -39,9 +44,17 @@ function show(m){
   [...tabs.children].forEach(b=>b.classList.toggle("on", b.textContent===m));
   const s = D.stats[m]||{};
   document.getElementById("stats").innerHTML = s.error ? "Run failed: "+s.error :
-    `Backtest since ${s.test_from}: top-20% picks beat bottom-20% by <b>${((s.top_minus_bottom||0)*100).toFixed(2)}%</b> per month on average; ranking accuracy (IC) <b>${s.ic_mean}</b>; top picks beat the index <b>${Math.round((s.top_hit_rate||0)*100)}%</b> of the time. ${s.screened} stocks passed the screen. News scored by ${s.news_method}.`;
+    `Backtest since ${s.test_from}: top-20% picks beat bottom-20% by <b>${((s.top_minus_bottom||0)*100).toFixed(2)}%</b> per month on average; ranking accuracy (IC) <b>${s.ic_mean}</b>; top picks beat the index <b>${Math.round((s.top_hit_rate||0)*100)}%</b> of the time. ${s.screened} stocks passed the screen.${s.model_used===false?" <b>Model failed its test here, so it now counts for only 10%.</b>":""} News scored by ${s.news_method}.`;
+  const rows = D.markets[m]||[];
+  const buys = rows.filter(r=>r.signal==="BUY"), watch = rows.filter(r=>r.signal==="WATCH");
+  const tk = r=>r.ticker.replace(".AX","");
+  const tr = s.track_n ? `Past signals (${s.track_n} so far): beat the index <b>${Math.round(s.track_win_rate*100)}%</b> of the time, by <b>${(s.track_avg_excess*100).toFixed(2)}%</b> on average.`
+                       : `Scorecard starts building from today — check back in a week or two.`;
+  document.getElementById("sigs").innerHTML = `<h2>${buys.length ? "Buy signals: "+buys.map(tk).join(", ") : "No buy signals today"}</h2>`
+    + (watch.length ? `<div>Watch: ${watch.map(tk).join(", ")}</div>` : "")
+    + `<div class="mute" style="margin-top:6px">BUY = top-ranked, in an uptrend, not overbought, solid fundamentals, no bad news${s.model_used ? ", and the price model agrees" : ""}. WATCH = all but one. ${tr}</div>`;
   document.getElementById("list").innerHTML = (D.markets[m]||[]).map((r,i)=>`
-   <div class="card"><div class="top"><div style="min-width:0"><span class="rank">#${i+1}</span><span class="tk">${r.ticker.replace(".AX","")}</span>
+   <div class="card ${r.signal||""}"><div class="top"><div style="min-width:0"><span class="rank">#${i+1}</span><span class="tk">${r.ticker.replace(".AX","")}</span>${r.signal?`<span class="sig ${r.signal}">${r.signal}</span>`:""}
    <div class="nm">${r.name||""} · ${r.sector||""}</div></div><div class="sc">${r.score}</div></div>
    <div class="bars">${Object.entries(r.parts).map(([k,v])=>`<div class="bar"><small>${L[k]}</small><i><span style="width:${v}%"></span></i></div>`).join("")}</div>
    <div class="meta">Price ${r.price??"–"} · 3m ${r.ret3m??"–"}% · P/E ${r.pe??"–"}</div>

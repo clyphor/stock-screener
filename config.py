@@ -23,8 +23,8 @@ ASX_TICKERS = [
 ]
 
 MARKETS = {
-    "US":  {"tickers": US_TICKERS,  "index": "SPY",   "min_dollar_vol": 20e6, "min_mcap": 5e9},
-    "ASX": {"tickers": ASX_TICKERS, "index": "^AXJO", "min_dollar_vol": 5e6,  "min_mcap": 1e9},
+    "US":  {"tickers": US_TICKERS,  "index": "SPY", "index_candidates": ["SPY", "^GSPC", "IVV"],   "min_dollar_vol": 20e6, "min_mcap": 5e9},
+    "ASX": {"tickers": ASX_TICKERS, "index": "^AXJO", "index_candidates": ["^AXJO", "STW.AX", "IOZ.AX"], "min_dollar_vol": 5e6,  "min_mcap": 1e9},
 }
 
 # ---- Model -----------------------------------------------------------------

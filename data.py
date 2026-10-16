@@ -14,19 +14,53 @@ FUND_FIELDS = [
 ]
 
 
-def get_prices(tickers, period):
-    """Return (close, volume) DataFrames: rows = dates, columns = tickers."""
+def _download(tickers, period):
     raw = yf.download(tickers, period=period, auto_adjust=True, group_by="ticker",
                       threads=True, progress=False)
-    close, volume = {}, {}
-    have = set(raw.columns.get_level_values(0)) if isinstance(raw.columns, pd.MultiIndex) else set()
-    for t in tickers:
-        if t in have and raw[t]["Close"].notna().sum() > 260:
-            close[t] = raw[t]["Close"]
-            volume[t] = raw[t]["Volume"]
-    close = pd.DataFrame(close).dropna(how="all")
-    volume = pd.DataFrame(volume).reindex(close.index)
-    return close, volume
+    out = {}
+    if isinstance(raw.columns, pd.MultiIndex):
+        for t in set(raw.columns.get_level_values(0)):
+            c = raw[t]["Close"]
+            if c.notna().sum() > 260:
+                out[t] = (c, raw[t]["Volume"])
+    return out
+
+
+def get_prices(tickers, period, batch=100, tries=3):
+    """Return (close, volume) DataFrames. Downloads in batches and retries missing tickers."""
+    got, todo = {}, list(dict.fromkeys(tickers))
+    for attempt in range(tries):
+        if not todo:
+            break
+        for i in range(0, len(todo), batch):
+            try:
+                got.update(_download(todo[i:i + batch], period))
+            except Exception as e:
+                print("download batch failed:", e)
+        todo = [t for t in todo if t not in got]
+        if todo:
+            print(f"retrying {len(todo)} tickers…")
+            time.sleep(5 * (attempt + 1))
+    if todo:
+        print("no price data for:", ", ".join(todo[:30]))
+    close = pd.DataFrame({t: v[0] for t, v in got.items()}).dropna(how="all")
+    volume = pd.DataFrame({t: v[1] for t, v in got.items()}).reindex(close.index)
+    return close[[t for t in tickers if t in close]], volume[[t for t in tickers if t in volume]]
+
+
+def get_index(candidates, period):
+    """First index (or index ETF) that downloads, as a close Series."""
+    for t in candidates:
+        for attempt in range(3):
+            try:
+                c = yf.download(t, period=period, auto_adjust=True, progress=False)["Close"]
+                c = c.iloc[:, 0] if isinstance(c, pd.DataFrame) else c
+                if c.notna().sum() > 260:
+                    return c.rename(t)
+            except Exception as e:
+                print(f"index {t} failed:", e)
+            time.sleep(3)
+    raise RuntimeError(f"could not download any index from {candidates}")
 
 
 def _info(t):

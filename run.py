@@ -70,12 +70,12 @@ def run_market(name, cfg, demo):
         from demo_data import fake_market
         close, volume, idx, fund, news = fake_market(cfg["tickers"], cfg["index"])
     else:
-        from data import get_fundamentals, get_news, get_prices
+        from data import get_fundamentals, get_index, get_news, get_prices
         from universe import get_universe
         uni = get_universe(name, cfg["tickers"])
-        tickers = list(uni.index)
-        close, volume = get_prices(tickers + [cfg["index"]], config.HISTORY)
-        idx = close.pop(cfg["index"]); volume = volume.drop(columns=cfg["index"], errors="ignore")
+        idx = get_index(cfg["index_candidates"], config.HISTORY)
+        close, volume = get_prices(list(uni.index), config.HISTORY)
+        idx = idx.reindex(close.index).ffill()
         fund = get_fundamentals(list(close.columns))
         fund["sector"] = fund["sector"].fillna(uni.reindex(fund.index))
         news = get_news(list(close.columns))
@@ -111,6 +111,8 @@ def run_market(name, cfg, demo):
     df["price"] = price
     df["mcap"] = mcap
     df["name"] = fund["shortName"].reindex(df.index)
+    # Same company, two share classes (e.g. GOOG/GOOGL): keep the higher-scored one
+    df = df[~(df["name"].notna() & df["name"].str.replace(r"\s*\(.*\)|\s+Class [A-Z].*", "", regex=True).duplicated())]
     df["sector"] = fund["sector"].reindex(df.index).fillna("Unknown")
     df["reasons"] = df.apply(reasons, axis=1)
     df["market"] = name

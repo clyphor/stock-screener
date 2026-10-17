@@ -40,7 +40,9 @@ details.box summary{cursor:pointer;color:var(--mute);font-size:13px}
 .sig.HALAL{border:1px solid #3a9d6b;color:#3a9d6b}.sig.HDOUBT{border:1px dashed var(--mute);color:var(--mute);font-weight:600}
 .sig.flag{border:1px dashed var(--mute);color:var(--ink);font-weight:600}
 .card.SELL{border:2px solid var(--neg)}
-.chip.good-chip{background:var(--acc);color:#fff}.chip.halal-chip{border:1px solid #3a9d6b;color:#3a9d6b;background:none}
+.chip.good-chip{background:var(--acc);color:#fff}.chip.halal-chip{border:1px solid #3a9d6b;color:#3a9d6b;background:none}.chip.div-chip{border:1px solid #b08a2e;color:#b08a2e;background:none}
+.dbar{display:flex;align-items:flex-end;gap:6px;height:90px;margin:10px 0 2px}.dbar div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;font-size:10px;color:var(--mute);height:100%}
+.dbar i{display:block;width:100%;background:#b08a2e;border-radius:3px 3px 0 0;min-height:2px}.dbar i.part{opacity:.45}
 details.why{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
 details.why summary{cursor:pointer;color:var(--acc);font-size:13px;font-weight:600;list-style:none}
 details.why summary::before{content:"ⓘ  "}
@@ -167,6 +169,7 @@ function subTags(r){
   hz.forEach((v,i)=>{ if(v==="BUY") out.push(`<span class="chip good-chip">${names[i]} buy</span>`); });
   hz.forEach((v,i)=>{ if(v==="WATCH") out.push(`<span class="chip">${names[i]} watch</span>`); });
   if (r.hl==="HALAL") out.push(`<span class="chip halal-chip">Halal</span>`);
+  (r.dv||[]).forEach(t=>out.push(t==="Dividend at risk" ? `<span class="chip bad">${t}</span>` : `<span class="chip div-chip">${t}${t!=="Dividend grower"&&r.dy!=null?` ${r.dy.toFixed(1)}%`:""}</span>`));
   if (r.wk || r.weakening) out.push(`<span class="chip bad">Weakening</span>`);
   (r.flags||[]).forEach(f=>out.push(`<span class="chip">${f==="REBOUND"?"Rebound candidate":"Take profit?"}</span>`));
   return out.join("");
@@ -601,15 +604,16 @@ const SORTS = {
   pe_lo:{l:"P/E (cheapest first)", f:(a,b)=>((a.pe>0?a.pe:1e9)-(b.pe>0?b.pe:1e9))},
   rsi_lo:{l:"RSI (most oversold first)", f:(a,b)=>(a.rsi??999)-(b.rsi??999)},
   mcap:{l:"Market cap (largest first)", f:(a,b)=>(b.mcap??0)-(a.mcap??0)},
+  dy:{l:"Dividend yield (highest first)", f:(a,b)=>(b.dy??-1)-(a.dy??-1)},
 };
-const DEF = () => ({hal:"", hz:[], mk:[], flg:[], sig:[], sec:[], smin:"", smax:"", parts:{}, pemin:"", pemax:"", rmin:"", rmax:"", rsimin:"", rsimax:"",
+const DEF = () => ({hal:"", div:"", dymin:"", dymax:"", hz:[], mk:[], flg:[], sig:[], sec:[], smin:"", smax:"", parts:{}, pemin:"", pemax:"", rmin:"", rmax:"", rsimin:"", rsimax:"",
   cap:"", news:"", macro:"", good:[], bad:[], tags:[], sort:"score", vqmin:{}});
 const FS = {};
 function getF(){ if(!FS[M]){ try{ FS[M] = Object.assign(DEF(), JSON.parse(localStorage.getItem("f_"+M)||"{}")); }catch(e){ FS[M]=DEF(); } FS[M].sig = FS[M].sig||[]; } return FS[M]; }
 function saveF(){ try{ localStorage.setItem("f_"+M, JSON.stringify(FS[M])); }catch(e){} }
 const num = v => v===""||v==null ? null : Number(v);
 function activeCount(F){ let n=0;
-  if(F.sig.length) n++; if((F.flg||[]).length) n++; if((F.hz||[]).length) n++; if(F.hal) n++; if((F.mk||[]).length) n++; if(F.sec.length) n++; if(F.smin!==""||F.smax!=="") n++;
+  if(F.sig.length) n++; if((F.flg||[]).length) n++; if((F.hz||[]).length) n++; if(F.hal) n++; if(F.div) n++; if(F.dymin!==""||F.dymax!=="") n++; if((F.mk||[]).length) n++; if(F.sec.length) n++; if(F.smin!==""||F.smax!=="") n++;
   n += Object.values(F.parts).filter(v=>v>0).length; n += Object.values(F.vqmin).filter(v=>v>0).length;
   if(F.pemin!==""||F.pemax!=="") n++; if(F.rmin!==""||F.rmax!=="") n++; if(F.rsimin!==""||F.rsimax!=="") n++;
   if(F.cap) n++; if(F.news) n++; if(F.macro) n++; n += F.good.length?1:0; n += F.bad.length?1:0; n += F.tags.length?1:0; return n; }
@@ -618,6 +622,15 @@ function passes(r, F){
   if (F.hal==="HALAL" && r.hl!=="HALAL") return false;
   if (F.hal==="OK" && !(r.hl==="HALAL"||r.hl==="DOUBTFUL")) return false;
   if (F.hal==="NOT HALAL" && r.hl!=="NOT HALAL") return false;
+  const dv = r.dv||[];
+  if (F.div==="pays" && !(r.dy>0)) return false;
+  if (F.div==="div" && !(dv.includes("Dividend")||dv.includes("High dividend"))) return false;
+  if (F.div==="high" && !dv.includes("High dividend")) return false;
+  if (F.div==="grow" && !dv.includes("Dividend grower")) return false;
+  if (F.div==="safe" && !((dv.includes("Dividend")||dv.includes("High dividend")) && !dv.includes("Dividend at risk"))) return false;
+  if (F.div==="none" && r.dy>0) return false;
+  if (num(F.dymin)!=null && !(r.dy!=null && r.dy >= num(F.dymin))) return false;
+  if (num(F.dymax)!=null && !(r.dy!=null && r.dy <= num(F.dymax))) return false;
   if (F.sig.length){ const sg = mainLabel(r)||"NONE"; if(!F.sig.includes(sg)) return false; }
   if ((F.flg||[]).length && !F.flg.some(f=>(r.flags||[]).includes(f))) return false;
   if ((F.hz||[]).length){ const h = r.hz||["","",""]; const ok = {S:h[0]==="BUY", M:h[1]==="BUY", L:h[2]==="BUY", SW:h[0]==="WATCH", LW:h[2]==="WATCH"};
@@ -666,6 +679,9 @@ function drawPanel(){
      <div class="mute" style="margin-top:4px">Tap several to combine, e.g. BUY + WATCH.</div></div>
    <div class="fg"><span class="fl">Time horizon</span>${pills("hz",[["S","Short-term BUY"],["M","Medium-term BUY"],["L","Long-term BUY"],["SW","Short WATCH"],["LW","Long WATCH"]],F.hz||[])}</div>
    <div class="fg"><span class="fl">Shariah (halal)</span>${one("hal",[["","Any"],["HALAL","Halal only"],["OK","Halal + doubtful"],["NOT HALAL","Not halal"]],F.hal||"")}</div>
+   <div class="fg"><span class="fl">Dividends</span>${one("div",[["","Any"],["pays","Pays a dividend"],["div","Dividend stock"],["high","High dividend"],["grow","Dividend grower"],["safe","Dividend, not at risk"],["none","No dividend"]],F.div||"")}
+     <div style="margin-top:6px">${rng("dymin","dymax","min yield % e.g. 3","max")}</div>
+     <div class="mute" style="margin-top:4px">Dividend stock = yield 2%+ and paid every year for 3+ years. High = top fifth of this market's payers (at least 4%). Grower = raised it 5+ years in a row.</div></div>
    <div class="fg"><span class="fl">Flags</span>${pills("flg",[["REBOUND","REBOUND (oversold quality)"],["TAKE PROFIT","TAKE PROFIT"]],F.flg)}</div>
    <div class="fg"><span class="fl">Sector</span>${pills("sec",secs.map(x=>[x,x]),F.sec)}</div>
    <div class="fg"><span class="fl">Overall score</span>${rng("smin","smax","min e.g. 60","max")}</div>
@@ -806,6 +822,8 @@ async function openStock(t, push=true){
 
   ${healthSection(d)}
 
+  ${dividendSection(d)}
+
   ${halalSection(d)}
 
   <div class="sec"><h3>News (last 10 days)</h3>
@@ -853,6 +871,38 @@ function horizonSection(d){
     <div class="fl" style="font-size:13px;font-weight:600;margin:10px 0 4px">Long-term checks (${d.long_checks.filter(c=>c.pass).length}/${d.long_checks.length})</div>${list(d.long_checks)}
     ${why(`<p>Different investors care about different things. <b>Short term</b> looks for momentum and a fresh reason for the price to move (news, events, rising volume) and ignores valuation. <b>Medium term</b> is the main balanced score. <b>Long term</b> cares about the quality and financial strength of the business and whether it's reasonably priced, and mostly ignores short-term news.</p>
       <p>${hz.long==="BUY"&&hz.short!=="BUY"?"This looks like a solid long-term holding even if the short-term setup isn't there.":hz.short==="BUY"&&hz.long!=="BUY"?"This is a short-term momentum idea — the business itself doesn't pass the long-term quality tests, so it's not one to hold for years without a reason.":hz.short==="BUY"&&hz.long==="BUY"?"Rare: it passes both the short-term and long-term tests.":"It doesn't fully pass the short- or long-term tests right now; WATCH means one check short."}</p>`)}</div>`;
+}
+function dividendSection(d){
+  const v = d.dividend; if(!v) return "";
+  const c = CUR(d.market), kv = (l,x,cls="") => `<div class="kv"><small>${l}</small><b class="${cls}">${x}</b></div>`;
+  const amt = x => x==null?"–":`${c} ${x<1?x.toFixed(3):x.toFixed(2)}`;
+  if (!(v.yield>0) && !(v.hist||[]).length) return `<div class="sec"><h3>Dividends</h3><div class="mute">${esc(tk(d.ticker))} doesn't pay a dividend${v.years_paid===0?" (none in the last year)":""}. Companies that keep their profits usually reinvest them to grow — returns come from the share price only.</div></div>`;
+  const today = new Date().toISOString().slice(0,10), yr = new Date().getFullYear();
+  const hist = (v.hist||[]).slice(-8), mx = Math.max(...hist.map(h=>h[1]), 1e-9);
+  const pay = v.payout, payCls = pay==null?"": pay>1?"bad": pay<=0.75?"good":"";
+  return `<div class="sec"><h3>Dividends</h3>
+    ${(v.tags||[]).length?`<div class="chips" style="margin:0 0 8px">${v.tags.map(t=>`<span class="chip ${t==="Dividend at risk"?"bad":"div-chip"}">${t}</span>`).join("")}</div>`:""}
+    <div class="grid">
+      ${kv("Dividend yield", v.yield!=null?v.yield.toFixed(2)+"%":"–", v.yield>=v.high_cut?"good":"")}
+      ${kv("Paid in the last 12 months", amt(v.ttm)+" a share")}
+      ${kv("Payout ratio (share of profit paid out)", pay!=null?Math.round(pay*100)+"%":"–", payCls)}
+      ${kv("How often", v.freq||"–")}
+      ${kv("Last dividend", v.last_date?`${amt(v.last_amt)} · ${v.last_date}`:"–")}
+      ${kv(v.ex_date&&v.ex_date>=today?"Next ex-dividend date":"Last ex-dividend date", v.ex_date||"–", v.ex_date&&v.ex_date>=today?"good":"")}
+      ${kv("Years in a row with a dividend", v.years_paid!=null?(v.years_paid>=10?"10+":v.years_paid):"–", v.years_paid>=5?"good":"")}
+      ${kv("Years in a row it was raised", v.years_grew!=null?v.years_grew:"–", v.years_grew>=5?"good":"")}
+      ${v.avg5!=null?kv("5-year average yield", v.avg5.toFixed(2)+"%"):""}
+    </div>
+    ${hist.length?`<div class="fl" style="font-size:13px;font-weight:600;margin:12px 0 0">Dividends per share by year (${c})</div>
+      <div class="dbar">${hist.map(([y,a])=>`<div><span>${a<1?a.toFixed(2):a.toFixed(1)}</span><i class="${y==yr?"part":""}" style="height:${Math.max(2,a/mx*70)}px"></i>${y}</div>`).join("")}</div>
+      <div class="mute">Faded bar = ${yr} so far (not a full year). Special one-off dividends show as spikes.</div>`:""}
+    ${(v.risk||[]).length?`<div style="margin-top:8px">${v.risk.map(x=>`<div class="chk"><b class="no">!</b><span>${esc(x)}</span></div>`).join("")}</div>`:""}
+    ${why(`<p>The <b>dividend yield</b> is the cash paid out over the last year as a percentage of today's share price: a ${v.yield!=null?v.yield.toFixed(1):"–"}% yield means about ${c} ${v.yield!=null?(v.yield*10).toFixed(0):"–"} a year for every ${c} 1,000 invested, before tax.</p>
+      <p>The <b>payout ratio</b> shows how much of the profit goes to dividends. Under about 75% leaves room to keep paying in a bad year; over 100% means the company pays more than it earns, which can't last.</p>
+      <p>A long record of paying — and especially of <b>raising</b> — the dividend every year is the best sign it's dependable. To receive a dividend you must own the shares <b>before the ex-dividend date</b>.</p>
+      ${d.market==="ASX"?"<p>Australian dividends often come with <b>franking credits</b> (tax already paid by the company), which are not included in the yield here — the real value to Australian residents can be higher.</p>":""}
+      ${d.market==="PSX"?"<p>In Pakistan dividends are taxed at source (usually 15% for filers); the yield here is before tax.</p>":""}
+      <p class="mute">Labels: <b>Dividend</b> = yield 2%+ and paid every year for at least 3 years. <b>High dividend</b> = in the top fifth of this market's dividend payers and at least ${v.high_cut}%. <b>Dividend grower</b> = raised 5+ years in a row. <b>Dividend at risk</b> = paying more than it earns, a loss, news of a cut, or a yield so high the market seems to expect a cut.</p>`)}</div>`;
 }
 function halalSection(d){
   const h = d.halal; if(!h) return "";

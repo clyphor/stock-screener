@@ -22,7 +22,7 @@ import halal
 
 LIST_COLS = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers", "macro", "macro_raw",
              "mcap", "news_sent", "events", "value", "quality", "growth", "health", "f_score", "flags", "red_flags",
-             "hz_short", "hz_long", "halal", "weakening", "requested",
+             "hz_short", "hz_long", "halal", "div_yield", "div_tags", "weakening", "requested",
              "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons", "signal"]
 import stability
 import tracked
@@ -216,6 +216,77 @@ class Timer:
         self._last = now
 
 
+DIV_COLS = ("div_ttm", "div_n12", "div_last_date", "div_last_amt", "div_hist", "div_years_paid", "div_years_grew")
+
+
+def dividend_info(df, fund):
+    """Dividend yield, payout, track record and the dividend sub-labels."""
+    g = lambda c, src=df: pd.to_numeric(src[c], errors="coerce").reindex(df.index) if c in src else pd.Series(np.nan, index=df.index)
+    price, ttm = g("price"), g("div_ttm")
+    yahoo = g("dividendYield", fund)
+    yld = (ttm / price * 100).where((price > 0) & ttm.notna())
+    yld = yld.where(yld.notna() & (yld < 30), yahoo)    # >30% is usually a currency mix-up → trust Yahoo's figure
+    payout = g("payoutRatio", fund)
+    paid, grew = g("div_years_paid"), g("div_years_grew")
+    payers = yld[yld > 0]
+    hi_cut = max(4.0, float(payers.quantile(0.8))) if len(payers) >= 5 else 4.0
+    out_tags, out_info = {}, {}
+    exd = fund["exDividendDate"].reindex(df.index) if "exDividendDate" in fund else pd.Series(None, index=df.index)
+    avg5 = g("fiveYearAvgDividendYield", fund)
+    for t in df.index:
+        y, p = yld.get(t), payout.get(t)
+        y = None if pd.isna(y) else float(y)
+        p = None if pd.isna(p) else float(p)
+        yp = None if pd.isna(paid.get(t)) else int(paid.get(t))
+        yg = None if pd.isna(grew.get(t)) else int(grew.get(t))
+        ev = df.at[t, "events"] if "events" in df and isinstance(df.at[t, "events"], list) else []
+        tags = []
+        if y and y > 0:
+            regular = yp is None or yp >= 3
+            ni = df.at[t, "net_income"] if "net_income" in df else None
+            risk = []
+            # property trusts (REITs) normally pay out more than accounting profit (depreciation) — not a warning sign
+            if p is not None and p > 1.0 and df.at[t, "sector"] != "Real Estate":
+                risk.append(f"pays out more than it earns ({p:.0%} of profit)")
+            if ni is not None and pd.notna(ni) and ni <= 0: risk.append("the company made a loss last year")
+            if "dividend_cut" in ev: risk.append("recent news of a dividend cut")
+            if y > 15: risk.append("a very high yield often means the market expects a cut")
+            if regular and y >= hi_cut: tags.append("High dividend")
+            elif regular and y >= 2: tags.append("Dividend")
+            if yg is not None and yg >= 5: tags.append("Dividend grower")
+            if risk: tags.append("Dividend at risk")
+        else:
+            risk = []
+        ex = None
+        try:
+            v = exd.get(t)
+            if v is not None and pd.notna(v):
+                ex = pd.to_datetime(float(v), unit="s").strftime("%Y-%m-%d") if str(v).replace(".", "").isdigit() \
+                    else pd.to_datetime(v).strftime("%Y-%m-%d")
+        except Exception:
+            ex = None
+        n12 = df.at[t, "div_n12"] if "div_n12" in df else None
+        freq = {0: None, 1: "Yearly", 2: "Half-yearly", 3: "3 a year", 4: "Quarterly"}.get(int(n12), "Monthly" if n12 >= 10 else f"{int(n12)} a year") \
+            if n12 is not None and pd.notna(n12) else None
+        try:
+            hist = json.loads(df.at[t, "div_hist"]) if "div_hist" in df and isinstance(df.at[t, "div_hist"], str) else {}
+        except Exception:
+            hist = {}
+        out_tags[t] = tags
+        out_info[t] = {"yield": _num(y, 2), "ttm": _num(ttm.get(t), 4), "payout": _num(p, 3), "freq": freq,
+                       "last_date": df.at[t, "div_last_date"] if "div_last_date" in df and isinstance(df.at[t, "div_last_date"], str) else None,
+                       "last_amt": _num(df.at[t, "div_last_amt"], 4) if "div_last_amt" in df else None,
+                       "ex_date": ex, "years_paid": yp, "years_grew": yg, "avg5": _num(avg5.get(t), 2),
+                       "hist": [[int(k), v] for k, v in sorted(hist.items())], "tags": tags, "risk": risk,
+                       "high_cut": round(hi_cut, 1)}
+    df["div_yield"] = yld
+    df["div_tags"] = pd.Series(out_tags)
+    df["div_info"] = pd.Series(out_info)
+    diag.put("dividends", payers=int((yld > 0).sum()), high=sum("High dividend" in v for v in out_tags.values()),
+             growers=sum("Dividend grower" in v for v in out_tags.values()),
+             at_risk=sum("Dividend at risk" in v for v in out_tags.values()))
+
+
 def _fill_from_statements(fund, health, close):
     """Fill fundamentals Yahoo's summary lacks (most PSX stocks) from the financial statements."""
     if health is None or not len(health):
@@ -233,6 +304,8 @@ def _fill_from_statements(fund, health, close):
         "revenueGrowth": num("rev_growth_calc"),
         "profitMargins": num("margin_calc"),
         "dividendYield": (num("div_ttm") / price * 100).where(price > 0),   # percent, like Yahoo
+        # dividends paid / profit, using shares = market cap / price
+        "payoutRatio": (num("div_ttm") * (mcap / price) / num("net_income")).where((price > 0) & (num("net_income") > 0)),
     }
     filled = {}
     for k, v in calc.items():
@@ -412,7 +485,7 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
     tm.lap("news scoring")
 
     hcols = [c for c in ("f_score", "f_tests", "altman_z", "interest_cover", "cash_conversion", "dilution", "margin_trend",
-                         "total_debt", "cash", "interest_income", "revenue") if c in health]
+                         "total_debt", "cash", "interest_income", "revenue", "net_income") + DIV_COLS if c in health]
     df = pd.concat([latest, ranks, fs, nf, health[hcols]], axis=1).reindex(ml.index)
     for c in ("f_score", "altman_z", "interest_cover", "cash_conversion", "dilution", "margin_trend",
               "total_debt", "cash", "interest_income", "revenue"):
@@ -487,6 +560,7 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
     df["halal"] = pd.Series({t: v["status"] for t, v in hres.items()})
     df["halal_info"] = pd.Series(hres)
     diag.put("halal", **{k.lower().replace(" ", "_"): int(v) for k, v in df["halal"].value_counts().items()})
+    dividend_info(df, fund)
     checks = signal_checks(df, model_ok)
     schecks = sell_checks(df, model_ok)
     reds = red_flags(df)
@@ -730,6 +804,7 @@ def write_details(df, ex, market, outdir, only=None):
             "red_flags": r["red_flags"], "flags": r["flags"], "weakening": bool(r.get("weakening")),
             "label_history": stability.history(market, t),
             "halal": dict(r["halal_info"], purification=halal.purification(r["halal_info"].get("ratios"))),
+            "dividend": r.get("div_info"),
             "hz": {"short": r["hz_short"], "medium": r["signal"] if r["signal"] in ("BUY", "WATCH") else "", "long": r["hz_long"]},
             "short_checks": [{"label": SHORT_LABELS[c], "pass": bool(ex["hshort"].at[t, c])} for c in ex["hshort"].columns],
             "long_checks": [{"label": LONG_LABELS[c], "pass": bool(ex["hlong"].at[t, c])} for c in ex["hlong"].columns],
@@ -902,6 +977,8 @@ def list_row(t, r):
              "flags": r["flags"] if isinstance(r["flags"], list) else [],
              "wk": bool(r.get("weakening")),
              "hl": r["halal"],
+             "dv": r["div_tags"] if isinstance(r.get("div_tags"), list) else [],
+             "dy": _num(r.get("div_yield"), 2),
              "hz": [r["hz_short"] or "", r["signal"] if r["signal"] in ("BUY", "WATCH") else "", r["hz_long"] or ""],
              "red": r["red_flags"] if isinstance(r["red_flags"], list) else [],
              "parts": {k: _p100(r[k], f"{t} {k}") for k in config.WEIGHTS},

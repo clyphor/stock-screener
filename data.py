@@ -19,6 +19,7 @@ FUND_FIELDS = [
     "shortName", "longName", "sector", "industry", "currency", "marketCap", "trailingPE",
     "forwardPE", "priceToBook", "profitMargins", "revenueGrowth", "earningsGrowth",
     "debtToEquity", "returnOnEquity", "freeCashflow", "dividendYield",
+    "payoutRatio", "exDividendDate", "dividendRate", "fiveYearAvgDividendYield",
     "fiftyTwoWeekHigh", "fiftyTwoWeekLow", "recommendationKey", "targetMeanPrice",
 ]
 
@@ -426,7 +427,7 @@ def get_news(tickers, names, market):
 
 # ---------------------------------------------------------------- financial health
 HEALTH_CACHE = "results/health.csv"
-HEALTH_VERSION = 3   # bump when new fields are added, so cached rows refresh
+HEALTH_VERSION = 4   # bump when new fields are added, so cached rows refresh
 
 
 def _row(df, *names):
@@ -493,8 +494,28 @@ def _health_one(args):
     try:
         dv = tk.dividends
         if len(dv):
-            cut = dv.index.max() - pd.Timedelta(days=365)
-            out["div_ttm"] = float(dv[dv.index > cut].sum())
+            dv.index = pd.DatetimeIndex(dv.index).tz_localize(None)
+            now = pd.Timestamp.now()
+            last12 = dv[dv.index > now - pd.Timedelta(days=365)]
+            out["div_ttm"] = float(last12.sum())
+            out["div_n12"] = int(len(last12))               # payments in the last year → frequency
+            out["div_last_date"] = dv.index.max().strftime("%Y-%m-%d")
+            out["div_last_amt"] = float(dv.iloc[-1])
+            yearly = dv.groupby(dv.index.year).sum()
+            yearly = yearly[yearly.index >= now.year - 10]
+            out["div_hist"] = json.dumps({int(y): round(float(v), 4) for y, v in yearly.items()})
+            done = yearly[yearly.index < now.year]          # complete calendar years only
+            full = pd.Series({y: float(done.get(y, 0)) for y in range(now.year - 10, now.year)})
+            paid = grew = 0
+            for y in range(now.year - 1, now.year - 11, -1):    # years in a row with a dividend
+                if full.get(y, 0) > 0: paid += 1
+                else: break
+            for y in range(now.year - 1, now.year - 10, -1):    # years in a row the dividend went up
+                if full.get(y, 0) > 0 and full.get(y, 0) > full.get(y - 1, 0) * 1.001 and full.get(y - 1, 0) > 0: grew += 1
+                else: break
+            out["div_years_paid"], out["div_years_grew"] = paid, grew
+        else:
+            out["div_ttm"], out["div_n12"] = 0.0, 0
     except Exception:
         pass
 

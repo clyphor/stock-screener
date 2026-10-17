@@ -47,5 +47,9 @@ def fake_health(tickers):
                          "altman_z": rng.uniform(0.5, 6, len(tickers)), "interest_cover": rng.uniform(0.5, 30, len(tickers)),
                          "cash_conversion": rng.uniform(0.3, 2, len(tickers)), "dilution": rng.normal(0.01, 0.08, len(tickers)),
                          "margin_trend": rng.normal(0, 0.03, len(tickers)),
+                         "div_ttm": np.where(rng.random(len(tickers)) < 0.7, rng.uniform(0.5, 8, len(tickers)), 0),
+                         "div_n12": rng.choice([1, 2, 4], len(tickers)), "div_last_date": "2026-09-15", "div_last_amt": 1.0,
+                         "div_years_paid": rng.integers(0, 11, len(tickers)), "div_years_grew": rng.integers(0, 9, len(tickers)),
+                         "div_hist": ['{"2022": 1.0, "2023": 1.1, "2024": 1.2, "2025": 1.4, "2026": 1.0}'] * len(tickers),
                          "f_tests": ['{"Profitable (positive return on assets)": true, "Positive operating cash flow": true, "Gross margin improving": false}'] * len(tickers)},
                         index=pd.Index(tickers, name="ticker"))

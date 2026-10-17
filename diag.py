@@ -87,6 +87,9 @@ def checks(market, stats):
         elif not pc.get("added_day"):
             add("Price check", "INFO", f"second source: {src}",
                 "Add a free Massive API key as the GitHub secret MASSIVE_API_KEY to check US prices." if "no MASSIVE" in src else "")
+        if pc.get("not_yet"):
+            add("Price check", "INFO", "not available yet from the second source: " + pc["not_yet"][0],
+                "Free plan data for a day arrives after midnight New York time; it's used on the next run.")
         if pc.get("errors"):
             add("Price check", "WARN", "second source failed: " + pc["errors"][0], "Prices from Yahoo were used unchecked.")
 

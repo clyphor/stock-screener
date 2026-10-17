@@ -96,6 +96,14 @@ def _massive_day(day, key):
             if e.code == 429:   # free plan: 5 calls a minute
                 time.sleep(15)
                 continue
+            if e.code == 403:   # free plan: the current day isn't available yet
+                try:
+                    msg = json.loads(e.read()).get("message", "")
+                except Exception:
+                    msg = ""
+                print(f"[US] Massive has no data for {day} on the free plan yet: {msg[:150]}")
+                diag.sample("pricecheck", "not_yet", f"{day}: {msg[:120]}", market="US")
+                return {}
             raise
     return {}
 
@@ -119,7 +127,7 @@ def us(close, volume, index_ticker="SPY"):
         for d in days:
             bars = _massive_day(d.isoformat(), key)
             if not bars:
-                continue  # holiday or not published yet
+                continue  # holiday, or not published yet on the free plan
             if index_ticker in bars:
                 ix[pd.Timestamp(d)] = bars[index_ticker].get("c")
             close, volume = _apply("US", close, volume, {t: b.get("c") for t, b in bars.items()},

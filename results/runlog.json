@@ -1,5 +1,232 @@
 [
  {
+  "started": "2026-10-17T01:23:34+00:00",
+  "finished": "2026-10-17T01:23:38+00:00",
+  "minutes": 0.1,
+  "trigger": "manual",
+  "commit": "",
+  "status": "ok",
+  "fatal": null,
+  "warnings": [],
+  "markets": {
+   "US": {
+    "error": null,
+    "downloaded": 80,
+    "screened": 80,
+    "news_coverage": 0.82,
+    "ai_scoring": "off",
+    "news_method": "event rules",
+    "price_date": "2026-10-16",
+    "ic_mean": 0.034,
+    "model_used": true,
+    "timings": {
+     "model": 1.4,
+     "news scoring": 0.1,
+     "sector & politics": 0.0,
+     "scoring & labels": 0.2
+    },
+    "missing_prices": [],
+    "labels": {
+     "HOLD": 70,
+     "WATCH": 5,
+     "AVOID": 5,
+     "SHORT BUY": 3,
+     "LONG BUY": 0
+    },
+    "ai_events": 0
+   },
+   "ASX": {
+    "error": null,
+    "downloaded": 50,
+    "screened": 50,
+    "news_coverage": 0.74,
+    "ai_scoring": "off",
+    "news_method": "event rules",
+    "price_date": "2026-10-16",
+    "ic_mean": 0.048,
+    "model_used": true,
+    "timings": {
+     "model": 0.9,
+     "news scoring": 0.1,
+     "sector & politics": 0.0,
+     "scoring & labels": 0.1
+    },
+    "missing_prices": [],
+    "labels": {
+     "HOLD": 38,
+     "AVOID": 8,
+     "WATCH": 2,
+     "SELL": 2,
+     "SHORT BUY": 1,
+     "LONG BUY": 0
+    },
+    "ai_events": 0
+   },
+   "PSX": {
+    "error": null,
+    "downloaded": 16,
+    "screened": 16,
+    "news_coverage": 0.81,
+    "ai_scoring": "off",
+    "news_method": "event rules",
+    "price_date": "2026-10-16",
+    "ic_mean": 0.015,
+    "model_used": false,
+    "timings": {
+     "model": 0.5,
+     "news scoring": 0.0,
+     "sector & politics": 0.0,
+     "scoring & labels": 0.1
+    },
+    "missing_prices": [],
+    "labels": {
+     "HOLD": 11,
+     "BUY": 2,
+     "AVOID": 2,
+     "WATCH": 1,
+     "SHORT BUY": 2,
+     "LONG BUY": 0
+    },
+    "ai_events": 0
+   }
+  },
+  "checks": {
+   "US": [
+    {
+     "stage": "Price model",
+     "status": "OK",
+     "msg": "11680 training rows; backtest IC 0.034",
+     "hint": ""
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "OK",
+     "msg": "off \u2014 no API key",
+     "hint": ""
+    }
+   ],
+   "ASX": [
+    {
+     "stage": "Price model",
+     "status": "OK",
+     "msg": "7300 training rows; backtest IC 0.048",
+     "hint": ""
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "OK",
+     "msg": "off \u2014 no API key",
+     "hint": ""
+    }
+   ],
+   "PSX": [
+    {
+     "stage": "Price model",
+     "status": "INFO",
+     "msg": "2336 training rows; backtest IC 0.015",
+     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "OK",
+     "msg": "off \u2014 no API key",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "US": {},
+   "ASX": {},
+   "PSX": {}
+  },
+  "diag": {
+   "US": {
+    "model": {
+     "train_rows": 11680,
+     "dates": 748
+    },
+    "screen": {
+     "total": 80,
+     "no_dollar_vol": 0,
+     "too_illiquid": 0,
+     "no_price": 0,
+     "price_below_1": 0,
+     "too_small": 0,
+     "passed": 80
+    },
+    "macro": {
+     "ai_events": 0,
+     "method": "wordlist"
+    },
+    "halal": {
+     "doubtful": 80
+    },
+    "dividends": {
+     "payers": 56,
+     "high": 8,
+     "growers": 32,
+     "at_risk": 2
+    }
+   },
+   "ASX": {
+    "model": {
+     "train_rows": 7300,
+     "dates": 748
+    },
+    "screen": {
+     "total": 50,
+     "no_dollar_vol": 0,
+     "too_illiquid": 0,
+     "no_price": 0,
+     "price_below_1": 0,
+     "too_small": 0,
+     "passed": 50
+    },
+    "macro": {
+     "ai_events": 0,
+     "method": "wordlist"
+    },
+    "halal": {
+     "doubtful": 50
+    },
+    "dividends": {
+     "payers": 26,
+     "high": 4,
+     "growers": 12,
+     "at_risk": 0
+    }
+   },
+   "PSX": {
+    "model": {
+     "train_rows": 2336,
+     "dates": 748
+    },
+    "screen": {
+     "total": 16,
+     "no_dollar_vol": 0,
+     "too_illiquid": 0,
+     "no_price": 0,
+     "price_below_1": 0,
+     "too_small": 0,
+     "passed": 16
+    },
+    "macro": {
+     "ai_events": 0,
+     "method": "wordlist"
+    },
+    "halal": {
+     "doubtful": 16
+    },
+    "dividends": {
+     "payers": 13,
+     "high": 2,
+     "growers": 9,
+     "at_risk": 3
+    }
+   }
+  }
+ },
+ {
   "started": "2026-10-17T00:48:46+00:00",
   "finished": "2026-10-17T00:55:36+00:00",
   "minutes": 6.8,

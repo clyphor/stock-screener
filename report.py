@@ -890,7 +890,7 @@ function dividendSection(d){
       ${kv("Last dividend", v.last_date?`${amt(v.last_amt)} · ${v.last_date}`:"–")}
       ${kv(v.ex_date&&v.ex_date>=today?"Next ex-dividend date":"Last ex-dividend date", v.ex_date||"–", v.ex_date&&v.ex_date>=today?"good":"")}
       ${kv("Years in a row with a dividend", v.years_paid!=null?(v.years_paid>=10?"10+":v.years_paid):"–", v.years_paid>=5?"good":"")}
-      ${kv("Years in a row it was raised", v.years_grew!=null?v.years_grew:"–", v.years_grew>=5?"good":"")}
+      ${kv("Years in a row it was raised", v.years_grew!=null?(v.years_grew>=9?"9+":v.years_grew):"–", v.years_grew>=5?"good":"")}
       ${v.avg5!=null?kv("5-year average yield", v.avg5.toFixed(2)+"%"):""}
     </div>
     ${hist.length?`<div class="fl" style="font-size:13px;font-weight:600;margin:12px 0 0">Dividends per share by year (${c})</div>

@@ -244,11 +244,18 @@ def dividend_info(df, fund):
         if y and y > 0:
             regular = yp is None or yp >= 3
             ni = df.at[t, "net_income"] if "net_income" in df else None
+            fcf = df.at[t, "fcf"] if "fcf" in df else None
+            fcf = None if fcf is None or pd.isna(fcf) else float(fcf)
+            pr, mc = df.at[t, "price"], df.at[t, "mcap"]
+            paid_out = float(ttm.get(t)) * float(mc) / float(pr) if pd.notna(ttm.get(t)) and pd.notna(mc) and pd.notna(pr) and pr > 0 else None
+            cash_ok = fcf is not None and paid_out is not None and fcf >= paid_out   # free cash flow covers the dividend
             risk = []
-            # property trusts (REITs) normally pay out more than accounting profit (depreciation) — not a warning sign
-            if p is not None and p > 1.0 and df.at[t, "sector"] != "Real Estate":
-                risk.append(f"pays out more than it earns ({p:.0%} of profit)")
-            if ni is not None and pd.notna(ni) and ni <= 0: risk.append("the company made a loss last year")
+            # Paying more than accounting profit is only a warning if cash flow doesn't cover it either
+            # (one-off write-offs dent profit but not cash; property trusts always pay out more than profit)
+            if p is not None and p > 1.0 and df.at[t, "sector"] != "Real Estate" and not cash_ok:
+                risk.append(f"pays out more than it earns ({p:.0%} of profit) and more than its free cash flow")
+            if p is None and ni is not None and pd.notna(ni) and ni <= 0 and not cash_ok:
+                risk.append("the company made a loss last year")
             if "dividend_cut" in ev: risk.append("recent news of a dividend cut")
             if y > 15: risk.append("a very high yield often means the market expects a cut")
             if regular and y >= hi_cut: tags.append("High dividend")
@@ -485,7 +492,7 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
     tm.lap("news scoring")
 
     hcols = [c for c in ("f_score", "f_tests", "altman_z", "interest_cover", "cash_conversion", "dilution", "margin_trend",
-                         "total_debt", "cash", "interest_income", "revenue", "net_income") + DIV_COLS if c in health]
+                         "total_debt", "cash", "interest_income", "revenue", "net_income", "fcf") + DIV_COLS if c in health]
     df = pd.concat([latest, ranks, fs, nf, health[hcols]], axis=1).reindex(ml.index)
     for c in ("f_score", "altman_z", "interest_cover", "cash_conversion", "dilution", "margin_trend",
               "total_debt", "cash", "interest_income", "revenue"):

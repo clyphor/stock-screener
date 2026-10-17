@@ -207,6 +207,21 @@ def _psx_info(t, name=None):
         if m and len(m.group(1)) < 90 and any(k in m.group(1) for k in kws):
             row["psx_sector"] = m.group(1).strip()
             break
+    try:
+        m = re.search(r"Price\s*Rs\.?\s*([\d,]+\.?\d*)", txt)
+        d = re.search(r"Last update:\s*\w{3},\s*(\w{3} \d{1,2}, \d{4})", txt)
+        v = re.search(r"Volume\s*([\d,]+)", txt)
+        if m and d:
+            row["psx_price"] = float(m.group(1).replace(",", ""))
+            row["psx_date"] = datetime.strptime(d.group(1), "%b %d, %Y").strftime("%Y-%m-%d")
+            row["psx_volume"] = float(v.group(1).replace(",", "")) if v else None
+    except Exception:
+        pass
+    # Ready-made ratios on the PSX page (more reliable than lining up the Sales/Profit rows)
+    npm = re.search(r"Net Profit Margin\s*\(%\)\s*\(?(-?[\d.,]+)\)?", txt)
+    if npm and row.get("profitMargins") is None:
+        val = float(npm.group(1).replace(",", "")) / 100
+        row["profitMargins"] = -val if "(" + npm.group(1) in txt[npm.start():npm.end()] else val
     row["currency"] = "PKR"
     return row
 
@@ -411,7 +426,7 @@ def get_news(tickers, names, market):
 
 # ---------------------------------------------------------------- financial health
 HEALTH_CACHE = "results/health.csv"
-HEALTH_VERSION = 2   # bump when new fields are added, so cached rows refresh
+HEALTH_VERSION = 3   # bump when new fields are added, so cached rows refresh
 
 
 def _row(df, *names):
@@ -461,6 +476,27 @@ def _health_one(args):
     cash = _row(bal, "Cash Cash Equivalents And Short Term Investments", "Cash And Cash Equivalents")
     intinc = _row(inc, "Interest Income", "Interest Income Non Operating")
     out.update(total_debt=_v(debt, 0), cash=_v(cash, 0), interest_income=_v(intinc, 0), revenue=_v(rev, 0))
+    # Statement-based ratios — used to fill fundamentals Yahoo's summary doesn't give (e.g. most PSX stocks)
+    eq = _row(bal, "Stockholders Equity", "Common Stock Equity")
+    fcf = _row(cf, "Free Cash Flow")
+    e0, n0 = _v(eq, 0), _v(ni, 0)
+    out.update(equity=e0, net_income=n0, fcf=_v(fcf, 0))
+    if e0 and e0 > 0:
+        if n0 is not None:
+            out["roe_calc"] = round(n0 / e0, 4)
+        if _v(debt, 0) is not None:
+            out["de_calc"] = round(_v(debt, 0) / e0 * 100, 2)   # Yahoo's convention: percent
+    if _v(rev, 0) and _v(rev, 1):
+        out["rev_growth_calc"] = round(_v(rev, 0) / _v(rev, 1) - 1, 4)
+    if _v(rev, 0) and n0 is not None:
+        out["margin_calc"] = round(n0 / _v(rev, 0), 4)
+    try:
+        dv = tk.dividends
+        if len(dv):
+            cut = dv.index.max() - pd.Timedelta(days=365)
+            out["div_ttm"] = float(dv[dv.index > cut].sum())
+    except Exception:
+        pass
 
     tests = {}
     roa0 = _v(ni, 0) / _v(ta, 0) if _v(ni, 0) is not None and _v(ta, 0) else None
@@ -510,7 +546,7 @@ def get_health(tickers, mcaps, sectors, market, max_age_days=7):
         age = (pd.Timestamp(today) - pd.to_datetime(cache["asof"], errors="coerce")).dt.days
         ver = cache["v"] if "v" in cache else pd.Series(0, index=cache.index)
         fresh = set(cache.index[(age <= max_age_days) & (ver.fillna(0) >= HEALTH_VERSION)])
-    todo = [t for t in tickers if t not in fresh and not t.endswith(".KA")]
+    todo = [t for t in tickers if t not in fresh]
     if todo:
         with ThreadPoolExecutor(6) as ex:
             rows = list(ex.map(_health_one, [(t, mcaps.get(t), sectors.get(t)) for t in todo]))

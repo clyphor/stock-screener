@@ -41,6 +41,8 @@ jobs:
         env:
           # optional: either secret name works
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY || secrets.CLAUDE_API_KEY }}
+          # optional, free: second US price source (massive.com) to verify Yahoo's closes
+          MASSIVE_API_KEY: ${{ secrets.MASSIVE_API_KEY }}
         run: python run.py
       - name: Publish the web page (replaced each day, no history kept)
         if: steps.screener.outcome == 'success' && inputs.staging != true

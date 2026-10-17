@@ -216,6 +216,36 @@ class Timer:
         self._last = now
 
 
+def _fill_from_statements(fund, health, close):
+    """Fill fundamentals Yahoo's summary lacks (most PSX stocks) from the financial statements."""
+    if health is None or not len(health):
+        return
+    h = health.reindex(fund.index)
+    num = lambda c: pd.to_numeric(h[c], errors="coerce") if c in h else pd.Series(float("nan"), index=fund.index)
+    price = close.ffill().iloc[-1].reindex(fund.index) if len(close) else pd.Series(dtype=float)
+    mcap = pd.to_numeric(fund.get("marketCap"), errors="coerce")
+    eq = num("equity")
+    calc = {
+        "returnOnEquity": num("roe_calc"),
+        "debtToEquity": num("de_calc"),
+        "priceToBook": (mcap / eq).where(eq > 0),
+        "freeCashflow": num("fcf"),
+        "revenueGrowth": num("rev_growth_calc"),
+        "profitMargins": num("margin_calc"),
+        "dividendYield": (num("div_ttm") / price * 100).where(price > 0),   # percent, like Yahoo
+    }
+    filled = {}
+    for k, v in calc.items():
+        cur = pd.to_numeric(fund[k], errors="coerce") if k in fund else pd.Series(float("nan"), index=fund.index)
+        gap = cur.isna() & v.notna()
+        if gap.any():
+            fund[k] = cur.where(~gap, v)
+            filled[k] = int(gap.sum())
+    if filled:
+        print("fundamentals filled from statements:", filled)
+        diag.put("fundamentals", filled_from_statements=filled)
+
+
 def run_market(name, cfg, demo, extras=(), extras_only=None):
     """extras: requested tickers to include. extras_only: on-demand mode — analyse just these new tickers,
     reusing today's cached data for everything else (no repeat news/AI cost)."""
@@ -338,14 +368,37 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
             prescored = None
         tm.lap("company news")
         from data import get_health
+        health = get_health(list(close.columns), pd.to_numeric(fund["marketCap"], errors="coerce").to_dict(),
+                            fund["sector"].to_dict(), name)
         if name == "PSX":
-            health = fund[[c for c in ("f_score", "f_tests") if c in fund]].copy()
+            # Yahoo statements first; the exchange page's partial F-score where Yahoo has none
+            page = fund[[c for c in ("f_score", "f_tests") if c in fund]]
+            health = health.combine_first(page) if len(page.columns) else health
             from universe import kmi_members
             kmi = kmi_members()
-        else:
-            health = get_health(list(close.columns), pd.to_numeric(fund["marketCap"], errors="coerce").to_dict(),
-                                fund["sector"].to_dict(), name)
+        _fill_from_statements(fund, health, close)
+        diag.put("fundamentals", **{
+            f"missing_{k}": round(float(pd.to_numeric(fund[k], errors="coerce").isna().mean()), 2)
+            for k in ("marketCap", "trailingPE", "profitMargins", "revenueGrowth", "returnOnEquity", "debtToEquity")
+            if k in fund})
         tm.lap("financial health")
+        # Verify Yahoo's latest closes against a second source (and add a day Yahoo is missing)
+        import pricecheck
+        if name == "PSX":
+            close, volume = pricecheck.psx(close, volume, fund)
+        elif name == "US":
+            last_ix = idx.index[-1]
+            close, volume, spy = pricecheck.us(close, volume)
+            # a day added from Massive: move the index by SPY's change that day instead of leaving it flat
+            if last_ix in spy:
+                for d in sorted(k for k in spy if k > last_ix and k in close.index):
+                    if spy.get(d) and spy.get(last_ix):
+                        idx.loc[d] = float(idx.loc[last_ix]) * spy[d] / spy[last_ix]
+                idx = idx.sort_index()
+        if cfg["index_candidates"]:
+            idx = idx.reindex(close.index).ffill()
+        else:
+            idx = (1 + close.pct_change().clip(-0.3, 0.3).mean(axis=1).fillna(0)).cumprod() * 100
     print(f"[{name}] {close.shape[1]} stocks, {len(close)} days")
 
     panel = technical_panel(close, volume, idx, config.HORIZON_DAYS)

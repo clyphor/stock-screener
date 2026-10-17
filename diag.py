@@ -70,6 +70,26 @@ def checks(market, stats):
             add("Prices", "WARN", f"{len(p['stale'])} stocks have no price for 5+ days (e.g. {', '.join(p['stale'][:5])})",
                 "Possibly suspended or delisted — check the ticker on Yahoo Finance.")
 
+    pc = d.get("pricecheck", {})
+    if pc:
+        src = pc.get("source", "?")
+        if pc.get("added_day"):
+            add("Price check", "WARN", f"Yahoo was missing {pc['added_day']} — added from {src} ({pc.get('added_stocks')} stocks)",
+                "Normal now and then (Yahoo lags after the close). Nothing to do.")
+        if "checked" in pc:
+            c, a, fx = pc["checked"], pc.get("agree", 0), pc.get("corrected", 0)
+            st = "OK" if _pct(fx, c) <= 0.05 else "WARN"
+            add("Price check", st, f"{src} on {pc.get('date')}: {a}/{c} agree with Yahoo, {fx} corrected, {pc.get('filled', 0)} filled"
+                + (f" (e.g. {', '.join(pc.get('corrected_eg', [])[:3])})" if fx else ""),
+                "" if st == "OK" else "Many prices differ by >1.5% — Yahoo may have a bad day; the second source was used.")
+        elif pc.get("skipped_day"):
+            add("Price check", "INFO", f"{src} had {pc['skipped_day']} for only {round(pc.get('cover', 0) * 100)}% of stocks — not used")
+        elif not pc.get("added_day"):
+            add("Price check", "INFO", f"second source: {src}",
+                "Add a free Massive API key as the GitHub secret MASSIVE_API_KEY to check US prices." if "no MASSIVE" in src else "")
+        if pc.get("errors"):
+            add("Price check", "WARN", "second source failed: " + pc["errors"][0], "Prices from Yahoo were used unchecked.")
+
     ix = d.get("index", {})
     if ix:
         add("Index", "OK" if ix.get("used") == ix.get("preferred") else "WARN", f"used {ix.get('used')}",

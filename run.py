@@ -251,6 +251,16 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
             print(f"[{name}] + {len(new_extras)} requested stocks: {', '.join(new_extras[:20])}")
         tm.lap("index list")
         close, volume = get_prices(list(uni.index), config.HISTORY)
+        # Make sure the latest trading day is really there (Yahoo's bulk data sometimes lags after the close)
+        from data import latest_session, top_up
+        ref = {"US": ["SPY", "AAPL"], "ASX": ["BHP.AX", "CBA.AX"], "PSX": ["OGDC.KA", "LUCK.KA"]}[name]
+        expect = latest_session(ref)
+        if expect and len(close) and close.index[-1].date() < expect:
+            print(f"WARNING [{name}] bulk prices end {close.index[-1].date()} but Yahoo has {expect} — topping up")
+            close, volume = top_up(close, volume, list(close.columns), close.index[-1].date())
+            diag.put("prices", topped_up_to=str(close.index[-1].date()), expected_session=str(expect))
+            if close.index[-1].date() < expect:
+                print(f"WARNING [{name}] still missing {expect} after top-up")
         last_known = stability.last_price_date(name)
         if last_known and len(close) and str(close.index[-1].date()) < last_known:
             print(f"WARNING [{name}] Yahoo returned data ending {close.index[-1].date()}, older than the last run's "

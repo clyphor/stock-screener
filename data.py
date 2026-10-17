@@ -67,6 +67,41 @@ def get_prices(tickers, period, batch=100, tries=3):
     return close[[t for t in tickers if t in close]], volume[[t for t in tickers if t in volume]]
 
 
+def latest_session(probe):
+    """Date of the latest completed daily bar Yahoo has for a liquid reference ticker (single-ticker
+    requests are reliable even when bulk downloads briefly lag after the close)."""
+    for t in probe:
+        try:
+            h = yf.Ticker(t).history(period="5d", auto_adjust=True)
+            if len(h):
+                return h.index[-1].date()
+        except Exception:
+            pass
+    return None
+
+
+def top_up(close, volume, tickers, since):
+    """Fetch the last few days for all tickers and add any rows newer than `since`."""
+    got = {}
+    for i in range(0, len(tickers), 100):
+        try:
+            raw = yf.download(tickers[i:i + 100], period="10d", auto_adjust=True, group_by="ticker",
+                              threads=True, progress=False)
+            for t in set(raw.columns.get_level_values(0)):
+                got[t] = (raw[t]["Close"], raw[t]["Volume"])
+        except Exception as e:
+            diag.sample("prices", "errors", f"top-up batch {i}: {e}")
+    if not got:
+        return close, volume
+    c2 = pd.DataFrame({t: v[0] for t, v in got.items()})
+    v2 = pd.DataFrame({t: v[1] for t, v in got.items()})
+    new = c2.index[c2.index.date > since]
+    if len(new):
+        close = pd.concat([close, c2.loc[new].reindex(columns=close.columns)])
+        volume = pd.concat([volume, v2.loc[new].reindex(columns=volume.columns)])
+    return close, volume
+
+
 def get_index(candidates, period):
     """First index (or index ETF) that downloads, as a close Series."""
     for t in candidates:

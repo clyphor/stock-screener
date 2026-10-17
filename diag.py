@@ -72,7 +72,7 @@ def checks(market, stats):
 
     pc = d.get("pricecheck", {})
     if pc:
-        src = pc.get("source", "?")
+        src = pc.get("source", "Massive")
         if pc.get("added_day"):
             add("Price check", "WARN", f"Yahoo was missing {pc['added_day']} — added from {src} ({pc.get('added_stocks')} stocks)",
                 "Normal now and then (Yahoo lags after the close). Nothing to do.")
@@ -84,7 +84,7 @@ def checks(market, stats):
                 "" if st == "OK" else "Many prices differ by >1.5% — Yahoo may have a bad day; the second source was used.")
         elif pc.get("skipped_day"):
             add("Price check", "INFO", f"{src} had {pc['skipped_day']} for only {round(pc.get('cover', 0) * 100)}% of stocks — not used")
-        elif not pc.get("added_day"):
+        elif not pc.get("added_day") and pc.get("source"):
             add("Price check", "INFO", f"second source: {src}",
                 "Add a free Massive API key as the GitHub secret MASSIVE_API_KEY to check US prices." if "no MASSIVE" in src else "")
         if pc.get("not_yet"):

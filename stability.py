@@ -27,10 +27,29 @@ def _norm(v):
     return "" if v is None or (isinstance(v, float) and v != v) else str(v)
 
 
+def last_price_date(market):
+    if not os.path.exists(STATE):
+        return None
+    s = pd.read_csv(STATE, dtype=str).fillna("")
+    s = s[s["market"] == market]
+    return s["price_date"].max() if len(s) else None
+
+
 def apply(market, df, price_date, version):
     """Edits df in place (signal, hz_short, hz_long), adds 'weakening' and returns nothing."""
     state = pd.read_csv(STATE, dtype=str).fillna("") if os.path.exists(STATE) else pd.DataFrame(
         columns=["market", "ticker", "field", "label", "price_date", "down_days", "version", "since"])
+    last = last_price_date(market)
+    if last and price_date < last:   # data went backwards (Yahoo hiccup): don't touch any labels
+        print(f"WARNING [{market}] prices dated {price_date} are older than {last} — keeping existing labels")
+        st = state[state["market"] == market].set_index(["ticker", "field"])
+        df["weakening"] = False
+        for t in df.index:
+            for f in FIELDS:
+                if (t, f) in st.index:
+                    v = st.loc[(t, f), "label"]
+                    df.at[t, f] = v if f != "signal" else (v or "HOLD")
+        return
     hist_rows = []
     st = state[state["market"] == market].set_index(["ticker", "field"])
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")

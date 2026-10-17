@@ -43,6 +43,12 @@ jobs:
           publish_dir: ./docs
           publish_branch: gh-pages
           force_orphan: true
+      - name: Cache today's market data for on-demand runs
+        if: steps.screener.outcome == 'success' && inputs.staging != true
+        uses: actions/cache/save@v4
+        with:
+          path: cache
+          key: screener-cache-${{ github.run_id }}
       - name: Publish a TEST page to /staging/ (live page untouched)
         if: steps.screener.outcome == 'success' && inputs.staging == true
         uses: peaceiris/actions-gh-pages@v4

@@ -19,7 +19,13 @@ from report import write_page
 from sentiment import news_features
 import diag
 import halal
+
+LIST_COLS = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers", "macro", "macro_raw",
+             "mcap", "news_sent", "events", "value", "quality", "growth", "health", "f_score", "flags", "red_flags",
+             "hz_short", "hz_long", "halal", "weakening", "requested",
+             "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons", "signal"]
 import stability
+import tracked
 import macro
 
 CHECK_LABELS = {
@@ -210,8 +216,13 @@ class Timer:
         self._last = now
 
 
-def run_market(name, cfg, demo):
+def run_market(name, cfg, demo, extras=(), extras_only=None):
+    """extras: requested tickers to include. extras_only: on-demand mode — analyse just these new tickers,
+    reusing today's cached data for everything else (no repeat news/AI cost)."""
     diag.MARKET = name
+    cache = tracked.load_cache(name) if extras_only else None
+    if extras_only and cache is None:
+        raise RuntimeError("no cached daily data yet — requests will be analysed in the next daily run")
     tm = Timer()
     kmi = None
     missing = []
@@ -223,9 +234,32 @@ def run_market(name, cfg, demo):
     else:
         from data import get_fundamentals, get_index, get_news, get_prices
         from universe import get_universe
-        uni = get_universe(name, cfg["tickers"])
+        if cache:
+            uni = pd.DataFrame(index=pd.Index(cache["meta"]["universe"], name="ticker"))
+            cf = cache["fund"]
+            for c in ("sector", "industry"):
+                uni[c] = cf[c].reindex(uni.index) if c in cf else None
+            uni["name"] = None
+            for c in ("longName", "shortName"):
+                if c in cf:
+                    uni["name"] = uni["name"].fillna(cf[c].reindex(uni.index))
+        else:
+            uni = get_universe(name, cfg["tickers"])
+        new_extras = [t for t in extras if t not in uni.index]
+        if new_extras:
+            uni = pd.concat([uni, pd.DataFrame(index=pd.Index(new_extras, name="ticker"))])
+            print(f"[{name}] + {len(new_extras)} requested stocks: {', '.join(new_extras[:20])}")
         tm.lap("index list")
         close, volume = get_prices(list(uni.index), config.HISTORY)
+        last_known = stability.last_price_date(name)
+        if last_known and len(close) and str(close.index[-1].date()) < last_known:
+            print(f"WARNING [{name}] Yahoo returned data ending {close.index[-1].date()}, older than the last run's "
+                  f"{last_known} — retrying in 60s")
+            _time.sleep(60)
+            close, volume = get_prices(list(uni.index), config.HISTORY)
+            if str(close.index[-1].date()) < last_known:
+                print(f"WARNING [{name}] still older data — labels will NOT be updated from it")
+                diag.put("prices", older_than_last_run=f"{close.index[-1].date()} < {last_known}")
         missing = [t for t in uni.index if t not in close.columns]
         # Use completed closes only: if this market is open right now, today's bar is a moving intraday price
         from zoneinfo import ZoneInfo
@@ -251,13 +285,22 @@ def run_market(name, cfg, demo):
             idx = get_index(cfg["index_candidates"], config.HISTORY).reindex(close.index).ffill()
         else:  # no index feed (Pakistan): equal-weighted index of the members' daily moves
             idx = (1 + close.pct_change().clip(-0.3, 0.3).mean(axis=1).fillna(0)).cumprod() * 100
-        fund = get_fundamentals(list(close.columns), uni["name"].to_dict() if "name" in uni else None)
+        if cache:
+            new_t = [t for t in close.columns if t not in cache["fund"].index]
+            fnew = get_fundamentals(new_t, uni["name"].to_dict() if "name" in uni else None) if new_t else cache["fund"].iloc[:0]
+            fund = pd.concat([cache["fund"][~cache["fund"].index.isin(fnew.index)], fnew]).reindex(close.columns)
+        else:
+            fund = get_fundamentals(list(close.columns), uni["name"].to_dict() if "name" in uni else None)
+        for c in ("sector", "industry", "shortName", "longName", "marketCap"):
+            if c not in fund:
+                fund[c] = None
         tm.lap("fundamentals")
         diag.put("fundamentals", count=len(fund), **{
             f"missing_{k}": round(float(pd.to_numeric(fund[k], errors="coerce").isna().mean()), 2)
             for k in ("marketCap", "trailingPE", "profitMargins", "revenueGrowth", "returnOnEquity", "debtToEquity")
             if k in fund})
-        fund["sector"] = fund["sector"].fillna(uni["sector"].reindex(fund.index))
+        if "sector" in uni:
+            fund["sector"] = fund["sector"].fillna(uni["sector"].reindex(fund.index))
         if name == "PSX" and "psx_sector" in fund:  # sector from the exchange's own company page
             from universe import psx_sector
             mapped = fund["psx_sector"].map(lambda x: psx_sector(x) if isinstance(x, str) else (None, None))
@@ -272,9 +315,17 @@ def run_market(name, cfg, demo):
                         fund.loc[unknown, c] = uni[c].reindex(fund.index)[unknown]
         if "industry" in uni:
             fund["industry"] = fund["industry"].fillna(uni["industry"].reindex(fund.index))
-        fund["shortName"] = fund["shortName"].fillna(uni["name"].reindex(fund.index))
-        names = uni["name"].reindex(fund.index).fillna(fund["longName"]).fillna(fund["shortName"])
-        news = get_news(list(close.columns), names.to_dict(), name)
+        if "name" in uni:
+            fund["shortName"] = fund["shortName"].fillna(uni["name"].reindex(fund.index))
+        names = (uni["name"].reindex(fund.index) if "name" in uni else fund["longName"]).fillna(fund["longName"]).fillna(fund["shortName"]).fillna(pd.Series(fund.index, index=fund.index))
+        fund["shortName"] = fund["shortName"].fillna(names)
+        if cache:
+            new_t = [t for t in close.columns if t not in cache["news"]]
+            news = get_news(new_t, names.to_dict(), name) if new_t else {}
+            prescored = {t: v for t, v in cache["news"].items() if t in close.columns}
+        else:
+            news = get_news(list(close.columns), names.to_dict(), name)
+            prescored = None
         tm.lap("company news")
         from data import get_health
         if name == "PSX":
@@ -294,7 +345,7 @@ def run_market(name, cfg, demo):
     latest = panel.xs(panel.index.get_level_values("date").max(), level="date")
     ranks = latest[TECH_COLS].rank(pct=True).add_suffix("_r")
     fs = fundamental_score(fund, health)
-    nf = news_features(news, fund["sector"])
+    nf = news_features(news, fund["sector"], prescored=prescored if not demo else None)
     tm.lap("news scoring")
 
     hcols = [c for c in ("f_score", "f_tests", "altman_z", "interest_cover", "cash_conversion", "dilution", "margin_trend",
@@ -315,6 +366,9 @@ def run_market(name, cfg, demo):
     mcap = pd.to_numeric(fund["marketCap"], errors="coerce").reindex(df.index)
     price = close.ffill(limit=3).iloc[-1].reindex(df.index)
     ok = (df["dollar_vol"] >= cfg["min_dollar_vol"]) & (price >= 1) & ~(mcap < cfg["min_mcap"])
+    req = df.index.isin(list(extras)) & price.notna() & df["dollar_vol"].notna()
+    below = req & ~ok
+    ok = ok | req          # stocks you asked for are always analysed, even if small or thinly traded
     diag.put("screen", total=int(len(df)), no_dollar_vol=int(df["dollar_vol"].isna().sum()),
              too_illiquid=int((df["dollar_vol"] < cfg["min_dollar_vol"]).sum()), no_price=int(price.isna().sum()),
              price_below_1=int((price < 1).sum()), too_small=int((mcap < cfg["min_mcap"]).sum()), passed=int(ok.sum()))
@@ -335,7 +389,7 @@ def run_market(name, cfg, demo):
     universe = {"sectors": sorted(df["sector"].dropna().unique()),
                 "industries": sorted(fund["industry"].dropna().astype(str).unique()) if "industry" in fund else [],
                 "tickers": list(df.index)}
-    ctx = macro.macro_context(name, demo, universe)
+    ctx = cache["ctx"] if cache else macro.macro_context(name, demo, universe)
     tm.lap("sector & politics")
     macro.apply(ctx, df, fund)
     df["macro"] = df["macro_raw"].rank(pct=True).fillna(0.5)
@@ -358,6 +412,9 @@ def run_market(name, cfg, demo):
     df = df[~(df["name"].notna() & df["name"].str.replace(r"\s*\(.*\)|\s+Class [A-Z].*", "", regex=True).duplicated())]
     df["sector"] = fund["sector"].reindex(df.index).fillna("Unknown")
     df["reasons"] = df.apply(reasons, axis=1)
+    df["requested"] = df.index.isin(list(extras))
+    for t in df.index[df["requested"]]:
+        df.at[t, "reasons"] = ["Requested"] + (["Below screen limits (small or thinly traded)"] if below.get(t, False) else []) + df.at[t, "reasons"]
     df["market"] = name
     # Shariah screen
     ind_s = fund["industry"].reindex(df.index) if "industry" in fund else pd.Series(None, index=df.index)
@@ -378,7 +435,7 @@ def run_market(name, cfg, demo):
     df["hz_short"] = horizon_label(hs, blocked)
     df["hz_long"] = horizon_label(hl, blocked)
     # Labels with memory: no flip-flopping on re-runs or one noisy day (see stability.py)
-    if not demo:
+    if not demo and not extras_only:
         stability.apply(name, df, str(close.index[-1].date()), config.SCORING_VERSION)
     else:
         df["weakening"] = False
@@ -390,7 +447,8 @@ def run_market(name, cfg, demo):
                  currency=cfg.get("currency", "USD" if name == "US" else "AUD"), index_name=cfg["index"],
                  price_date=str(close.index[-1].date()),
                  model_used=bool(model_ok), weights=w)
-    stats.update(track_record(name, df, close, idx))
+    if not extras_only:
+        stats.update(track_record(name, df, close, idx))
     try:
         stats["perf"] = performance(df, close, idx, fund)
     except Exception as e:
@@ -407,10 +465,15 @@ def run_market(name, cfg, demo):
         "themes": {k: {kk: v[kk] for kk in ("label", "heat", "n", "why", "headlines")} for k, v in ctx["themes"].items()},
         "events": ctx.get("events", []),
     }
-    extras = {"close": close, "volume": volume, "idx": idx, "fund": fund, "checks": checks,
+    if not demo and not extras_only:  # cache for on-demand runs later today
+        scored = nf.attrs.get("headlines", {})
+        tracked.save_cache(name, fund, {t: scored.get(t, []) for t in close.columns}, ctx,
+                           str(close.index[-1].date()), [t for t in close.columns])
+    stats["missing_prices"] = missing
+    extras_out = {"close": close, "volume": volume, "idx": idx, "fund": fund, "checks": checks,
               "headlines": nf.attrs.get("headlines", {}), "weights": w, "model_ok": model_ok, "ctx": ctx,
               "schecks": schecks, "hshort": hs, "hlong": hl}
-    return df, stats, extras
+    return df, stats, extras_out
 
 
 # ---------------------------------------------------------------- market & sector performance
@@ -555,7 +618,7 @@ def _p100(v, what=""):
     return 50
 
 
-def write_details(df, ex, market, outdir):
+def write_details(df, ex, market, outdir, only=None):
     """One small JSON per stock with everything the detail view needs."""
     fund = ex["fund"].copy()
     for c in [k for k, *_ in FUND_ROWS] + ["marketCap", "freeCashflow"]:
@@ -575,6 +638,8 @@ def write_details(df, ex, market, outdir):
         json.dump({"dates": dates, "index": [_num(x, 2) for x in idx_h]}, f, separators=(",", ":"))
 
     for t, r in df.iterrows():
+        if only is not None and t not in only:
+            continue
         sec = r["sector"]
         peers = df[(df["sector"] == sec) & (df.index != t)].sort_values("mcap", ascending=False).head(6)
         rec = {
@@ -707,6 +772,7 @@ def write_log(started, stats, fatal=None):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--demo", action="store_true")
+    ap.add_argument("--extras", default="", help="on-demand: comma-separated tickers to analyse")
     a = ap.parse_args()
     _tee_print()
     started = datetime.now(timezone.utc)
@@ -722,17 +788,20 @@ def main():
 
 
 def _main(a, stats):
-
+    if a.extras:
+        return _main_extras(a, stats)
     os.makedirs("results/history", exist_ok=True)
     os.makedirs("docs/stocks", exist_ok=True)
     for f in glob.glob("docs/stocks/*.json"):  # fresh detail files each run
         os.remove(f)
+    req = tracked.by_market(tracked.requested()) if not a.demo else {}
 
     tables = []
     for name, cfg in config.MARKETS.items():
         try:
-            df, st, ex = run_market(name, cfg, a.demo)
+            df, st, ex = run_market(name, cfg, a.demo, extras=req.get(name, []))
             write_details(df, ex, name, "docs/stocks")
+            st["requested"] = {t: ("ok" if t in df.index else "not_found") for t in req.get(name, [])}
             st["label_counts"] = {k: int(v) for k, v in df["signal"].value_counts().items()}
             st["label_counts"].update({"SHORT BUY": int((df["hz_short"] == "BUY").sum()), "LONG BUY": int((df["hz_long"] == "BUY").sum())})
             tables.append(df); stats[name] = st
@@ -741,10 +810,11 @@ def _main(a, stats):
             print(f"[{name}] FAILED: {type(e).__name__}: {e}")
             stats[name] = {"error": f"{type(e).__name__}: {e}"}
 
-    cols = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers", "macro", "macro_raw",
-            "mcap", "news_sent", "events", "value", "quality", "growth", "health", "f_score", "flags", "red_flags",
-            "hz_short", "hz_long", "halal",
-            "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons", "signal"]
+    cols = LIST_COLS
+    for t_ in tables:
+        for c in cols:
+            if c not in t_:
+                t_[c] = None
     allres = pd.concat(tables)[cols] if tables else pd.DataFrame(columns=cols)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     allres.to_csv("results/latest.csv", index_label="ticker")
@@ -754,8 +824,12 @@ def _main(a, stats):
                "demo": a.demo, "stats": stats, "top_n": config.TOP_N, "markets": {}}
     for name in config.MARKETS:
         sub = allres[allres["market"] == name]
-        payload["markets"][name] = [
-            {"ticker": t, "name": r["name"], "sector": r["sector"],
+        payload["markets"][name] = [list_row(t, r) for t, r in sub.iterrows()]
+    _after_rows(payload, stats, a)
+
+
+def list_row(t, r):
+    return {"ticker": t, "name": r["name"], "sector": r["sector"],
              "price": _num(r["price"], 2), "score": _num(r["score"], 1), "signal": r["signal"],
              "flags": r["flags"] if isinstance(r["flags"], list) else [],
              "wk": bool(r.get("weakening")),
@@ -771,10 +845,70 @@ def _main(a, stats):
              "f": _num(r["f_score"], 1),
              "events": [__import__("events").LABEL[k] for k in (r["events"] if isinstance(r["events"], list) else [])][:4],
              "reasons": r["reasons"]}
-            for t, r in sub.iterrows()]
+
+
+def _main_extras(a, stats):
+    """On-demand: analyse newly requested stocks against today's cached market data, publish only them."""
+    os.makedirs("docs/stocks", exist_ok=True)
+    want = [t.strip().upper() for t in a.extras.split(",") if t.strip()]
+    rows = tracked.requested()
+    mk = {r["ticker"]: r["market"] for r in rows}
+    path = "docs/extras.json"   # the workflow downloads the live copy first, so earlier results are kept
+    try:
+        ex = json.load(open(path))
+    except Exception:
+        ex = {"items": {}, "rows": {}}
+    ex.setdefault("items", {}); ex.setdefault("rows", {})
+    for name, cfg in config.MARKETS.items():
+        mine = [t for t in want if mk.get(t) == name]
+        if not mine:
+            continue
+        try:
+            df, st, exd = run_market(name, cfg, False, extras=mine, extras_only=set(mine))
+            got = [t for t in mine if t in df.index]
+            write_details(df, exd, name, "docs/stocks", only=set(got))
+            for t in mine:
+                ok = t in df.index
+                ex["items"][t] = {"status": "ok" if ok else "not_found", "market": name,
+                                  "msg": "" if ok else "No price data on Yahoo Finance for this ticker",
+                                  "when": datetime.now(timezone.utc).isoformat(timespec="minutes")}
+                if ok:
+                    row = list_row(t, df.loc[t])
+                    row["rank"] = int(df.index.get_loc(t)) + 1
+                    row["market"] = name
+                    ex["rows"][t] = row
+            stats[name] = {k: st.get(k) for k in ("price_date", "screened", "news_coverage", "ai_scoring", "timings",
+                                                   "missing_prices")}
+            stats[name]["requested"] = {t: ex["items"][t]["status"] for t in mine}
+        except Exception as e:
+            import traceback; traceback.print_exc()
+            print(f"[{name}] FAILED: {type(e).__name__}: {e}")
+            stats[name] = {"error": f"{type(e).__name__}: {e}"}
+            for t in mine:
+                ex["items"][t] = {"status": "waiting", "market": name, "msg": str(e)[:200]}
+    ex["generated_extras"] = datetime.now(timezone.utc).isoformat(timespec="minutes")
+    with open(path, "w") as f:
+        json.dump(ex, f, default=str)
+    print(json.dumps(stats, indent=1, default=str))
+
+
+def _after_rows(payload, stats, a):
     with open("docs/data.json", "w") as f:
         json.dump(payload, f, separators=(",", ":"), default=str)
     write_page(payload, "docs/index.html")
+    # Status of every requested stock (the page shows "ready" / "not found")
+    ex_items = {}
+    for name in config.MARKETS:
+        for t, stt in (stats.get(name, {}).get("requested") or {}).items():
+            ex_items[t] = {"status": stt, "market": name,
+                           "msg": "" if stt == "ok" else "No price data on Yahoo Finance for this ticker"}
+    rows = {}
+    for name in config.MARKETS:
+        for i, r in enumerate(payload["markets"].get(name, [])):
+            if r["ticker"] in ex_items:
+                rows[r["ticker"]] = dict(r, market=name, rank=i + 1)
+    with open("docs/extras.json", "w") as f:
+        json.dump({"generated": payload["generated"], "items": ex_items, "rows": rows}, f, default=str)
     print(json.dumps(stats, indent=1, default=str))
 
 

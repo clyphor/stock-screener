@@ -1,0 +1,62 @@
+name: On-demand analysis
+
+on:
+  schedule:
+    - cron: "7,22,37,52 * * * *"   # every 15 minutes (off the hour, when GitHub is less busy)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write   # lets the watchdog start the daily run if GitHub skipped its schedule
+
+concurrency:
+  group: ondemand
+  cancel-in-progress: false
+
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Anything to do?
+        id: pending
+        run: python3 tools/pending.py >> "$GITHUB_OUTPUT"
+      - name: Watchdog — start the daily run if the scheduled one didn't happen
+        if: steps.pending.outputs.run_daily == '1'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          busy=$(gh run list --workflow daily.yml --limit 5 --json status --jq '[.[] | select(.status!="completed")] | length')
+          if [ "$busy" = "0" ]; then gh workflow run daily.yml --ref main && echo "daily run started by watchdog"; else echo "daily run already queued/running"; fi
+      - name: Restore today's cached market data
+        if: steps.pending.outputs.tickers != ''
+        id: cache
+        uses: actions/cache/restore@v4
+        with:
+          path: cache
+          key: screener-cache-none
+          restore-keys: screener-cache-
+      - uses: actions/setup-python@v5
+        if: steps.pending.outputs.tickers != ''
+        with:
+          python-version: "3.11"
+          cache: pip
+      - if: steps.pending.outputs.tickers != ''
+        run: pip install -r requirements.txt
+      - name: Analyse requested stocks
+        if: steps.pending.outputs.tickers != ''
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY || secrets.CLAUDE_API_KEY }}
+        run: |
+          mkdir -p docs
+          curl -sf "https://clyphor.github.io/stock-screener/extras.json?t=$(date +%s)" -o docs/extras.json || true
+          python run.py --extras "${{ steps.pending.outputs.tickers }}"
+      - name: Publish results (adds files; the rest of the page is untouched)
+        if: steps.pending.outputs.tickers != ''
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
+          keep_files: true

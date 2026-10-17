@@ -106,14 +106,23 @@ def _recency_weight(date_str, today):
     return 1.0 / (1.0 + max(0, days) / 3.0)  # today 1.0, 3 days ago 0.5, 9 days ago 0.25
 
 
-def news_features(news, sectors):
-    """news: {ticker: [ {title, link, date, ...} ]}, sectors: Series ticker->sector."""
+def news_features(news, sectors, prescored=None):
+    """news: {ticker: [ {title, link, date, ...} ]}, sectors: Series ticker->sector.
+    prescored: {ticker: [headline dicts already carrying 'score' and 'ekeys']} — reused as-is (no AI cost)."""
+    pre = prescored or {}
     news = {t: [h if isinstance(h, dict) else {"title": h} for h in hs] for t, hs in news.items()}
-    flat = [(t, h["title"]) for t, hs in news.items() for h in hs]
-    res = claude_scores(flat)
-    method = "claude" if res else "event rules"
-    if not res:
-        res = [rule_score(h) for _, h in flat]
+    for t, hs in pre.items():
+        news[t] = hs
+    flat = [(t, h["title"]) for t, hs in news.items() if t not in pre for h in hs]
+    res_new = claude_scores(flat) if flat else []
+    method = "claude" if res_new else ("event rules" if flat else "cached")
+    if flat and not res_new:
+        res_new = [rule_score(h) for _, h in flat]
+    it = iter(res_new)
+    res = []
+    for t, hs in news.items():
+        for h in hs:
+            res.append((float(h.get("score", 0)), list(h.get("ekeys", []))) if t in pre else next(it))
 
     today = datetime.now(timezone.utc).date()
     rows = {t: {"news_sent": 0.0, "news_count": 0, "macro_share": 0.0, "macro_sent": 0.0, "events": []}
@@ -131,7 +140,7 @@ def news_features(news, sectors):
             for k in keys:
                 evs[k] = max(evs.get(k, 0), w)  # remember the most recent occurrence
             heads.setdefault(t, []).append({**h, "score": round(float(sc), 2), "macro": mac,
-                                            "events": [LABEL[k] for k in keys]})
+                                            "events": [LABEL[k] for k in keys], "ekeys": list(keys)})
         if sc_l:
             sc_a, w_a, m_a = np.array(sc_l), np.array(w_l), np.array(m_l)
             rows[t] = {"news_sent": float((sc_a * w_a).sum() / w_a.sum()), "news_count": len(sc_l),

@@ -175,8 +175,34 @@ const LABEL_INFO = {
   BUY:"passes every buy check for at least one time horizon (see the tags)", WATCH:"one check short of a buy",
   "":"no strong reason to buy or avoid right now", HOLD:"you hold this in Paper and there's no reason to sell",
   AVOID:"recent red flag or weak on every front — don't buy now", SELL:"you hold this in Paper and it now has a red flag or fails on every front — consider selling"};
+function normTicker(q, m){
+  let t = q.trim().toUpperCase().replace(/^(ASX|NYSE|NASDAQ|PSX|KSE):/, "").replace(/\s+/g, "");
+  if (m==="ASX") return t.replace(/\.AX$/,"") + ".AX";
+  if (m==="PSX") return t.replace(/\.KA$/,"") + ".KA";
+  return t.replace(/\./g, "-");
+}
+function analyseBox(q){
+  const looks = /^[A-Za-z0-9.:-]{1,14}$/.test(q.trim());
+  if (!looks) return `<div class="box mute">No match in ${M}. To analyse a stock that isn't in the screener, search by its <b>ticker</b> (e.g. PLS, ZIP, SOFI, SYS).</div>`;
+  const t = normTicker(q, M), st = (EXTRAS.items||{})[t];
+  const status = st ? (st.status==="not_found" ? `<div class="bad" style="margin-top:6px">${esc(tk(t))} wasn't found on Yahoo Finance as a ${M} stock. Check the ticker or try another market.</div>`
+      : st.status==="waiting" ? `<div class="mute" style="margin-top:6px">Queued — it will be analysed in the next daily run.</div>` : "") : "";
+  return `<div class="box"><b>${esc(tk(t))}</b> isn't in the screener.<div class="mute" style="margin-top:4px">Analyse it on demand — full score, labels, checks, financial health, halal and news, ranked against the ${M} market. Usually ready in about 15–20 minutes, then updated every day.</div>
+    <div class="btnrow">${["US","ASX","PSX"].map(m=>`<button class="sbtn ${m===M?"pri":""}" onclick="requestAnalysis('${esc(q.trim())}','${m}')">Analyse as ${m}: ${esc(tk(normTicker(q,m)))}</button>`).join("")}</div>${status}</div>`;
+}
+async function requestAnalysis(q, m){
+  const t = normTicker(q, m);
+  if (DBSTATE !== "ready") { alert("Please sign in first (Lists tab), so the request is saved to your account."); M="Lists"; render(); return; }
+  const { error } = await SB.from("tracked_stocks").insert({ticker:t, market:m});
+  if (error && !/duplicate|unique/i.test(error.message)) return alert("Couldn't request it: " + error.message);
+  TRACKED = null;
+  alert(`${tk(t)} requested. It's usually ready in about 15–20 minutes — find it in Lists → Requested, or search for it again.`);
+  pollExtras(); render();
+}
+let POLL = null;
+function pollExtras(){ if (POLL) return; POLL = setInterval(()=>{ loadExtras(); if (!(TRACKED||[]).some(x=>!ALL[x.ticker] && !((EXTRAS.items||{})[x.ticker]||{}).status)) { clearInterval(POLL); POLL=null; } }, 60000); }
 function card(r, i, extra=""){
-  return `<div class="card ${mainLabel(r)}" onclick="openStock('${r.ticker}')">${extra}<div class="top"><div style="min-width:0"><span class="rank">${MINE(M)?r.market+" ":""}#${(r.rank||i+1)}</span><span class="tk">${tk(r.ticker)}</span>${badge(mainLabel(r))}
+  return `<div class="card ${mainLabel(r)}" onclick="openStock('${r.ticker}')">${extra}<div class="top"><div style="min-width:0"><span class="rank">${MINE(M)||r.extra?r.market+" ":""}#${(r.rank||i+1)}</span><span class="tk">${tk(r.ticker)}</span>${badge(mainLabel(r))}
    <div class="nm">${esc(r.name)} · ${esc(r.sector)}</div></div><div class="sc">${r.score}</div></div>
    <div class="bars">${Object.entries(r.parts).map(([k,v])=>`<div class="bar"><small>${L[k]}</small><i><span style="width:${v}%"></span></i></div>`).join("")}</div>
    <div class="meta">${CUR(r.market||M)} ${r.price??"–"} · 3m ${r.ret3m??"–"}% · P/E ${r.pe??"–"}</div>
@@ -189,7 +215,7 @@ function render(){
   $("mine").style.display = mine ? "" : "none";
   renderLog();
   if (mine) return renderMine();
-  const s = D.stats[M]||{}, rows = D.markets[M]||[];
+  const s = D.stats[M]||{}, rows = rowsFor(M);
   const buys = rows.filter(r=>r.signal==="BUY"), watch = rows.filter(r=>r.signal==="WATCH");
   const nHalal = rows.filter(r=>r.hl==="HALAL").length;
   const sbuy = rows.filter(r=>(r.hz||[])[0]==="BUY"), lbuy = rows.filter(r=>(r.hz||[])[2]==="BUY");
@@ -244,7 +270,7 @@ function render(){
   const total = shown.length;
   if (!q && !active && !showAll) shown = shown.slice(0, D.top_n);
   $("count").textContent = (q||active) ? `${total} of ${rows.length} ${M} stocks match` : "";
-  $("list").innerHTML = shown.map(([r,i])=>card(r,i)).join("") || `<div class="box mute">No stocks match. ${active?"Try loosening the filters.":"It may be outside the S&P 500 / ASX 200 / KSE-100, or filtered out as too small."}</div>`;
+  $("list").innerHTML = shown.map(([r,i])=>card(r,i)).join("") || (q && !active ? analyseBox(q) : `<div class="box mute">No stocks match. Try loosening the filters.</div>`);
   $("more").style.display = q || active || rows.length <= D.top_n ? "none" : "block";
   $("more").textContent = showAll ? `Show top ${D.top_n} only` : `Show all ${rows.length} ranked stocks`;
   $("fbtn").textContent = active ? `Filters (${active})` : "Filters";
@@ -313,7 +339,7 @@ async function dbLoad(){
     if (!WL.v.lists[cur]) WL.v.cur = Object.keys(WL.v.lists)[0];
     PT.v = t.data.map(fromRow);
     WL.save(); PT.save();
-    DBSTATE = "ready";
+    DBSTATE = "ready"; TRACKED = null;
   } catch(e) { console.error(e); DBSTATE = "error"; DBERR = e.message || String(e); }
   render();
 }
@@ -429,10 +455,11 @@ function renderMine(){
   $("freset").style.display = active ? "block" : "none"; $("sortbtn").textContent = "Sort: " + SORTS[key].l;
   $("more").style.display = "none";
   if ($("fpanel").classList.contains("open")) drawPanel();
+  if (M==="Lists" && getF().req){ return renderRequested(backup); }
   if (M==="Lists"){
     const w = WL.get(), names = Object.keys(w.lists);
     if (!w.lists[w.cur]) w.cur = names[0];
-    $("mine").innerHTML = `<div class="mine-head"><b>Watchlists</b><div class="pills" style="margin-top:8px">${names.map(n=>`<button class="pill ${n===w.cur?"on":""}" onclick="WL.get().cur=decodeURIComponent('${encodeURIComponent(n)}');WL.save();render()">${esc(n)} (${w.lists[n].length})</button>`).join("")}</div>
+    $("mine").innerHTML = `<div class="mine-head"><b>Watchlists</b><div class="pills" style="margin-top:8px"><button class="pill" onclick="getF().req=1;saveF();render()">⊕ Requested${TRACKED?` (${TRACKED.length})`:""}</button>${names.map(n=>`<button class="pill ${n===w.cur?"on":""}" onclick="WL.get().cur=decodeURIComponent('${encodeURIComponent(n)}');WL.save();render()">${esc(n)} (${w.lists[n].length})</button>`).join("")}</div>
       <div class="btnrow"><button class="sbtn" onclick="const n=prompt('New list name'); if(n&&n.trim()){ newList(n.trim()); render(); }">+ New list</button>
       ${w.cur?`<button class="sbtn" onclick="renameList()">Rename</button><button class="sbtn neg" onclick="deleteList()">Delete list</button>`:""}</div>
       <div class="mute" style="margin-top:8px">Add stocks from any market: open a stock and tap ☆ Watchlist.</div>${backup}</div>`;
@@ -475,6 +502,35 @@ function renderMine(){
     <div style="font-size:13px;margin-top:4px">Index ${fp(iret)} over the same ${days} days → <b class="${vs>=0?"good":"bad"}">${fp(vs)} vs index</b> · ${cur(x.market)}${x.amount} invested → ${ret!=null?`${ret>=0?"+":"−"}${cur(x.market)}${Math.abs(x.amount*ret).toFixed(0)}`:"–"}</div>
     ${x.note?`<div class="mute" style="margin-top:4px">“${esc(x.note)}”</div>`:""}
     <div class="btnrow">${x.status==="open"?`<button class="sbtn" onclick="paperSell(${x.id})">Close (sell)</button>`:""}<button class="sbtn" onclick="openStock('${x.ticker}')">Details</button><button class="sbtn neg" onclick="paperDel(${x.id})">Delete</button></div></div>`).join("");
+}
+
+/* ---------------- requested (on-demand) stocks ---------------- */
+let TRACKED = null;
+async function loadTracked(){
+  if (DBSTATE!=="ready") { TRACKED = []; return; }
+  const { data, error } = await SB.from("tracked_stocks").select("ticker,market,created_at").order("created_at",{ascending:false});
+  TRACKED = error ? [] : data; render();
+}
+async function untrack(t){
+  if (!confirm(`Stop tracking ${tk(t)}? It will no longer be analysed each day.`)) return;
+  await SB.from("tracked_stocks").delete().eq("ticker", t); TRACKED = null; render();
+}
+function renderRequested(backup){
+  if (TRACKED===null) { loadTracked(); }
+  const items = TRACKED||[];
+  $("count").textContent = ""; $("more").style.display = "none";
+  $("mine").innerHTML = `<div class="mine-head"><b>Requested stocks</b> <a href="#" onclick="getF().req=0;saveF();render();return false" style="color:var(--acc);font-size:13px">‹ back to watchlists</a>
+    <div class="mute" style="margin-top:6px">Stocks outside the screener that you asked to analyse. They're included in every daily run. To add one, search its ticker in a market tab and tap “Analyse”.</div>${backup}</div>`;
+  if (DBSTATE!=="ready") { $("list").innerHTML = `<div class="box mute">Sign in above to request and see on-demand stocks.</div>`; return; }
+  if (!items.length) { $("list").innerHTML = `<div class="box mute">None yet.</div>`; return; }
+  $("list").innerHTML = items.map(x=>{
+    const r = ALL[x.ticker], st = (EXTRAS.items||{})[x.ticker];
+    if (r) return card(r, 0, `<button class="cardx" onclick="event.stopPropagation(); untrack('${x.ticker}')" title="Stop tracking">✕</button>`);
+    const msg = st && st.status==="not_found" ? `<span class="bad">Not found on Yahoo Finance as a ${x.market} stock</span>`
+      : st && st.status==="waiting" ? "Queued for the next daily run" : `Analysing… usually ready ~15–20 min after the request`;
+    return `<div class="card"><button class="cardx" onclick="untrack('${x.ticker}')" title="Remove">✕</button><span class="tk">${tk(x.ticker)}</span> <span class="mute">${x.market}</span><div class="mute" style="margin-top:4px">${msg}</div></div>`;
+  }).join("");
+  if (items.some(x=>!ALL[x.ticker] && !((EXTRAS.items||{})[x.ticker]||{}).status)) pollExtras();
 }
 
 /* ---------------- run log ---------------- */
@@ -667,10 +723,21 @@ const MINE = v => v==="Lists" || v==="Paper";
 /* every stock from every market, keyed by ticker, with its market and rank */
 const ALL = {};
 MARKETS.forEach(m => (D.markets[m]||[]).forEach((r,i)=>{ ALL[r.ticker] = Object.assign({market:m, rank:i+1}, r); }));
+/* ---- on-demand analysis results (extras.json, refreshed while something is pending) ---- */
+let EXTRAS = {items:{}, rows:{}};
+function mergeExtras(){
+  Object.entries(EXTRAS.rows||{}).forEach(([t,r])=>{ if (!ALL[t] || ALL[t].extra) ALL[t] = Object.assign({extra:true}, r); });
+}
+async function loadExtras(){
+  try { const r = await fetch("extras.json?t="+Date.now()); if (r.ok) { EXTRAS = await r.json(); mergeExtras(); render(); } } catch(e){}
+}
 function rowsFor(view){
   if (view==="Lists") return (WL.get().lists[WL.get().cur]||[]).map(t=>ALL[t]).filter(Boolean);
   if (view==="Paper") return [...new Set(PT.get().map(x=>x.ticker))].map(t=>ALL[t]).filter(Boolean);
-  return (D.markets[view]||[]).map((r,i)=>Object.assign({market:view, rank:i+1}, r));
+  const base = (D.markets[view]||[]).map((r,i)=>Object.assign({market:view, rank:i+1}, r));
+  const have = new Set(base.map(r=>r.ticker));
+  const extra = Object.values(EXTRAS.rows||{}).filter(r=>r.market===view && !have.has(r.ticker)).map(r=>Object.assign({extra:true}, r));
+  return base.concat(extra);
 }
 
 const cache = {};
@@ -943,6 +1010,7 @@ const AUTH_HASH = /access_token=|refresh_token=|error=|error_code=|type=(magicli
 if (location.hash.length > 1 && !AUTH_HASH) { history.replaceState(null, "", location.pathname); openStock(decodeURIComponent(location.hash.slice(1))); }
 render();
 dbInit();
+loadExtras();
 </script></body></html>"""
 
 

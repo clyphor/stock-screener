@@ -2,10 +2,16 @@ name: Daily screener
 
 on:
   schedule:
-    # 22:30 UTC Mon-Fri = 9:30am Sydney Tue-Sat (after the US close; ASX closed earlier)
-    - cron: "30 22 * * 1-5"
+    # Each market runs after its own close, once every data source has the day (times in UTC):
+    - cron: "30 5 * * 2-6"    # US  — 4:30pm Sydney (AEDT) / 1:30am New York, Tue-Sat
+    - cron: "15 8 * * 1-5"    # ASX — 7:15pm Sydney (AEDT), ~3h after the close
+    - cron: "45 12 * * 1-5"   # PSX — 5:45pm Karachi, ~2h after the close
   workflow_dispatch:   # lets you press "Run workflow" from the GitHub app/website
     inputs:
+      markets:
+        description: "Markets to run, e.g. US or ASX,PSX (empty = all three)"
+        type: string
+        default: ""
       staging:
         description: "Test run: publish to /staging/ only, don't touch the live page or saved results"
         type: boolean
@@ -40,6 +46,23 @@ jobs:
           path: cache
           key: screener-cache-none
           restore-keys: screener-cache-
+      - name: Which markets?
+        id: which
+        run: |
+          case "${{ github.event.schedule }}" in
+            "30 5 * * 2-6") m=US ;;
+            "15 8 * * 1-5") m=ASX ;;
+            "45 12 * * 1-5") m=PSX ;;
+            *) m="${{ inputs.markets }}" ;;
+          esac
+          echo "markets=$m" >> "$GITHUB_OUTPUT"; echo "Running: ${m:-all markets}"
+      - name: Start from the current page (so the markets not run today are kept)
+        if: steps.which.outputs.markets != ''
+        run: |
+          mkdir -p docs
+          git fetch -q --depth 1 origin gh-pages
+          git archive origin/gh-pages | tar -x -C docs --exclude=staging
+          ls docs | head
       - name: Run screener
         id: screener
         env:
@@ -47,7 +70,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ (inputs.staging != true || inputs.staging_ai == true) && (secrets.ANTHROPIC_API_KEY || secrets.CLAUDE_API_KEY) || '' }}
           # optional, free: second US price source (massive.com) to verify Yahoo's closes
           MASSIVE_API_KEY: ${{ secrets.MASSIVE_API_KEY }}
-        run: python run.py
+        run: python run.py --markets "${{ steps.which.outputs.markets }}"
       - name: Publish the web page (replaced each day, no history kept)
         if: steps.screener.outcome == 'success' && inputs.staging != true
         uses: peaceiris/actions-gh-pages@v4
@@ -82,7 +105,7 @@ jobs:
             git reset -q --hard origin/main          # start from the latest code
             rm -rf results && cp -r /tmp/results_new results   # this run's results win
             git add -A results
-            git commit -qm "Daily results $(date -u +%F)" || { echo "No changes"; exit 0; }
+            git commit -qm "Daily results $(date -u +%F) ${{ steps.which.outputs.markets || 'all' }}" || { echo "No changes"; exit 0; }
             git push -q origin HEAD:main && exit 0
             echo "push raced with another change, retrying ($i)"; sleep 5
           done

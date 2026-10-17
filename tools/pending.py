@@ -45,14 +45,20 @@ def main():
     todo = [r["ticker"] for r in req if r["ticker"] not in done]
     print("tickers=" + ",".join(todo[:25]))
 
-    # Watchdog: most recent weekday 22:30 UTC slot that is at least 25 minutes old
-    slot = now.replace(hour=22, minute=30, second=0, microsecond=0)
-    while slot > now - timedelta(minutes=25) or slot.weekday() > 4:
-        slot -= timedelta(days=1)
-    gen = datetime.fromisoformat(data.get("generated", "1970-01-01T00:00+00:00"))
-    print("run_daily=" + ("1" if site_ok and gen < slot else ""))   # never fire blind
-    print(f"# requests={len(req)} pending={len(todo)} last_daily={gen.isoformat()} due_slot={slot.isoformat()}",
-          file=sys.stderr)
+    # Watchdog: for each market, the latest scheduled slot that is at least 40 minutes old —
+    # if the page's update time for that market is older, the scheduled run was skipped.
+    late = []
+    upd = data.get("updated") or {}
+    for m, (_, hh, mm, days) in config.SCHEDULE.items():
+        slot = now.replace(hour=hh, minute=mm, second=0, microsecond=0)
+        while slot > now - timedelta(minutes=40) or slot.weekday() not in days:
+            slot -= timedelta(days=1)
+        last = datetime.fromisoformat(upd.get(m) or data.get("generated", "1970-01-01T00:00+00:00"))
+        if last < slot:
+            late.append(m)
+        print(f"# {m}: last update {last.isoformat()} due slot {slot.isoformat()}", file=sys.stderr)
+    print("run_daily=" + (",".join(late) if site_ok else ""))   # never fire blind
+    print(f"# requests={len(req)} pending={len(todo)}", file=sys.stderr)
 
 
 if __name__ == "__main__":

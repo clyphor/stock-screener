@@ -149,7 +149,12 @@ const tk = t => t.replace(".AX","").replace(".KA","");
 const CUR = m => (D.stats[m]||{}).currency || {US:"USD",ASX:"AUD",PSX:"PKR"}[m] || "";
 const pct = (v,d=1) => v==null ? "–" : (v>0?"+":"") + (v*100).toFixed(d) + "%";
 const esc = s => String(s??"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-$("gen").textContent = "Updated " + new Date(D.generated).toLocaleString(undefined,{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit",timeZoneName:"short"}) + (D.demo ? " · DEMO DATA" : "");
+/* Each market is updated at its own time (after its close) — show the open tab's update time */
+function updGen(){
+  const u = D.updated||{}, mk = Object.keys(D.markets).includes(M) ? M : null;
+  const fmt = x => new Date(x).toLocaleString(undefined,{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit",timeZoneName:"short"});
+  $("gen").textContent = (mk ? `${mk} updated ${fmt(u[mk]||D.generated)}` : "Updated " + fmt(D.generated)) + (D.demo ? " · DEMO DATA" : "");
+}
 
 function badge(sg){ return sg ? `<span class="sig ${sg}">${sg}</span>` : ""; }
 /* Stocks you hold in Paper (open trades) */
@@ -212,6 +217,7 @@ function card(r, i, extra=""){
    <div class="chips">${subTags(r)}${r.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div></div>`;
 }
 function render(){
+  try{ updGen(); }catch(e){}
   [...$("tabs").children].forEach(b=>b.classList.toggle("on", b.textContent===M));
   const mine = MINE(M);
   ["clock","ovbox","macrobox","statsbox"].forEach(id=>$(id).style.display = mine ? "none" : "");

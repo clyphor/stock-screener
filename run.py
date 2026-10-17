@@ -923,6 +923,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--demo", action="store_true")
     ap.add_argument("--extras", default="", help="on-demand: comma-separated tickers to analyse")
+    ap.add_argument("--markets", default="", help="only these markets, e.g. US or ASX,PSX (default: all); "
+                                                   "the others are kept from the current page in docs/")
     a = ap.parse_args()
     _tee_print()
     started = datetime.now(timezone.utc)
@@ -942,12 +944,32 @@ def _main(a, stats):
         return _main_extras(a, stats)
     os.makedirs("results/history", exist_ok=True)
     os.makedirs("docs/stocks", exist_ok=True)
-    for f in glob.glob("docs/stocks/*.json"):  # fresh detail files each run
-        os.remove(f)
+    run_m = [m.strip().upper() for m in a.markets.split(",") if m.strip()] or list(config.MARKETS)
+    bad = [m for m in run_m if m not in config.MARKETS]
+    if bad:
+        raise SystemExit(f"unknown market(s): {bad}")
+    partial = set(run_m) != set(config.MARKETS)
+    prev = None
+    if partial:  # the other markets stay as they are on the current page (workflow copies it into docs/)
+        try:
+            prev = json.load(open("docs/data.json"))
+            if a.demo != bool(prev.get("demo")):
+                prev = None
+        except Exception:
+            prev = None
+        if prev is None and not a.demo:
+            raise SystemExit("--markets needs the current page in docs/ (data.json) so the other markets are kept")
+    mkt_of = lambda t: "ASX" if t.endswith(".AX") else "PSX" if t.endswith(".KA") else "US"
+    for f in glob.glob("docs/stocks/*.json"):  # fresh detail files for the markets being run
+        b = os.path.basename(f)[:-5]
+        if (b.lstrip("_") if b.startswith("_") else mkt_of(b)) in run_m:
+            os.remove(f)
     req = tracked.by_market(tracked.requested()) if not a.demo else {}
 
     tables = []
     for name, cfg in config.MARKETS.items():
+        if name not in run_m:
+            continue
         try:
             df, st, ex = run_market(name, cfg, a.demo, extras=req.get(name, []))
             write_details(df, ex, name, "docs/stocks")
@@ -967,15 +989,35 @@ def _main(a, stats):
                 t_[c] = None
     allres = pd.concat(tables)[cols] if tables else pd.DataFrame(columns=cols)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    allres.to_csv("results/latest.csv", index_label="ticker")
-    allres.to_csv(f"results/history/{today}.csv", index_label="ticker")
+    for path in ("results/latest.csv", f"results/history/{today}.csv"):
+        out = allres
+        if partial and os.path.exists(path):   # keep the other markets' rows
+            try:
+                old = pd.read_csv(path, index_col="ticker")
+                out = pd.concat([old[~old["market"].isin(run_m)], allres])
+            except Exception as e:
+                print(f"WARNING could not merge {path}: {e}")
+        out.to_csv(path, index_label="ticker")
 
-    payload = {"generated": datetime.now(timezone.utc).isoformat(timespec="minutes"),
-               "demo": a.demo, "stats": stats, "top_n": config.TOP_N, "markets": {}}
+    now = datetime.now(timezone.utc).isoformat(timespec="minutes")
+    payload = {"generated": now, "demo": a.demo, "stats": {}, "top_n": config.TOP_N, "markets": {}, "updated": {}}
     for name in config.MARKETS:
-        sub = allres[allres["market"] == name]
-        payload["markets"][name] = [list_row(t, r) for t, r in sub.iterrows()]
-    _after_rows(payload, stats, a)
+        if name in run_m:
+            sub = allres[allres["market"] == name]
+            payload["markets"][name] = [list_row(t, r) for t, r in sub.iterrows()]
+            payload["stats"][name] = stats.get(name, {})
+            payload["updated"][name] = now
+            if stats.get(name, {}).get("error") and prev and prev.get("markets", {}).get(name):
+                # this market failed: keep yesterday's results on the page rather than an empty tab
+                print(f"WARNING [{name}] failed — keeping its previous results on the page")
+                payload["markets"][name] = prev["markets"][name]
+                payload["stats"][name] = dict(prev.get("stats", {}).get(name, {}), error=stats[name]["error"])
+                payload["updated"][name] = (prev.get("updated") or {}).get(name, prev.get("generated"))
+        elif prev:
+            payload["markets"][name] = prev.get("markets", {}).get(name, [])
+            payload["stats"][name] = prev.get("stats", {}).get(name, {})
+            payload["updated"][name] = (prev.get("updated") or {}).get(name, prev.get("generated"))
+    _after_rows(payload, stats, a, prev_extras=_load_json("docs/extras.json") if partial else None)
 
 
 def list_row(t, r):
@@ -1044,7 +1086,14 @@ def _main_extras(a, stats):
     print(json.dumps(stats, indent=1, default=str))
 
 
-def _after_rows(payload, stats, a):
+def _load_json(path):
+    try:
+        return json.load(open(path))
+    except Exception:
+        return None
+
+
+def _after_rows(payload, stats, a, prev_extras=None):
     with open("docs/data.json", "w") as f:
         json.dump(payload, f, separators=(",", ":"), default=str)
     write_page(payload, "docs/index.html")
@@ -1059,6 +1108,14 @@ def _after_rows(payload, stats, a):
         for i, r in enumerate(payload["markets"].get(name, [])):
             if r["ticker"] in ex_items:
                 rows[r["ticker"]] = dict(r, market=name, rank=i + 1)
+    if prev_extras:  # keep requested stocks of markets not run this time
+        ran = set(stats)
+        for t, it in (prev_extras.get("items") or {}).items():
+            if it.get("market") not in ran and t not in ex_items:
+                ex_items[t] = it
+        for t, r in (prev_extras.get("rows") or {}).items():
+            if r.get("market") not in ran and t not in rows:
+                rows[t] = r
     with open("docs/extras.json", "w") as f:
         json.dump({"generated": payload["generated"], "items": ex_items, "rows": rows}, f, default=str)
     print(json.dumps(stats, indent=1, default=str))

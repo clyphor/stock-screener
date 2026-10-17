@@ -33,6 +33,15 @@ MARKETS = {
             "min_mcap": 5e9, "currency": "PKR"},
 }
 
+# When each market's daily run happens (UTC) — after its close, once all data sources have the day.
+# US 05:30 UTC: Massive's free plan has the previous US session from midnight New York time.
+# ASX 08:15 UTC: ~2 hours after the Sydney close. PSX 12:45 UTC: ~2 hours after the Karachi close.
+# (Keep in sync with the cron lines in .github/workflows/daily.yml.)
+SCHEDULE = {"US": ("30 5 * * 2-6", 5, 30, (1, 2, 3, 4, 5)),    # cron, hour, minute, UTC weekdays (Mon=0)
+            "ASX": ("15 8 * * 1-5", 8, 15, (0, 1, 2, 3, 4)),
+            "PSX": ("45 12 * * 1-5", 12, 45, (0, 1, 2, 3, 4))}
+SITE = "https://clyphor.github.io/stock-screener/"
+
 # ---- Model -----------------------------------------------------------------
 HORIZON_DAYS = 21          # predict ~1 month ahead return vs the index
 HISTORY = "6y"             # price history to download (6y so 5-year performance can be shown)

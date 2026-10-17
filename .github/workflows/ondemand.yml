@@ -23,12 +23,12 @@ jobs:
         id: pending
         run: python3 tools/pending.py >> "$GITHUB_OUTPUT"
       - name: Watchdog — start the daily run if the scheduled one didn't happen
-        if: steps.pending.outputs.run_daily == '1'
+        if: steps.pending.outputs.run_daily != '
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           busy=$(gh run list --workflow daily.yml --limit 5 --json status --jq '[.[] | select(.status!="completed")] | length')
-          if [ "$busy" = "0" ]; then gh workflow run daily.yml --ref main && echo "daily run started by watchdog"; else echo "daily run already queued/running"; fi
+          if [ "$busy" = "0" ]; then gh workflow run daily.yml --ref main -f markets="${{ steps.pending.outputs.run_daily }}" && echo "daily run started by watchdog for ${{ steps.pending.outputs.run_daily }}"; else echo "daily run already queued/running"; fi
       - name: Restore today's cached market data
         if: steps.pending.outputs.tickers != ''
         id: cache

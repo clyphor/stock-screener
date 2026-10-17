@@ -10,6 +10,10 @@ on:
         description: "Test run: publish to /staging/ only, don't touch the live page or saved results"
         type: boolean
         default: false
+      staging_ai:
+        description: "Test run only: also use Claude AI scoring (costs API credit). Off = free test without AI."
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -40,7 +44,7 @@ jobs:
         id: screener
         env:
           # optional: either secret name works
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY || secrets.CLAUDE_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ (inputs.staging != true || inputs.staging_ai == true) && (secrets.ANTHROPIC_API_KEY || secrets.CLAUDE_API_KEY) || '' }}
           # optional, free: second US price source (massive.com) to verify Yahoo's closes
           MASSIVE_API_KEY: ${{ secrets.MASSIVE_API_KEY }}
         run: python run.py

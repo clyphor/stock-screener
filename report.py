@@ -326,9 +326,21 @@ async function signIn(){
   const email = ($("em")?.value||"").trim(); if(!email) return;
   const { error } = await SB.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin + location.pathname}});
   if (error) return alert("Sign-in failed: " + error.message);
-  $("acct").innerHTML = `<div>Check <b>${esc(email)}</b>. Tap the sign-in link <b>in the same browser you use for this page</b> — or, if the email shows a 6-digit code, type it here:</div>
-    <input id="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="123456" style="width:100%;padding:10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:18px;letter-spacing:4px;margin:6px 0">
-    <button class="sbtn pri" onclick="verifyCode('${esc(email)}')">Sign in with code</button>`;
+  $("acct").innerHTML = `<div>Check <b>${esc(email)}</b> and tap the link <b>once</b>. If your email app opens it in its own browser, long-press the link and choose “Open in Safari/Chrome” instead, so you're signed in where you use this page.</div>`;
+}
+async function signInPw(){
+  const email = ($("em")?.value||"").trim(), password = $("pw")?.value||"";
+  if (!email || !password) return alert("Enter your email and password.");
+  const { data, error } = await SB.auth.signInWithPassword({email, password});
+  if (error) return alert(error.message.includes("Invalid") ? "Wrong email or password. If you haven't set a password yet, use the email link first." : "Sign-in failed: " + error.message);
+  USER = data.user; dbLoad();
+}
+async function setPassword(){
+  const pw = prompt("Choose a password (at least 8 characters):"); if (!pw) return;
+  if (pw.length < 8) return alert("Please use at least 8 characters.");
+  const { error } = await SB.auth.updateUser({password: pw});
+  if (error) return alert("Couldn't set password: " + error.message);
+  alert("Password set. Next time just enter your email and password.");
 }
 async function verifyCode(email){
   const token = ($("otp")?.value||"").trim(); if(!token) return;
@@ -339,12 +351,15 @@ async function verifyCode(email){
 async function signOut(){ await SB.auth.signOut(); USER=null; WL.v=null; PT.v=null; try{localStorage.removeItem("watchlists");localStorage.removeItem("paper_trades");}catch(e){} DBSTATE="signedout"; render(); }
 function accountBox(){
   if (DBSTATE==="off") return `<div class="mute" style="margin-top:8px;font-size:12px">Database not connected yet — saved on this device for now, and moved to your account automatically once sign-in is set up.</div>`;
-  if (DBSTATE==="signedout") return `<div id="acct" style="margin-top:10px">${DBERR?`<div class="bad" style="font-size:13px;margin-bottom:6px">${esc(DBERR)}</div>`:""}<div class="mute">Sign in to save your lists and trades to your account (works on every device):</div>
-    <input id="em" type="email" placeholder="your@email.com" style="width:100%;padding:10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;margin:6px 0">
-    <button class="sbtn pri" onclick="signIn()">Email me a sign-in link</button></div>`;
+  if (DBSTATE==="signedout") return `<div id="acct" style="margin-top:10px">${DBERR?`<div class="bad" style="font-size:13px;margin-bottom:6px">${esc(DBERR)}</div>`:""}
+    <div class="mute">Sign in to save your lists and trades to your account (works on every device):</div>
+    <input id="em" type="email" autocomplete="email" placeholder="your@email.com" style="width:100%;padding:10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;margin:6px 0">
+    <input id="pw" type="password" autocomplete="current-password" placeholder="Password" style="width:100%;padding:10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;margin:6px 0">
+    <div class="btnrow"><button class="sbtn pri" onclick="signInPw()">Sign in</button><button class="sbtn" onclick="signIn()">Email me a sign-in link instead</button></div>
+    <div class="mute" style="margin-top:6px;font-size:12px">First time? Use the email link once, then tap “Set a password” — after that you can sign in with your password on any device.</div></div>`;
   if (DBSTATE==="loading") return `<div class="mute" style="margin-top:8px">Loading your account…</div>`;
   if (DBSTATE==="error") return `<div class="bad" style="margin-top:8px;font-size:13px">Database error: ${esc(DBERR)} <a href="#" onclick="dbLoad();return false" style="color:inherit">retry</a></div>`;
-  return `<div class="mute" style="margin-top:8px;font-size:12px">☁ Saved to your account (${esc(USER.email)}) · <a href="#" onclick="signOut();return false" style="color:var(--acc)">Sign out</a></div>`;
+  return `<div class="mute" style="margin-top:8px;font-size:12px">☁ Saved to your account (${esc(USER.email)}) · <a href="#" onclick="setPassword();return false" style="color:var(--acc)">Set a password</a> · <a href="#" onclick="signOut();return false" style="color:var(--acc)">Sign out</a></div>`;
 }
 function modal(html){ const m=document.createElement("div"); m.className="modal"; m.innerHTML=`<div class="mbox">${html}</div>`; m.onclick=e=>{ if(e.target===m) m.remove(); }; document.body.appendChild(m); return m; }
 function closeModal(){ document.querySelectorAll(".modal").forEach(m=>m.remove()); }

@@ -23,7 +23,7 @@ jobs:
         id: pending
         run: python3 tools/pending.py >> "$GITHUB_OUTPUT"
       - name: Watchdog — start the daily run if the scheduled one didn't happen
-        if: steps.pending.outputs.run_daily != '
+        if: steps.pending.outputs.run_daily != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

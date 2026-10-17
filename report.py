@@ -167,6 +167,7 @@ function subTags(r){
   hz.forEach((v,i)=>{ if(v==="BUY") out.push(`<span class="chip good-chip">${names[i]} buy</span>`); });
   hz.forEach((v,i)=>{ if(v==="WATCH") out.push(`<span class="chip">${names[i]} watch</span>`); });
   if (r.hl==="HALAL") out.push(`<span class="chip halal-chip">Halal</span>`);
+  if (r.wk || r.weakening) out.push(`<span class="chip bad">Weakening</span>`);
   (r.flags||[]).forEach(f=>out.push(`<span class="chip">${f==="REBOUND"?"Rebound candidate":"Take profit?"}</span>`));
   return out.join("");
 }
@@ -712,6 +713,8 @@ async function openStock(t, push=true){
 
   ${horizonSection(d)}
 
+  ${historySection(d)}
+
   <div class="sec"><h3>Score breakdown</h3><div class="mute" style="margin-bottom:6px">Each part is a 0–100 rank vs the other ${d.market} stocks, weighted into the total.</div>
     ${d.parts.map(p=>`<div class="prow"><span>${p.label} <span class="mute">× ${Math.round(p.weight*100)}%</span></span><span class="v">${p.value}</span><i><span style="width:${p.value}%"></span></i></div>`).join("")}
     <div class="grid" style="margin-top:10px"><div class="kv"><small>Value vs sector</small><b>${d.sub.value}</b></div><div class="kv"><small>Quality</small><b>${d.sub.quality}</b></div><div class="kv"><small>Growth</small><b>${d.sub.growth}</b></div><div class="kv"><small>Financial health</small><b>${d.sub.health??"–"}</b></div><div class="kv"><small>Analysts</small><b>${d.analyst.rating?esc(d.analyst.rating).replace("_"," "):"–"}</b></div></div>
@@ -763,6 +766,15 @@ async function openStock(t, push=true){
 
 /* the list-row shape of a stock, for label logic on the detail page */
 function dRow(d){ return ALL[d.ticker] || {ticker:d.ticker, signal:d.signal, hz:[d.hz?.short||"", d.hz?.medium||"", d.hz?.long||""], hl:d.halal?.status, flags:d.flags}; }
+function historySection(d){
+  const h = d.label_history||[];
+  const now = d.weakening ? `<div class="chk"><b class="no">!</b><span>Failed its checks today for the first time. The label stays until tomorrow's run — it only changes if it fails again.</span></div>` : "";
+  if (!h.length && !now) return "";
+  const when = w => { const x = new Date(w.replace(" ","T")+"Z"); return isNaN(x) ? w : x.toLocaleString(undefined,{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"}); };
+  return `<div class="sec"><h3>Label history</h3>${now}
+    ${h.map(x=>`<div class="chk" style="font-size:13px"><b class="${["AVOID","SELL"].includes(x.to)?"no":x.to==="BUY"?"ok":"skip"}">•</b><span><b>${esc(x.field)}</b>: ${esc(x.from)} → <b>${esc(x.to)}</b> <span class="mute">· ${when(x.when)} · ${esc(x.why)}</span></span></div>`).join("")}
+    ${why(`<p>Labels have memory so they don't flip on noise. Upgrades and real company red flags take effect straight away; other downgrades need two trading days in a row; re-running on the same day's prices never changes a label. Changes marked <b>rules updated</b> came from an improvement to the screener, not from the market.</p>`)}</div>`;
+}
 function horizonSection(d){
   if (!d.short_checks) return "";
   const hz = d.hz||{};

@@ -19,6 +19,7 @@ from report import write_page
 from sentiment import news_features
 import diag
 import halal
+import stability
 import macro
 
 CHECK_LABELS = {
@@ -376,6 +377,11 @@ def run_market(name, cfg, demo):
     blocked = df["signal"].isin(["SELL", "AVOID"])
     df["hz_short"] = horizon_label(hs, blocked)
     df["hz_long"] = horizon_label(hl, blocked)
+    # Labels with memory: no flip-flopping on re-runs or one noisy day (see stability.py)
+    if not demo:
+        stability.apply(name, df, str(close.index[-1].date()), config.SCORING_VERSION)
+    else:
+        df["weakening"] = False
     stats.update(news_method=nf.attrs.get("method"), screened=int(ok.sum()),
                  news_coverage=round(float((df["news_count"].fillna(0) > 0).mean()), 2),
                  ai_scoring=("off" if not os.environ.get("ANTHROPIC_API_KEY")
@@ -593,7 +599,8 @@ def write_details(df, ex, market, outdir):
             "reasons": r["reasons"],
             "sell_checks": [{"label": SELL_LABELS[c], "pass": bool(ex["schecks"].at[t, c]),
                              "skipped": c == "model_negative" and not ex["model_ok"]} for c in ex["schecks"].columns],
-            "red_flags": r["red_flags"], "flags": r["flags"],
+            "red_flags": r["red_flags"], "flags": r["flags"], "weakening": bool(r.get("weakening")),
+            "label_history": stability.history(market, t),
             "halal": dict(r["halal_info"], purification=halal.purification(r["halal_info"].get("ratios"))),
             "hz": {"short": r["hz_short"], "medium": r["signal"] if r["signal"] in ("BUY", "WATCH") else "", "long": r["hz_long"]},
             "short_checks": [{"label": SHORT_LABELS[c], "pass": bool(ex["hshort"].at[t, c])} for c in ex["hshort"].columns],
@@ -751,6 +758,7 @@ def _main(a, stats):
             {"ticker": t, "name": r["name"], "sector": r["sector"],
              "price": _num(r["price"], 2), "score": _num(r["score"], 1), "signal": r["signal"],
              "flags": r["flags"] if isinstance(r["flags"], list) else [],
+             "wk": bool(r.get("weakening")),
              "hl": r["halal"],
              "hz": [r["hz_short"] or "", r["signal"] if r["signal"] in ("BUY", "WATCH") else "", r["hz_long"] or ""],
              "red": r["red_flags"] if isinstance(r["red_flags"], list) else [],

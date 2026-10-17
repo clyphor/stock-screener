@@ -5,6 +5,11 @@ on:
     # 22:30 UTC Mon-Fri = 9:30am Sydney Tue-Sat (after the US close; ASX closed earlier)
     - cron: "30 22 * * 1-5"
   workflow_dispatch:   # lets you press "Run workflow" from the GitHub app/website
+    inputs:
+      staging:
+        description: "Test run: publish to /staging/ only, don't touch the live page or saved results"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -31,15 +36,24 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY || secrets.CLAUDE_API_KEY }}
         run: python run.py
       - name: Publish the web page (replaced each day, no history kept)
-        if: steps.screener.outcome == 'success'
+        if: steps.screener.outcome == 'success' && inputs.staging != true
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
           publish_branch: gh-pages
           force_orphan: true
+      - name: Publish a TEST page to /staging/ (live page untouched)
+        if: steps.screener.outcome == 'success' && inputs.staging == true
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
+          destination_dir: staging
+          keep_files: true
       - name: Save results and run log to main (also when the screener failed, never when cancelled)
-        if: always() && (steps.screener.outcome == 'success' || steps.screener.outcome == 'failure')
+        if: always() && inputs.staging != true && (steps.screener.outcome == 'success' || steps.screener.outcome == 'failure')
         run: |
           git config user.name "screener-bot"
           git config user.email "actions@users.noreply.github.com"

@@ -51,6 +51,10 @@ WEIGHTS = {
 MIN_MODEL_IC = 0.02
 WEIGHTS_NO_MODEL = {"ml": 0.10, "fundamental": 0.45, "news": 0.17, "peers": 0.10, "macro": 0.18}
 
+# Bump this whenever the scoring/label rules change, so label changes caused by a rules update are
+# recorded as "rules updated" rather than looking like the market moved.
+SCORING_VERSION = 7
+
 TOP_N = 20                # how many picks to show per market
 
 # Optional: set ANTHROPIC_API_KEY as a GitHub secret to score news with Claude

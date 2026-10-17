@@ -722,6 +722,11 @@ def _tee_print():
 
 
 def write_log(started, stats, fatal=None):
+    try:
+        from sentiment import save_headline_cache
+        save_headline_cache()
+    except Exception as e:
+        print("WARNING could not save headline cache:", e)
     """results/runlog.json keeps the last 60 runs; results/logs/ keeps full text logs for 30 runs."""
     os.makedirs("results/logs", exist_ok=True)
     finished = datetime.now(timezone.utc)

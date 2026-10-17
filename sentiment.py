@@ -69,11 +69,68 @@ def _claude_batch(items, key):
     return [by_i.get(j + 1) or rule_score(h) for j, (_, h) in enumerate(items)]
 
 
+HCACHE = "cache/headline_scores.json"   # restored/saved between runs by the workflow (not committed)
+_HC = None
+
+
+def _hc():
+    global _HC
+    if _HC is None:
+        try:
+            _HC = json.load(open(HCACHE))
+        except Exception:
+            _HC = {}
+    return _HC
+
+
+def _hkey(t, title):
+    return t + "|" + title.strip().lower()[:160]
+
+
+def save_headline_cache(keep_days=14):
+    if _HC is None:
+        return
+    cutoff = (datetime.now(timezone.utc).date().toordinal() - keep_days)
+    kept = {k: v for k, v in _HC.items() if v.get("d", 0) >= cutoff}
+    os.makedirs(os.path.dirname(HCACHE), exist_ok=True)
+    with open(HCACHE, "w") as f:
+        json.dump(kept, f, separators=(",", ":"))
+    diag.put("claude", headline_cache_size=len(kept), market="general")
+
+
 def claude_scores(items):
-    """items: list of (ticker, title). Returns list of (score, events) from Claude, or None."""
+    """items: list of (ticker, title). Returns list of (score, events), or None.
+    Headlines Claude already scored on an earlier day are reused from the cache (no cost)."""
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key or not items:
         return None
+    hc, today = _hc(), datetime.now(timezone.utc).date().toordinal()
+    out = [None] * len(items)
+    miss = []
+    for i, (t, h) in enumerate(items):
+        c = hc.get(_hkey(t, h))
+        if c is not None:
+            out[i] = (float(c["s"]), [e for e in c["e"] if e in EVENTS])
+            c["d"] = today
+        else:
+            miss.append(i)
+    diag.inc("claude", "headlines_from_cache", len(items) - len(miss))
+    diag.inc("claude", "headlines_sent", len(miss))
+    if not miss:
+        return out
+    fresh = _claude_scores_uncached([items[i] for i in miss])
+    if fresh is None:
+        return None if len(miss) == len(items) else [o if o is not None else rule_score(items[i][1])
+                                                        for i, o in enumerate(out)]
+    for i, (r, by_claude) in zip(miss, fresh):
+        out[i] = r
+        if by_claude:   # only remember real Claude answers, not rule fall-backs
+            hc[_hkey(*items[i])] = {"s": round(float(r[0]), 3), "e": list(r[1]), "d": today}
+    return out
+
+
+def _claude_scores_uncached(items):
+    key = os.environ.get("ANTHROPIC_API_KEY")
     chunks = [items[i:i + 40] for i in range(0, len(items), 40)]
 
     def one(c):  # a failed batch falls back to the rules for just those headlines
@@ -88,7 +145,7 @@ def claude_scores(items):
     if not any(ok for _, ok in res):
         return None
     diag.put("claude", headline_batches=len(chunks), headline_batches_ok=sum(ok for _, ok in res))
-    return [x for r, _ in res for x in r]
+    return [(x, ok) for r, ok in res for x in r]
 
 
 def rule_score(title):

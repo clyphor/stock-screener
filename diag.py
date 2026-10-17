@@ -113,7 +113,8 @@ def checks(market, stats):
         calls, fails = c.get("calls", 0), c.get("failures", 0)
         st = "OK" if calls and not fails else "WARN" if calls > fails else "FAIL"
         add("AI (Claude)", st, f"{calls} calls, {fails} failed, {c.get('input_tokens', 0):,} in / {c.get('output_tokens', 0):,} out tokens, "
-            f"≈ US${c.get('cost_usd', 0):.3f}",
+            f"≈ US${c.get('cost_usd', 0):.3f}; headlines scored {c.get('headlines_sent', 0):,}, "
+            f"reused from earlier days {c.get('headlines_from_cache', 0):,}",
             "" if st == "OK" else "Check API credit and key in console.anthropic.com; errors listed below.")
     elif stats.get("ai_scoring") == "off":
         add("AI (Claude)", "OK", "off — no API key", "")

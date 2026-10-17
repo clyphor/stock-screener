@@ -29,6 +29,13 @@ jobs:
           python-version: "3.11"
           cache: pip
       - run: pip install -r requirements.txt
+      - name: Restore cached data (headline scores from earlier days, so Claude only reads new headlines)
+        if: inputs.staging != true
+        uses: actions/cache/restore@v4
+        with:
+          path: cache
+          key: screener-cache-none
+          restore-keys: screener-cache-
       - name: Run screener
         id: screener
         env:

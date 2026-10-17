@@ -36,7 +36,7 @@ def _download(tickers, period):
     return out
 
 
-def get_prices(tickers, period, batch=100, tries=3):
+def get_prices(tickers, period, batch=100, tries=4):
     """Return (close, volume) DataFrames. Downloads in batches and retries missing tickers."""
     got, todo = {}, list(dict.fromkeys(tickers))
     diag.put("prices", requested=len(todo))
@@ -52,9 +52,13 @@ def get_prices(tickers, period, batch=100, tries=3):
                 diag.sample("prices", "errors", f"batch {i}: {e}")
         todo = [t for t in todo if t not in got]
         if todo and attempt < tries - 1:
-            print(f"retrying {len(todo)} tickers…")
+            # many missing usually means Yahoo is rate-limiting: back off longer and use smaller batches
+            many = len(todo) > 0.2 * len(tickers)
+            wait = (45, 90, 120)[attempt] if many else 5 * (attempt + 1)
+            batch = max(25, batch // 2) if many else batch
+            print(f"retrying {len(todo)} tickers in {wait}s…")
             diag.inc("prices", "retries")
-            time.sleep(5 * (attempt + 1))
+            time.sleep(wait)
     if todo:
         print("WARNING no price data for:", ", ".join(todo[:30]))
         diag.put("prices", missing=todo[:40])
@@ -209,20 +213,25 @@ def _psx_info(t, name=None):
             row["psx_sector"] = m.group(1).strip()
             break
     try:
-        m = re.search(r"Price\s*Rs\.?\s*([\d,]+\.?\d*)", txt)
-        d = re.search(r"Last update:\s*\w{3},\s*(\w{3} \d{1,2}, \d{4})", txt)
-        v = re.search(r"Volume\s*([\d,]+)", txt)
+        # quote block: "Rs.400.56 -3.40 (-0.84%) As of Fri, Oct 16, 2026 4:49 PM ... Volume 222,835"
+        m = re.search(r"Rs\.\s*([\d,]+\.?\d*)\s*[-+]?[\d,.]+\s*\(\s*[-+]?[\d.,]+\s*%\s*\)", txt)
+        d = re.search(r"(?:As of|Last update:?)\s*\w{3},?\s*(\w{3} \d{1,2}, \d{4})", txt)
+        v = re.search(r"Volume\s*([\d,]+)", txt[m.start():] if m else txt)
         if m and d:
             row["psx_price"] = float(m.group(1).replace(",", ""))
             row["psx_date"] = datetime.strptime(d.group(1), "%b %d, %Y").strftime("%Y-%m-%d")
             row["psx_volume"] = float(v.group(1).replace(",", "")) if v else None
+        else:
+            diag.inc("fundamentals", "psx_quote_missing")
     except Exception:
         pass
-    # Ready-made ratios on the PSX page (more reliable than lining up the Sales/Profit rows)
-    npm = re.search(r"Net Profit Margin\s*\(%\)\s*\(?(-?[\d.,]+)\)?", txt)
+    # Ready-made ratio on the PSX page (more reliable than lining up the Sales/Profit rows)
+    npm = re.search(r"Net Profit Margin\s*\(%\)\s*\|?\s*(-?[\d.,]+)", txt)
     if npm and row.get("profitMargins") is None:
-        val = float(npm.group(1).replace(",", "")) / 100
-        row["profitMargins"] = -val if "(" + npm.group(1) in txt[npm.start():npm.end()] else val
+        try:
+            row["profitMargins"] = float(npm.group(1).replace(",", "")) / 100
+        except ValueError:
+            pass
     row["currency"] = "PKR"
     return row
 
@@ -558,6 +567,9 @@ def _health_one(args):
     return out
 
 
+MAX_HEALTH_REFRESH = 150   # per market per run — Yahoo rate-limits if hundreds of statements are pulled at once
+
+
 def get_health(tickers, mcaps, sectors, market, max_age_days=7):
     """Statements only change quarterly, so results are cached for a week in results/health.csv."""
     cache = pd.read_csv(HEALTH_CACHE, index_col="ticker") if os.path.exists(HEALTH_CACHE) else pd.DataFrame()
@@ -568,8 +580,14 @@ def get_health(tickers, mcaps, sectors, market, max_age_days=7):
         ver = cache["v"] if "v" in cache else pd.Series(0, index=cache.index)
         fresh = set(cache.index[(age <= max_age_days) & (ver.fillna(0) >= HEALTH_VERSION)])
     todo = [t for t in tickers if t not in fresh]
+    # never-seen stocks first, then the oldest; the rest keep last week's figures until a later run
+    if len(todo) > MAX_HEALTH_REFRESH:
+        asof = pd.to_datetime(cache["asof"], errors="coerce") if len(cache) and "asof" in cache else pd.Series(dtype="datetime64[ns]")
+        todo.sort(key=lambda t: (t in asof.index and pd.notna(asof.get(t)), asof.get(t) if t in asof.index and pd.notna(asof.get(t)) else pd.Timestamp(0)))
+        diag.put("health", deferred=len(todo) - MAX_HEALTH_REFRESH)
+        todo = todo[:MAX_HEALTH_REFRESH]
     if todo:
-        with ThreadPoolExecutor(6) as ex:
+        with ThreadPoolExecutor(4) as ex:
             rows = list(ex.map(_health_one, [(t, mcaps.get(t), sectors.get(t)) for t in todo]))
         new = pd.DataFrame(rows).set_index("ticker")
         errs = new["error"].dropna() if "error" in new else pd.Series(dtype=str)

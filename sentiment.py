@@ -45,15 +45,19 @@ def is_macro(title):
     return any(x in MACRO for x in _words(title))
 
 
+TAG_NAMES = {}   # ticker -> label shown to Claude, e.g. "GC=F" -> "Gold (commodity)"
+
+
 def _claude_batch(items, key):
     """items: list of (ticker, title). Returns list of (score, [event keys])."""
     ev = ", ".join(f"{k} ({v[0]})" for k, v in EVENTS.items())
-    prompt = ("For each headline about the named company, judge its likely impact on THAT company's share "
-              "price over the next few weeks, from -1 (very negative) to 1 (very positive); 0 if irrelevant "
+    prompt = ("For each headline about the named company (or commodity / cryptocurrency), judge its likely impact "
+              "on THAT company's share price (or that commodity's / coin's price — e.g. more supply is bad for a "
+              "commodity's price) over the next few weeks, from -1 (very negative) to 1 (very positive); 0 if irrelevant "
               "or old news. Also tag the event types it describes using these keys (or [] if none): " + ev +
               ".\nReply with only a JSON array with exactly one object per numbered headline: "
               "{\"i\": headline number, \"s\": number, \"e\": [keys]}.\n\n"
-              + "\n".join(f"{j+1}. [{t}] {h}" for j, (t, h) in enumerate(items)))
+              + "\n".join(f"{j+1}. [{TAG_NAMES.get(t, t)}] {h}" for j, (t, h) in enumerate(items)))
     arr = claude_api.ask_json(prompt, 4000, "headline scoring", "array")
     by_i = {}
     for a in arr:  # match answers by headline number; anything missing falls back to the rules

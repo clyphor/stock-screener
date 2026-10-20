@@ -31,7 +31,17 @@ MARKETS = {
     # Pakistan: KSE-100. Prices in PKR. No index feed, so an equal-weighted index is built from members.
     "PSX": {"tickers": PSX_TICKERS, "index": "KSE100 (built)", "index_candidates": [], "min_dollar_vol": 20e6,
             "min_mcap": 5e9, "currency": "PKR"},
+    # Commodities (futures + two ETFs) and the top-50 cryptocurrencies — see assets.py for the lists.
+    # "tickers" here are only used for the offline demo; real runs build the list in assets.universe().
+    "COM": {"tickers": ["GC=F", "SI=F", "HG=F", "CL=F", "BZ=F", "NG=F", "ZW=F", "ZC=F", "KC=F", "CC=F", "SB=F", "LE=F"],
+            "index": "Commodities (built, equal weight)", "index_candidates": [], "min_dollar_vol": 0, "min_mcap": 0,
+            "currency": "USD"},
+    "CRYPTO": {"tickers": ["BTC-USD", "ETH-USD", "XRP-USD", "BNB-USD", "SOL-USD", "DOGE-USD", "ADA-USD", "LINK-USD",
+                           "AVAX-USD", "DOT-USD", "LTC-USD", "AAVE-USD"],
+               "index": "Top-50 crypto (built, equal weight)", "index_candidates": [], "min_dollar_vol": 0,
+               "min_mcap": 0, "currency": "USD"},
 }
+MARKET_NAMES = {"US": "US", "ASX": "ASX", "PSX": "PSX", "COM": "Commodities", "CRYPTO": "Crypto"}
 
 # When each market's daily run happens (UTC) — after its close, once all data sources have the day.
 # US 05:30 UTC: Massive's free plan has the previous US session from midnight New York time.
@@ -39,7 +49,10 @@ MARKETS = {
 # (Keep in sync with the cron lines in .github/workflows/daily.yml.)
 SCHEDULE = {"US": ("30 5 * * 2-6", 5, 30, (1, 2, 3, 4, 5)),    # cron, hour, minute, UTC weekdays (Mon=0)
             "ASX": ("15 8 * * 1-5", 8, 15, (0, 1, 2, 3, 4)),
-            "PSX": ("45 12 * * 1-5", 12, 45, (0, 1, 2, 3, 4))}
+            "PSX": ("45 12 * * 1-5", 12, 45, (0, 1, 2, 3, 4)),
+            # Commodities: after the 5pm New York settlement (Mon-Fri sessions). Crypto: after the 00:00 UTC daily close.
+            "COM": ("15 23 * * 1-5", 23, 15, (0, 1, 2, 3, 4)),
+            "CRYPTO": ("40 0 * * *", 0, 40, (0, 1, 2, 3, 4, 5, 6))}
 SITE = "https://clyphor.github.io/stock-screener/"
 
 # ---- Model -----------------------------------------------------------------
@@ -59,6 +72,9 @@ WEIGHTS = {
 # Used instead when the price model fails its backtest in a market (IC below this)
 MIN_MODEL_IC = 0.02
 WEIGHTS_NO_MODEL = {"ml": 0.10, "fundamental": 0.45, "news": 0.17, "peers": 0.10, "macro": 0.18}
+# Commodities & crypto have no company accounts, so no fundamentals part
+ASSET_WEIGHTS = {"ml": 0.50, "news": 0.20, "peers": 0.10, "macro": 0.20}
+ASSET_WEIGHTS_NO_MODEL = {"ml": 0.15, "news": 0.35, "peers": 0.15, "macro": 0.35}
 
 # Bump this whenever the scoring/label rules change, so label changes caused by a rules update are
 # recorded as "rules updated" rather than looking like the market moved.

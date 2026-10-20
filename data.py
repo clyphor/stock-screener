@@ -272,7 +272,8 @@ def _yahoo_news(t):
     return out
 
 
-LOCALE = {"US": ("en-US", "US"), "ASX": ("en-AU", "AU"), "PSX": ("en-PK", "PK")}
+LOCALE = {"US": ("en-US", "US"), "ASX": ("en-AU", "AU"), "PSX": ("en-PK", "PK"), "COM": ("en-US", "US"),
+          "CRYPTO": ("en-US", "US")}
 
 
 def _google_news(query, market="ASX", stage="news"):

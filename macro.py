@@ -20,6 +20,7 @@ from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 
+import assets
 import claude_api
 import diag
 from config import CLAUDE_MODEL
@@ -54,6 +55,7 @@ EXCLUDE = (" -site:kalkinemedia.com -site:simplywall.st -site:tipranks.com -site
 T = lambda label, query, exp, markets=None: {"label": label, "query": query, "exp": exp,
                                              **({"markets": markets} if markets else {})}
 THEMES = {
+    # (commodity- and crypto-only themes are added from assets.py below)
     # --- Geopolitics -----------------------------------------------------------------------
     "war": T("War / geopolitical conflict",
         '(war OR invasion OR "missile strike" OR airstrike OR "military conflict" OR escalation) (markets OR stocks OR oil)',
@@ -217,15 +219,36 @@ THEMES = {
 
 
 import re
+THEMES.update(assets.extra_themes(T))
+
+
+def live_themes(market):
+    """Themes fetched for a market. Stock markets: themes without a market list, or that list it.
+    Commodities/crypto: their own themes plus the shared ones listed in assets.SHARED_THEMES."""
+    if assets.is_asset(market):
+        return {k: t for k, t in THEMES.items()
+                if market in t.get("markets", []) or k in assets.SHARED_THEMES.get(market, [])}
+    return {k: t for k, t in THEMES.items() if market in t.get("markets", [market])}
+
+
+def sector_queries(market):
+    return assets.SECTOR_QUERIES[market] if assets.is_asset(market) else SECTOR_QUERIES
+
+
+def market_label(market):
+    return assets.MARKET_LABEL.get(market, f"{market} stock market")
+
+
 _UP = r"(rise|rises|rising|jump|jumps|surge|surges|soar|soars|climb|climbs|rally|rallies|gain|gains|spike|spikes|higher|record high|stay high|firm|firms|strengthen|strengthens)"
 _DN = r"(fall|falls|falling|drop|drops|slump|slumps|tumble|tumbles|slide|slides|sink|sinks|plunge|plunges|lower|retreat|retreats|slip|slips|dip|dips|ease|eases|weaken|weakens|decline|declines)"
-_COMMOD = r"(oil|crude|brent|wti|gas|lng|iron ore|copper|gold|lithium|coal|nickel|uranium)"
+_COMMOD = (r"(oil|crude|brent|wti|gas|lng|iron ore|copper|gold|lithium|coal|nickel|uranium|silver|platinum|palladium|"
+           r"aluminium|aluminum|wheat|corn|soybeans?|coffee|cocoa|sugar|cotton|cattle|bitcoin|ether|crypto|gasoline|diesel)")
 
 
 def headline_score(title, sector):
     """Word-list sentiment, but for commodity sectors 'oil prices rise' = good for Energy, etc."""
     t = title.lower()
-    if sector in ("Energy", "Basic Materials") and re.search(_COMMOD, t):
+    if sector in ("Energy", "Basic Materials", "Agriculture", "Crypto") and re.search(_COMMOD, t):
         if re.search(_COMMOD + r"[\w\s]{0,20}?" + _UP, t):
             return 0.6
         if re.search(_COMMOD + r"[\w\s]{0,20}?" + _DN, t):
@@ -235,9 +258,9 @@ def headline_score(title, sector):
 
 def _fetch_all(market):
     """Return {('sector', name) | ('theme', key): [headline dicts]} for the last 10 days."""
-    jobs = {("sector", s): f"{q} {MARKET_WORD[market]}{EXCLUDE} when:10d" for s, q in SECTOR_QUERIES.items()}
+    jobs = {("sector", s): f"{q} {MARKET_WORD.get(market, '')}{EXCLUDE} when:10d" for s, q in sector_queries(market).items()}
     jobs.update({("theme", k): f"{v['query']}{THEME_CONTEXT.get(market, '')}{EXCLUDE} when:10d"
-                 for k, v in THEMES.items() if market in v.get("markets", [market])})
+                 for k, v in live_themes(market).items()})
     with ThreadPoolExecutor(8) as ex:
         res = dict(zip(jobs, ex.map(lambda q: _google_news(q, market, "macro"), jobs.values())))
     now = datetime.now(timezone.utc)
@@ -288,9 +311,10 @@ def _claude(market, heads):
     for (kind, name), hs in heads.items():
         label = THEMES[name]["label"] if kind == "theme" else name
         blocks.append(f"## {kind.upper()}: {label}\n" + "\n".join("- " + h["title"] for h in hs[:15]))
-    prompt = (f"You are a markets analyst for the {market} stock market. Below are recent headlines grouped "
+    what = "prices in that group" if assets.is_asset(market) else "that sector's stocks"
+    prompt = (f"You are a markets analyst for the {market_label(market)}. Below are recent headlines grouped "
               "by sector and by political/macro theme.\n\nFor each SECTOR give 'score' from -1 (very bad "
-              "news for that sector's stocks) to 1 (very good), and a 'why' of at most 15 words.\nFor each THEME give "
+              f"news for {what}) to 1 (very good), and a 'why' of at most 15 words.\nFor each THEME give "
               "'heat' from 0 (not a live issue) to 1 (dominating markets right now), and a 'why' of at most 15 words.\n"
               "Reply with only JSON: {\"sectors\": {name: {score, why}}, \"themes\": {label: {heat, why}}}.\n\n"
               + "\n\n".join(blocks))
@@ -325,14 +349,14 @@ def _claude_events(market, heads, broad, universe):
         lines += [h["title"] for h in hs[:5]]
     lines = list(dict.fromkeys(lines))[:260]
     prompt = (
-        f"You are a buy-side macro and policy analyst covering the {market} stock market. Today's headlines:\n"
+        f"You are a buy-side macro and policy analyst covering the {market_label(market)}. Today's headlines:\n"
         + "\n".join("- " + x for x in lines)
         + "\n\nIdentify the 5-15 most market-relevant concrete EVENTS (e.g. a bilateral minerals deal, a regime "
         "change in an oil producer, a new sanction, a policy announcement, a major company event that ripples "
         "to its industry). Think through second-order effects (e.g. more Venezuelan oil = lower oil prices = bad "
         "for producers, good for refiners and airlines; a US minerals deal with another country may compete with "
         "Australian rare-earth producers or help them via US demand).\n"
-        "For each event give the affected targets and an effect from -1 to 1 on their share prices over the "
+        "For each event give the affected targets and an effect from -1 to 1 on their prices over the "
         "next month, scaled by how big and how certain it is (most should be within ±0.3).\n"
         "Rules: only FORWARD-LOOKING news (a decision, deal, policy, data release, guidance). Do NOT create events that "
         "merely describe past price moves (e.g. 'stocks fell 8 days') — that is already in the price. Use the NARROWEST "
@@ -340,7 +364,9 @@ def _claude_events(market, heads, broad, universe):
         "affected. Don't treat all semiconductors alike (AI/data-centre chips vs analog/industrial vs memory differ).\n"
         "Targets must be one of: 'sector:<name>', 'industry:<name>' or 'ticker:<code>' using ONLY these names.\n"
         f"Sectors: {', '.join(universe['sectors'])}\nIndustries: {', '.join(universe['industries'])}\n"
-        f"Tickers: {', '.join(universe['tickers'])}\n\n"
+        f"Tickers: {', '.join(universe['tickers'])}\n"
+        + ("(For tickers use only the code before the bracket, e.g. 'ticker:GC=F'.)\n" if assets.is_asset(market) else "")
+        + "\n"
         "Reply with only JSON: [{\"event\": short title, \"why\": one sentence, \"impacts\": "
         "[{\"target\": \"industry:Gold\", \"effect\": 0.3}]}]")
     try:
@@ -369,14 +395,14 @@ def macro_context(market, demo=False, universe=None):
         heads = _fetch_all(market)
 
     sectors, themes = {}, {}
-    for s in SECTOR_QUERIES:
+    for s in sector_queries(market):
         hs = heads.get(("sector", s), [])
         for h in hs:
             h["score"] = round(headline_score(h["title"], s), 2)
         score = float(np.mean([h["score"] for h in hs])) * 2 if hs else 0.0  # word list is timid; stretch
         sectors[s] = {"score": round(float(np.clip(score, -1, 1)), 2), "n": len(hs), "why": None,
                       "headlines": hs[:6]}
-    live = {k: t for k, t in THEMES.items() if market in t.get("markets", [market])}
+    live = live_themes(market)
     def n48(hs):
         cut = (datetime.now(timezone.utc).date() - pd.Timedelta(days=2)).strftime("%Y-%m-%d")
         return sum(1 for h in hs if h.get("date", "") >= cut)
@@ -404,7 +430,8 @@ def macro_context(market, demo=False, universe=None):
     events = []
     if universe and not demo and os.environ.get("ANTHROPIC_API_KEY"):
         with ThreadPoolExecutor(4) as ex:
-            broad = [h for hs in ex.map(lambda q: _google_news(q, market, "macro"), BROAD.get(market, [])) for h in hs]
+            broad = [h for hs in ex.map(lambda q: _google_news(q, market, "macro"),
+                                    {**BROAD, **assets.BROAD}.get(market, [])) for h in hs]
         broad = sorted(broad, key=lambda x: x["ts"], reverse=True)
         events = _claude_events(market, heads, broad, universe)
     total = sum(v["n"] for v in sectors.values()) + sum(v["n"] for v in themes.values())
@@ -442,6 +469,7 @@ def stock_macro(ctx, ticker, sector, industry):
         for imp in ev.get("impacts", []):
             tgt = str(imp.get("target", ""))
             kind, _, val = tgt.partition(":")
+            val = val.split(" (")[0].strip()
             key = {"ticker": "tk:", "industry": "ind:"}.get(kind, "") + val if kind in ("ticker", "industry") else val
             if kind == "ticker" and val == ticker or kind != "ticker" and _matches(key, sector, industry, ticker):
                 e = max(-1.0, min(1.0, e + float(imp.get("effect", 0))))
@@ -456,8 +484,10 @@ def stock_macro(ctx, ticker, sector, industry):
 def apply(ctx, df, fund):
     """Add macro_raw (-1..1), macro_effects and sector_news columns to df."""
     ind = fund["industry"].reindex(df.index) if "industry" in fund else pd.Series(None, index=df.index)
-    res = {t: stock_macro(ctx, t, df.at[t, "sector"], ind.get(t)) for t in df.index}
+    # commodities/crypto: the page shows a group ('Precious metals'); the theme map uses a macro sector
+    msec = fund["macro_sector"].reindex(df.index) if "macro_sector" in fund else df["sector"]
+    res = {t: stock_macro(ctx, t, msec.get(t), ind.get(t)) for t in df.index}
     df["macro_raw"] = pd.Series({t: r[0] for t, r in res.items()})
     df["macro_effects"] = pd.Series({t: r[1] for t, r in res.items()})
-    df["sector_news"] = df["sector"].map(lambda s: ctx["sectors"].get(s, {}).get("score", 0.0))
+    df["sector_news"] = msec.reindex(df.index).map(lambda s: ctx["sectors"].get(s, {}).get("score", 0.0))
     return df

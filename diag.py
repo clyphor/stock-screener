@@ -54,7 +54,7 @@ def checks(market, stats):
     u = d.get("universe", {})
     if u:
         src = u.get("source", "?")
-        add("Stock list", "OK" if src == "live" else "WARN",
+        add("Stock list", "OK" if src in ("live", "built-in list") else "WARN",
             f"{u.get('count', 0)} tickers from {src}",
             "" if src == "live" else "Index list download failed (Wikipedia / PSX site) — see universe.py; using the saved list.")
 

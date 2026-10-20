@@ -6,10 +6,12 @@ on:
     - cron: "30 5 * * 2-6"    # US  — 4:30pm Sydney (AEDT) / 1:30am New York, Tue-Sat
     - cron: "15 8 * * 1-5"    # ASX — 7:15pm Sydney (AEDT), ~3h after the close
     - cron: "45 12 * * 1-5"   # PSX — 5:45pm Karachi, ~2h after the close
+    - cron: "15 23 * * 1-5"   # Commodities — after the 5pm New York futures settlement
+    - cron: "40 0 * * *"      # Crypto — after the 00:00 UTC daily close, every day
   workflow_dispatch:   # lets you press "Run workflow" from the GitHub app/website
     inputs:
       markets:
-        description: "Markets to run, e.g. US or ASX,PSX (empty = all three)"
+        description: "Markets to run, e.g. US or ASX,PSX or COM,CRYPTO (empty = all five)"
         type: string
         default: ""
       staging:
@@ -53,6 +55,8 @@ jobs:
             "30 5 * * 2-6") m=US ;;
             "15 8 * * 1-5") m=ASX ;;
             "45 12 * * 1-5") m=PSX ;;
+            "15 23 * * 1-5") m=COM ;;
+            "40 0 * * *") m=CRYPTO ;;
             *) m="${{ inputs.markets }}" ;;
           esac
           echo "markets=$m" >> "$GITHUB_OUTPUT"; echo "Running: ${m:-all markets}"

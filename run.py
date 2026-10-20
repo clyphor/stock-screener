@@ -488,6 +488,11 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
             if str(close.index[-1].date()) < last_known:
                 print(f"WARNING [{name}] still older data — labels will NOT be updated from it")
                 diag.put("prices", older_than_last_run=f"{close.index[-1].date()} < {last_known}")
+        if name == "CRYPTO":
+            close, _wrong = assets.check_tickers(uni, close)
+            volume = volume[close.columns]
+        if asset:   # futures/ETF volume is sometimes blank on Yahoo; don't let that hide the asset
+            volume = volume.fillna(0)
         missing = [t for t in uni.index if t not in close.columns]
         # Use completed closes only: if this market is open right now, today's bar is a moving intraday price
         from zoneinfo import ZoneInfo

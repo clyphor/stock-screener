@@ -108,7 +108,7 @@ def crypto_universe(n=50):
                 if 0.97 <= px <= 1.03 and abs(c.get("price_change_percentage_24h") or 0) < 0.5:
                     continue   # behaves like a stablecoin
                 rows.append({"ticker": YAHOO_ALIAS.get(sym, f"{sym}-USD"), "symbol": sym, "name": c.get("name"),
-                             "mcap": c.get("market_cap"), "cg_id": cid})
+                             "mcap": c.get("market_cap"), "cg_id": cid, "cg_price": px})
                 if len(rows) >= n:
                     break
             break
@@ -121,7 +121,7 @@ def crypto_universe(n=50):
         df.to_csv(CRYPTO_CACHE)
         diag.put("universe", source="live", count=len(df))
     elif os.path.exists(CRYPTO_CACHE):
-        df = pd.read_csv(CRYPTO_CACHE, index_col=0)
+        df = pd.read_csv(CRYPTO_CACHE, index_col=0).drop(columns=["cg_price"], errors="ignore")  # stale prices
         diag.put("universe", source="saved list", count=len(df))
     else:
         df = pd.DataFrame({"symbol": CRYPTO_FALLBACK, "name": CRYPTO_FALLBACK, "mcap": None},
@@ -129,6 +129,23 @@ def crypto_universe(n=50):
         diag.put("universe", source="built-in fallback", count=len(df))
     df["sector"] = df["symbol"].map(_group)
     return df
+
+
+def check_tickers(uni, close):
+    """Yahoo sometimes has a different coin under the same symbol. Drop any whose price is far from
+    CoinGecko's (more than ~35% apart) — that's the wrong coin, not a price move."""
+    if "cg_price" not in uni or not len(close):
+        return close, []
+    last = close.ffill().iloc[-1]
+    bad = []
+    for t in close.columns:
+        cg = pd.to_numeric(uni["cg_price"].get(t), errors="coerce") if t in uni.index else None
+        if cg and cg > 0 and pd.notna(last.get(t)) and not (0.65 <= last[t] / cg <= 1.5):
+            bad.append(f"{t} (Yahoo {last[t]:.6g} vs CoinGecko {cg:.6g})")
+    if bad:
+        print("WARNING [CRYPTO] wrong coin on Yahoo for:", "; ".join(bad))
+        diag.put("prices", wrong_coin=bad[:20])
+    return close[[t for t in close.columns if not any(b.startswith(t + " ") for b in bad)]], bad
 
 
 def universe(market):

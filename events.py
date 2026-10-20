@@ -63,7 +63,10 @@ EVENTS = {
     "debt": ("Credit downgrade / debt stress", -0.5,
         r"\b(credit rating|rating) (cut|downgrade\w*)|\b(Moody's|S&P|Fitch) (cuts|downgrades)\b|\bjunk\b|\brefinanc\w+ (risk|concern)"),
     "bankruptcy": ("Bankruptcy / administration", -1.0,
-        r"\b(bankrupt\w*|chapter 11|administration|receivership|insolven\w+|liquidat\w+|defaults? on)\b"),
+        # not "Trump administration" or crypto "liquidations" (forced selling of leveraged bets)
+        r"\b(bankrupt\w*|chapter 11|(enters?|entered|placed|goes|went|into|in) (voluntary )?administration"
+        r"|administrators? (appointed|called)|receivership|insolven\w+|(into|enters?|entered|voluntary) liquidation"
+        r"|liquidators?|defaults? on)\b"),
     "layoffs": ("Layoffs / restructuring", -0.1, r"\b(layoffs?|job cuts|cuts? [\d,]+ jobs|restructur\w+|cost[- ]cutting)\b"),
     "recall": ("Recall / outage / hack", -0.5,
         r"\b(recall\w*|outage|cyber-?attack|data breach|hack(ed|ers)?|ransomware|grounded|safety (issue|concern|probe))\b"),

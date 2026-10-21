@@ -491,8 +491,9 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
         if name == "CRYPTO":
             close, _wrong = assets.check_tickers(uni, close)
             volume = volume[close.columns]
-        if asset:   # futures/ETF volume is sometimes blank on Yahoo; don't let that hide the asset
-            volume = volume.fillna(0)
+        if asset:   # futures/ETF volume is sometimes blank on Yahoo, and their holiday calendars differ —
+            volume = volume.fillna(0)   # don't let a gap hide the asset: carry the last price over short gaps
+            close = close.ffill(limit=5)
         missing = [t for t in uni.index if t not in close.columns]
         # Use completed closes only: if this market is open right now, today's bar is a moving intraday price
         from zoneinfo import ZoneInfo

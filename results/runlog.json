@@ -1,5 +1,234 @@
 [
  {
+  "started": "2026-10-22T10:33:21+00:00",
+  "finished": "2026-10-22T10:35:31+00:00",
+  "minutes": 2.2,
+  "trigger": "workflow_dispatch",
+  "commit": "2a639eb",
+  "status": "warnings",
+  "fatal": null,
+  "warnings": [
+   "10:34:06 WARNING no price data for: ASK.AX, IFL.AX, NSR.AX, QUB.AX, XYX.AX"
+  ],
+  "markets": {
+   "ASX": {
+    "error": null,
+    "downloaded": 195,
+    "screened": 153,
+    "news_coverage": 0.99,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-10-22",
+    "ic_mean": -0.023,
+    "model_used": false,
+    "timings": {
+     "index list": 0.1,
+     "prices": 44.6,
+     "fundamentals": 5.7,
+     "company news": 15.4,
+     "financial health": 0.0,
+     "model": 2.2,
+     "news scoring": 17.6,
+     "sector & politics": 41.1,
+     "scoring & labels": 0.4
+    },
+    "missing_prices": [
+     "ASK.AX",
+     "IFL.AX",
+     "NSR.AX",
+     "QUB.AX",
+     "XYX.AX"
+    ],
+    "labels": {
+     "HOLD": 96,
+     "AVOID": 35,
+     "WATCH": 19,
+     "SELL": 2,
+     "BUY": 1,
+     "SHORT BUY": 7,
+     "LONG BUY": 4
+    },
+    "ai_events": 10
+   }
+  },
+  "checks": {
+   "ASX": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "200 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "195/200 stocks downloaded, 0 batch errors, 3 retries; last date 2026-10-22",
+     "hint": ""
+    },
+    {
+     "stage": "Index",
+     "status": "OK",
+     "msg": "used ^AXJO",
+     "hint": ""
+    },
+    {
+     "stage": "Fundamentals",
+     "status": "OK",
+     "msg": "195 companies; trailingPE missing 11%",
+     "hint": ""
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 99%; Yahoo items 0, Google items 23244, Google requests 390 (0 failed); dropped: 2550 off-topic, 384 junk sites, 1 law-firm ads, 2623 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Financial health",
+     "status": "OK",
+     "msg": "0 refreshed, 195 from cache, 0 errors, 172 with an F-score",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "INFO",
+     "msg": "46460 training rows; backtest IC -0.023",
+     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "OK",
+     "msg": "15 calls, 0 failed, 59,182 in / 33,759 out tokens, \u2248 US$0.023; headlines scored 491, reused from earlier days 1,015",
+     "hint": ""
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "4580 headlines from 47 searches (0 failed); 10 AI events",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "ASX": {}
+  },
+  "diag": {
+   "general": {
+    "tracked": {
+     "count": 0
+    },
+    "claude": {
+     "headline_cache_size": 22106
+    }
+   },
+   "ASX": {
+    "universe": {
+     "source": "live",
+     "count": 200
+    },
+    "prices": {
+     "requested": 200,
+     "retries": 3,
+     "missing": [
+      "ASK.AX",
+      "IFL.AX",
+      "NSR.AX",
+      "QUB.AX",
+      "XYX.AX"
+     ],
+     "received": 195,
+     "last_date": "2026-10-22",
+     "first_date": "2020-10-22",
+     "stale": []
+    },
+    "index": {
+     "used": "^AXJO",
+     "preferred": "^AXJO"
+    },
+    "fundamentals": {
+     "count": 195,
+     "missing_marketCap": 0.06,
+     "missing_trailingPE": 0.11,
+     "missing_profitMargins": 0.0,
+     "missing_revenueGrowth": 0.01,
+     "missing_returnOnEquity": 0.02,
+     "missing_debtToEquity": 0.04,
+     "filled_from_statements": {
+      "returnOnEquity": 4,
+      "debtToEquity": 9,
+      "priceToBook": 2,
+      "freeCashflow": 12,
+      "revenueGrowth": 16,
+      "profitMargins": 2,
+      "dividendYield": 2,
+      "payoutRatio": 1
+     }
+    },
+    "news": {
+     "google_requests": 390,
+     "google_items": 23244,
+     "dropped_irrelevant": 2550,
+     "dropped_lowq": 384,
+     "dropped_promo_cap": 2623,
+     "dropped_lawfirm_ads": 1,
+     "stocks": 195,
+     "with_news": 192,
+     "kept": 1506,
+     "no_news_sample": [
+      "ANZ.AX",
+      "L1G.AX",
+      "REH.AX"
+     ]
+    },
+    "health": {
+     "refreshed": 0,
+     "cached": 195,
+     "with_fscore": 172
+    },
+    "model": {
+     "train_rows": 46460,
+     "dates": 1267
+    },
+    "claude": {
+     "headlines_from_cache": 1015,
+     "headlines_sent": 491,
+     "calls": 15,
+     "input_tokens": 59182,
+     "output_tokens": 33759,
+     "cost_usd": 0.02279,
+     "headline_batches": 13,
+     "headline_batches_ok": 13
+    },
+    "screen": {
+     "total": 195,
+     "no_dollar_vol": 0,
+     "too_illiquid": 38,
+     "no_price": 0,
+     "price_below_1": 5,
+     "too_small": 2,
+     "passed": 153
+    },
+    "macro": {
+     "requests": 47,
+     "headlines": 4580,
+     "ai_events": 10,
+     "method": "claude"
+    },
+    "halal": {
+     "not_halal": 73,
+     "halal": 68,
+     "doubtful": 12
+    },
+    "dividends": {
+     "payers": 128,
+     "high": 24,
+     "growers": 23,
+     "at_risk": 13
+    }
+   }
+  }
+ },
+ {
   "started": "2026-10-22T10:23:43+00:00",
   "finished": "2026-10-22T10:28:05+00:00",
   "minutes": 4.4,

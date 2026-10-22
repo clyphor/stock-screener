@@ -1,5 +1,161 @@
 [
  {
+  "started": "2026-10-22T00:44:00+00:00",
+  "finished": "2026-10-22T00:44:53+00:00",
+  "minutes": 0.9,
+  "trigger": "workflow_dispatch",
+  "commit": "8b4371a",
+  "status": "ok",
+  "fatal": null,
+  "warnings": [],
+  "markets": {
+   "COM": {
+    "error": null,
+    "downloaded": 21,
+    "screened": 21,
+    "news_coverage": 1.0,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-10-21",
+    "ic_mean": 0.027,
+    "model_used": true,
+    "timings": {
+     "index list": 0.0,
+     "prices": 2.4,
+     "fundamentals": 0.0,
+     "company news": 3.9,
+     "financial health": 0.0,
+     "model": 0.5,
+     "news scoring": 8.8,
+     "sector & politics": 36.0,
+     "scoring & labels": 0.1
+    },
+    "missing_prices": [],
+    "labels": {
+     "HOLD": 17,
+     "WATCH": 3,
+     "SELL": 1,
+     "SHORT BUY": 0,
+     "LONG BUY": 5
+    },
+    "ai_events": 15
+   }
+  },
+  "checks": {
+   "COM": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "21 tickers from built-in list",
+     "hint": "Index list download failed (Wikipedia / PSX site) \u2014 see universe.py; using the saved list."
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "21/21 stocks downloaded, 0 batch errors, 0 retries; last date 2026-10-21",
+     "hint": ""
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 100%; Yahoo items 0, Google items 3846, Google requests 42 (0 failed); dropped: 815 off-topic, 18 junk sites, 0 law-firm ads, 0 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "OK",
+     "msg": "5196 training rows; backtest IC 0.027",
+     "hint": ""
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "OK",
+     "msg": "8 calls, 0 failed, 42,085 in / 19,640 out tokens, \u2248 US$0.014; headlines scored 235, reused from earlier days 80",
+     "hint": ""
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "3336 headlines from 34 searches (0 failed); 15 AI events",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "COM": {}
+  },
+  "diag": {
+   "general": {
+    "tracked": {
+     "count": 0
+    },
+    "claude": {
+     "headline_cache_size": 18868
+    }
+   },
+   "COM": {
+    "universe": {
+     "source": "built-in list",
+     "count": 21
+    },
+    "prices": {
+     "requested": 21,
+     "received": 21,
+     "last_date": "2026-10-21",
+     "first_date": "2020-10-21",
+     "stale": []
+    },
+    "news": {
+     "google_requests": 42,
+     "google_items": 3846,
+     "dropped_irrelevant": 815,
+     "dropped_lowq": 18,
+     "coverage": 1.0,
+     "items": 315
+    },
+    "model": {
+     "train_rows": 5196,
+     "dates": 1258
+    },
+    "claude": {
+     "headlines_from_cache": 80,
+     "headlines_sent": 235,
+     "calls": 8,
+     "input_tokens": 42085,
+     "output_tokens": 19640,
+     "cost_usd": 0.01404,
+     "headline_batches": 6,
+     "headline_batches_ok": 6
+    },
+    "screen": {
+     "total": 21,
+     "no_dollar_vol": 0,
+     "too_illiquid": 0,
+     "no_price": 0,
+     "price_below_1": 0,
+     "too_small": 0,
+     "passed": 21
+    },
+    "macro": {
+     "requests": 34,
+     "headlines": 3336,
+     "ai_events": 15,
+     "method": "claude"
+    },
+    "halal": {
+     "doubtful": 17,
+     "halal": 4
+    },
+    "dividends": {
+     "payers": 0,
+     "high": 0,
+     "growers": 0,
+     "at_risk": 0
+    }
+   }
+  }
+ },
+ {
   "started": "2026-10-21T17:38:55+00:00",
   "finished": "2026-10-21T17:41:12+00:00",
   "minutes": 2.3,

@@ -1,5 +1,197 @@
 [
  {
+  "started": "2026-10-26T05:14:57+00:00",
+  "finished": "2026-10-26T05:19:55+00:00",
+  "minutes": 5.0,
+  "trigger": "schedule",
+  "commit": "8ea62db",
+  "status": "warnings",
+  "fatal": null,
+  "warnings": [
+   "05:19:18 WARNING no price data for: FIGR_HELOC-USD, RAIN-USD, CC-USD, BTW-USD, USYC-USD, PUMP-USD, EURSAFO-USD, ASTER-USD, WLFI-USD, MORPHO-USD, VVV-USD",
+   "05:19:18 WARNING [CRYPTO] wrong coin on Yahoo for: M-USD (Yahoo 0.000277381 vs CoinGecko 0.97886); SKY-USD (Yahoo 0.0142164 vs CoinGecko 0.068327)"
+  ],
+  "markets": {
+   "CRYPTO": {
+    "error": null,
+    "downloaded": 37,
+    "screened": 36,
+    "news_coverage": 1.0,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-10-24",
+    "ic_mean": 0.052,
+    "model_used": true,
+    "timings": {
+     "index list": 0.1,
+     "prices": 259.5,
+     "fundamentals": 0.0,
+     "company news": 4.7,
+     "financial health": 0.0,
+     "model": 0.9,
+     "news scoring": 7.9,
+     "sector & politics": 23.2,
+     "scoring & labels": 0.1
+    },
+    "missing_prices": [
+     "FIGR_HELOC-USD",
+     "RAIN-USD",
+     "CC-USD",
+     "BTW-USD",
+     "USYC-USD",
+     "M-USD",
+     "PUMP-USD",
+     "EURSAFO-USD",
+     "ASTER-USD",
+     "WLFI-USD",
+     "SKY-USD",
+     "MORPHO-USD",
+     "VVV-USD"
+    ],
+    "labels": {
+     "HOLD": 30,
+     "WATCH": 3,
+     "AVOID": 3,
+     "SHORT BUY": 0,
+     "LONG BUY": 12
+    },
+    "ai_events": 10
+   }
+  },
+  "checks": {
+   "CRYPTO": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "50 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "WARN",
+     "msg": "39/50 stocks downloaded, 0 batch errors, 3 retries; last date 2026-10-26",
+     "hint": "Yahoo Finance may be rate-limiting or tickers changed \u2014 data.py get_prices; re-run later."
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 100%; Yahoo items 0, Google items 6677, Google requests 74 (0 failed); dropped: 2078 off-topic, 40 junk sites, 0 law-firm ads, 0 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "OK",
+     "msg": "12038 training rows; backtest IC 0.052",
+     "hint": ""
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "OK",
+     "msg": "10 calls, 0 failed, 41,536 in / 18,306 out tokens, \u2248 US$0.013; headlines scored 306, reused from earlier days 216",
+     "hint": ""
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "2155 headlines from 22 searches (0 failed); 10 AI events",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "CRYPTO": {}
+  },
+  "diag": {
+   "general": {
+    "tracked": {
+     "count": 0
+    },
+    "claude": {
+     "headline_cache_size": 29966
+    }
+   },
+   "CRYPTO": {
+    "universe": {
+     "source": "live",
+     "count": 50
+    },
+    "prices": {
+     "requested": 50,
+     "retries": 3,
+     "missing": [
+      "FIGR_HELOC-USD",
+      "RAIN-USD",
+      "CC-USD",
+      "BTW-USD",
+      "USYC-USD",
+      "PUMP-USD",
+      "EURSAFO-USD",
+      "ASTER-USD",
+      "WLFI-USD",
+      "MORPHO-USD",
+      "VVV-USD"
+     ],
+     "received": 39,
+     "last_date": "2026-10-26",
+     "first_date": "2020-10-26",
+     "stale": [],
+     "wrong_coin": [
+      "M-USD (Yahoo 0.000277381 vs CoinGecko 0.97886)",
+      "SKY-USD (Yahoo 0.0142164 vs CoinGecko 0.068327)"
+     ],
+     "intraday_bar_dropped": "2026-10-26"
+    },
+    "news": {
+     "google_requests": 74,
+     "google_items": 6677,
+     "dropped_irrelevant": 2078,
+     "dropped_lowq": 40,
+     "coverage": 1.0,
+     "items": 522
+    },
+    "model": {
+     "train_rows": 12038,
+     "dates": 1938
+    },
+    "claude": {
+     "headlines_from_cache": 216,
+     "headlines_sent": 306,
+     "calls": 10,
+     "input_tokens": 41536,
+     "output_tokens": 18306,
+     "cost_usd": 0.01331,
+     "headline_batches": 8,
+     "headline_batches_ok": 8
+    },
+    "screen": {
+     "total": 36,
+     "no_dollar_vol": 0,
+     "too_illiquid": 0,
+     "no_price": 0,
+     "price_below_1": 13,
+     "too_small": 0,
+     "passed": 36
+    },
+    "macro": {
+     "requests": 22,
+     "headlines": 2155,
+     "ai_events": 10,
+     "method": "claude"
+    },
+    "halal": {
+     "doubtful": 35,
+     "not_halal": 1
+    },
+    "dividends": {
+     "payers": 0,
+     "high": 0,
+     "growers": 0,
+     "at_risk": 0
+    }
+   }
+  }
+ },
+ {
   "started": "2026-10-25T05:15:20+00:00",
   "finished": "2026-10-25T05:20:18+00:00",
   "minutes": 5.0,

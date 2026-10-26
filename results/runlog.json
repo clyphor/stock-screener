@@ -1,5 +1,253 @@
 [
  {
+  "started": "2026-10-26T18:51:41+00:00",
+  "finished": "2026-10-26T18:54:05+00:00",
+  "minutes": 2.4,
+  "trigger": "schedule",
+  "commit": "6fdfd6a",
+  "status": "warnings",
+  "fatal": null,
+  "warnings": [
+   "18:52:28 WARNING no price data for: AHCL.KA, BML.KA, ENGROH.KA, GAL.KA, HUBC.KA, TPLRF1.KA",
+   "18:52:28 WARNING [PSX] latest day(s) ['2026-10-26'] had prices for too few stocks \u2014 using 2026-10-23",
+   "18:53:00 WARNING [PSX] sector not found on 11 company pages \u2014 using index list sector"
+  ],
+  "markets": {
+   "PSX": {
+    "error": null,
+    "downloaded": 94,
+    "screened": 53,
+    "news_coverage": 0.91,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-10-26",
+    "ic_mean": 0.086,
+    "model_used": true,
+    "timings": {
+     "index list": 2.2,
+     "prices": 44.1,
+     "fundamentals": 32.0,
+     "company news": 8.6,
+     "financial health": 2.0,
+     "model": 0.8,
+     "news scoring": 8.2,
+     "sector & politics": 44.6,
+     "scoring & labels": 0.2
+    },
+    "missing_prices": [
+     "AHCL.KA",
+     "BML.KA",
+     "ENGROH.KA",
+     "GAL.KA",
+     "HUBC.KA",
+     "TPLRF1.KA"
+    ],
+    "labels": {
+     "HOLD": 37,
+     "WATCH": 9,
+     "AVOID": 4,
+     "SELL": 3,
+     "SHORT BUY": 3,
+     "LONG BUY": 2
+    },
+    "ai_events": 9
+   }
+  },
+  "checks": {
+   "PSX": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "100 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "94/100 stocks downloaded, 0 batch errors, 3 retries; last date 2026-10-26",
+     "hint": ""
+    },
+    {
+     "stage": "Price check",
+     "status": "WARN",
+     "msg": "Yahoo was missing 2026-10-26 \u2014 added from PSX exchange (94 stocks)",
+     "hint": "Normal now and then (Yahoo lags after the close). Nothing to do."
+    },
+    {
+     "stage": "Fundamentals",
+     "status": "OK",
+     "msg": "94 companies; debtToEquity missing 15%, returnOnEquity missing 12%",
+     "hint": ""
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 91%; Yahoo items 0, Google items 9786, Google requests 188 (0 failed); dropped: 1937 off-topic, 83 junk sites, 1 law-firm ads, 24 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Financial health",
+     "status": "OK",
+     "msg": "0 refreshed, 94 from cache, 0 errors, 65 with an F-score",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "OK",
+     "msg": "11827 training rows; backtest IC 0.086",
+     "hint": ""
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "OK",
+     "msg": "3 calls, 0 failed, 38,979 in / 10,216 out tokens, \u2248 US$0.009; headlines scored 9, reused from earlier days 409",
+     "hint": ""
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "4400 headlines from 44 searches (0 failed); 9 AI events",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "PSX": {}
+  },
+  "diag": {
+   "general": {
+    "tracked": {
+     "count": 0
+    },
+    "claude": {
+     "headline_cache_size": 31009
+    }
+   },
+   "PSX": {
+    "universe": {
+     "source": "live",
+     "count": 100
+    },
+    "prices": {
+     "requested": 100,
+     "retries": 3,
+     "missing": [
+      "AHCL.KA",
+      "BML.KA",
+      "ENGROH.KA",
+      "GAL.KA",
+      "HUBC.KA",
+      "TPLRF1.KA"
+     ],
+     "received": 94,
+     "last_date": "2026-10-26",
+     "first_date": "2020-10-26",
+     "stale": [],
+     "incomplete_days_dropped": [
+      "2026-10-26"
+     ]
+    },
+    "fundamentals": {
+     "count": 94,
+     "missing_marketCap": 0.0,
+     "missing_trailingPE": 0.05,
+     "missing_profitMargins": 0.02,
+     "missing_revenueGrowth": 0.06,
+     "missing_returnOnEquity": 0.12,
+     "missing_debtToEquity": 0.15,
+     "psx_sector_missing": 11,
+     "filled_from_statements": {
+      "returnOnEquity": 83,
+      "debtToEquity": 80,
+      "priceToBook": 84,
+      "freeCashflow": 84,
+      "revenueGrowth": 18,
+      "profitMargins": 2,
+      "dividendYield": 93,
+      "payoutRatio": 79
+     }
+    },
+    "news": {
+     "google_requests": 188,
+     "google_items": 9786,
+     "dropped_irrelevant": 1937,
+     "dropped_lowq": 83,
+     "dropped_promo_cap": 24,
+     "dropped_lawfirm_ads": 1,
+     "stocks": 94,
+     "with_news": 81,
+     "kept": 418,
+     "no_news_sample": [
+      "FCCL.KA",
+      "GLAXO.KA",
+      "HALEON.KA",
+      "HGFA.KA",
+      "HINOON.KA",
+      "INDU.KA",
+      "JDWS.KA",
+      "KTML.KA",
+      "PAEL.KA",
+      "PAKT.KA",
+      "TGL.KA",
+      "THCCL.KA",
+      "YOUW.KA"
+     ]
+    },
+    "health": {
+     "refreshed": 0,
+     "cached": 94,
+     "with_fscore": 65
+    },
+    "halal": {
+     "kmi_source": "live",
+     "kmi_count": 313,
+     "halal": 36,
+     "not_halal": 17
+    },
+    "pricecheck": {
+     "source": "PSX exchange",
+     "added_day": "2026-10-26",
+     "added_stocks": 94
+    },
+    "model": {
+     "train_rows": 11827,
+     "dates": 786
+    },
+    "claude": {
+     "headlines_from_cache": 409,
+     "headlines_sent": 9,
+     "calls": 3,
+     "input_tokens": 38979,
+     "output_tokens": 10216,
+     "cost_usd": 0.009,
+     "headline_batches": 1,
+     "headline_batches_ok": 1
+    },
+    "screen": {
+     "total": 93,
+     "no_dollar_vol": 0,
+     "too_illiquid": 39,
+     "no_price": 0,
+     "price_below_1": 0,
+     "too_small": 5,
+     "passed": 53
+    },
+    "macro": {
+     "requests": 44,
+     "headlines": 4400,
+     "ai_events": 9,
+     "method": "claude"
+    },
+    "dividends": {
+     "payers": 43,
+     "high": 6,
+     "growers": 3,
+     "at_risk": 3
+    }
+   }
+  }
+ },
+ {
   "started": "2026-10-26T17:36:33+00:00",
   "finished": "2026-10-26T17:39:15+00:00",
   "minutes": 2.7,

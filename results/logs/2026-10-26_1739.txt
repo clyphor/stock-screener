@@ -1,0 +1,2606 @@
+17:36:36 [PSX] universe: 100 tickers from Wikipedia
+17:36:48 retrying 6 tickers in 5s…
+17:36:53 retrying 6 tickers in 10s…
+17:37:04 retrying 6 tickers in 15s…
+17:37:19 WARNING no price data for: AHCL.KA, BML.KA, ENGROH.KA, GAL.KA, HUBC.KA, TPLRF1.KA
+17:37:20 WARNING [PSX] latest day(s) ['2026-10-26'] had prices for too few stocks — using 2026-10-23
+17:37:52 WARNING [PSX] sector not found on 11 company pages — using index list sector
+17:38:01 [PSX] news: 81/94 stocks have headlines, 420 total
+17:38:19 [PSX] financial health: 94 refreshed, 0 from cache
+17:38:21 fundamentals filled from statements: {'returnOnEquity': 83, 'debtToEquity': 80, 'priceToBook': 84, 'freeCashflow': 84, 'revenueGrowth': 18, 'profitMargins': 2, 'dividendYield': 93, 'payoutRatio': 79}
+17:38:21 [PSX] price check: added 2026-10-26 from PSX exchange (94 stocks) — Yahoo didn't have it yet
+17:38:21 [PSX] 94 stocks, 1556 days
+17:39:15 [PSX] AI analyst found 9 events
+17:39:15 [PSX] macro: 1714 sector/theme headlines, scored by claude
+17:39:15 {
+ "PSX": {
+  "test_from": "2024-03-27",
+  "ic_mean": -0.092,
+  "ic_positive_days": 0.55,
+  "top_minus_bottom": 0.0137,
+  "top_hit_rate": 0.51,
+  "as_of": "2026-10-26",
+  "news_method": "claude",
+  "screened": 53,
+  "news_coverage": 0.91,
+  "ai_scoring": "on",
+  "currency": "PKR",
+  "index_name": "KSE100 (built)",
+  "kind": "stock",
+  "price_date": "2026-10-26",
+  "model_used": false,
+  "weights": {
+   "ml": 0.1,
+   "fundamental": 0.45,
+   "news": 0.17,
+   "peers": 0.1,
+   "macro": 0.18
+  },
+  "track_n": 3,
+  "track": {
+   "BUY": {
+    "n": 3,
+    "avg_excess": 11.0699,
+    "win_rate": 1.0
+   },
+   "SELL": {
+    "n": 3,
+    "avg_excess": 0.0405,
+    "win_rate": 0.0
+   },
+   "AVOID": {
+    "n": 18,
+    "avg_excess": 0.0384,
+    "win_rate": 0.17
+   },
+   "SHORT BUY": {
+    "n": 3,
+    "avg_excess": 0.9753,
+    "win_rate": 1.0
+   },
+   "LONG BUY": {
+    "n": 4,
+    "avg_excess": 0.0786,
+    "win_rate": 1.0
+   }
+  },
+  "track_avg_excess": 11.0699,
+  "track_win_rate": 1.0,
+  "track_open": 38,
+  "perf": {
+   "index": {
+    "1D": 0.0014,
+    "1W": -0.023,
+    "1M": -0.06,
+    "3M": -0.0919,
+    "YTD": -0.0853,
+    "1Y": -0.0231,
+    "5Y": 4.3375
+   },
+   "sectors": [
+    {
+     "name": "Energy",
+     "n": 1,
+     "ret": {
+      "1D": 0.0195,
+      "1W": -0.1059,
+      "1M": -0.0168,
+      "3M": 0.1737,
+      "YTD": 0.6531,
+      "1Y": 0.7637,
+      "5Y": 9.8175
+     },
+     "score": 71.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Industrials",
+     "n": 10,
+     "ret": {
+      "1D": 0.0095,
+      "1W": 0.0001,
+      "1M": -0.0287,
+      "3M": -0.0077,
+      "YTD": 0.0243,
+      "1Y": 0.125,
+      "5Y": 2.3485
+     },
+     "score": 54.7,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 3,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Basic Materials",
+     "n": 11,
+     "ret": {
+      "1D": 0.0091,
+      "1W": -0.0118,
+      "1M": -0.0406,
+      "3M": -0.058,
+      "YTD": -0.105,
+      "1Y": -0.0076,
+      "5Y": 4.1083
+     },
+     "score": 56.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 2,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Financial Services",
+     "n": 11,
+     "ret": {
+      "1D": 0.0007,
+      "1W": -0.016,
+      "1M": -0.0471,
+      "3M": -0.0802,
+      "YTD": 0.0153,
+      "1Y": 0.0714,
+      "5Y": 4.1548
+     },
+     "score": 54.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 2,
+      "AVOID": 1,
+      "SELL": 1
+     }
+    },
+    {
+     "name": "Healthcare",
+     "n": 4,
+     "ret": {
+      "1D": -0.0091,
+      "1W": -0.0371,
+      "1M": -0.0525,
+      "3M": -0.1441,
+      "YTD": -0.2335,
+      "1Y": -0.2237,
+      "5Y": 1.1337
+     },
+     "score": 46.7,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Consumer Cyclical",
+     "n": 7,
+     "ret": {
+      "1D": -0.0027,
+      "1W": -0.0364,
+      "1M": -0.0694,
+      "3M": -0.1158,
+      "YTD": -0.0862,
+      "1Y": -0.1022,
+      "5Y": 3.7596
+     },
+     "score": 45.4,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 1
+     }
+    },
+    {
+     "name": "Consumer Defensive",
+     "n": 1,
+     "ret": {
+      "1D": 0.0013,
+      "1W": -0.013,
+      "1M": -0.0803,
+      "3M": -0.171,
+      "YTD": -0.183,
+      "1Y": -0.1399,
+      "5Y": 1.628
+     },
+     "score": 62.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Utilities",
+     "n": 3,
+     "ret": {
+      "1D": 0.0144,
+      "1W": -0.0469,
+      "1M": -0.0832,
+      "3M": -0.2113,
+      "YTD": -0.0548,
+      "1Y": 0.2039,
+      "5Y": 2.3171
+     },
+     "score": 45.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 1
+     }
+    },
+    {
+     "name": "Real Estate",
+     "n": 1,
+     "ret": {
+      "1D": -0.0072,
+      "1W": -0.0372,
+      "1M": -0.0978,
+      "3M": -0.0936,
+      "YTD": 0.2018,
+      "1Y": 0.8164,
+      "5Y": 3.2683
+     },
+     "score": 55.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Technology",
+     "n": 4,
+     "ret": {
+      "1D": -0.0101,
+      "1W": -0.1023,
+      "1M": -0.1531,
+      "3M": -0.2476,
+      "YTD": -0.3008,
+      "1Y": -0.0865,
+      "5Y": 1.5925
+     },
+     "score": 40.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     }
+    }
+   ],
+   "industries": [
+    {
+     "name": "Conglomerates",
+     "n": 8,
+     "ret": {
+      "1D": 0.0094,
+      "1W": 0.0008,
+      "1M": -0.0272,
+      "3M": -0.0039,
+      "YTD": 0.0312,
+      "1Y": 0.132,
+      "5Y": 2.3732
+     },
+     "score": 56.4,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 3,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Agricultural Inputs",
+     "n": 3,
+     "ret": {
+      "1D": -0.0042,
+      "1W": -0.0163,
+      "1M": -0.0305,
+      "3M": -0.0375,
+      "YTD": -0.0753,
+      "1Y": 0.0712,
+      "5Y": 6.776
+     },
+     "score": 53.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Banks - Regional",
+     "n": 10,
+     "ret": {
+      "1D": 0.0006,
+      "1W": -0.0161,
+      "1M": -0.0471,
+      "3M": -0.0815,
+      "YTD": 0.0136,
+      "1Y": 0.0702,
+      "5Y": 4.167
+     },
+     "score": 54.6,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 2,
+      "AVOID": 1,
+      "SELL": 1
+     }
+    },
+    {
+     "name": "Building Materials",
+     "n": 7,
+     "ret": {
+      "1D": 0.0276,
+      "1W": -0.0029,
+      "1M": -0.0511,
+      "3M": -0.0808,
+      "YTD": -0.1464,
+      "1Y": -0.1127,
+      "5Y": 0.6861
+     },
+     "score": 59.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 2,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Drug Manufacturers - Specialty & Generic",
+     "n": 4,
+     "ret": {
+      "1D": -0.0091,
+      "1W": -0.0371,
+      "1M": -0.0525,
+      "3M": -0.1441,
+      "YTD": -0.2335,
+      "1Y": -0.2237,
+      "5Y": 1.1337
+     },
+     "score": 46.7,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Auto Manufacturers",
+     "n": 5,
+     "ret": {
+      "1D": -0.0041,
+      "1W": -0.0374,
+      "1M": -0.0709,
+      "3M": -0.1166,
+      "YTD": -0.1637,
+      "1Y": -0.1814,
+      "5Y": 4.622
+     },
+     "score": 49.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Utilities - Independent Power Producers",
+     "n": 3,
+     "ret": {
+      "1D": 0.0144,
+      "1W": -0.0469,
+      "1M": -0.0832,
+      "3M": -0.2113,
+      "YTD": -0.0548,
+      "1Y": 0.2039,
+      "5Y": 2.3171
+     },
+     "score": 45.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 1
+     }
+    },
+    {
+     "name": "Information Technology Services",
+     "n": 4,
+     "ret": {
+      "1D": -0.0101,
+      "1W": -0.1023,
+      "1M": -0.1531,
+      "3M": -0.2476,
+      "YTD": -0.3008,
+      "1Y": -0.0865,
+      "5Y": 1.5925
+     },
+     "score": 40.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     }
+    }
+   ]
+  },
+  "index_level": 551.7511,
+  "timings": {
+   "index list": 2.3,
+   "prices": 43.4,
+   "fundamentals": 32.7,
+   "company news": 9.1,
+   "financial health": 19.2,
+   "model": 0.6,
+   "news scoring": 8.1,
+   "sector & politics": 45.2,
+   "scoring & labels": 0.1
+  },
+  "downloaded": 94,
+  "missing_prices": [
+   "AHCL.KA",
+   "BML.KA",
+   "ENGROH.KA",
+   "GAL.KA",
+   "HUBC.KA",
+   "TPLRF1.KA"
+  ],
+  "macro": {
+   "method": "claude",
+   "sectors": {
+    "Energy": {
+     "score": 0.2,
+     "n": 76,
+     "why": "Oil near six-month highs helps producers, but Pakistan LNG setbacks and supply uncertainty limit gains.",
+     "headlines": [
+      {
+       "title": "Pakistan and the United States are exploring long-term energy deals, with American companies showing interest in supplying liquefied natural gas (LNG) to Pakistan. The development comes as Pakistan faces disruptions to energy supplies from the Middle Ea",
+       "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPbXFkRUVBc1ZGQXA1X2gwM29nNTR0Ym5Wd3A4clc3N3NjWXFrRE1jZE9zMTh1VGZpVHRjSUhrdkVpd1MwNHhpTDA1M2RzMXJDZTdkWnh4b2FQWFl3MkxvNnlzZnVXRE4xX2QyeVB3TWhUd3M1WW5zMTlDZmRmV3doUlJhM2NFem4teXBMOW5fYWNHSU1LcFdiZ050WHNPQXpxSTNUY3FEMk56dUdlZVlVX0RQSEtiTHk0bE9pOUNOOTZScm9KbmdZOU04c25weUlIM2JMRy1LSkh3QWtObXFJa1ZuMA?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan, US agree to enhance cooperation in energy sector",
+       "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPd0VTdGw1QjBxa296TnA4YmdEN2htajZfeFpxNWlmUDVJTlJHa2pKRkJzNjZ4VGRkcUVJYXVRTVZ5VXhCeklNcmg2QXpzSWJGYWRYemlIQlJfZlpCeWxLbEYyTm1vUWJnaTR3OGxjd3dDTEtjazFXTk5iM3A1UjZrY0MtMjJTcHV2RzI5LUpoTkMxT19qSVZVUjV3?oc=5",
+       "publisher": "The Express Tribune",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Part of London's Oxford Street pedestrianised 'forever'",
+       "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNUWVGMGgzeE9Wam1LeTdpSzd2NjQ0by0tM3JtUy1GbEE2aGh0MVh0RldZZHYyajNNcEtTUUdVZUNhQnl6TVZXQUlENlNFUkd6VmhxWi1NdmpnRXRfV0xGVWluc0VSakp1NEhOemMxZkh5MldYM1lHNmVmYzh4bzNOQ0s4R2FpNDZmNTZIdmJvSQ?oc=5",
+       "publisher": "Dawn",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan, US explore long-term energy deals, refinery investment opportunities",
+       "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOLXFtS1JtdDNQQ3VsSFhUVjI3S0xHLTRuSENsUWpralJNcm5CN3JxU2lRRmxKalJIbkNrWk5CZ0dMaG9xSUcxX3J4cmlwZUk5ekZJU0VYdHJEd1d6N1RfV1NkbDhmYjlMcUY0RU1SVlFfdzJMWDlqT09ORW15ZDBLQXpka3VhTjhGX3R6ZXFuWHBXT0RPNHNWR25Ndzh4RVd2RE5xSGFPSmJFVlZacTh1b3NwaFY?oc=5",
+       "publisher": "The Nation (Pakistan )",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Saudi defense pact states hold talks in Iran as Yemen\u2019s Houthis launch more attacks",
+       "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNbjd0Qk13Qnd4X3dfMFBodkVpT0R0SVZLaVhjbWZDVExKUi1IY205bXZTWnJCdXNhak5rMUNYbVN2N3JKTmxvZUJDR3I0ZU56aUtMQTVVMjZPUkt2R0ZiNGhMQmZTUU00Y3c4Z2xoajJSY1VyS016dXFvTmRhZEwtNE9IR0plQ0VVX2dFU0xSaW9MRFY4TkhXeGVOeHJ0VjdwWHVMcGFMcE5NYVYtZkpMQU1FQdIBuAFBVV95cUxQQTdTNlByWlFZWmw5SXk4WFFLX1FINDRTNW5IN1lycnp4SkI2QjhiUWZGWjJIRnduYXZjVnJ0Rzd5TEVRSm5LY3k3anhfV1hsYkVOdF9sM21GWF83MHMtWTdvbFNTZGVhZUZkSDJIQlZWY2J4SjJRMEZVcXFXcFpiVnJKZEsxNVFlbW1JS0JTeWp1cnctZ013aHlLeE5rdHpsbWYwNFZDTWUzNHJ0RGFRMVZCaVcxT01n?oc=5",
+       "publisher": "The Times of Israel",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Why Saudi Just Abandoned Its Core Oil Rule",
+       "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPV2JxbzNNTk5qYWY0NUhEeXFDaTBRaVdsSVg5OGdHNXJ3SUl1cFpHQnA3eU12N3RzOEo1bC1HWnF1OG5qa2NOVXZTYmU2VmhrSVlvemlXNldHTnlFM29jdjYwdWJ2S0t6aGdlcWU3RXlGV1JqOVdCSGRqQ2V3MGVqZGhrbk00Y2lHU2MxYjZn0gGTAUFVX3lxTE1ybkYyVElqYnZuMkJWU0kzN3RReW5fM1R0enZmU0doUVZqVDM3LXhUQ2xzWW9zV0xxOTBmMnIxdlFYOWoweUd4S0Q4dmpJQUxMcVZlVC01YzdEdXBNLUE0VlJtWnJzUkV2MHMxM01FZ2ZsQjdhT3c2eGdVZWh1NVVKMmFuVXU4RHJaTG93ZmZjNHNGRQ?oc=5",
+       "publisher": "Crude Oil Prices Today | OilPrice.com",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "Basic Materials": {
+     "score": 0.3,
+     "n": 41,
+     "why": "Gold rising in Pakistan and a $2.25bn battery plant support materials sentiment.",
+     "headlines": [
+      {
+       "title": "U.S. Dollar Gains Ground As Traders Focus On Middle East Tensions: Analysis For EUR/USD, GBP/USD, USD/CAD, USD/JPY",
+       "link": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxQYWZ3NG8tSjZfVGF3NDVySk13MUFXdnBhSVZlTGh3SjFXWlR4QXJ3UklDcHU2NFlnU2pUWi1uUUwxT3lhUVNZUlBRWVRXUDFWaXhZMm55bG9lZThjSVZXNU93T0pqX1lrNmlSSExnNW10aGV0RzR1ZTBRZU9qRDVRZ1k3alJmRV9jMnhTSV9nWDBSckNpY09qTEpKZWNWMG9fbmRwTEhzbnZPcjJhbExXamtzenlJX1ZLYm9pYTJONXZIbTJySEd6ZU1iUmk5MVJBOUVwdlY0Q20xTmlJZUNmMHlkbFNmSjdZVTJEZl9DNGpKZw?oc=5",
+       "publisher": "FXEmpire",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "Gold price per tola rises Rs1,400 in Pakistan",
+       "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQX0R0TkxFZGVCaG1zaU9UMHg2bHgwSWdFTjlXRURCa3d0aUZyUzhOOFA3MVNuTVM3TUpwcFM5Q3RHLS0xcnFMYnR2TWlneUlBcFY5aXRlYlh1ZUFwVjN1U25vQlZxZE9TNzVIXy05cjZ6MjRhZ0pnMUNva1FVZnc5U19aZ3NVZFM2eGVfSW9ELWRoQQ?oc=5",
+       "publisher": "Investify",
+       "date": "2026-10-26",
+       "score": 0.6
+      },
+      {
+       "title": "Faisalabad, you showed up! \u26a1\ud83d\udc9a A glimpse of Crown Electric Mobility at the PakWheels Car Mela Faisalabad. Thank you for the love, energy, and amazing response! \u2728 #CrownElectricMobility #Carmela #faisalabad #pakwheels #bestbike electricbike electricm",
+       "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQdlJzMzJ4X0pHRmtDLXFTS3FSckRFUkpVTC1JbG1nNEQzc2RsMmgzYkE5aFM2N0I1cU1GS0ZDSkN6SElXMUpUdDFvN2tYQlFrWXZ6alRQaV9YVkRrOWFvbGNmLV8tUF9JLU40TnQ4SE1DMk5hcjlHc0ZYWWdxczNDcWdLSXVZNk04UklRUy1YaThxY01fZTFqTmFZTHk2WTBFRnFmWnFjQkFsc09vcW9PcGt6QmpPNG04NmVtTnVTNGFidTl3Szlld3Uzb1FZeHhOdzBKdFE1cGh1cHdVU283LUhBd0NOalk?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan\u2019s Margalla Heavy Industries signs agreement with Chinese partners and local investors to set up a $2.25 billion lithium-ion battery manufacturing plant in Rawalpindi, an official said on Monday.",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOQm5yVTI2WGdScktRWWxrbXYwdzNadEZKdVZwWTV5cFZwNGliQldsdjFWd1l5dmVNa2pYQVoyWS05REdLOVp4bzVMazBYQURmdEVIRVY1TUpFR2hkVGU5RnZScFdRdjBvei0xeExDZ3B1TUU4N3JDTFBFM0VIQUFRYkZBZEhiTkhTUkllOEtVemYtV2hkc2kyYVA4VjN6SXllb1pjUkJHMDFDYnNxVjJYQk1EdjBfb2xGWm90ZDdNWWNfQUpZVTA0ZHlTZDE2QTVTMGJMTjVwWQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Best Time to Buy Gold is Now",
+       "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE40MUhCM3F2OExNTVdMYmk5SUdiTDcxQlpaX1RaRmFIN19ydlpyVW5rMHJXM3FRa3hKYWdkc09sbFUwWE54d0lrTXBpRkR4WTRZbFVGUEFRbmZnNWlfN1gwQU9Walk0RVhEbEpvRDVXN3BGZ9IBd0FVX3lxTE1UQWdNaWViS2k1MzZPbnYxeHk2ekFZR1BjbXJXemNLVDh5RS1tb3R4Tk1hQzBmX21mODVra2g4Znc5VGpCWV93NVFCRjV6QXFmLWpqb1BZc0ZEbkt6Z3BmNGU4OTNDaUdTUS0tT1c4eG0zcFFzaWJZ?oc=5",
+       "publisher": "ProPakistani",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Gold Price Rises Rs. 1,400 To Rs. 423,436 Per Tola In Pakistan",
+       "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNbUhCblRiQ09hNzlOYlR4Zk5haHB3YUlEdW5hTHhRY1ltbHNTdHU5NDNMMUpuSFdacjVnZ3RHbVJUX0Q0V2ZJbG40UlJBVW9RM1FZTERRWnN2UFdrY3IycV9tVG5pdDFMN0ZaX0NYcF9wQ1c4a183eXV1LVJ6eVN6MG1ZaFpzZXJuNWs2V0lrSQ?oc=5",
+       "publisher": "UrduPoint",
+       "date": "2026-10-26",
+       "score": 0.6
+      }
+     ]
+    },
+    "Financial Services": {
+     "score": 0.5,
+     "n": 10,
+     "why": "Deposits up 16% YoY and the SBP's 50bp hike should widen bank spreads.",
+     "headlines": [
+      {
+       "title": "Pak Army chief and top officials from Makkah pact countries to meet Iranian security czar in Tehran",
+       "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxNdkdURHprZDdXcnVKOHZGZ3NPY1MwMnl0Ym9ibjRjamw3U2J3ZjFGNEN6MjFjcmVpQXdJRWRuMG9mRHUzV0RmZk03bzItUWt3WHljTVFieVdILUVmX3VPYXpSUDVDT015bUp3bE1VSDVXV05yOEVmQWZyWHRSOFJvazljdDNxNHZwZld2Mk9Ka2c4VGZaSWVnc0VidTVnWFlvdm1WVHpaRFF3aEFqcElnZTRjTnZKcXlTZWZnZFRXbW9LRWtBTUtnNEFQTnJVZk9IbjZyR3prRUNwYUFvTVHSAeMBQVVfeXFMTUo3UUpReTUyME1xdXpTLWNZWjRJajBXcGhsUXhGYXhKbDdMc1NmSTE5VmUycjRHeDdsUmVyUnBadjVTYldVYnBlNV9oQmdiRlZWclJBOWxPckNTR1RMRUlIZHpnSGRBNUVGZ25iVXFKemRLMXJWSWs0V0liNkVtb1h6RGxweW1KbkJPQmtGMGowTE4xRWczeGpZVWRJbDdDV1dBcEVYbzNsa2lTVkpHNEQzaGIwYWZPekdfQWNtTXV1VXFYMFlmQlgtbU5EcnZibEVqNUJXbVZ5WVN4WURwOFhCY1k?oc=5",
+       "publisher": "Greater Kashmir",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Investigation Support for Insurers in Pakistan",
+       "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE5TVnJvcGFXZGJlVG1sTXJhdWVoRDNMTjRNYm5FOGhYOVZRcjctMTBfVFhFdlhDV29kbnFEaE5JUDE0ZFFnZlU2R25kcw?oc=5",
+       "publisher": "p3i.com.pk",
+       "date": "2026-10-25",
+       "score": -0.5
+      },
+      {
+       "title": "Chief Information Security Officer (CISO) \u2013 SVP | Banking Sector",
+       "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOUGp1ZEJKbmxFblpLTUt3c2h6V0M3bjRRTFliWVFBcjRNTmhuSnpNZ2lBTThlRTctajd0MkZXTFNxR1NwYzQxSE1SU0VQaEozR0gzLThmVnRhVHJQbXBxOWZLWHZacTFPUTdFby14WTcyY1FPand3ZjByVXcwT2VxU3c4WDNlODk2Q0R3aVBQUFZBV1pDdkRibTh0ZWhTWWpBb19XelFfTm9LTTB6akFTTEhMNDRxOHMzZW9tcWdxLUxLTno5T2xfLXVaUTNvb2FsWXc?oc=5",
+       "publisher": "LinkedIn Pakistan",
+       "date": "2026-10-24",
+       "score": 0.0
+      },
+      {
+       "title": "A bold step towards the future of digital finance in Pakistan. In an insightful conversation with Sidra Iqbal, ABHI Bank shares its IPO journey, growth ambitions and the vision driving financial innovation across the country. Watch the full conversation to discover",
+       "link": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxON04wWG83em1TUG92Y0N1ZnNZMkExWVhudWNpWS14UkJLVnZBZkRPczM4UndMakNFNkR1WjJYLTNqcjB4aFE3ZFo2Q2xzcUNQaHVOMU1PaVU5LXFVZVFBOVBuYnlMZFM0ejhaUGN3dU44RkFKVkk3SEhBRmp2TmhsUXFlb0xSVTFaVDVvQ1VPWlk4Vm1qVDd5LUtVV2R5dDZoYVZoQlljWk9qbENFSzhBamo4SDdCSWNscXd4S3Nvc1pEZXFNMnBkRjE2WVBmUVotcG8xMHpCWGpiUzFQUFg2ak01bk0tY3lE?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-24",
+       "score": 0.5
+      },
+      {
+       "title": "Aurangzeb rules out consumption-led growth, says tariff reforms will continue",
+       "link": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE9XOTM5Q1FfUE1oTTdjNzM3WHFFRnVYSl9jSEM1RDZCMkVwUENJc1EtaTl1ZnVVak5Rc0ZNM09YdWwwMFRNYmg2Yw?oc=5",
+       "publisher": "Dawn",
+       "date": "2026-10-24",
+       "score": 0.0
+      },
+      {
+       "title": "DETERMINANTS OF NON PERFORMING LOANS: A STUDY OF EMPLOYEE PERCEPTION IN THE BANKING SECTOR OF PAKISTAN",
+       "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9kbkpTSmx5M1YzV2VjaTFBbFl3cEdDQTJKMXJxMEJvZ0Roa09MekU5T0U2UFpGaDhpYXB4SW1VZ2hkdC1VYkYzRXA0TDR6SnZIU2FkMW0wY1ZLZHJYdV9VQXpqSnE1NnRaMFhtcw?oc=5",
+       "publisher": "Bahria University",
+       "date": "2026-10-24",
+       "score": 0.0
+      }
+     ]
+    },
+    "Technology": {
+     "score": -0.4,
+     "n": 11,
+     "why": "Global tech selloff and AI bubble concerns weigh on sentiment.",
+     "headlines": [
+      {
+       "title": "Delegations meet in Iran with Mideast region on edge over potential for renewed fighting",
+       "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPMWJncVBjVnZqc1hWNmxhZFFWZUZkS1hXLXcyOXJSeFphV0lJR3dGX3loYTVKVmdFMzFuN1ZNYktiRFAyWW1mdkhBcE9UaE01V1NveFJ2SUlzU1h5YW5sN084S19oeXBaRWRRZVdCWnlWR2kzN3F2ZVUwMmUtMlh1STBSUXZDdVc3clRBb3VESi1FNWM?oc=5",
+       "publisher": "AP News",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "SpaceX enters $40 billion deal with Apollo for AI chip financing",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPcnRCSE1pMWJ2eFVrWkF1ZWtMaDdCbDlWcEFkbjNBbFJjRi1NWlZNbjJmSjdtNXFYRkpBQlBQb2c5MnZpajNDaEJ5Z2NHQW4zUjg0LWprUl9fMTFzQlVIRTVoTlpUWG41NXZGbW8zNDVvVzVtRDFsWjl6eTZWXy1qSFR6S0NnRkNDSWRZdUVtNzdpMmlzVUMtRUlucnpHTkkybWfSAaoBQVVfeXFMTlBYelUwWFNVM19ab19wTDRvQVpaUnRVMERNTDZTLWM0WVZlaVh5VlBKQmp3aUw5ZmlMVUhqQ0gyVW5HdVlOV2tiRUpDRXZsT25pMmZXSmtpR25PMHQxNVExRHhPR3hMVHFPaHdTeHRUeW53TzNyLUR5YkdQWWtsbHNWWmpuVFBpVkJ4d0xiRnpwd0MtUk5Va0hzUjRNRWpNNnJRelVVMUZZMVE?oc=5",
+       "publisher": "The Express Tribune",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "In China, the AI bubble has already burst",
+       "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNLVB1NE9MOEZ1QTlkR1VXZEdhdUVmT3dzVG1vWHA1aEVWaUFia1FLeWpPRl8wYl9IOTFsQUxKQlk1OUExcHQtaWxuSWxPUHNBeWZ4SlAtWS1pX25IWG5ORWdOWHBjR084N3FFZ1BkTEVUbUI5Y2Nkc0JfZnJ3U0cycF81QdIBiwFBVV95cUxOaTgtOGZmRVM4ampyYWVOMUVIMm9GY3hKaUd3cHFLX1lXS1NtTFUzajd0SGVMU2h4ZGFUZHlJWDRwX0l2WWt2bWdMd0RtUnhFcnRLeDc2RTNQUElXb3BYbUNnTWNPNEpoaHFpWlpPSEk3UVNMY3FwX1dubHoxWTM4cDg5T0ZtUXFIWm1J?oc=5",
+       "publisher": "The Express Tribune",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Global markets open mixed amid ongoing tech selloff, Middle East risks",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOd1NnT1lXMUtaQVlHMnMxNVY1X1dJWV85OHo0dHF0dV9yQWlwRWVYaWM0blVLcHRYdUNBcG5TOHBLenJaS2hlbXJaUU5IWm9XN3dfeUg0dlZaM3hHRFkxRUlrcHNvRXJHdFc3a09aVk1QYjRMaWZ3RDBvbHZOakRiSzNWUldsQWlXX2VKTVNiWkhsWGYtV3hBUFpHTnEtZHl0cVE5QS02YWM2VGM?oc=5",
+       "publisher": "The Nation (Pakistan )",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Trump says he's weighing deal with Iran against action to \"finish them off\"",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOZXdRdW1Db041UUN4dlYyNURUdmFWS0V0V1hCc0hnNVBZWlIxYk5Pdkg0Nks0Ri01UkRsM0NVR3VVTEVzc2psaWhpZDk1ZlRTTG0tcHgzcEZkTURsUDFoejN3MVl0NVBKZXNwU1ZVeDI0VWY5TEJ2M2dqSXBDcFpRTzRvSExKWEtVQlNzLUZINnZsT3phZ0xROHd3VXc?oc=5",
+       "publisher": "CBS News",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "Lula is declared winner of Brazil\u2019s election as Bolsonaro rejects results",
+       "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNSElINHZmYXlEYkdaa0FvWkZVOVU3Tm4yQmdjZ2tXMXJveURKTkt6TVJDN2lEc2ozZTM5M0F3cWZsamgwa2ZtVFRKajJuU1NXd21kVGdad2hBdnJwdlZLOXFrNjhTbFZIZE5QX2tzYUhrendRVTFuSHpjcU85NEotX29VdjJvd3hvZmlfaUlHSnl0Ym9IYjROMm5tblBjbXNTYzAxLTdRTjJqcDlQTU0yZUlB?oc=5",
+       "publisher": "AP News",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "Healthcare": {
+     "score": 0.0,
+     "n": 7,
+     "why": "Little sector-specific news; outbreaks are mainly external headlines.",
+     "headlines": [
+      {
+       "title": "FDA Chief Orders Action Against Illegal Housing Schemes, Encroachments",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOU0kzMWpLcUFhcGNvQnNRVkRBZ1RIMUhxMFl6T0FtbVlmYk9UWlZTdTB5R3l3R2lFb1RDM0QzdlNNNTg3Tm5QaU1EeXZFLThfODFsdXQ4RDJhQW9CWHk1U3V6ZmNMSkJ6ZUFGWHV6c1ZmUC0zSkU0UlNyZEF2RlpVSENod3A3QUNWUER6Nm12NmJvaXdvemdnb3I1bTM?oc=5",
+       "publisher": "UrduPoint",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "The last two countries with polio: Why Pakistan and Afghanistan are struggling to eliminate it",
+       "link": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxQVnh2R2tUeVhPQW9LWGZyYmN0V0I2cXNhVDhfSFhRblhfaVE2X3U2aXZmMHhtUFhaenlack1Gb3hpSjZ2VGtVMUlCdjJGRUFOMlNsOE1rZzFpR2x5Zjl6bm1CTXRaR3E5OGdOVnZJQzN1MFdiNnM0MjJ6V1hDako4U3dlSW5abDJKZXJFcTBWbVV2NXRqR25TNE1sQmUwQnlJQ0NkV2NmV1dMRmxRcHFVb2U5QXBFclZFY1pubVZ1cFdFRHJDc3hPdTlNNFJRUG85dlpadGpvSmkzYVN4TEJTQy1VcWtQaFJDMHpOMUd0UnRDbWNNV2c?oc=5",
+       "publisher": "The Times of India",
+       "date": "2026-10-24",
+       "score": 0.0
+      },
+      {
+       "title": "Biotech jobs in New Karachi",
+       "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9sTHVzaVAzUDZTd09jdXdpTkFMb0ZaTkNHOEllaVNWRVNieU41WEZuLTJZX3N1TzdXNU1EQ3FPZlI3d3AzcUVMQThsbjBWdG1yQ2tvak1KM29sSmV0SDFINVhOM252dw?oc=5",
+       "publisher": "Indeed",
+       "date": "2026-10-23",
+       "score": 0.0
+      },
+      {
+       "title": "Biotech jobs in Karachi Nazimabad",
+       "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE0zcmFVeVA1M2pHajctckl0d3pZWm5kMGs2d3J5TWI0LXFXcUVQSUtMbUhZQ0YwdVBrZ1o4QUdObllFd2Myc0tMMEl0T0Z0SWNhQjAxaW14X1BGUFZCQXR5TkRCVTZ5YWF0S29fZEJn?oc=5",
+       "publisher": "Indeed",
+       "date": "2026-10-20",
+       "score": 0.0
+      },
+      {
+       "title": "As part of the University of Karachi\u2019s Diamond Jubilee celebrations, the Department of Biotechnology marked its 30th anniversary with a landmark national symposium titled \"Three Decades of Biotechnology: The Road Ahead for Pakistan\" at the Chinese Teac",
+       "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOM0IzMmNWVUl3ODFtaDdKUnJQOFBXYS1jY1Jnd2VLbGhmLUhKV01pNVZxUEthbmN3RnZBOWhZLWliUG9FZDEtSG9fNU1Td1JqYU10Z1lRd2NBSDVlVG1QZWd2cERNUVdxMWdyRGYtQm5FQzFhTEpFZ1dIbXdSTjlpRFlHTVlPajAzRkJCQ2FTcTNVSzJMVzA0YnZLT1hibHZrMHNTcjdzb2E3YUlJRVFncU5Fa293VTROZUlVZ1dQbm0wd0xmTi1ya19KZ2JfeDM3MVFj?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-19",
+       "score": 0.0
+      },
+      {
+       "title": "leading vet equipment supplier Pakistan",
+       "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQMWpDUXNzT0ZKdmFSWXI1THNUejBrb0hjSjVSQldFQ3ZTdDVwU0dzM1d1MGhpTnVHaUZ3dV9ZTjdXSzEzcXh4OEFtc1FMZDlmdWROOVhTSW5RSTRLb2xaY3hJWlRYV2RiTU1kZThvenZyR04xUnhYazVyN3N2ajB0NU5PbjlsNy1zUmNEMnBxSllrSmY0aHlXZFFnZTZsY29uZDg1aFk4djhhSnlCNmYyZ09n?oc=5",
+       "publisher": "biotech.com.pk",
+       "date": "2026-10-19",
+       "score": 0.0
+      }
+     ]
+    },
+    "Industrials": {
+     "score": 0.1,
+     "n": 39,
+     "why": "Auto policy and battery plans are positive, but business confidence fell to 48.",
+     "headlines": [
+      {
+       "title": "Business confidence falls to 48 in October",
+       "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPQkctZGhFMXhCcVhjcFNkaFplVE9TUFVUNWt4OVVDR21EaEdWejRvUVJZYVdzWDhoQmw3c253b2xCSm5Gd252ajJCUEhCdW04NTVlVmw4TkFNenhKRmd0VVVub1VMRm9IT3J1a09EZW9zay1zY1NaaXJNWFBkUnNUbEt6QnE5ZW1OVS1DYWJn?oc=5",
+       "publisher": "Investify",
+       "date": "2026-10-26",
+       "score": -0.5
+      },
+      {
+       "title": "Pakistan\u2019s Margalla Heavy Industries signs agreement with Chinese partners and local investors to set up a $2.25 billion lithium-ion battery manufacturing plant in Rawalpindi, an official said on Monday.",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOQm5yVTI2WGdScktRWWxrbXYwdzNadEZKdVZwWTV5cFZwNGliQldsdjFWd1l5dmVNa2pYQVoyWS05REdLOVp4bzVMazBYQURmdEVIRVY1TUpFR2hkVGU5RnZScFdRdjBvei0xeExDZ3B1TUU4N3JDTFBFM0VIQUFRYkZBZEhiTkhTUkllOEtVemYtV2hkc2kyYVA4VjN6SXllb1pjUkJHMDFDYnNxVjJYQk1EdjBfb2xGWm90ZDdNWWNfQUpZVTA0ZHlTZDE2QTVTMGJMTjVwWQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan's Top Arms Brand | Armoury Manufacturing | DaudSons Armoury",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5uVUVXTlVxVkhXWFVPQjdsV011SWdUa0ZaNGJCZm1ib0NqTnREdDFqaEFlVjFtTFNsTC1BdmxYZGY3aW1YMHdlRXVIVkpqN091NGJucWR3?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan plans $2.25 billion battery gigafactory as demand projected to hit 100,000 MW in four years",
+       "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxOMHVvbEo4bWVUSHJidDRCMFlEcXUwUk9tRWVSWEFrNndpRmE1VzVHYU5mT243VkpWRHpjbTJyNWkyNENqZEMwcVE4WXRMQzlNSlp4X2tUeVFEYWxCSVhSajh6QmR1MlN5X0FVQ2I2WDdLS1ZyTmFtZmRjaW1adUhETk11N1VFaVQxUE84ZXhzYzgyZml1SWFVWDRGeEdBd05walFYVU81Wk5STUQtSEJCRXVjelRLa1czeE5PQ2M2YlAwUjQwUXJ0em90SzN3NVFBUk14Mw?oc=5",
+       "publisher": "Arab News PK",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan has demonstrated that local mobile phone assembly is possible at scale. The next milestone is to build an industry that can compete not only on production volumes, but also on brands, value, quality and consumer trust. https://www.dialoguepakistan.",
+       "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxOR0hWNWphbXdOTEVkcmNNVkpFTktMVlBaWjNWalJ5RG56NTZMUXR1b1UybEZERWRkVHowU0pvME9XUHRnYmtuTlZTMjduckVreDNfTXUtSlRaU09iU3pkR00wUHRXWjFzSm1WZVNuMUdWLUpiWC1CWmZtSDA2c1YyekNGYWUwTWstZU5TcmNLWjlVeVVMclNrWDhZSlgxUXZiRTRrdFZWdXZHTTRrcEdfQk1JUU5Tc1BjMUxQbVFUaUg3RFNJWjdhWHN4M0c0ZE8yMFg4YzgzSnR3c2dPSFU0?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "'It's offensively cheap': How solar power is quietly becoming bigger than nuclear",
+       "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNRzhFSm5wNXBfOFFUNlJaRmFaQndTd0VXZjdBd2syYWVrSW43cnZyM0tRN3BtdllQakh2am5IUHF3cTRCTXMzZE5jeUxQX1JrMWtkWmRudmJrUTZ2T3BDU25VVFVOSU5qeDJKVDJ2S2FnNU1HWE5nLTE1NnVXYmtJSlBEX01lUUE?oc=5",
+       "publisher": "BBC",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "Consumer Cyclical": {
+     "score": -0.4,
+     "n": 13,
+     "why": "Policy rate hike and inflation squeeze household spending on discretionary goods.",
+     "headlines": [
+      {
+       "title": "Delegations meet in Iran with Mideast region on edge over potential for renewed fighting",
+       "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPMWJncVBjVnZqc1hWNmxhZFFWZUZkS1hXLXcyOXJSeFphV0lJR3dGX3loYTVKVmdFMzFuN1ZNYktiRFAyWW1mdkhBcE9UaE01V1NveFJ2SUlzU1h5YW5sN084S19oeXBaRWRRZVdCWnlWR2kzN3F2ZVUwMmUtMlh1STBSUXZDdVc3clRBb3VESi1FNWM?oc=5",
+       "publisher": "AP News",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Why China Can\u2019t Fix Its Broken Economy",
+       "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9sUlJfcElfNTVKQlFBUXI2c0phNWRTSjNBNVpqNWpLbl91aVFVQ1V0SUNBb1Njdzl2ZGFVZE42aUVqd2tJdVZhMVRKOXNya0JvVEVFOW1GZjBlaGdVakZMNmk2VXd5TFVBak81bGRZeDZUTEtDaHpqZXln?oc=5",
+       "publisher": "The Diplomat \u2013 Asia-Pacific Current Affairs Magazine",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Interwood Mobel (Pvt) Ltd. hiring MTO Retail Sales in Rawalpindi, Punjab, Pakistan",
+       "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOUG1fWDRlRGxkLXVUbV96WllTd0hiVFNoMHVvUy1FRk5VWmtIVDRkNHUtemNMR3YxWVhtTHJPRjItQ3ZHNS04QjZubnlXRHRqaGZaMW5IaEozZy11VVNEelRKS05TTnNIVVlheTJhZk9zeDZjUTZMZWFGdGFWMkNjUGVrNUhublRET2VmQk0xREotZw?oc=5",
+       "publisher": "LinkedIn Pakistan",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Lula is declared winner of Brazil\u2019s election as Bolsonaro rejects results",
+       "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNSElINHZmYXlEYkdaa0FvWkZVOVU3Tm4yQmdjZ2tXMXJveURKTkt6TVJDN2lEc2ozZTM5M0F3cWZsamgwa2ZtVFRKajJuU1NXd21kVGdad2hBdnJwdlZLOXFrNjhTbFZIZE5QX2tzYUhrendRVTFuSHpjcU85NEotX29VdjJvd3hvZmlfaUlHSnl0Ym9IYjROMm5tblBjbXNTYzAxLTdRTjJqcDlQTU0yZUlB?oc=5",
+       "publisher": "AP News",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Canadian dollar hits five-week high",
+       "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPMWlqemJUNU5nS1p2YXU1V2VOdktaVWFvbUNKRGwwbURMOGo3NjhmenoxWWN5TmlIeF9BQXZ3VW9SdXlvSjRSNl9IS1JtTXBOT285Tk5OcUJacElEczZUSXdCU1ZEaTVJWUNaa1N4bWpLVXBrSW1hOUR3VlI3c3lweNIBVkFVX3lxTFBmQTJzNzFaay1ocnZ4cHpzT1RUT1FYTjNHNWlGdHQ0ZkhPTFRpeUhvNnVPbVdzbi1pSzJoTEFSQ0xJVEJVUU5LMUpqM1hNTGNURFAzMW9B?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-25",
+       "score": 0.0
+      },
+      {
+       "title": "Daraz deepens industry partnerships through Seller and Brand Summits",
+       "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOaDhUazI4NFNCemE3VzZZZ3N1NVhEalkzenpDTHoyYVNKR2djemJFTVd0VndoUURVWEdjVGlCNDN1aWhMQ3VlNElpMjV2N2xUS2dxbFJ2b2tfdHo0Sk9MbXYtQmkyWmt0VGpkS2I4Zm9FLVphYUlrc0NJRUM3TTV5OTBpRGVhcWF4bUFabF9wbE5IcmdtNnZTdVJR?oc=5",
+       "publisher": "The Nation (Pakistan )",
+       "date": "2026-10-25",
+       "score": 0.0
+      }
+     ]
+    },
+    "Consumer Defensive": {
+     "score": -0.5,
+     "n": 12,
+     "why": "Food inflation at 11.38% and fuel price hikes squeeze household budgets.",
+     "headlines": [
+      {
+       "title": "Pakistan\u2019s Deputy PM Ishaq Dar ordered nationwide crackdown on hoarding and market speculation to curb food price hikes amid inflationary pressures from the US-Iran conflict.",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNVlI3dEdveUNZejFCUFNhWFpDa2M4TE1KbG1uNFFFbERGZkwyc3pmbDNGRVNSRnh1S09xN1JoOEdDTVQ0LUVWUlFrU01BYUdxU1RBVU9PQVo1d0tCM2tLWkpqaENnQTZaZjdGUDVxdzlkMURKbUVRVTJFaWJlVk5rWVVYcjRBTVZNNnR5b1kzWU4yRElpdzFQeVR3STJvUFVabWNDWEJJeDdZWUZGc2xIQUtJM1Z3amNHMjIzNFdHd28zbEVleDZVTE90bzFJcURTSWgwdGFIaw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-25",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan is facing growing public hardship as rising fuel and food prices push up transport fares and household expenses. Petrol prices increased by 26.11% to PKR 377.71 per litre between July 1 and October 24, while high-speed diesel rose by 26.39% to P",
+       "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNSnJMRk9tSnI0T2pPaDNiaC16c0JIQ0dMRHNJRUJqRjZodFJvYUNFQ3NxbnYxY010amYxRjVFR21vNTA3bFpmcF96U2lPcGVWLVJzM3RHUVpxb3BFQnM1bi03RXcxcHp6RHBTVmpFUVI4WjlkbzRveTJuejIwbWFEUTFoSWRmTGw1bVBoUnI2S2dBcGRVUU8wZndybWx1bVVHZzVlSFFrRHdjLVk1XzhGdTh5QU5mT1B6VjZyQVg1SVgtLU9yTGNXV3BBYUk4NGc1N0NYOEhQSi1GSXBG?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-25",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan reopens key border crossing with Iran",
+       "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOWWoxbVdqMFNvaEo2SklJOHM4dk5XTXhNV09DSmczN0otcXJ1UTN5MG1oM2hIZ1JrVEotenlUNHhVU2NxWTJaRllzbExzU3VRSjExTmZmb0FlNEhneHpRU0hncHJQYWdYWWl4Y0lYbk9nMmJleDBxZ0NIMzJJQXNrWndxcDAzZWdNbUE?oc=5",
+       "publisher": "Mehr News Agency",
+       "date": "2026-10-25",
+       "score": 0.0
+      },
+      {
+       "title": "High fuel prices add to households' woes",
+       "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQZEZvY3ozaHlBQ3F0QkxiNWg0dHdETVFOcjBVT3F5Q1RXa21QNVNOVkxoSVNyaVFSTkNBS0kyaHZ4QTBSSFJRTnh3MGJRekh3WDRkbFNqR2VaYktTME1PakZLWEwzTDRUWFhiZk5uTXRleC1XOGNCVGNrY1JwMzhRZUN30gGKAUFVX3lxTE5fbEJQbFRaSU11N19QRHRBTmt6OWF5TlpQZ3BNY2hKek41a3ROUC16SEhaSHp3M3pLaWpweGphOXQxRkJsX25XT05iY0k4SC1ETzZvZG9YNUswdF9ZUEdxazBGalYzUXhmVV9aTlNXY0p3aS1BNXM4VzkxanZIYkI4NXRybm45blJyUQ?oc=5",
+       "publisher": "The Express Tribune",
+       "date": "2026-10-25",
+       "score": 0.0
+      },
+      {
+       "title": "Gabd border crossing with Iran reopened",
+       "link": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE1UbDZSUXV2d2ZJVnVZNzA3Z3pWb2x3UEVGQ3lvV2VpakcxVFR1VGw2UUNCeEJOajF4WjJJbi00VnE3Tkp6ZEE4Uw?oc=5",
+       "publisher": "Dawn",
+       "date": "2026-10-25",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan Border Closures Deepen Iran Trade Strain as Food Prices Surge",
+       "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPVkhWdHpqbVNiYV9VOFZ1ZG56dFltRFlqVmJES3diMjlUX2NtUTZkWGZpS1Q3a3NTOFZsTy02dVNjTU0wclFsVHFESVhJbFF3Y1NsU3pfV1lFLWdPMXhlYVdTZk5hS2Q1bG5meTlFQWxKX1JIbzFKOVFqN1NZUk9lOWo3NjBBMkJtMzduT3F5NEw1aFRndjdHbHpDMlVyUUNlMUhPbzNvWGd0WDRqNHJBTXdXVWI?oc=5",
+       "publisher": "Kurdistan24",
+       "date": "2026-10-24",
+       "score": 0.5
+      }
+     ]
+    },
+    "Utilities": {
+     "score": -0.3,
+     "n": 5,
+     "why": "Power circular debt rose to Rs1.675trn, with restructuring still unresolved.",
+     "headlines": [
+      {
+       "title": "Zinc hits two-week high as tight stocks spur bullish sentiment",
+       "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNVzVrdWxNREkxdDNtUExCeEZRaVVjOTJqeUhQai0wNk0wWEtKUDVIeUViam9pbWJUUU5LdnRxemJ5TkRHM2FXRlVmMFhzNjM0bEFSckwtQTFMLWEtbktyVmszSUpNRmdJSExnbjFXRzNLMWIyQVA3UmJpZWI5dXlzd0NVT0tnbWNEaTZJVGNaQzRpelcwcWxJVGw3eU0zYkZRdUphNNIBVkFVX3lxTE93RTZXMkFwWlduMVNBTnlpU0tGSXBTQUYzcDd0TUkyYzRNZFhPMDRXdXlXYTVxR0tiZ3dINWJiS1VqT0NYa2NFSkdWMFZlQzdpUkkxRXFn?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "Can Pakistan\u2019s military government make the economy grow?",
+       "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNaXNyWG1XLWNGRHZTY3owazRENXJlNmU3ZEI4Z21oQmVzZ1BrUUtsblB4WHMyNDMwaWpZdk02dXozZy1SdnlrdW11aWZzUFd3UGp6bnNjUTJxajRaeWNZLVVjMFVRZXhXT3NDN2ptS0pMVm9LdUJFcXJva0pXRU5EcklOS2s?oc=5",
+       "publisher": "Financial Times",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Sri Lankan shares close down",
+       "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9fWFlZV1NLVXhpWkpkdkpiV3FCaW9GZVI0RENNR1hvUFEzOF84OHFVYm5jNkV4OWNacVBpYXBKT19LXzNfUWhCc3lrNWhUN2lyZ2V5NU43UzBiNVFMWnE1QlFxcS1pY1l2b1FCYlBTN2R6d3o4dm1Z0gFWQVVfeXFMTmNaTlJiMklRbU4tQjg3REhoOFpvVnFSRG9oZE9iODZ2OGVoQ1lsUWJqOHFaZmFQX1hMb2ZnMEowdF9SV09IeFR1MjJlUGV4TlJkMjA4VXc?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-25",
+       "score": 0.0
+      },
+      {
+       "title": "Distribution networks: PC proposes power sector restructuring",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQX1Zfdy1HV2EzdWtReTZqcEU3cmlVYzVvUGk2VWFjaXdva1JzNFpxVTZ2cks2YldQWTZLRWxJTzYtRHVpMllabGxON0o2OWJQV0RsUzduZmRZc1h4T0xiVlhmaDJhVjliUGhvb1c5LWN2bnRaTjdRZ0FidHhGVEozVjlGMTJ6X3JhNjJuMFdtcmRvVG5nTDliemlDNGxsT3hGTUHSAVZBVV95cUxOTGdtMHdQUWtEazZFc1NrdmdZNHMxb25ZZjloY3RGLWZ6OUZCd3drYjN5bGN2NkhQcnZhNVh0S0dlc0lWc2ZsTjJyVG5sQlpsWm9kSTNYUQ?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-22",
+       "score": 0.0
+      },
+      {
+       "title": "Attention must be sustained",
+       "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBYSVBaZmNRSENXTXJCLW9xb1JwclBtRjVOYnkzVGg4TE1Hb2J4anluV3JQSkZMRzhuaUJ2VURTZDdGNll0VTFvbUE3ZzlvODhqRWp1WC1TdEs4Q1YxTW9VdGFDUllwN2RtaVU3MWNZSmNRamIyQlHSAVZBVV95cUxPMko2QVVheEMtMjJMLTdmODVISWt1WkgwVF9qWVUyY0Zxa2tzdGdjY2JLbjNIeXFzUEFZU21ESlppZmc0SGVrOG1KelVwTl9LUXJEMVRFdw?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-22",
+       "score": 0.0
+      }
+     ]
+    },
+    "Real Estate": {
+     "score": -0.4,
+     "n": 21,
+     "why": "Higher policy rate to 12% raises financing costs and dampens property demand.",
+     "headlines": [
+      {
+       "title": "DCR Share Price Today - Dolmen City REIT",
+       "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBhV0U3NjZWbjR0cUg5cm9leW5udUpqaEl2RkZkN1ViQ3BYNXlXS1kwWjkya2lyc3dpa0pFZ1g2eTlyelMySjRlR1dESlNkRjk4R1k2ZQ?oc=5",
+       "publisher": "Investify",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Soybeans drop to 2-month low on US harvest pressure, weaker oil",
+       "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQMWFKTGpoUXd6UHh6ck54QWlYUERkNkw3enQ0ZllIUVRSV1JxeTdpb25maUpCZmowVHpTbjVBSTUtNWlSS1BKdlVha2RJeWZ0Z1lUckV5Z0tZdFBqd2dmYmtRUS1JaVhVMFczUy1mZmhEZFNTaGw4dVlHbzlMVWZLUEdiaS1STEM5ZjhWWUFtQjFjZTRVcTNjVmF1ZGFVRzdBOXlRS9IBVkFVX3lxTFBKdkZBRVNEdVVZX3JtM2ZOUTlxNllXc2ZlUUp5aXpKSmxvRW9BT1B1TFd5YXhFODBaSzQwRGdoUFYtZ3YyemFyM1BrdVFoLWhNUjB2am1R?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": -0.5
+      },
+      {
+       "title": "India to evacuate thousands as Cyclone Arnab nears eastern coast",
+       "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNdThTWU9uai05LTVOWnNOd0ZBU3pTU200SG80NjI3NjZpQ1A0d3RUZTdsYTBfZ2pxYURpWnpZVXJWQU9Fd21sTm1ybjVxcTVKTF9wTTBiSGo1NmpKSGFDMUx1a0pMbFNmMk42cTM3aU1HTHBzMEdOZGxSY0Y3MTFJQ0RIVGpjcE5RUXlVTlJCYzdKdC1OSzY4U1RrRUJPVGp2TjI4R2IwRdIBVkFVX3lxTE93THpLQ0M0N2xaUTVSNC1wQWxldDNfMTB1SjM4dEc2eEVrTzBCX1EwRVpUSGFrcDJFNVFiU1BfRVRobUdLcGRqdFJlT3g1LTJ0YThfZV9R?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "IEA's Birol does not expect energy markets to return to pre-war levels in 2027",
+       "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQaTJfUloxVlpmYmgwcFJHYTlXZ1F6VFNiSE5WZmtySnJJb1hjZ01mZmdxcm8zRG8tMlJHaFpxUkloNWFsdkVpdm8yS3B4Q2JDRGVkTWc2MzZ2OThZbDVha29BalluYWdqeVBLVmhuMmNpWnludmJodjhTcVE2VmpTS0hGYlR1RDBZZFE2WWVic3dXRHlBeXRhNTFIbS0zN2QyNXp3eXNRajdLdzAza3VYZ0hVdmRDVjBT0gFWQVVfeXFMUFA5c24xbC1PeUxwanRoamNOMTFTSHl3aktqS0g2T3dkMFhlbW5MUFdVZnJ4SksyanlpTVZGNWVZWXJZUXdrMlVfVUttaEZ1MWxVeG5kLWc?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Russian forces hit cargo vessel, Ukrainian port infrastructure in Black sea, RIA reports",
+       "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFBhcHVuN096UmEzeWh1OERvcndQSnpwTTBYYnVPeHptVWsyb0RfLXFrbFlhcU9RSDR6ZV9NV2xJSTNPa2c0LXR3S3B5MVo4VDNj0gFWQVVfeXFMTVh5RzJFSGM3RkxxalpHcWtBb3pnYlRNeFlQN1RsaUcwbW9KRG1UcW9yZUNwUHJUeGpPcjFOYXFSOTd5clluTTBRSjBPd1lyMGh0NERkTEE?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Saudi Arabia to store oil in Singapore to bolster Asia supply security",
+       "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPREdYbnloSXZnMm5VbVF6MjVnWVcxUXVObS1IRDNLclpwaGpzQ2tqNE9kZDcxd2FqRnNXQzJkSWhlZjVTaHhmQ1N6aHpCenk0UnY4T2ZnQnVJVmstanJyMXRFVHJUZS1tTWlMSGJKLTcxZ2RObVpBQ21CMmVDWGl4bjVkYXJSeDZ0czhBUVhWSUtCSU1oVW1qOVJKdV9UTEhzR3BncWVQTlFKWWJvclpZ0gFWQVVfeXFMTlN6R3hDQm1CZVhRc0ZEQVBMUE1HNk51ckp1U1BocjJQa0RJWFFqaEI0OVdDYm8zRVpzaUJ3QVVQdy1KRXhFeGVPNmkzNkpQcFVXeDNCeXc?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "Communication Services": {
+     "score": -0.1,
+     "n": 29,
+     "why": "PTA penalty recovery is weak, though cheaper 5G handsets help demand.",
+     "headlines": [
+      {
+       "title": "ECC approves board appointments at Strategic Digital Wallet Company",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPbXNtTFpRbGkxSVBiSlFFSjRrUEhLMDFmNjhmZDlINmRTZmJuZlFfZExzNUJtUERtcHpaVS1WQjdHbFBJTnAtZUhOOUNQbEJjNGxIY3lBVnVqaUpDTEtEZFJueUgzdTM1eUZjM3Z2SkxnY25fZnExeHQzWDhhUDNmMXdSM3pFTkl4UWt4b3ZULUhicnlfUlFfMjJyOXN0SjNtcmFRZmJoSENfZ2fSAVZBVV95cUxOb2UyYWwwVGVzcElZNWQ2N0xxSFNmRXVRS2dPT0JVOWZRZFVQb1pKSE1CUW5VU2FIM19xdWRnaXhubnlSZHI4MTZFeTZlVnEyTjUycE1JZw?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "The Ministry of Information Technology and Telecommunication (MoITT) says 5G phones have become more affordable in Pakistan, with the cheapest available handset costing approximately Rs. 36,000. The ministry also reported that 607,093 5G-capable ha",
+       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBEenlVZ2ctMmVrZDdRSFJQUnZ4ZTAwMnE4MGZJbkNSS0JBZmNzdldpUGFYZ3lMeWtabjRod3N4WTBRWFV3Q09hY1c5VzJ3TlV3ZGc?oc=5",
+       "publisher": "Instagram",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan has ideas worth investing in. Yours could be one of them. Applications for the Prime Minister\u2019s SPARK & ELEVATE Program close today, 26 October 2026. Under the leadership of Prime Minister Muhammad Shehbaz Sharif and the guidance of Feder",
+       "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPTG9kQWtEbldVRnRMWlEzM1FXcm1pakxIN280MjRIN0hIcGVTZnJONGd3VlpEV3RnbEl5ckhCS0ZKVmtqT3pEbjVtV0RlY1VyVE5tRzZoS3lvbWpNcGVQREh0M2hac21SV1JOU243aE5iY1FGdjhXalNBTHM3NmVVcU5JQjdIMm16SjZ1MXhGZWhVNDN1Q2FzeF92aVlTb19SUlJlbFVHSURrS2ZraEJjY0phbWc1UHNpVVdGMVFPZHJPVHJvLUswUWxGSzEzbjZnWXc?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "WTL Share Price Today - Worldcall Telecom Ltd",
+       "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9rS2FsS3o2MUpreWNyc0JfNU42TGRZQ1VILUxVcmUyNkFGMExfdWdnV3M1TlhOWEMtWW9OdlVWT3hlZ2tEVGR6SmhTc1Zvc3BKWGEwMw?oc=5",
+       "publisher": "Investify",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Shadab shuts out the noise in knock for the ages",
+       "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxObUtURTlxMGZJMW1tR1BPY0VOVTlwSThOVDhfcFQ5LXB2ai1qeFdjZGhJZjNRdVFoYTJKRGlPS2txV1p1Q0Zxd182ZmY5blVwQldJRG9BQUVvYXVSNmtTUUoxR29EeGZfeUlWbUI3WW5EZjYwekFiWUxDajdqU2ROYlcwWGhEM0QwaEd3aXdfT2tYY2s3MnpSN0dxdFJ3MjZaQWNNSnZVZGpyb2pLS3BjYUJB0gHDAUFVX3lxTFBJNGZCTHZvcWZhSVFQLW1wTlpKXzJldHphanhFcEZLS0tqNVFUR3B4MGstVkdaZHJpdFl3Y2swMlFOcmEwWGVEM3h5ajNIQjdtX25tWUZ5ck93ZHlQM0NvVjh5S2ZzT3A5eVpKSGtwODAzZ0RpNDF0RDJrZVpudzlCTUFRTnJOdlVwSWxOUkZJbFJoYkNEdll6UjVWMFBRSmlRdkJNYkh1ei1pUi1VaTdadUN3S3ZYVFF0ekxESU03RE5fYw?oc=5",
+       "publisher": "Cricinfo",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Director General Enforcement, Pakistan Telecommunication Authority (PTA), visited Lahore and held multiple meetings with Fixed Line Licensees (FLLs), Class Value Added Services (CVAS) licensees, and newly introduced Data Class Value Added Services",
+       "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxORHZIQWh6d3VtRjNoSWJFbWliRDJVUVFfRS1QNElWRWRTT1lucjdVQVVfX1BETVdpYmZKb3FuVWFtczdYcUtCZnJ0UjZ1Q2g3Y3hpd2VycFhYQUVIN0phMmhwNXF1bXVzbHZWX3pkUVhkd1QwbUlkQlhyOUhVbGhVSXpNOWlwaG42V0lKZmdKN2JFV19EUnFQZjRvMmpGM3oxT043c2lpR1RrSEhWMHB1aVQ5WThCNDlROVVfV3VvMzk1a2JCR1BTR1VNT3MzVHRyaGtFcUZ0N0M2b3c?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    }
+   },
+   "themes": {
+    "war": {
+     "label": "War / geopolitical conflict",
+     "heat": 0.95,
+     "n": 68,
+     "why": "Iran war dominates headlines, driving oil, shipping, and market volatility.",
+     "headlines": [
+      {
+       "title": "Oil Prices Rise on Fears of Middle East Conflict Escalation",
+       "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQM1hJV09vQ2pHZVVPLU5uUVVCSTdEVk56TzBQSW5Walc2eU5XTTVqWmZLVUdJSGRFRUhUR2RJb18xbWVGOFN1OHJyZWpNYXNQU1d4R3RTcnRjTkJNc3FPTFVUa1lhRDFreU9Dc3JucjNvR0tTNUJScmtBYWdwLVZiUDUwaVFnMEZrQkRWdzNqNDNGRTVmZWc?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "In China, the AI bubble has already burst",
+       "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTnhLb1ZGYUdnbENkWmMyZDZqTHlsckJwbEsxWVZGTnI5U2lPcFNXLXFoYmRRZm1rU2NWREZrWGVRblRES2FmdkwtUVIzMDlTS2N4ZW5vNno1Y2JCR1FzclhmdUVBOU5jMElCd2FwTlN1VzdfOU94YXlFc2VSWmRObXZyMVhyNnlf?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Nairametrics The International Energy Agency (IEA) has warned that global energy markets may not return to conditions recorded before the Iran war in 2027, as the conflict continues to disrupt oil and gas supplies and drive up energy prices worldwide.",
+       "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxOamo3QmhrMkxjVjU0T3Mzd0hfdF9yVjBWNUlIcDBJeE80amVRU0IyVmJnaC05RTN5VTE3R2JUby0wY1dVY3lTRm5pOFYyY1pRUXlwR0VHRTdXUFhjS0E0S0czeUt5V243ZUI3ZVR0V1FpXzh5UnZtQU5sUGFtVkw0bkt4Y2FodE1FYUIydzl6UmdwR1RiN2hvZ0RuMDJlbllUU1ZBdHNLd1dCVXJPQnF2eVZoV3NvZUxrVGFSY3FTYktSSFZFcUJyZ1hKN29vRldaajhxTXBfMkRqZw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Global Markets: Trump muses about end to trade war",
+       "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQOEJJWjJjNE5hNEJQeUI1M2xQUXNIbjRiVkt4TS1hZ1dKcWFSTDY1RFhFR0xQTUZGNDJYRjAwVkRSSExrZ01KVEROWlNQYS1vLWNGZy1ES1JkSGp6SWVEbVFTRGR4Vlhha3pwa29aUW9pZ3h6VDd1ZExWOTB2UG9iY2ZNeGlxNllDWVFfVEtNdGdtTWs?oc=5",
+       "publisher": "The Western Producer",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Oil Futures Pull Back Amid Middle East Uncertainty",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNWk9kRWJfSkYwUzNmQ3pfOUVSU21YWjFpWjJDb3YydFREdDBHSF93TUhjYTkzaXdXQkExcTdUZEJCQ1A3M2FnWG04NFpTaXBQdFVFdnZzOUhGakFrVlgyNWNZV2VwUlFiLXp6TVdkelRhU0tUWnNqQWlqR3NfcS1fY0FVZkNkYzR0RGVoa05GMmJQM1ZldUFPcmstazJVM1dTS2c?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Rare earth stocks stir as trade war reignites",
+       "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNdmdmem9EV0NaaGJ6MDMyNWtTUF9TS0t0UENWUklGWS14VDJIM3I3TFQtQXhqWVRMLUxQdlJZNUpvRXZxY0NEYktLZW9sMkRGd01fV2UwcGx5bW1WSkhMaWJKZG1MYTUxVFBnZGJSR1VFVFQ5bk9EUnhzX2xOYjhDUHgxVnJKc2ctZVY1ZVh5dHhDb1JGeW91cDlyb1Zna2Z4UUliSlRXN190TllwS1BfSDVn?oc=5",
+       "publisher": "www.mining-journal.com",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "ceasefire": {
+     "label": "Ceasefire / peace deal",
+     "heat": 0.7,
+     "n": 12,
+     "why": "Iran diplomacy and Ukraine talks are active but unresolved, moving oil prices.",
+     "headlines": [
+      {
+       "title": "Mecca defense pact members hold talks with Iran",
+       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5pUElNbkJOWlFGLWsxTWpOV0l4V0wyTU5scEZ4TDA1aEFQeENTTFNNNUJBcnZRQ2xsNlIyUUtOaU1sdF9hOGxhYXd6dmlJVFhNTmc?oc=5",
+       "publisher": "Iran International",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "How war, security and coalition math are shaping the Israeli election",
+       "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPOHZNR2V4OUk0a0E1RXBydWs4MG44VU1vaGJyR0RQT0MyblExdkFNaXVtYXlTd2Z0TnNzNVpHazcxU2dLUklqVFJiUmxHcC03N05Yei1UVEVfcDgwR3lYTU12c0pIR0NTVHVhYzhUWDd0MkJMaVhXclJnUU5iRk1PUGV6cE8tc19tUkHSAY8BQVVfeXFMUE1wZ3BGVllfUUFwbnRYblpSX0xhVkxsWVc4ZFhPbUhRU1JYLTRVSDdzVGVoOHBoOXV0SnVkMk5fMFVEU2tVMHdXb3Y0dFdiSFJYdmdMOXJPQlJVZldVQV9PUjYwWlFRMGVVdjczTGhfamI0QzJ4NkwyZzREbV9SUWRnaGd6bnlVU01fbkNjdlE?oc=5",
+       "publisher": "CNBC",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Houthis say they attacked Saudi oil pumping stations, Riyadh airport as fighting intensifies",
+       "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxORlYwOVl3Z1hlOFdacWVmeXZVNnVhejFlWDVOR0toczJ2MWNjT1FMRWZjVU0xd1hGaGtzNU9VcGdYSnR1Z2NVQjFfRVpKallEcEVuTzNweldmeEdYOE05UXFOejl1ekR1ZjlxUlhHT1NLa3J0cmZYWUxhSEs2eXNGb2xNNUJycVNWci1ZVzZUOXBSNGc0bzRJNWVTTnVlWHhXRlBrLWRTOV9HbmlJTmVfZk95N0FIQnBLQTlTa3N3eFBaVDJMWGptVU1VN3A?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "CENTCOM chief visits Hormuz Strait, says US helped export 1.5 billion barrels of oil",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOYkVoR3JwMDNrcTlwckM2U2NScVVHTk8wTGU1YXZjOG82bTVseGw0UU5sV2l6cHVvSVQtWjNrMnJOSElrQ2FfRmhJbXA5bmg2d0pUWC1ETVVtanB4MTdPWlh2THJwVllwZ0RBT1VrN3hhTHJNSUxIWElJcjhQN3RjU1ZUalFUZEpoZnNwRnlOQ2FiSHNGc3EwUEhzNElucmdwS3dQRjhMLUVvSzA4b1hqakFaYTF1SzIzMHdUSThOTFRKTkpVMXd2dDFFTHpzU1VWVHN0c1JmRdIB3AFBVV95cUxOZElCcEp2LTF4R0I1NkFncVRJSUtsc0tsalJfQkhxdEl5WnNDdlZFbG5HQ1hCOVJQQzVGODlYZW1nT0ROTm9wRFRkaEJfX0ZmNWdBUmJBNGktWFhsN05LSEpPTTBCejNvVjRzd2ZHZmtvT0x0UzFRd2dxR3dMcHRHb2NsaFBYQTNHUVg1VXhIVXlxa2ZMbmRucWFoWF9CNHRhQVhaSTZ4QUlES3J6Vl83ckVyNHNiSDR6TzJmZ1VNQ093aW9GUmpxbFRFTUZHMXBtY1ozUDBGNWczN3NR?oc=5",
+       "publisher": "Al Arabiya English",
+       "date": "2026-10-25",
+       "score": 0.0
+      },
+      {
+       "title": "Melania Trump secures peace deal in Ukraine city, White House says",
+       "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQM29ldnd3QTNRMnYxUFFzLUJzV1dmQ2JYUHpxdEdxLVBZaFQ5a1lyZXgwRnBFeUMzcWhWU0JpLUxsOElVWEppYVNqQ2d5R3NrOXNQejFPYUhjMjFTaHE0NUlRbmR6eTZvNDNxa3RKRWcyRFBnSHJ3dGZNdlAwdEVWM0t1R2tvS1RPNXNIM0ZTMjFXYWgyX2ZpWEp6VGp4OWliaWQzeUdDV1ZIRDNDdnhGV0RadTJPQWJVcUx2bWdR?oc=5",
+       "publisher": "AFR",
+       "date": "2026-10-23",
+       "score": 0.5
+      },
+      {
+       "title": "Russia and Ukraine agree to local ceasefire in Oleshky amid deepening humanitarian crisis",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNQXVPZDR3anhldVZhWlRwYThoWWhTZ2pSdUZHTkpMQmo4NlBDUEVBLWlGQ2JHdC1oQWFZT1E3aGdXcXoyNEdvaVFDRlVJQmtWRWJJUkZjR2Etc1dVZ0tybUhuSnJXc2x3QWtCeTlNQU5lV3ZTcUh1NFowYVRzdEVxWWZxQVc4cmZEUzB1ZmJzcTFvM1g5NlhZQXY2VUpMcnZKNFNnX0x6YzlKazl1cWZCQmUzcTFrUm8?oc=5",
+       "publisher": "The Guardian",
+       "date": "2026-10-23",
+       "score": 0.0
+      }
+     ]
+    },
+    "china_tensions": {
+     "label": "US\u2013China / Taiwan tensions",
+     "heat": 0.2,
+     "n": 78,
+     "why": "Coverage is mostly typhoons and tourism; little active escalation.",
+     "headlines": [
+      {
+       "title": "Was in Taipei, Taiwan in the middle of the \u201clargest storm on the planet\u201d. A Typhoon with top wind speeds over 140pmh and we are out here grabbing cause that was the only thing open \ud83d\ude02 #typhoon #taipei #taiwan #travel #explore",
+       "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQQy1oRWtVdmpKZFRLcG85TVpIVG4xY05TVzFZT3laUWhvOWUyek9Cd0Q0LWZJb1lmVTQ3XzRlV3JwbEhhNXhlcUYzRm4wQ3poUFU4aFVuMVNna0N0QThUNFJBX290RU1aTGNaaWVabTFVbXJMenJqbkR3NHBWaUFkZHFoNmxTb0lxTHZZd3c2SGlickViZW1xSlFyQTFHTjNmM3hKdUdVSmJ4M092NmpIcGZCMTBlcXdhSHRDUy0xbE9YR09xQ2JGaVRBZGhaR3BKbWxsM3VrU2JqN0JkYmc?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Taiwan\u2019s New \u201cShare My Taiwan Expat Series\u201d Takes Travelers Beyond the Usual Tourist Trail",
+       "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPdmVOODlFV083QlVJUDJTMFU2NFREcGlCSFh3MzItQzQyczE0MVNhSkt3YnpZc0R1U01mS1BSakZFbDZBNFdGaTctUUVGVUF2ZGF1N0twQllUWnUyd3RMUUZuUzBSNGZ5WjdVd1ZyZ05aQTFTOWZHRERSbGpSWno2TE9WakUtNE5GbEw0VnExOFc4WlJpWmVqUXVRbm52eHQxNmtXTnNqX2NnM1hCX1Yxc0hBSWd0eXFGOEpwcmtRSExzNjdieDhfQnl1RlM1OWI1V3gzdmJGcEkwUWNVWjlyZjVKcw?oc=5",
+       "publisher": "The Des Moines Register",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Taiwan-Vatican Ties: The Dynamic Interplay Under Pope Leo XIV",
+       "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPaHBFd092Tjc4VkV2bHI2bHRFY3BXWmdxUG1wOGpKMHZPMXo3UWtjZmtETnloVFFKcHBRNDdaaWtIZXJUdlk1ajFyOWExQkwxbWo5Rmw1TVZCenJucVdPZFJ3RXFTNGtvQWFyWFo0YWROQV9fUWFxVGs3Y3Ntb1dqNzY0bFJaWlB5SG9aX3JUR3M3OEV4aE84Vw?oc=5",
+       "publisher": "The Diplomat \u2013 Asia-Pacific Current Affairs Magazine",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "China marks anniversary of Taiwan's recovery with events across Taiwan Strait",
+       "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOMVc2azdxRkVtQ1Y2OHF2SWNGOTQ1d3BWQkZ0LVFrb0FpMU5IRVZlYUpQdWhQcEtnal9vWVduZXZFZFRuSmh1d2MwdzZCWGQ2czJKNk9zbURTU0xmdkFQeDNFRzUxaGtLSmhqQ3VLUEEtU2dYOFZQU3gxLXQwRkJuN2VZYmdOR2k2NXVzbkJ5NXVCOFJEUlRWN3VYYzlpdmxiMGZkWDUwbldHNGM0eTM2RFpyN3ZHTzZVV3B3bg?oc=5",
+       "publisher": "Pakistan Today",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Strongest storm of the year leaves at least 1 dead, 527 injured in Taiwan",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNX1FGeXpnQ0VWOTY1RjVwb0Y1Vk94Rjl3UG9kNmdodlg5V2o2V3htTVVhUWZEdEJ3M1NMRXBRaExGWGk1U0Z2Y2JpN0NmYTB4NGd5VEpsT0dGdUozTFNuTGIwNDM5UVk3Vl9CQksteE9ydHhlUGpfclRXdnFiNlc0b1BFTWVaaC1Pd0VyQzNCcC1TemVnY1ZwU3B2M3AxaV9Ibzl5UVJKWDdFSm8?oc=5",
+       "publisher": "Northwest Asian Weekly",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "#RaceToPower | PLA Eastern Theater Command marked the 81st anniversary of Taiwan Recovery Day The command released an official themed poster titled \"Remember the history of recovery and defend the unity of the motherland\" Eric Njoka and Shreya U",
+       "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOSEtLa0RpY0ZKTG5OdkRySmVZOFFJc2tQZkkzVGdrMDdjc29LS3RSeUhNMHdsaWM3NldXejNTYnFEZnVYcmo1WlpNYzRRcnphMWVLeUhxYVpibE01VG4tLTBweDd0Nk9qY2U5NUJ5LTdZME82djRXb1Nndk5uOG1IYWZqX1JFam5raXRpekVXV05oNTZIU01QT2FfZDQ1UVpTUVp4ZTBrUFc4YzFBRk01UnlBU0l3QlRXZXVKWkp4U1g2RnhHQ3drcGNKTE91a25jdHhn?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "critical_minerals": {
+     "label": "Critical minerals / rare-earth deals",
+     "heat": 0.3,
+     "n": 7,
+     "why": "Some deal news and GM contract cancellations, but no dominant market driver.",
+     "headlines": [
+      {
+       "title": "Atlantic Lithium completes novation agreement for Ghana project",
+       "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNWFQ3SHczRlFXbjFJV3dDRFBSVFZ6a0tmQnd5T1JyS1RtWERtTWlCTWx4Wi1yNmVkeGFqdVVKU0Q1RkdtTWhWeDBkSmxGTkpFcEk0M1pZbFFJcU9TWkNaYUQ0MWZxSjNIc0c0RGNLdG1qWDQxTW5EOUM1aTQtWXZiaHFsVEt5SU1VeVNNZ1JmZzZfS2hoVVo0alFXZFM5Ti00bnFJdVZ3TU5oTnJ0Q2o5Wg?oc=5",
+       "publisher": "Mining Weekly",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Western Rare Earth Magnet Supply Chain Gaps Explained",
+       "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQd24wMkREWG1FekZOTHNhY2JJVGdPa0JqT1huLS1vclZiRFZjTDRQRE5FendURUlHZEMyVTRCdzUtdV9oNUl3X1QweHkyeUdlWW8zRTZRTDMwbl9CM1pfTmt0VU1MMlV0dGFOMHBuNGpsRlBOOG9KTkZIeHlhUzFxVw?oc=5",
+       "publisher": "Rare Earth Exchanges",
+       "date": "2026-10-25",
+       "score": 0.0
+      },
+      {
+       "title": "Nevada Antimony Deal Targets Historic Grades as High as 54% in US Critical Minerals Expansion",
+       "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQMnNvelhFblpIMUZianR3OE1RbUVhRVFXMUt3QW9wMjNUbHlqQzd3c0ZIN09hbW95VzJzSVpJUWdFMGR0RkQ0TGdLRVJHZ3lHcnBDVmRSRVh4cUI0aDV1c2FjWlFLZmNlNjJxTXR1ZVVCS0dfdWxSR25rVkt6c0I2bzNkZXlKTWpVUG9zMVBiS3p6aURGNVBfQXJCWHBhVGlOeVhOOE5NVkdpa2hEejV2aW5KaThCTmdoNnZhQTB1WDMzeDZZUWJDQTBSMmo5QzVIR1IzSG10bi1FT0l5ZEhfc2NQYzM?oc=5",
+       "publisher": "Streetwise Reports",
+       "date": "2026-10-24",
+       "score": 0.5
+      },
+      {
+       "title": "GM cancels deal with new US rare-earth magnet plant, documents say",
+       "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPY0I0WTQ5OFNDd2lhVmphYXFOVHE2eE03X1MzUHVFaUkwSTJoODQxQndWZnZLcWVQVmVjTDVISnRrNHEycWZyNkFOYkFMTzF4QnB3eUJYcGZpMkJwWkdpQ29GTFZLWS0tcUZ1VTFvYWl1Tl9nTWpMT1dIZWZaOXR1S2JJUjdFN3ZzclZSS3VYcnZkX1hzbE9UTjBPRHFNOHFjLUcxNVYwLVFVenhfaWNHMw?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-10-23",
+       "score": 0.5
+      },
+      {
+       "title": "Micron Invests in US Critical Minerals Supply Chain for Semiconductor Production",
+       "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQTGE2dUxvQlFkOGI2eTlhZW5fRTBMdEJPcmJjbS1xbFpTbFRVSDZJWlRiNzlWZXRkOXlrOGZsZlRJRHhVa19jd21jY2lzX2tET1JJMjE2TGJiRVUxUWw5TGQ0ZzdDMUdpajg5QThwcE9HZ1M4a2xkRm5FbUp3SjZ6RXhaUDd1djNuVzE4b1EtVlBJa0JmMV9N?oc=5",
+       "publisher": "Thomasnet",
+       "date": "2026-10-23",
+       "score": 0.0
+      },
+      {
+       "title": "GM Terminates Rare-Earth Magnet Supply Agreement with VAC",
+       "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNUEVmQVd6T0VXSlYtbmtFdlo2a21MejYzdE84TjM3ZldyUlFNMHBKU2hxbWVnVmRzQ2NfQ1hkZi01ak1qaWYwMXVwQm0tUmkzamFnNlBlSEdBQlUwTWZGbWY4LUoyeVlsck1zZzR1N2pZTEk3Y1BWS2NNM0JKT2tiaVYtOEkyNW1BMHo5MFlnNXR5aHVfQ2Q1ZmZqSXJOYkp4cHNvNTQ2V21FRDBpXzNJ?oc=5",
+       "publisher": "marketscreener.com",
+       "date": "2026-10-23",
+       "score": 0.0
+      }
+     ]
+    },
+    "sanctions": {
+     "label": "New sanctions on major producers",
+     "heat": 0.5,
+     "n": 27,
+     "why": "Iran and Russia sanctions and waivers feature regularly in market news.",
+     "headlines": [
+      {
+       "title": "In China, the AI bubble has already burst",
+       "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPTnhLb1ZGYUdnbENkWmMyZDZqTHlsckJwbEsxWVZGTnI5U2lPcFNXLXFoYmRRZm1rU2NWREZrWGVRblRES2FmdkwtUVIzMDlTS2N4ZW5vNno1Y2JCR1FzclhmdUVBOU5jMElCd2FwTlN1VzdfOU94YXlFc2VSWmRObXZyMVhyNnlf?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Saudi defense pact states hold talks in Iran as Yemen\u2019s Houthis launch more attacks",
+       "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNbjd0Qk13Qnd4X3dfMFBodkVpT0R0SVZLaVhjbWZDVExKUi1IY205bXZTWnJCdXNhak5rMUNYbVN2N3JKTmxvZUJDR3I0ZU56aUtMQTVVMjZPUkt2R0ZiNGhMQmZTUU00Y3c4Z2xoajJSY1VyS016dXFvTmRhZEwtNE9IR0plQ0VVX2dFU0xSaW9MRFY4TkhXeGVOeHJ0VjdwWHVMcGFMcE5NYVYtZkpMQU1FQdIBuAFBVV95cUxQQTdTNlByWlFZWmw5SXk4WFFLX1FINDRTNW5IN1lycnp4SkI2QjhiUWZGWjJIRnduYXZjVnJ0Rzd5TEVRSm5LY3k3anhfV1hsYkVOdF9sM21GWF83MHMtWTdvbFNTZGVhZUZkSDJIQlZWY2J4SjJRMEZVcXFXcFpiVnJKZEsxNVFlbW1JS0JTeWp1cnctZ013aHlLeE5rdHpsbWYwNFZDTWUzNHJ0RGFRMVZCaVcxT01n?oc=5",
+       "publisher": "The Times of Israel",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Executive Order Implements, and Immediately Waives, New Graham Act Sanctions and Tariffs Targeting Russia",
+       "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5kdWV4ck14RGMyNVFOUVF2akpLNGFhdTRBUGJ4M3lRUWV0ejNBTDdyY3ZISGlxXzVIMkE5Q1hua2ZldkxiWTRTSjc3MzVtcUNnZTh4b1BVWDloTHFYNjJfZ0Y3bXlxa1NqUG0xU3dNXzJ5NXlDdHFHbi1BaHVydw?oc=5",
+       "publisher": "JD Supra",
+       "date": "2026-10-26",
+       "score": -0.67
+      },
+      {
+       "title": "Oil spill off UAE widens, satellite images show, prompting more beach closures",
+       "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQbHhFSkdqM0dlc3lWWVViWVlQMDNlNnRVQkxSUWttcWR5R19wV3dvclAyOGtmNVFZMEI2YVVheGVlLUlJNTB3bzZGeDlqRTEtMGZiRk5ZN0x1dWs4a2VNaElUUW1Yd0lxaFRpTjhtVDdael9uaEpHa2kxTllSWVRHSjVIMUVLQmJSNUlGZDF5S0JEOXJ0Rk5GR1lFN0thcWNqSW15RmVsMUFrOUpGeE9lMm1oNVZVNFdjaVQ2VFJielNUM29rMG1BZUd3?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "EXCLUSIVE: How purchases of sanctioned Iranian jet fuel were disguised by Myanmar",
+       "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNSWl4SlBja1R4RkhhaTMxemplMld0aldQMmlzbzdsOVlPMnJFWVNwRVVMa1dnanFtOVctTlEyWjl0SnI4Q3I4TzQ4QU5LRjRtX3BKSXc2RE5tQTNRSWhKYXlvX01QdE1OZWlQc1d4ZkZwWWxVQTVGLUR1NWFVWjZYcFNvNDJXS1hOYXUtVWRQSkdwMVZ5MGtUcHpjUTI3TjZ6M0VZaUdhLVdSTzA5UXkyYXlWUTFyRHlXb0tF?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "World stocks gain ahead of 'formidable' week for risk; oil prices ease",
+       "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE90MHowUDNReVJUUkkxWEZhTnAyYnZZNGNXQjJPVWt0QjgtaERfUHM4bERQd2k2NW5kMXR5dld0NHpsYnBhOENieXU1VU9saFBya202TXRjUktMa0l6OXF0OEZFUDdxR3FtSTdCLUxRVGpZNnBndExIcGVEZmtXZw?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "oil_supply_down": {
+     "label": "Oil supply disruption / OPEC cuts",
+     "heat": 0.9,
+     "n": 38,
+     "why": "Hormuz tanker attacks and Brent above $116 drive energy market moves.",
+     "headlines": [
+      {
+       "title": "Mecca defence alliance members in Tehran to defuse Iran-US, Yemen tensions",
+       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxONk1ubVptNEpFS3lXMGZ6TnEwaHN4aVh1c3ZhMkc3T0xoYzBXWHpJYXgyZ20tMmRhQTQ0X1ptZ3RJd2c0bjVuN19kaDRHS1hKdjM5R1dNbjN2Y1ZCRkhpdndVYXlibUFreS13QmN3dC1NcmJSel9aUHdBcEE0QUxUcTlHS2NkdGhwSjFGc0lGT2lIOWY5OW9aX2dNX3RLdTNvWEF3NVI5dGNIa3pnalFiT0hMVEFoZ9IBuwFBVV95cUxOUEFzeTRiSDlJa0pLZXVPUVI3NVRqSjVfSzlxMnJGQWNtMzNTcmdwVTFkR2dTXzB5MXRzLUF2ZEFqcHVyRDE2Z0IwaW94UUVDQTltQjFKbGNJd1RTRjV3UTBXY0NxQmh1aExGWEVaMnJscUZmRkJLTWJoaG1aU2drSDRMcnJYVXBVUVYxbmZ3MFpnYkFjLWp4b2dSMFdpdkphbE90UHFfZHBVUTJyQXVNcFVGV0JRM2REZ18w?oc=5",
+       "publisher": "Al Jazeera",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Oil Futures Pull Back Amid Middle East Uncertainty",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNWk9kRWJfSkYwUzNmQ3pfOUVSU21YWjFpWjJDb3YydFREdDBHSF93TUhjYTkzaXdXQkExcTdUZEJCQ1A3M2FnWG04NFpTaXBQdFVFdnZzOUhGakFrVlgyNWNZV2VwUlFiLXp6TVdkelRhU0tUWnNqQWlqR3NfcS1fY0FVZkNkYzR0RGVoa05GMmJQM1ZldUFPcmstazJVM1dTS2c?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Adm. Brad Cooper, commander of U.S. Central Command, visited the Strait of Hormuz on Oct. 25, the U.S. military said on Sunday. The visit came as American forces \u201creach the milestone of assisting Gulf partners in exporting more than 1.5 billion barrels of cru",
+       "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPMXhKNWZMOUNtcERWMlpINTFEMTV5YktIaG42ek40a1JHcHZaaGpxUVR4dUFPaGZpT05zckRKMXV1TWNfZDhWR0lxOGg4OFIxaEZERmZlYlktRjFRT3RNb3FSaW9FZmZuX0JRaF9LS1M1bVkxX1BkS1o3Mkl1Y2pkR1NLV3B3X1p2WWZXZkp2UVFoUlhvVXR6REl4OEZjMnEtRW1tU3R0bVp0em5GSVBFbTRTMGx2eS1YcE9Mc2tGY19pQ3FVdlJjQ0tVVUZvaVNxNUdB?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "LIVE: Strait Of Hormuz Shipping In Focus As Oil Prices Retreat Amid Iran Hopes | DWS News | AH14",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9sUGFIZkhsZUVrenpLX2RaYmgxWHVkYXFaVjdQRzZ2SFI5SDJlZ3p4SHBCeXBDWVFUUUxtdzlwV0ZOZlZuQzNCU3F0Zl9xeDhxQXNfMUNn?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Trump says he's weighing deal with Iran against action to \"finish them off\"",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOZXdRdW1Db041UUN4dlYyNURUdmFWS0V0V1hCc0hnNVBZWlIxYk5Pdkg0Nks0Ri01UkRsM0NVR3VVTEVzc2psaWhpZDk1ZlRTTG0tcHgzcEZkTURsUDFoejN3MVl0NVBKZXNwU1ZVeDI0VWY5TEJ2M2dqSXBDcFpRTzRvSExKWEtVQlNzLUZINnZsT3phZ0xROHd3VXc?oc=5",
+       "publisher": "CBS News",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "Oil prices dip as Strait of Hormuz remains a focal point in the crisis",
+       "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNSFQzbU0xTlZ2UVVZMGRoOXd6Znk5dmowZ0N1eEJMR1dZazljRmk2UWJ5VV9xZ3h5cmE3a2VUa1ZhN2xZNkhKUVo3RVoyeFJRRk9nVG14MHU3QUpiVW1venpyTlFocGhINENSVWs0dGZudWVJejJzS1E3bDVzZkVCOVZTU0tlc2d2TXVYck5sektVSERTWUdfWkRrd01VWXh0TFBIeUVFUDBzNXp0WV9HMTdLTDJINWZfdmxvZnRjVlRCQ0RlcXdkLWVhRjg?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "oil_supply_up": {
+     "label": "More oil supply (new reserves, OPEC hikes, Venezuela/Iran barrels)",
+     "heat": 0.5,
+     "n": 17,
+     "why": "SPR loans and Iran reserve depletion are active, partly offsetting supply fears.",
+     "headlines": [
+      {
+       "title": "US Loans 8.5 Million Barrels of SPR Oil in Second Batch Since Iran War",
+       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNX3BNZktJMXBqOEdWZnNwTVd0T3owc2Q1TGZ5YUN6bDh0NFVXWDJDRXpYekRvTHZueldCaDFvaXFVOFh5OHJoTDJib210ZU9JRjlxeW5pS1ZaZDJZbHN0Z1dvNWZsZEZyeUtNODV0NnR6TVlTR0lwVThEM19LYzl0RkF4MnowOHpjNzdEQ3E0UEl4Tl9jTVptbld1NWlQc2x2RHFN?oc=5",
+       "publisher": "EnergyNow.com",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "The World\u2019s Oil Reserves Just Got Handed a Stress Test: One Analyst Warns the Real Worry Isn\u2019t the Price of Oil but the Supply",
+       "link": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxPMFpwNXlMbHR2WEVGa1dDTURlOTNQWkNYNlRTSmh3aHFRLXJmSkJLbE1CWmdHdG14cWF2YWFINnM4dmhybGdxdnlPeDVUYTNfWnVOU19Tamo4LWFMbXowTmQweTdsSzBaZVk5emZXYk5oRVpQVXR6TlVYaEt6ZDlDT3BIQ2U5YTFEMWVjd2xIOEFnN3E3Tk9jSUZkVWtOY3BodGstOG02V2ZTdXhia2RNUHV2bndzaXctRTFLamxtaEV3eHFrdmQ0eTNsWUFVZGhUemZaQzM3aHFmVlVMR1BhZi1oa2s2TXNDb18zTDZyT2VUQQ?oc=5",
+       "publisher": "National Security Journal",
+       "date": "2026-10-24",
+       "score": -0.5
+      },
+      {
+       "title": "Venezuela\u2019s oil spending divide",
+       "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1BeElIcF9GWk0wSURVVXo2bm9aSF9LTEFTbWhvOWlLVlozalk4cEhONGZPT0dlV0dDOENqbjFBcWNxRTNaX25sNTFQdmE0eUJnbzh5YkFhNXgxSlRHR3lLSWVCaU9aSV9TSFVWYTZB?oc=5",
+       "publisher": "Punchbowl News",
+       "date": "2026-10-23",
+       "score": 0.0
+      },
+      {
+       "title": "Are global oil reserves sufficient to withstand renewed US-Iran war?",
+       "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPanhMUG9fMjBOTDd6UGhPUnUzd1pPcTVseGNYeEY0SXZPZXpEZVlkREFUVFRUQkgwSEpXQkgwNVF4T29pdGlkWTFpYWhzamt4U1I3NVhUVmxGM3hnUzRCMkdPZm1zb3FjeWRYYXJLcTdaTFNNQTRwS21hbjlibzhoQWt3VG1oaU5tQ2tLRV9IazZqTVFabzBINmNKZ1BSY1lxN0NqVFVFU2ZJYktuTGfSAbMBQVVfeXFMUG1ncnBSWUd5S0F0LUx5c2RSVjk4QlFPbGlpUWEwZkhKSVRoYVhiU2FmS2lLWm5mdTR4LU8xMEJlRF9fU3Nua2psYmM3T1ROdDN4VUltMVc1YUc0OUFOMzI3UzB3ZGdWRHFiX0dEdlpiai1aOWR5eFoyaV9qbEVHQUZ6X3hMelBRVkg2STlzNm0zQ0wxTjhvb1p0R1o5clBGYVc0b3NaeFlHNkp3a3RmY1g2ZVU?oc=5",
+       "publisher": "Al Jazeera",
+       "date": "2026-10-23",
+       "score": 0.0
+      },
+      {
+       "title": "Saudi Aramco Seeks International Partners to Expand Strategic Oil Reserves After Iran War",
+       "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQdG84V3lfWjRNczhOUm01cjlQbXRTNUU4aExzTUNJdWtPcmFCbWtuR3FfcDUyMk40QWNiNmw5LWlFUi1sMV82NF9ObmY3SlBaczNJVXlXenczcFV0dGZQdHVHUEs2MVJjcDJLekEyLXpOR3E4ZXVQYnowbEh0Y09EbXBPa2dvRW5CUTZha01fb1JtRUs5blRJMjlvN0JraVdnak5xV28xcG1oYnpHdGduTlhVcGs?oc=5",
+       "publisher": "Tekedia",
+       "date": "2026-10-23",
+       "score": 0.0
+      },
+      {
+       "title": "\u00d6lblockade gegen Iran: \u00d6lreserven auf Tankern schrumpfen \u2013 Warum Teheran jetzt Milliarden fehlen",
+       "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1WeDY0NXpNVlB2TjhqRFhfdnV2djYzSS1zY2Q4dHVLbWQzLU55UjFOWG9uWGlaMHdFR1dxSnI5YUpyZXEzbzRYNjBxYkZtOTZOQk05TWtpYUx6aTUzNjBxdTVxVTNjaVJnbWlHRdIBdEFVX3lxTFBDX2J6R1hURGMwSFM2TnlvY0hIVmJpOC1HMW1jeWsxTlg5aE5vYjBTSHoyNHc1bXRXcUNwSk0zRXRLQ05qTmZ2bFZIWmdjUU01WXpRWnBiSmhQZnJwZlVNeXlEZGV3SnBpeGNBRjNjSXpJS2ha?oc=5",
+       "publisher": "Xpert.Digital - Konrad Wolfenstein",
+       "date": "2026-10-22",
+       "score": 0.0
+      }
+     ]
+    },
+    "climate_policy": {
+     "label": "Climate & clean-energy policy",
+     "heat": 0.3,
+     "n": 15,
+     "why": "Clean energy and North Sea gas stories appear, but without a market-wide push.",
+     "headlines": [
+      {
+       "title": "Government welcomes Official Partners for COP31 Pavilion",
+       "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQaWRxbTdtQ0R6RDhYYXZFVVpRSjlKSTk2Z2hvb2RmSjJVS1B6bFNpTGtnNnV5d05abWtsRnZlSUpMTXptNUMySGZWOWxIVE9OLVFzSkVjZGphNWo4a3RxMFI1MXZmOUxKVERGcEhXTUxPcVpXVkRjSzRJTFduSk4zUWpZS09Ka3JiczNab29DNGF5WDBJNWc?oc=5",
+       "publisher": "GOV.UK",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Who is Lula? From ex-worker and prisoner to Brazil's president again",
+       "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5HWE94bXZDaEdNcUhtNkJWQk9hY0JYVVJKdENmblVVcW1WanU3WXlJdGptNzhyWDFubnBwZXVzZ1g3T2JqWUQ4NzBDb3BDd1hOak9uRHpYUERQazg?oc=5",
+       "publisher": "BBC",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "European Commission to invest in renewables in Arctic region",
+       "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNdzg5dVMxT2Y0b1lmM2JYZlhPVE91QVA4eVBIUlNvMlVsUWlZc0lZTzdOM192WEFrT1NhUm5JTVFRdHpxY3ZxdGcwcUkzY1FFaUVqT2xicFVTYXF5azBXYmo3aTNpMzdndkIzWHNFRkRDaDNVQWlCTDJMc1FFaWowMlA1MDA2RldHb1h0ZzdSb012bkhtY2hB?oc=5",
+       "publisher": "Enlit World",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Development Of A Biomethane Strategy And Policy Framework For Northern Ireland",
+       "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOa2o3c3VyTUlfV0FwNDBDa3pQMERxdGZjNWdKOTUtVC1uSHFrRWZpNnhxYTBNUFFaUnVCanAzMjlRTWVnODhtd1JZcHFleE9TcEtzSTh6c1pySnRnNkJIZXAyaGt6aWk0ajFjcG5ERHRkbnVwZy1wVlhjc0FpblJ4VnN6RXpUcDV1MmhKaUZOX0FwRDZ3ZXE4dEdJSGhIVk1ybm51SGotQm1aY2ZteWx2enl3SGlmeTJRQ2hfWFQ2QzlFT21PWnZN?oc=5",
+       "publisher": "Mondaq",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Anthropic taps a deep well of distrust in this rural town",
+       "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNcGJ0WTZNWVZycEJsRzZSeVNUNF95YnlNVktLZXZlcHRYQ1NObmozZzFLQjRUbFpNSzBFTzBMODhmMm5oYkRoMzdOaWJVMmhCcHlNUEZ1YUhJZ0dQSXVqTXdpREMtU2NxMnM2XzFBckZpaXhhUUdPQVN0YjhOb0dRUlJNalJwWnU5VzF6MnllQjBMUFU?oc=5",
+       "publisher": "CNN",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "The public is invited to a clean energy forum in Taunton bringing together government, education and business leaders \u2014 and a student voice from B-P.",
+       "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQZmFOU2xYQ1VVV0p4SWt1VnJhLUItb0tkemM3NXF4NWNDeUNSUmdFQ0xvUkM0UEVobFhkdmhIcl90TVVzTmF6dk1nc2dKWmsyLXFsQW93OEIzX1hibkNXa3U4LWtrVVExTHpLVVM4eHhZNzVRWjRIMUxtVWxyNFZQM2FiSnpfSHNVSnJzWGNwOXVZbl9HemhDRFBtZXUzX2JQaTBtZ3kzUnAwdm05MGg4dWtJNW16U3Z1MXhXMTZYQTJvLWxRTV9iUW1WdGRrTE9EemM3NTgyOGw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-24",
+       "score": 0.0
+      }
+     ]
+    },
+    "tariffs": {
+     "label": "New tariffs / trade war",
+     "heat": 0.4,
+     "n": 86,
+     "why": "Canada tariff talks and Graham Act tariffs keep trade tensions in the news.",
+     "headlines": [
+      {
+       "title": "President Trump Implements and Waives New Sanctions and Tariffs Under the Graham Act",
+       "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNUWJVVTlNT3hGX0R0dU8zbjItQ1QwZUNpc1U4T0t1RFJOWUJMYlR1TnhYN0NoTFl6aFhMZEdjOFRQUlAwQ1UwdHMtWEh0YWtMZk8tdlcyLXN1UWF2M1A4MDc1ZTFKWm5RSWVvaXlLV1otUlBOMlRGQnRRem9CUThMdXRUcW4tWjQ?oc=5",
+       "publisher": "JD Supra",
+       "date": "2026-10-26",
+       "score": -0.67
+      },
+      {
+       "title": "Executive Order Implements, and Immediately Waives, New Graham Act Sanctions and Tariffs Targeting Russia",
+       "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5kdWV4ck14RGMyNVFOUVF2akpLNGFhdTRBUGJ4M3lRUWV0ejNBTDdyY3ZISGlxXzVIMkE5Q1hua2ZldkxiWTRTSjc3MzVtcUNnZTh4b1BVWDloTHFYNjJfZ0Y3bXlxa1NqUG0xU3dNXzJ5NXlDdHFHbi1BaHVydw?oc=5",
+       "publisher": "JD Supra",
+       "date": "2026-10-26",
+       "score": -0.67
+      },
+      {
+       "title": "Saudi Arabia raises electricity tariffs",
+       "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBsSE5aTnY5WW9ELUYxQ2VEdmUtd1FIbTlUa0VKVUlsLW9jNDFPQ3ViRnM0cmRaRUJNdkZkMU1fME91ZGhwTEZmVWhGR21DX0xkdXh1NlQxS1lUTzhjTlU2TE8xbm5NbXhhYnJ1eA?oc=5",
+       "publisher": "MEED",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Trump says he expects trade war with Canada to end 'pretty soon'",
+       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPdndEd085NVl6ODh6Mmp1NFV4Qk1qN2kyWjlkcEhMUmtkcnN6ZXJpdV9VLUpzcXVOeWc3VWhQdzRGR053bm5OanVNLVRmSlJDeUdjYVNqYWNLb2Jsa2RmMENKV0RzemJwcFA2NHZrN2FqdDRXeUUySlR2eTE4YXNNbEtkWTdPUlpwR0FSU3RGbE5DZ0tzckRCTHBnY18tamVLTTkwZ0RKcWJTampaV21OV29uTjhfdw?oc=5",
+       "publisher": "CTV News",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "\"We are well on our way to pre-tariff business levels boosted by new genetics\"",
+       "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQdnpwV2lDVVYtdlFuOE9DR2N6OTRDOVZoM01fMmNjejk3TkR4OEpqLWdzaEtaUElxVDNtSWpjcjNQNmczUWRQNl9QdUlkcTZkSFhYNUVqLXlobGpYalJ1SmJJaUxVYjlhMmdLRVJ3VHR0LVRkN0RyQUoza2J0V2wzWUZwbDhGUTFfa2xqbWJBaFQ5SjgtNndwbUlmTi1qTmNuVHdaY1ZhcVF6Xy1CbktIZXdQdTRPcUVwZUdVdmdB?oc=5",
+       "publisher": "Floral Daily",
+       "date": "2026-10-26",
+       "score": -0.5
+      },
+      {
+       "title": "New tariffs coming into force at beach car park starting this week",
+       "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPV3hzZ1AzX25YQ25qVGtjYnZQWWQtZlcxOW1MSTlCVFdBaUI5QkF6eWRMNVNtUkNBYmVmdlJmUEhBdUxNZ1dZV3ZoWDZodFY2bnpfMW94X1lXNnJXai1vSzZjTnRwS20zdnJZRWktUy1XaUQybFlZSGdNcnlWNEU2VVNpT3NNSk1aR18xNldDVFpKTXYzUzFkQjFQSzhJSGJpaXBQTTZiT1QyckphY3NKMk5ISlB5cnhNVnJuVF9ydk43aUxqOS1wWg?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": -0.5
+      }
+     ]
+    },
+    "trade_deal": {
+     "label": "Trade deals / tariff relief",
+     "heat": 0.3,
+     "n": 80,
+     "why": "Canada, India, and GCC trade talks progressing but not yet market-moving.",
+     "headlines": [
+      {
+       "title": "Trump says Canada trade deal coming \u2018soon\u2019",
+       "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOQWtBMFBQb2NqNzlQRmNVQ044UXdwNVVmLUU4LWhqV2pNZ3JlNjQ2ei1uc3N2X2VQb0tMd3d0TVFqdFpld3hVX2lqSktxRFlQZzlGZnctamdHenFWcWVrN1AyU2VETGtoNHVfeDUzOXpHQi00aFhLSEpXVTEtMlJrdDFDQ3drQ2VTcnVrZnpPTDc0aFZSOXBKQ3NXNEpzMHhDUmczbFlUYS1VQQ?oc=5",
+       "publisher": "The Daily Star",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "The UAE has signed a trade deal with an African country, targeting a $1 billion export boost! The agreement could create new business opportunities and strengthen trade ties by 2033. Full details are in the comments. Photo credit: Getty Images",
+       "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxNMUk2Yjk1TFRzUXFpNHRWeGpfbTd1M09nYU1YMzQ1UmZVVnlVS3pvdGI0cjJxcFRXdTk3LWRYZ3lQWDdZa0N1eklwRG05N1pyYkE4QlpQYVUyb2ZKLW1laTlTQjI2RUdIamE3VlhuR2pUZV82UlZ1cHBJd3FlVnpVTGFId3ZrTFI3ajdIWmxtcTdpZHhfWm5mZDdJSUtLV1RtZnJLOTVjTDRlanRzdzhmQjJpaFpCeGFKUFVxMG5ZQ0pTQnY4S1poa2ZKaFNLRzZ4Xy10NndrZ2dUeU1PZXFwTm5HYw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.67
+      },
+      {
+       "title": "Foreign Assets Disclosure Scheme | India-US Trade Deal | E100 Fuel | Share Market Update | Awaaz @9",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5UemE1cHFJcWJEelBZdzlHTEF3alJjR3VBWXEyU0VjNWYzOHdJeDEtaWJ5T0ZUVHdRZXZlQU1DWW91NTBQY3dlOG1EaG95NTJfYWNzTDBn?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "\u2018Hurting both countries\u2019: Ontario Premier Doug Ford hopes Canada and U.S. can negotiate trade deal soon",
+       "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPU2lDOTdvandmbFVWakxENGNHcmxDN1lOQzR6bW1BM2R3dEFPVk42QlF0OGROTF85cktOTC01LXdidjFaUVNfN2lWN2Q1b05udW1ERWh2a0ZDWFhISlFrSUN1NGpmX25LMGQ1ekNqcEVRVE5Eb3lFS2V6M2d3UUxpT2VUdjExeDFXLWNiMHVhM0NVY2QwQUZ5a1I4OVk1Nk9BLXdUY3o5NzdJdm5ZU0NjZXoxZEoxN1lNdHlhZ0ZLOFFKeFo2YUVrX0tfaE01M01jUV9tbQ?oc=5",
+       "publisher": "CTV News",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "Piyush Goyal On India-U.S. Trade Deal And India\u2019s Push For $85 Trillion In Global Market Access",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE8wRDkwc3dMWHRVMDN6RXVqUWd4Mk5OSUs4WTJwREpuWTNYY1l2NFVQaDJtZWlGYWZ2SG40X0NVY0pfMTV1bm1NUDByTjE5LUY4aFVIRy1n?oc=5",
+       "publisher": "Instagram",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "'We need a bigger say': Ford pushes for more immigration control, fair trade deal",
+       "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNaXZ6dkRJOHQ4WTl6NjFFX3JuNkhwRFl3VF9haXZkbjRQWDNzaEw0eWxQQmlOMDhVWkdOSWR3bGdVeFZtQ0dLWmg4dVVPTWxQcjhldlRGaG1QVllYNXFyQXplREExZEVuMzFWbWNXWVJFUGRqTXZJNGFYWG9PU25WeGFfT29TSEgxU2dabkFoTjVidElRLXBVSlRxeDVoMEQ2WWFPU0lFbjN0ZkhBVk10aHI0YTNUYmwyZmlFeEVB?oc=5",
+       "publisher": "CP24",
+       "date": "2026-10-26",
+       "score": 0.5
+      }
+     ]
+    },
+    "chip_controls": {
+     "label": "Chip export controls / tech restrictions",
+     "heat": 0.3,
+     "n": 68,
+     "why": "China AI export controls and Nvidia comments add tech-sector uncertainty.",
+     "headlines": [
+      {
+       "title": "China Accelerates Implementation of AI Technology Export Controls: Controlled Technologies, Overseas Business Scenarios and Compliance Considerations",
+       "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNbWVodXZJWVROaG42d2tnRlNLZTZZM2MyT0ZHOV8ybmNWY0VldzZwTExoUHBsNnZJXzFXeHJjc2l0V01KcUVBYmhRSEwybmdMYWV3ZkVIRFhQLVoyNi1CQ25XX0x0N3BlRzYtenhEWTdOUDVnLVlGUVpRVm0tTVY0ei1LOVNmWkpQaU80?oc=5",
+       "publisher": "Lexology",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "What Are Chinese AI Companies Saying About the Impacts of Export Controls?",
+       "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFBxaXY5T3Z6cDdMQk5fZG5WcmtraTJfZUFsR3RucXZlUDVuZmlzd3JXMzZKSHJXVGJaMGZ6Tm1tRUJ2eDJDQTA4ZVRUZ1lhOWQ3OU9hSlVDY3Q?oc=5",
+       "publisher": "Hacker News",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Top Democrat says chip restrictions are \u2018key lever\u2019 for US AI edge over China",
+       "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxONW1aWkMtMW5sbU1lTVZHWVEwN3hjOVBUMzBYdzJYMHNHaGpxXzNMdVpWOXNGeFNyXzBYWlJweWRzdWZnZlhXaGpVSGR4LXZhRGtibHhFbGNoa3JmVElTeFBRRmYxTXo5N3NVbkYyeU1FdWV2TGNnck1MMklrZ1dpMjEwT2tmY05IblJjMnBhQlp2U2JXV0w5bFBiT0hYVkVjMi05Y3ZoTFFDdk8xTzFSTW9mWGZEUjdHa2VHYzBvM01VdlNYcTEtSlQ2ZEl0LUJxT0xZaA?oc=5",
+       "publisher": "The Star",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Nvidia's CEO Jensen Huang pointed out that US export controls have significantly fueled China's semiconductor advancements. He remarked that these restrictions have compelled China to bolster its own chip production strengths. Huang also expressed stro",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPMEc1czEyREctMzNGUFl6Y1NFSzY3LTRJMXJJWHVTekJybGM2azFMdDluUklKRGpWR0RBMExIdFN3UkZNQ3ZqS2pBaDVJN1J5RHhCUlJCdjFXOG9JLWJOX1JkY3EwNXpsaS1fTFl6X1VJdWVoQWRtX1lQZlAyYVplX1FTLW9HUW9BWk10SVIzclBFODJDODlUa3V6RHRBWlgyZHd6N0hfOHBQSy04dTZYX3ZsSC1Sa1dUTDJQZGxtQzVZdVFvTDB3OGRGVUxLZ2p0YWZZcUg4RQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-25",
+       "score": 0.0
+      },
+      {
+       "title": "AI XXX Tools Buyer Guide 2026: Private Storage and Export Controls, Privacy Controls and Paid Access {JCRhCxq}",
+       "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOSW1nS25BWTJKVmFrckJkeHA3aDFtenFoUVJUMmNYS2RTbkpzelZOb0hFeFlLYnl6bDB6M294RkRWa1RYS3FvUjhKZlN5QWdpZzdicG9nS0NCZEhCRzVJaW8tUlBVYzRYaEhzSS1GZU1ma1hMNHB0ZWY5ZGlHcG5pdTNMTk9ReWhhUjVXLWdXZTBweFFoYTZadFJ3RWZZOWtGY252ZHR0T1RvLXYw?oc=5",
+       "publisher": "Cornell Undergraduate Research Journal",
+       "date": "2026-10-24",
+       "score": 0.0
+      },
+      {
+       "title": "China\u2019s First Frontier AI Export Controls: MOFCOM Announcement No. 48",
+       "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQTVdYSlVPaXFBdnlOLUpfRXdrMVZtTU9kLUVleDlwdWFpSVNweTBUcWFiWktiYjJSeFR2NnMtd3dmckd3ejVNeWVEUFdsRUpjOHYwWUhIeTYxbTBvdVJkS2xfVmlJeUQ5SnIyV0lua19FSEtyOFZaOWFicnN3NTZGbC1KTkM0Nnd6ZGY2UnNkanFzck56a0NIbzIzaFVtd1Nicm9vaWVRZUJhOHdib2c?oc=5",
+       "publisher": "Cloud Security Alliance",
+       "date": "2026-10-23",
+       "score": 0.0
+      }
+     ]
+    },
+    "shipping": {
+     "label": "Shipping chokepoints / freight disruption",
+     "heat": 0.6,
+     "n": 79,
+     "why": "Hormuz and Red Sea disruptions with ~500 ships stranded drive freight risk.",
+     "headlines": [
+      {
+       "title": "The Daily View: Suez boxship return more than just a numbers game",
+       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNR0JCdFdEcVBoY0VyYTlVYkFENTBPUldneG1LLXBMbnhlMVlKTjNiQTJOeUt4OHRMakZUcmVDN2JVVlJocjZ3dHk5ak0yMDYzUi1HQmxIWFdVWkdTVVpGR19VM0J1R1JFOXlMT0NVbS0yeFhTaU9IZWZURzdRbURRdmZjR19DYnRadmI4WS1pdW9VVDZ0RDZscUhjZXFiRmJHTzRr?oc=5",
+       "publisher": "Lloyd's List",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "MyEgypt. sombr \u00b7 12 to 12. A new home for Egyptian creativity has arrived in El Gouna Red Sea! Beit el Gouna officially opens its doors, showcasing the beauty of Egyptian craftsmanship, the creativity of local talents, and thoughtfully curated designs inspired b",
+       "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPTTNKU3lKYlhKNUtmNFhpcU4weURUYTNERnZIVTNWUlFsV3lTVXVpaDJzN1UyYnVRNnMxTUZjcHp0OC1RZ1ZSMkF5LU5HRXZrYkpmRXgtZTFKRzBHd3M2N0VBVU16bzZ1LVdjdzg3RlZHZEdUWE9YbXYzZkZSSGRPbUtZS2FjbTQzT2cteG1fZG9CWFI5T01ZdHRBemtnZVU3RHVkS0VydWwtSEFTRE9nZVQ1MHRrNkhnUUtXeU9xdV9TbWNvcXZtRlpTTU1CMHNTdFE?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Egypt clears Suez and Port Said desalination plants for PPP tender",
+       "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPUkhqbjF5YTVQeVMwenhoMkd1X282NWNPZk5vYm41ZDZ5SDhkeHpraDNCN1ZEUWc2YnFxdW4wZHFjMF9oeW81bWI5QWkyd0gxb1dtZ05JejJzcW9KMlFHZjUzelMxR2NhbC11ZDhUVHFKSmQ0LXktSlA3b2hYVjY3T1kyYUY4YlFfakt1Uml3TDB1aWlWY3NCaVJRQkVFUGFsdllFaDFmSDVFdTk1ZWV0NA?oc=5",
+       "publisher": "Smart Water Magazine",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Shopping first or coffee first? \ud83d\udc40 Whatever your plans look like, there\u2019s a place for them at Hurghada City Center.",
+       "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQTl85RTdoLUNTN0NEWHBKWVc5Y2lBZmR2NWVZb093d0tabTJYTXVfcHctZXJIZjZQTzFSbFVGQ2lDbkl4MmdmamxMOTJNVjZGX29UQVppUDFxcnVyQ1k3SFpYY2pUcW5mb0twUFFoMzYzSlJKbVpHaGk5RkNqMjQ2ZG05eXh0TlEyZUJkN1hXUjUzQTVNTlVlc3gzUE12WmgtT3M5ZTM4eFQ4SE9EWE5ZcEoxSmlGVWlxSjkycW00MDdId1JSYXRUb0JRWG9GU0wtdXNv?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "From Monaco to Jeddah: Red Sea Yacht Show Positions Jeddah as a New Global Yachting Destination",
+       "link": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxPNnJ6WkdVamtUeDVoN1FBZEstcVBFU09IOERjTjI0dzM3VDhqTUR5LVkwdVpMSU95Sm50YlFvTHhBeVpvQXFGQjFEdFhxX25NQWo0eDdRcy1xdEZDdGJLeU52b0pZYk9hc2dCblRTM0s3NjVpTVNfSUVaTWFoUld3N0VfWHdmclZ6ZEJLTGVISGd5cU51c2lkeEpQeld0dktCT1FKeUlCLXZiUjdpem80NXlXSUhOSnRVWjBOX2V4RXRGczdfbnVjaF9EaUpvOUVSdlUwVFpOdUlHdEcwVUw1X3RKTk43OF9yTWJMNkh3?oc=5",
+       "publisher": "markets.businessinsider.com",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Red Sea. Adam Griffith \u00b7 Serenity. Beautiful Red Sea REEFER MAX Peninsula 500 G2+ powered by Red Sea products! Owner: @coralland_official Congrats! #poweredbyredsea #growingwithredsea \u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014 \ud83d\udce6 Red Sea REEFER MAX P",
+       "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPYmtNTEdZcklvbUZxOEQzTGNOS3hjTW8yaDZRbUZYREgyWmpfZ2pzVnFyYWVmTUdRN1U2QlVIc3hUYmxneVhFSGlKYWpqYlNrbHJhRnVjSE1lSDR1eTFWNmNaVmw4NDh6cFczZl9nU1V1LU5LVWZyWVJxM3JIS09JY0lDcFlPZnBBXzFsTEt1RkdTRHlpMXZOSVdBSDZYeHNBalp6VG55Zk5ITU93WDNxd1U5REhaaFJGXzNodjJucVJXZ3lLc3pDX0lHOWpKQ09Ba0hqbERJakc0dw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "pk_imf": {
+     "label": "IMF programme / reviews (Pakistan)",
+     "heat": 0.5,
+     "n": 69,
+     "why": "IMF flags delays on agri-income tax and retailer tax reforms.",
+     "headlines": [
+      {
+       "title": "ECC approves board appointments at Strategic Digital Wallet Company",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPbXNtTFpRbGkxSVBiSlFFSjRrUEhLMDFmNjhmZDlINmRTZmJuZlFfZExzNUJtUERtcHpaVS1WQjdHbFBJTnAtZUhOOUNQbEJjNGxIY3lBVnVqaUpDTEtEZFJueUgzdTM1eUZjM3Z2SkxnY25fZnExeHQzWDhhUDNmMXdSM3pFTkl4UWt4b3ZULUhicnlfUlFfMjJyOXN0SjNtcmFRZmJoSENfZ2fSAVZBVV95cUxOb2UyYWwwVGVzcElZNWQ2N0xxSFNmRXVRS2dPT0JVOWZRZFVQb1pKSE1CUW5VU2FIM19xdWRnaXhubnlSZHI4MTZFeTZlVnEyTjUycE1JZw?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "One wicket left, no surrender: is the old Pakistan team back?",
+       "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNUUw0TjlGNlVsRnVSTWNxZUhBck5lb0xHWE1ZeXAxSERKQ0pIM01pYnRKbllXaFJpY0VGT2dEUWVXX2I1cmhzSjg3NGlXYklXWGJYQTJUZGctcXZ1WmJBRzczSGt1WGxTbW1PTW9KbTUwWGlKZGRBMzAtU3Q4QUFlUFg4SkF6TzljWk9HY0daNHhjVUI0SWdaZlVlSjZBLVnSAVZBVV95cUxQZEUxYzhQN1hrWkhhRFF4STdyaUcxTWRNOWFrOWRMQV9RNTVIXzN6QWptZjI5MTdqTm4yWU15X3htdEYzQXpWTE1MX3Q1Ujh6ck9YenlUQQ?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQNmhtUTNfMVo0dHJZNmRWZWhUZ1pEN095SVZ2YWo4bi1fbi0wVW1IeVFTNDZaZTRGWWt1bHB1QmVNQ0I1XzRMWEU0UExpWnpQd0QxdFNPa1Q0R0xIX01Mc2h5Z2VlZk5FcUl4LVk4TUJJakR6eVU5cThKdVlZT09uR0lJcDEyUlJXd01vRTZ0REVUclRGQk01LUVCeEQ5bE9HdGpBeG9sWVJGdTF5NkNpc0hsNm5aUDU5SkHSAVZBVV95cUxQbHJPU05MbUhFUWFrVFdsWUdEYTNHWng5OWtiel9LTGpwbVAyTkRKc0lNbkpSWUpQUFhPMHZDckwxdFRDdGNoZ3F0aG4zX2h5MG1Tc0NHdw?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Central Development Working Party refers 3 KP infrastructure projects worth Rs100bn to Ecnec",
+       "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNS0NGaDZ0Y2c4YnRMVlZjQXBHVHVock81amZCWDZaMmgtREQ2dmdPZ1Q4UkUydlJxbjAza3JPdUN3OVJsbEYtTFVNVzZaYnQzX3FITjRZWlFPLXZTZ0s3b1RvSGpCODI2VU12UTQwbmN0R3Bnd2gtQlNhZjZjUHBtVWdMdUhVRVh3UG03cU5nQzZXY2dDWWQyN2hxTVBsOWI5Qkl0WEFRZnl3QnhZdmoxMXFEOTlPS1pVYWNnN1NhRkk1NVVw?oc=5",
+       "publisher": "Dawn",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "The International Monetary Fund (IMF) has expressed concern over delays in implementing key economic reforms in Pakistan, particularly the taxation of agricultural income and efforts to bring retailers into the tax net, according to sources. The IMF has reporte",
+       "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxONHJLVGl0aDRWcFNETkloRUI2SnhWX2g5Uk9nS1RDRzlrenJuSUJxQkFabXdzZHdXWml4MEc1QnpKY1dkQnZOTk5KZUZMZmRLZVlBN0lkSXNMemdTeG9HQXVHSDRyX3N4azk4Q3ZWSnRpQi1mUzBSaURlSkJRM3lJOENiYUhwTEpCX2Y3NjlrOWlHZHRlOUFLRHBvRkhMaHg1VGViU21COWZRNW5WZGwzcTFZb0phWGt3ekE2Rmp4Y3VRYU9jZ2J0MTJWSGFIR211NjhZ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Most Gulf bourses rebound on Iran diplomacy hopes; Egypt falls ahead of Saudi defence vote",
+       "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPSFJIWDY3Q083NjBZNGJRT2lxaU1MWU9zTjZLU3NxZlN3QURETnVMNFhfM1VOSnhKcFNxNWhjN3lKSm1hSWFaWFBwb18tcHZCeURLenFtNU5GNGprZGkwZTNRcy1DMHJfVnd0UXZJakhfbk9jQlVfXzFWdVR6Z0tUdEFmVEstb0RCRlBkN2dfY3BYcTBUUEVyaXAwSGVQZVdFcEtwWDFILXliZVFEZHJDbHJxM3NXTWg5UXlnLWFvZ0NyVUpfVmVKTtIBVkFVX3lxTE1yNDlMblZ5NDNMTHRDaTY0T3FPd3p2MnI2NmFVSW8tNkVUSGRya3VYOXVYSUdyZVphU1ZhaTRpNFVzeHV4N3ViX2JFVXU4WU0zZ2xMeEd3?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": -0.5
+      }
+     ]
+    },
+    "pk_rate_cut": {
+     "label": "SBP rate cuts",
+     "heat": 0.1,
+     "n": 21,
+     "why": "No cuts; SBP hiked to 12%, so the cut theme is not live.",
+     "headlines": [
+      {
+       "title": "Pakistan Economy - Monetary Policy (Oct\u201926) - Analyst Briefing Takeaways @StateBank_Pak @Financegovpk #SBP #Economy #AHL #Pakistan",
+       "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNR2drQW9SdGcyUUc3RVIzdWtLNmI4M0tDeFhWN1ljLTdNZUZMdWFaS2NpX3RyQW56X2V4V2E5aXp0ZFVvRlVrV2tpdEtpV0ZBTXlPMUJfYXJuZXpRbTBNNFB1X3JBOU5PWVVFa0pjdzRTRDJCZ2lpWjlIS1dubHFncnBndGdaWk5QbXlIWjh5QUt5ZGttQnRndkJVSk9NUHFfZi14SHRXdVhzR1JGRFNBS25kT2d5QVNzeWFCekRVXzR2Z0RaZi1VTGJXblp5X2k4ODNoYTVEc2Ewdw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "State Bank of Pakistan raises policy rate to 12% More details: https://arynews.tv/state-bank-of-pakistan-raises-policy-rate-to-12 #ARYNews",
+       "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxORUM5WmRITU83LWhzQWZSNlhIazJJY2tqdFNaWjRVZ2kwbFV6QUlxMTY5WGwwMVR5dURZVUJGUlEydHVaSWtpc2h5b3g3UEpabFpldGxDdmFUelJoZk5EbEhyZ2Q0ajFpcmhLYWdMUGYzbGxiMktYMUtMYkt2b2NtamtGUDg3aXdFb251Uy02ZlNqSTJYRURBSWFOUlNLb2g1LUJEUlluUlBLLTg0LUc3TmhoU0h1Vk1DbVhYU0JVbGNkY0JKTnQw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.67
+      },
+      {
+       "title": "SBP increased policy rate by 50bp to 12% #ExceptionalValuesProductsServices #JSGlobal",
+       "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQWEMwaERaV055cm9Gd3kxVHRZemlrOTlFN1g1Y0JPS2pkQTBNNlRyUFVPYi1MZ1hwSXVjV0Q4R1ZTT2piWEdaaGlPVWdka0NiZkN5STFETmhPQ3VnNWt3MWRsZ2dWa0V0cTZ0U2h0V016cld2OEZoVExvU3Y2WWZJdUR2czE3WjB5YVdOS0gweW5QU01zSXZRSnRWY0FCNk9kcndUVHNQcXlqc0JiQnlqUGw0NHE5aFFqaER5U2lpWFNlRkk4Uk1FaGlGdHlIQWhwdURIbkNhbXRwTWtR?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "State Bank announces monetary policy #pakistanconnect",
+       "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOSXV4dkFaakNaaW1IMHdIU3A0N2JRZk9oeXR5cWtGaTFETERQZEE3S0h4WkUtVWUzbDZWVWhFQjRiRVV5WmJ5ZGYwcVBnek9Kbldta2hBVmxSS1d3MFVFaXRjeC1zUmZfWWJCWnhsS2tkYWlWQmxNMGZEUGp6dEJIYnZjWWl1dDdXVjc2bWlTNWJHLUw4SEFFVmc0T2VvbDRRaVdRQjA4amhwZjBpSW9lWUVGb0ZER0ZjVTNZ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan Economy - SBP tightens Policy rate by 50bps Full Report https://www.arifhabibltd.com/api/research/open?path= #SBP #Economy #AHL #Pakistan",
+       "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxQeURKQUtOZkk0YVloYTU5MmNvV3JjVGk3ZVd2djlSNTJWd1REdzZyMmlpaGg4MnZFalRDRk10WFNYSWx6ZUllWG1xeU1UUW9oTkthS0dsTERnRExVWUltVmFEaTBXNzZkYmNhcnRPSkkxeDNGZ0hVZUFHaWRhR2NkRDkwNmNvTkVBLTNRQnBIRkdXbVhkVlR0RE9WUE1tcUtFQW04MkhUTkdsZWlOSEpERHpVaDEzNDlobWx4ZEtQZzU4d1ZRdzVNdGNzUTFDYTloc0oyMUIxYjZCUQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan Hikes Interest Rate to Curb Inflation Risks",
+       "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPZkRNOHcxQmxySmdrREdXdGFucmwySG8zRUtlM1ZSLW1rcWNWOFQxTjI5dnY4NzVja2lyb1dNTm9Sc3RuVkplMWRTMVAyMHRBX1NlbWdJUmc1UjBGdnozVVo4SVIwbklCcjNGWFdScVdJMkZ0dHVGU28xWk9ob0Y3dVkyc0w0MzJTbERlZ092LUJ6REpBWl9mNzJOOFZQVUhIMWk4TzFB?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "pk_rate_hike": {
+     "label": "SBP rate hikes / inflation",
+     "heat": 0.9,
+     "n": 81,
+     "why": "SBP hiked to 12% amid food and energy inflation, dominating local market talk.",
+     "headlines": [
+      {
+       "title": "Pakistan Textile Exporters Criticise SBP Rate Hike",
+       "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPcHlnWmZzRzlwbkxxZzN0cXRHZTQwQU54VGV2cTdsemZldVJpTmMyeHBUN3ppLUxmOVJzemFqM3R4a3h1eURXYVVnX0dCZFo2UjU0MXJtSTBkLWVaZkhJZ3REVV9KOVZONnFIRE1Gdnk4RjlWemdDRW9PSE5ISDRidlpn?oc=5",
+       "publisher": "TechJuice",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "SBP raises policy rate to 12% amid inflation risks",
+       "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQbTBRSG1pSW5LM0U5NEd1bGdaTVJGaFk1LVdGZm5kU3JoRkl0RXBhVW1wVjRXdVBMZU9xRTdkbXJTUGtzUWVndXdyMVd6S0k1cVNsOS1mN25TdGNFOHlnZEYyMi1KMC1WYUFjYl9IZmNvNWF5WGJzcS0tYncySDFrTHlxZXpVdWstc19TZ1laaDVLVDNKcUVXeHJuQlI3eG93WV80bVVtZHNNLUw3b293YnBVQkRQVGNpcV9oSko3WFZyelpaTEQ2dXNzR1g?oc=5",
+       "publisher": "Profit by Pakistan Today",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "SBP raises policy rate to 12% as Middle East conflict worsens inflation outlook",
+       "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPN0R2NFpPengtWmtwRFFsWmJwVVpvazNnMkw0ZXI5dFMwSVpXbjZLQTJWQjdvR1NRQi0tQk5vQVdZQ3JMOXNBaUtSN2FnRk9pWWw4WV9LaE1PWm1LN2F1U1Zjbk9wSk1FdnNwQlpGSnNkS28wN0I5NDZKYi1adXNwaVA0RzVEMmhZWE1DcDRGQWdWNFlJbmZ4dlFnNGgzbUxsbkFXbFJER3BxaUN1U3dIUkUwdUpaYnppVWVsWEF3?oc=5",
+       "publisher": "Investify",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "LPG price 'may fall further' as supplies 'resume' via Pakistan-Iran border",
+       "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNVnBXcHpfbms1QzJKemZ4UTlhX3lLeDBjd3N4X0xaTGliMU1iRTZLeEU1X0JmcjdJTW90eHZ5X29NTlJZSXNTQzdpT3N1MlUyY0I3bThfbC1EOXJnX3RZanNtQXR4VkFuRjlWbXc3VmN4aEp2NEdNcmlmVXFZQWpyWW84Ym1tWlRsMGE5VmZ5UHNod1NFSWw2Zlp0eEVWVjJtX1VzSDVB?oc=5",
+       "publisher": "Geo News",
+       "date": "2026-10-26",
+       "score": -0.5
+      },
+      {
+       "title": "Pakistan Interest Rate | SBP Raises Policy Rate to 12% - Aaj News",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9fSkVXbGxGdFBULTl1LV9QcDh6MXo1LU5sOWVCWTlpcFRkY0FjQ2Y4dDV2LW1BeUJKX2VHeFNrdkZkeXQ4SlVYN04wZ3g3MFhyS1FlbTR3?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "Pakistan\u2019s second rate hike since the war began reflects growing pressure on inflation and the external account. Analysts say the prolonged conflict is affecting Pakistan\u2019s growth, imports and inflation outlook, pointing to the State Bank\u2019s rising foreign exchange",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE16MW5UNEpONnptX3BDTm5GcVQ2eVBlajVHTTNITUVVNlVnT0VFMzF2WWgxS3Y3a0tOVllieEE1YWZDN3MxUVJ5Tm9IbWJKaGpTbDRoMUZ3?oc=5",
+       "publisher": "Instagram",
+       "date": "2026-10-26",
+       "score": 0.5
+      }
+     ]
+    },
+    "pk_rupee_down": {
+     "label": "Pakistani rupee weakening",
+     "heat": 0.7,
+     "n": 25,
+     "why": "Rupee near 95 per dollar amid importer demand and foreign outflows.",
+     "headlines": [
+      {
+       "title": "Most Gulf bourses rebound on Iran diplomacy hopes; Egypt falls ahead of Saudi defence vote",
+       "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPSFJIWDY3Q083NjBZNGJRT2lxaU1MWU9zTjZLU3NxZlN3QURETnVMNFhfM1VOSnhKcFNxNWhjN3lKSm1hSWFaWFBwb18tcHZCeURLenFtNU5GNGprZGkwZTNRcy1DMHJfVnd0UXZJakhfbk9jQlVfXzFWdVR6Z0tUdEFmVEstb0RCRlBkN2dfY3BYcTBUUEVyaXAwSGVQZVdFcEtwWDFILXliZVFEZHJDbHJxM3NXTWg5UXlnLWFvZ0NyVUpfVmVKTtIBVkFVX3lxTE1yNDlMblZ5NDNMTHRDaTY0T3FPd3p2MnI2NmFVSW8tNkVUSGRya3VYOXVYSUdyZVphU1ZhaTRpNFVzeHV4N3ViX2JFVXU4WU0zZ2xMeEd3?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": -0.5
+      },
+      {
+       "title": "Domestic resource trap: When raising revenue shrinks the economy",
+       "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQUTdnVUVGaUx6SEtVRjRZRFUzRkRIeS16dmJpTmNtS2VLaDVCOTJPM280VEZmcFlEOENkQ0JwcFVDZER0MWxLZ1hEUUZic1VmNDM2cEt6T1V4eDhVNlc3YXQyV3lXU0prQkFIN3R3Nkp1TnowMkJYYXZKc3l5SGxhSTZmLVl6anVnbUNaZkt5TEIwMGEwNjFvZWZ6LVVVR3dWaThiMEh30gFWQVVfeXFMTlhUYVBYM0VuVFRMOFZWdEQ3ZEdhSU5JVVRMVTVJbTMxakwyRlNBYXVnN1RDSmJCRFlYYTZlb05DSVEzRjVFdjYyTWV4U0RxWUNvRkxoclE?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Rupee falls 29 paise to close at 95.22 against U.S. dollar",
+       "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPSXFJODNGVG05OE1wTHF3aHBjRlZ1MzgzNnRvQWNrbWFNZ190VHJjaVcxa0daandfdWIwaW9GdjRHY3NDN3d5SThETGFtRHRselhudTJNRXFMaG9TbEt3Y0E5Z21zLWkwY1ZFT1o0ekFTT3pKYnA1ck1XVU9hU05yNENNMGxvTDZLYnQtYnlGekdHQWRBWE83X2pha2hUSnhYcWZHaHJzR1pLMkh0MFVXeWdjQ2VQT2lY0gG_AUFVX3lxTE93V1NEbTFmam4xNjBwcWlSTkNmQk5CSEpGWkFZbEVnSFo1dEhmV0ZRcFZhVFRfTV93LURUc0dJZ1lzR2NTOUVaZGlkcEplcG5tR1NLMkl2bG5jYm81Z3daM016YlV2V0xfbFNxemdtZnVJOVB2ZHY2Y25mak1SaXVUNzJxMzRGVVVkY1diYThDVDhBODFfaUlYVHVNZjJoZ3NMNG96c09yWWY0M2FsOWtRV1MzaWF1SXQtMEgtZC13?oc=5",
+       "publisher": "The Hindu",
+       "date": "2026-10-26",
+       "score": -0.5
+      },
+      {
+       "title": "Pakistan\u2019s Punjab government extends detention of Imran Khan\u2019s sisters by 30 days",
+       "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQcFR2NHNkQk9FajNjREQ3UFJmNUpONjRvQzk0bzhsS0t0NG1RS0VBaTBPaFdFVi1DZWhON2hDR1FVRlIzS0xfZ1kwbmlTOUNHREd3VDlvdjhLaHRlWFZoa1ZpeWx5SnQ1UjlsbFEwS0sxYnJYM3FCZENnSlF2bktuaTdmVzdlS3pBWngwTXdQNDhMUFlNT2ctRU1jdUVEb21CWFpZeU9YOWFNOGRZWnNZY09JREJSUlUxYmZmOHJCN3ZQdDUzMERjU3p5M1c0SnVMTmJvR2J6V25keW_SAeIBQVVfeXFMTzVXV1Ffbks3U1hOTGtxSy1yQXZnSVVscUdRUWRWZU9xQmc2eF94d2FUS0l3OEFmUHVHV3JYY0RBX3dBYU1aYUc1N0RHSFZsVTFGV182S2JpV3RsYmZES1BiLTRlZzNOb3pacGVXb1JaWFpPQ1dDRUdDMjgtT21lODlkSU1GeDZzSl9NdUNncnk5dERHb3hWOFpyWEJFTVVBWDY0Wko1a3pxRTJtZmRNVGM1YU5PUmNlVWNsLUEwSFNtbmYtcHEyNDBDN0VFREp0VThJWHJJcFNma01BN1hpRm9FUQ?oc=5",
+       "publisher": "The Hindu",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Indian rupee weakens for third session as importers step up dollar bids, foreign outflows bite",
+       "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNNDdWTHppbzlvRG5fZ0ZrM3ZRNFBYUTI1Z2dvVjlSQ1g1SzhvVUgyWUhiZ21ic29HNnpQXzVHd3VzNVJnMzQ4YlRhT3EyRlpFR09tQ0JUcG9TdnF2b1B3cUdOY2lvZTgtSWdZX2xQa19ZMmtocEM0VkRLckdrWUJkMmxVMklvY0preldPeE1VMlU2c1RjTDdnNUxVbER0dHpkU3dXM3ZwUjdkUzBvRnM5MF9yai01QV81Mk5oNFdHLXJXUGs3bmVOZUttTnBTQdIBVkFVX3lxTE1TWmtQMllpYUZvOFBZZzhLTXdGQ05jNlo1eHM2ZTl6TTc0Ym8xaWVTTGFKOFFTakxTZENldzgtVXl3N0ZSYndlRVJyN1Y1Wk54S0FPbkp3?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "IEA's Birol does not expect energy markets to return to pre-war levels in 2027",
+       "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQaTJfUloxVlpmYmgwcFJHYTlXZ1F6VFNiSE5WZmtySnJJb1hjZ01mZmdxcm8zRG8tMlJHaFpxUkloNWFsdkVpdm8yS3B4Q2JDRGVkTWc2MzZ2OThZbDVha29BalluYWdqeVBLVmhuMmNpWnludmJodjhTcVE2VmpTS0hGYlR1RDBZZFE2WWVic3dXRHlBeXRhNTFIbS0zN2QyNXp3eXNRajdLdzAza3VYZ0hVdmRDVjBT0gFWQVVfeXFMUFA5c24xbC1PeUxwanRoamNOMTFTSHl3aktqS0g2T3dkMFhlbW5MUFdVZnJ4SksyanlpTVZGNWVZWXJZUXdrMlVfVUttaEZ1MWxVeG5kLWc?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "pk_politics": {
+     "label": "Pakistan political unrest",
+     "heat": 0.6,
+     "n": 45,
+     "why": "PTI crisis, Imran Khan detentions, and protest decisions dominate domestic politics.",
+     "headlines": [
+      {
+       "title": "PTI Crisis | Internal Differences | Party Leadership | Rubaru WIth Shaukat Piracha",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5GNjdZSW9IZUcwUjRrNDduelhEM0JUMXV0NFpKZ21rcUFabXNqejVISTdVT0s3UE1VdEdfcjU4WW9rXzlrUzF5ZF96ZGVKdW5tRFNGNkFn?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "On My Radar With Kamran Khan | Corruption Allegations | PTI\u2019s Former KP Government | 26th Oct 2026",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1fRGJCMGIycnlTdHl4V2VfYlJkWktPWXg2RkcwdlMwWWctWW1KekpHWEJUZlBGT1lYZDNreTExLTBUUm52VDF4cGZMTXFfOHlwYnZxY3Nn?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan Tehreek-e-Insaf. . \u200eImran Khan\u2019s family is in Jail only because they have refused to bow to Dictator Asim Munir! \u200eEveryone knows that there is no legit case against them. \u200e#\u0634\u0648\u06a9\u062a_\u062e\u0627\u0646\u0645_\u06a9\u06cc_\u0634\u06cc\u0631_\u0627\u0648\u0644\u0627\u062f",
+       "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxQQ0RtVlMyZXZnX0x2TE85M1dob0xwVzhBdDZEQjVDTUlzeHVTaEZobGVwYl8tTFYwSHpJWVNJVkRjTFNFYTFiNlNuZjkySWprclhqeklCbVFsQUlXYmozY1FUOTFucXZwczlsdDd3d0Q5cVlBR21FNGt2NTg5VFJXTlVieHlfc1pheC1WYzVwOFRQYkpzUjQ0ZmpRZnJ4cGxCRTctQnQxTkMxVmhwaHNldkZLOTFLVmdzOGhYX0diQ1dWUHVBbHNKRFpWSVNJYmR1dWlMSF9SWmJldw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "PTI Should Have Capitalised On Protest Politics To Free Imran Khan: Sher Afzal Khan Marwat",
+       "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNTi1RU2hKUVdtWUxySTJFWjBwU1VuSW1GbFEzMWo5QmpITWhCbmlsbnMxcVB1NHNSUjVhYlJwUDJDNVcwd1BtUkZmcmRsX0ttSDBfU0d0U0U1bmJ0RE5ycFlsUkxkZUtBbTRhRkl4cmtGUkI2WTRCWDVaMVYzdmpuM0puSk1YTEVTMnB2Zk9jVFB0bEJhbEU0SERRbko3akswaTJsMld0eE1ITG02?oc=5",
+       "publisher": "UrduPoint",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Imaan, Hadi move SC against continuation of ATC trial",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQVGpSc29wU3l5Z2lzMlcwNFF5SkhWdHZkWGlLdU1YWDJiRmVVa1N0a3ItU0Uzd1ZrU1BtcnNmTVZWUVJfRmw2VG4tVDRzdnVtOFpGY295QnFLRERYSWwtWkNpYnBpRlpRLVZUOWs4WlI2TzlOUjJKX19tdllNRkJMclp1VGRDakNTVDlFQlV0dERNN2tBOFdBSXNKV0k?oc=5",
+       "publisher": "Pakistan Today",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "LHC Told Detention Of PTI Founder\u2019s Three Sisters Extended For Another 30 Days",
+       "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQTG1sLVlyMXJXMGNmUkc5SWRfNDVoRXdMNWgxbERKVHo5YVFPcTcybjktaWlLX2VlUVNTTXdwc1FmbmpHN1llOFZjUFBDWjVLblZ2TjR0WHJyS18wTGU4SlAtbDdpYndGZlQ1OW5oUnI3UVhUeFRmeUtYaFc0dTl2TXZpM1JlUVZ3RjVrem02TkdlaEgw?oc=5",
+       "publisher": "UrduPoint",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "pk_india": {
+     "label": "India\u2013Pakistan tensions",
+     "heat": 0.3,
+     "n": 50,
+     "why": "Mostly rhetoric and background news; no acute market-moving escalation.",
+     "headlines": [
+      {
+       "title": "One wicket left, no surrender: is the old Pakistan team back?",
+       "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNUUw0TjlGNlVsRnVSTWNxZUhBck5lb0xHWE1ZeXAxSERKQ0pIM01pYnRKbllXaFJpY0VGT2dEUWVXX2I1cmhzSjg3NGlXYklXWGJYQTJUZGctcXZ1WmJBRzczSGt1WGxTbW1PTW9KbTUwWGlKZGRBMzAtU3Q4QUFlUFg4SkF6TzljWk9HY0daNHhjVUI0SWdaZlVlSjZBLVnSAVZBVV95cUxQZEUxYzhQN1hrWkhhRFF4STdyaUcxTWRNOWFrOWRMQV9RNTVIXzN6QWptZjI5MTdqTm4yWU15X3htdEYzQXpWTE1MX3Q1Ujh6ck9YenlUQQ?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Xi calls for stronger Party self-governance at key CPC plenu",
+       "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQUV9TbHc1T2taZVR3OWkyQllzTmt1LUNIcmNxNUxDUWFjRnVjUmx6SnZSek1oMzNtWGtjeVAxRjR6M1dzcmk5OE9UbnBZdmo5WUZSeHhuUmJFdW9kOTZvZFJqRDVzeHlaTXlFYnR6cUVlWVZvZGRLM3dkaUJkWm5BSGZ0dFBHN0lXNFZuNFFsUWpyWjM0OUtvdWFydG1zbzByOFhPNU0ybDI?oc=5",
+       "publisher": "Pakistan Today",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Houthis say they attacked East-West oil pumping stations",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNMktvV1dNNF93Uk9LQlBteHRXOG1Kd3BTeGtGRTY0bjU1T29EOFFLejRoUzl4dThTN3FYOUFSODEzcFJ3RFgzTzFLci1WMF9yYUlnNlZURXNSRk50Mmg5SWpfU3hMV25fVEZmbnFSWHNBWlpfVGhnVEl2Y3RVLWZTcm1HNkM2MHY3TUtzQU12RHh4S0hNMGx3NVYxNThQeTF1QVE?oc=5",
+       "publisher": "Pakistan Today",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Iran says US 'not serious' about talks, rejects claims over nuclear programme",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQMEFicFdmdkJZNXc2U3Jjc29kaGtjbm02MnlCenVMWnZBR01JMWZkaVotc2FFSl9LckJTNzNnbEZQOXRkU1RicUwtaW5pVVJwZlV6dUJSb3FMNWFfcjVMWUwzVExNX2lmc1F1N3h5VXgzQjlxcE91U1VrbE04WFZfdVNWakJHbVVPeWE2UllRWFhsZXpIb2p4dTZ4VV9XUkZYdGJITHBFQV9OLXkwNndCWHplbzZzbllkTXc?oc=5",
+       "publisher": "Pakistan Today",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Ambani, Adani outlets among Indian publishers contesting Modi's privacy law",
+       "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPeHV4TUVOWnJzQjdkd1NXSlVhNE5xN3FSem8tU1hpVFFhYWJPRUoxVEtvcHVqcU9DVWVJVzZaZ3UyMG9CM3RjRHFqY0ZnRGJiUmZibTI2SkxKSXU4S3FWRmhUWkJkdUZOTk1ESzVlNGVJYUxEcWVoZ2R3ZV9QaVlZWjNLWndGRGN4amhYeHhNSlBubHlmNGNSZGhBTS1GLTRpR090SGJPZUFNQjM2UEtUTzB6S3ZUaVpX?oc=5",
+       "publisher": "Pakistan Today",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
+       "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNQU9tWkNpX1lxci1scGZGVDFMZ3BSMHZVRWg4Yy1OTnhWUFV3cXMyeW5zZkVYOEFpY2dfNmtZX25YcTJVc0p4ZFZJZXRZU0owbExlc3k5ejNQbm5VaDRra3BCTVN1V1ZxT1VmT29Lc1ZkSjZmbkhJR3RSVDRSMmVFZ1V5c08xX3pQYXdVU2NhZzZQbjlFcEc0YU1yMlZDYlE1ZE9ud1JSWXByV2hPOWdHQVpYakdPNG5QV3RaVUlnYw?oc=5",
+       "publisher": "Pakistan Today",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "pk_circular_debt": {
+     "label": "Circular-debt measures (power & energy)",
+     "heat": 0.6,
+     "n": 35,
+     "why": "Power and gas circular debt at record levels; restructuring plans under review.",
+     "headlines": [
+      {
+       "title": "The cost that will decide an industry\u2019s revival",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPWVU1LXlCOGFZWGRWa0Y3b0IwT1pWLWhYN2pTcTJhZDZiZlI4OEt6VUJGQW0zNjAtZEhrdXhlVWtIMXEtSHpJbkZ5bzViVU8yRktuaTZWR3YydE9EMUhQalNOTU9kYVR0WjczRndvVUwwV1VmQ2xuS0RheEJRUGNMdFpJN2Fjd3VGbV9xOHdzSlo3WDVweFVxM3dsZm9lZWVyT0E?oc=5",
+       "publisher": "The News Pakistan",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "AI agenda",
+       "link": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE51VkZXSHJWLTZRM0pYbmY1Tl9pR3lteWpRdmZOUU9pRF9Uamh3QVFvZEhyVXBjYVdsQmtOS0RPc3dsRTBqb0xiNA?oc=5",
+       "publisher": "Dawn",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Breaking bad: Pakistan\u2019s house is on fire, Munir wants to rearrange the furniture",
+       "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPcjgyY1BkWElGczMwcS1DRE1sVmZrZUtidUVYcmxUSDRKaFJDXzJraENZOEdYclRSZEljUnRDWDhGZklkRlg1Ymw0RGFWazBpWFdkN1JveElBYmdJQTB0ZlRySkx5MUpWaDRkX1FiSE00TUN3dmYzeTUzVm1ST1F6cWZPSGRYa2VUM1pFb3hYTVdRYnNFRzJjN09vSXdXV0JJeGlwdUd5OTRhdGlLQ3BuZjhIZXJQa0VkekE2V1NQV1lCbk9f0gHKAUFVX3lxTFBYdDNDd1lVbXo3aWRxY1BnSkNaaENxaFdnY1FrLVBZUXg5ZzNkaE9lOF8wSnFPM1JndThZZnduY2Vad1BjV05rZ0lyTnNaUlZTMHVuaHNHM294cTNqTkxReUhtVUZMci1vYVE1blJSanhCRXhaNEZwazFGMGs0Nmt5UE1ER0lBbmFpZVRfOHozeG91cVdhYUk0R09scGpEdXJTMWRIVHpVZVV3T3dfNFpGYWoteUd1M0l6NkFhRDVfVUNiejZ6c2lXdEE?oc=5",
+       "publisher": "Firstpost",
+       "date": "2026-10-25",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan Gas Sector Restructuring Plan Targets Circular Debt, Losses and Deregulation",
+       "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOUEZHZVJWU0xRODZMNFd4REpRanZfWlo1U2RYd0wxR2hBaEkxOUVfTDF0V09vcFAta0hXVmUyVkRXTnd0MUxlWWh5aE92b0JSZTJYMlJWc3ZDOHJMNTBVMndGdUpGNWNwcHVjUG10VWNIeEt2QmN1eWxFWXloS2oxWkdhZVBfSWRXQnZTU3phUlM2RVdoT0htQXpuNmFUSnZJSlViU1hxRmhSTDBhVTh3eEZkUGxwRVdxYWRFdUV3?oc=5",
+       "publisher": "LinkedIn",
+       "date": "2026-10-22",
+       "score": -0.5
+      },
+      {
+       "title": "Distribution networks: PC proposes power sector restructuring",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQX1Zfdy1HV2EzdWtReTZqcEU3cmlVYzVvUGk2VWFjaXdva1JzNFpxVTZ2cks2YldQWTZLRWxJTzYtRHVpMllabGxON0o2OWJQV0RsUzduZmRZc1h4T0xiVlhmaDJhVjliUGhvb1c5LWN2bnRaTjdRZ0FidHhGVEozVjlGMTJ6X3JhNjJuMFdtcmRvVG5nTDliemlDNGxsT3hGTUHSAVZBVV95cUxOTGdtMHdQUWtEazZFc1NrdmdZNHMxb25ZZjloY3RGLWZ6OUZCd3drYjN5bGN2NkhQcnZhNVh0S0dlc0lWc2ZsTjJyVG5sQlpsWm9kSTNYUQ?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-22",
+       "score": 0.0
+      },
+      {
+       "title": "Attention must be sustained",
+       "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBYSVBaZmNRSENXTXJCLW9xb1JwclBtRjVOYnkzVGg4TE1Hb2J4anluV3JQSkZMRzhuaUJ2VURTZDdGNll0VTFvbUE3ZzlvODhqRWp1WC1TdEs4Q1YxTW9VdGFDUllwN2RtaVU3MWNZSmNRamIyQlHSAVZBVV95cUxPMko2QVVheEMtMjJMLTdmODVISWt1WkgwVF9qWVUyY0Zxa2tzdGdjY2JLbjNIeXFzUEFZU21ESlppZmc0SGVrOG1KelVwTl9LUXJEMVRFdw?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-22",
+       "score": 0.0
+      }
+     ]
+    },
+    "pk_cpec": {
+     "label": "CPEC / Chinese investment",
+     "heat": 0.2,
+     "n": 97,
+     "why": "CPEC progress reviewed, but little fresh market-moving news.",
+     "headlines": [
+      {
+       "title": "Pakistan, China vow to deepen media ties",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOdWxRT0I5b1JJRF9CMDFFNXZoNnUwY3AxbWl3ZXpRNUtXN0dOUzk2MHlZTXFWTmo0SVkxenMweEg4QXU1MmdPSU1LQlhIX09GcWNXRWM3amFkeWZzYlZzclpLSjU1NDZyemJwLUN5QzZEVWpyZU84Z2IyckpMcGxTRnc2NDd1em0zRlB1RGljQ2tLREctZW9yNFcxY05ZSjVuQjVrd2JXRnRiaGRvaU9fZGlhNXBJOHhIUnc?oc=5",
+       "publisher": "Pakistan Today",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "'The Walsh Sisters' lands Disney+ deal as Irish drama expands globally",
+       "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQYXRGSC1MVXpQanQ5S1pKcG1TU3lET3gzWG1kV3VDWklwTzlXb1pIMW9GY0VEMENRY1BZY21UN2UxZzFad2tOMm1UVEtLeDVpbm1aelczdUxFMU93U1ZRTEZfbm84RkR3dTM3NzU1ZWh6dWNRdjNVQnFveC03aWdvNGJkc0h5QnpiQ2NXUnl0bEpHUXEtZVNuaVY4UnYweG9tcHNTTm5aNNIBrwFBVV95cUxPeXFhbEZhcDllOHB1UzFrUGdkTW1WUF9BTkJUY3JGbUsyU3duRER2SjJ2RGgyQkJaWDNaYkhTYnMzZW9OWTBWaVZkTHh5Vlh6M1A5SzNxRGNIdXU4WDloUGpVd0h5ZmQwbWRBdmpBWkV6STZ0MVlwODRxX3Z6S1NNMWVMcEtBYjdLRk90NXhQeG83aC02MW5MY0ZZWXc5YWZ0cktYV3Z0anlqXzNvOVo0?oc=5",
+       "publisher": "The Express Tribune",
+       "date": "2026-10-26",
+       "score": 0.67
+      },
+      {
+       "title": "Strikers crowned National T20 champions",
+       "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNcGRpMExHQ0Viem1qZVlmTFRaZHFOVE9oS1A3bGpKUVdfbG14MHEzdGtqUnN1T3JDT3ZyczBOVzFWcjAzZVE4ZFp0UzEtQk1XaktNdWhMLTF2ZEpjUi14OW1IREdjS1hVSGpTdTVMLWZqODVWZXJqZDlldEtFa3Fjd0RR0gGKAUFVX3lxTE1CcHZfQWtNbFdVQ1kzUjRqR1FfQ0lvS08xUmRsejRfZEk0b2NCcG5EWFd6WUNoeTNlajg5bXdwQ1p0MVlaZnlVVHZfZGdxbTNoZWg0N1B4RGdhZWdlVnZjSkpUNzFTenRjeTJORUhYS2d3NXFONXNGNWRPNE1aYUlFNzYtWHZJVHlpUQ?oc=5",
+       "publisher": "The Express Tribune",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
+       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPR3ZlczVlQktJVXRQY3laYkdOV3JqbXJMSnV4Q0xMaXN1WUQ5cFZ2LURSMHBnYWZTSS1ocjZwUm9sNXFsNjJwYS1nZmtEN3hNQlJLbkJwdzlOUUVtODhWdUhPei1IbWt4SE5fYnFNbTNOc2VEaV9yV25aVTljR21sOEFoRjB2dWE4bzhPYUZ3RjBySTkySVhNSFV5OF9lNlVseVozUS11WXI2RUdfTkx5LTRtbmhYQQ?oc=5",
+       "publisher": "The Express Tribune",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Changes on cards as Pakistan face Sri Lanka",
+       "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNRkR0X0M2R2ZtN29udVpuX21PRFVxQ25TeHd3Ri0zLTJTY01WZVZGS3B1d1NEbGlmSzllOGNmUTZ3S2hJU01GZDhhQ2pBdnBGTmJtcnNPX1dVdnRBa3FHR2VDTmFZRWRYeFNjRGlSeENaS1lzVnpSVzNfWG1ZNGswUEVPUDhOZXfSAY8BQVVfeXFMTzIxSFhGdmc5N01xUUlBeHdMMlF5dWtZekR2YUlHckNiMnIwOGk4ZURzUUFpZTN0LU5ob3B4MmlSN0thOFFCZF9uRXIxTjRvY1gtUm1HZEFCZmRpRFprOFJGNTlSRjduTlNMYVJWbmJfTE1nRklRT3Via2hFcFZfTFVteGJFbW9NcUd0X2J4cVE?oc=5",
+       "publisher": "The Express Tribune",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan rejects Afghan Taliban claims of civilian casualties in counterterrorism operations",
+       "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPYUZ4aVF3cHFrdnNvMTlHRFpvM2d4emozWlFkNnEzUzVmQzJyZUE4azRkTTVsSDBWMWJEdEN3QUtlR1RteUVKQ3R1RUUyVEkwbnNPbUM4M2pkMnpVZGxKcHBIUTdMcVdPUWJpS0NNTG0yU2VtSXpSSzJkZFlLbXVVWThzbUk1T25xOHg4eGNxdTZETmFXajBTWGo1eTh3X1oxU0hKcUtWclZXV2FXQ0Z4a08wYmRmUWhDeEwzdExyMFBKRjJiZmpzUHdVbzAwa0xPbVE?oc=5",
+       "publisher": "Pakistan Today",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "pk_minerals": {
+     "label": "Pakistan minerals deals (Reko Diq, US/Saudi)",
+     "heat": 0.5,
+     "n": 57,
+     "why": "US energy, refinery, and antimony talks are active with Pakistan.",
+     "headlines": [
+      {
+       "title": "Pakistan, US agree to enhance cooperation in energy sector",
+       "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPd0VTdGw1QjBxa296TnA4YmdEN2htajZfeFpxNWlmUDVJTlJHa2pKRkJzNjZ4VGRkcUVJYXVRTVZ5VXhCeklNcmg2QXpzSWJGYWRYemlIQlJfZlpCeWxLbEYyTm1vUWJnaTR3OGxjd3dDTEtjazFXTk5iM3A1UjZrY0MtMjJTcHV2RzI5LUpoTkMxT19qSVZVUjV3?oc=5",
+       "publisher": "The Express Tribune",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan, US explore long-term energy deals, refinery investment opportunities",
+       "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOLXFtS1JtdDNQQ3VsSFhUVjI3S0xHLTRuSENsUWpralJNcm5CN3JxU2lRRmxKalJIbkNrWk5CZ0dMaG9xSUcxX3J4cmlwZUk5ekZJU0VYdHJEd1d6N1RfV1NkbDhmYjlMcUY0RU1SVlFfdzJMWDlqT09ORW15ZDBLQXpka3VhTjhGX3R6ZXFuWHBXT0RPNHNWR25Ndzh4RVd2RE5xSGFPSmJFVlZacTh1b3NwaFY?oc=5",
+       "publisher": "The Nation (Pakistan )",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Delegations meet in Iran with Mideast region on edge over potential for renewed fighting",
+       "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPMWJncVBjVnZqc1hWNmxhZFFWZUZkS1hXLXcyOXJSeFphV0lJR3dGX3loYTVKVmdFMzFuN1ZNYktiRFAyWW1mdkhBcE9UaE01V1NveFJ2SUlzU1h5YW5sN084S19oeXBaRWRRZVdCWnlWR2kzN3F2ZVUwMmUtMlh1STBSUXZDdVc3clRBb3VESi1FNWM?oc=5",
+       "publisher": "AP News",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan seeks investment from US in oil refinery upgradation projects",
+       "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQSlphM3JOUVluYlBUejI5cTJoeDVyaktFODNJVWtYdWNJSWRNRExnQ1RaZTFvRmZNVGR5eVRxRl9jdHNWVDhjZWp5bXpXVkV1WVNrTlhZTFRraURtOXZvUkpuZFdPVWpsd1dJS19CQTVPX0xfWFdMdy14RDdpOFJrb0dlb3RPV18tRTZwVklVODdCcEY4clBCTTF2UExER2p3WXBRektDWmpIcDcwUXhIejBYcTVzbG84X1Jkb2s4Y1BuTnVRQ3c?oc=5",
+       "publisher": "Dawn",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Federal Minister for Energy Ali Pervaiz Malik met US Charg\u00e9 d\u2019Affaires Natalie Baker to discuss expanding cooperation between Pakistan and the United States in the energy sector. Baker said the US was keen to help meet Pakistan\u2019s energy needs, adding th",
+       "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxOSzFTcm93RTJFanpXYUdYZkE0a29aTmFlOE14Q3dwVEsxS0FBTDlPR0thRXRHcXFxQWdBQ2lfTEhZTnVMOVZYX0l1MVZmN0hIbmJVcXVKMjVxSDctbnl4Vm56RmZzRDZwc2llUTd1X3djU1JWMmtaUDd1RHQ5aTZRRk41R3UwaGw5WkUtbW5hVzJBSmJmSGJYMWhUaTJVX0JtaUtWVkp1SEx3ODN0YXhabmU3M1p0UnliRVVQM3J1R1pBNVRJT0ZlWXUwUG1Pa0ZKb0lIT253cUp4Zw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan, US discuss long-term energy supply contracts",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBDUVc1S0RVdWJxcktmbHo2a2QwR3FSV1ljSEJYbE9qVHcxUW9jV21INWRJbW1OVlRISUExbXJ0MHN4SDRuUVBlbnAwd183QVZwQldHSXZ30gFWQVVfeXFMUENRVzVLRFV1YnFyS2ZsejZrZDBHcVJXWWNIQlhsT2pUdzFRb2NXbUg1ZEltbU5WVEhJQTFtcnQwc3hING5RUGVucDB3XzdBVnBCV0dJdnc?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "pk_budget_tax": {
+     "label": "Pakistan budget / new taxes",
+     "heat": 0.4,
+     "n": 60,
+     "why": "Taxation and budget reform questions loom, though the budget is not imminent.",
+     "headlines": [
+      {
+       "title": "One wicket left, no surrender: is the old Pakistan team back?",
+       "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNUUw0TjlGNlVsRnVSTWNxZUhBck5lb0xHWE1ZeXAxSERKQ0pIM01pYnRKbllXaFJpY0VGT2dEUWVXX2I1cmhzSjg3NGlXYklXWGJYQTJUZGctcXZ1WmJBRzczSGt1WGxTbW1PTW9KbTUwWGlKZGRBMzAtU3Q4QUFlUFg4SkF6TzljWk9HY0daNHhjVUI0SWdaZlVlSjZBLVnSAVZBVV95cUxQZEUxYzhQN1hrWkhhRFF4STdyaUcxTWRNOWFrOWRMQV9RNTVIXzN6QWptZjI5MTdqTm4yWU15X3htdEYzQXpWTE1MX3Q1Ujh6ck9YenlUQQ?oc=5",
+       "publisher": "Business Recorder",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Ahsan Bhoon files Rs5 billion defamation suit against Captain Safdar",
+       "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPdVhsV1prYnBWdEhpX00tTFJydDdxMUpGRkVTNXZlWmxXM3d4V3MyVmtlZ21zZjF3OFJvMW5aTkJ1NTFWdmQwTlhqTy1idVpDMlQ1Q09GVEJHNHVwQVlXRU02cDZPOUR1S2pzT2dES2doN0hDSlVValRnQXhqb0V5MzFNeFhDNWJrRi1PVFR3cTlUVm12dDZ5Ymp2R0JXSEw1N3VTT0pIV1NvNTBYSE5PdDFUY0RmNXQ0ZGNVV3p1dlVfQdIBVkFVX3lxTE84U2MtNW9jNTVyNG8xSEpQc0l6MXdIaEwwOWhVSlZYRThjOTlPVWJGYmJYcmt3d3E3cHUwZHQ0UUJFdVhpZ3dwQnVHWG1ZNnhUa3VhZHpn?oc=5",
+       "publisher": "Dunya News",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Pakistan Economy on the Rise? Maryam Nawaz's Major Initiative | Good News for Investors | Dunya News",
+       "link": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxPeUFKdFE2TkdCOFlsNlpPd2JuWXppWWZLV3pIeThMX29kVHZmdXVZeVF2VDNkNnpJUU9qcEs2YkZ4QlR4SFIxcURNTHhJelFBN3hZdEdMY3VMTUhRdjVhaFJpb3E1ZDFTUXFyU1h6SzFReDVxUzhLbFJ5SmUzRGRfODI5VHg3VXhvVnl6Z2ZlM00tc1VTNHc2V3I1cVl1UFF4RHd4UFpYNG1lZzBNWG81S2JGbUY3Wm5EVmVUdkRYcmxZSWZQYU95MTZtcVREUV9jZXp6OVlNVXU3ekZwMDZWcC1PV0JHbm1UZmRJ?oc=5",
+       "publisher": "Dunya News",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "Good News for Businesses Owners | Big Investment in Pakistan | Govt Policy Changes | Dunya News",
+       "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQbG4xNllGc1JyUWJGd25uT3kwUXgxZ2lFaXZDMkxjcWFmVUZERGlPSDBmNWdRbndaYk85T1pwd3NxU01Nd3FqbE5XV1hlVkJFSm91bnlJeXZuallDaVh6Vi1xTDdrTk9LTlNYVk9yQ2RseEtza2NxQkQ0VFJSOTFDSlFaTDJkRXc2NE1ZODNUNHdXNkVXMERPSVV4c3d3cTR5RGR6RGZRZzJKYXBiTHRwZkEyNk1kT20xcm9Wc0hBS2l4OURYUVZuMjRBRWJxVnVQZnYtem5hLVY2aWFNRVYyUGI0LVE?oc=5",
+       "publisher": "Dunya News",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "State Bank of Pakistan Announces Monetary Policy | Interest Rate Update | Petrol Prices Latest",
+       "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxOTlpyWkp5aFBPM0dXc0VYbEJFb1ZjMHI5a1VmOFdEakpHYmNqNnNNcnN0NjYyajdwdGJzckJ0ZVVqc1Bpdy1BOUp0Ui1WemlTUElhLV9LWklJd3JDM0EtWXZnblB6ME1NXzFCWUtjTnZ3MVJ4RGFlWUNCSmV6aHhGRTQxS0NSY2dZUmt6SlFKWlg1bFVQSm5hR0VCSG1qdG1yNFBMRXJvbTdzbXpYVm11UjdCNEQ5YXI2STItZmU3V2czMldkejljZGptak5xQmFhMXg2Wmd0dDUzZlEtUVZ4TElqWQ?oc=5",
+       "publisher": "Dunya News",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Central bank to announce policy rate today",
+       "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5McHRwTEwzbFhYR2Voc3hvYmM3cDQtdFBUdnludGsxd05PZ2FLdF9GblVMazA5d3VkaXpxeXBUSi1XaDFTRjRIRVA4M25hOTVIYkFlZjdqWV9lbHJkWWl1TlJXcEhHYWVRWDRsRGc4ZF9JNnVvdHNzZG01ZW5xQms?oc=5",
+       "publisher": "The Express Tribune",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "recession": {
+     "label": "Recession / slowdown fears",
+     "heat": 0.3,
+     "n": 5,
+     "why": "Some AI-recession and growth-slowdown talk, but no dominant narrative.",
+     "headlines": [
+      {
+       "title": "S&P Global Completes Acquisition of OpenZeppelin",
+       "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxObXpPYWttblp3MkNKS2NjVmQ4dXVVYndLeGNkdDNnTFRYZ2Y2RVdXU1pBM0N5UV9DNVpJVmh0SkFTZXJXdUtNcEVXXzRGUTBiX1p0cHkxdnpRRDlSZnJ0RUczMmFBTV9ZRWl1c1BtSFNKX1ExeC1yV0FUMGtDUFdvN2U3eGw4SERqMWctaHZLa1g5ZHdfU21qaFFHTDNXcDdDTXhlTzVTVWFmV3pUU0hxU3B4XzRHQUVIY1ZqakNVSQ?oc=5",
+       "publisher": "S&P Global",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "If You'd Held VTI Through Every Recession Since 2001, Here's Exactly How Much You'd Have Today",
+       "link": "https://news.google.com/rss/articles/CBMijAJBVV95cUxNSGpISEVnMXN6c3l5aUVDMWNiWFNHNXhpOURheWRHQmpoZmlfWVM1Tm1nWGNZUEdSZUxWaUZaR1EzNjE4NHFiTm8tekJyR1lYUm9DbEdTRUltLTdtR0pOU2p6R3FoUWZzMEF2VHhTRHZpYTdkZGJmX1JlRnJWSE83dHBGUjdqWC1yVng4dTJ1aGJZMTY5S1dwVlc3dGFhV0JyRnlSWDgySW1LQldtQkFRNGZKRjk3N2REdFQ3Mm91ZGZ5RXpBVUhnaTBBbjg1bThBeW5MUFRtYk1QQTd1VmtERWxHeUgwTmdEMDQxQWxUM1c1MTFJOXh2ZzhvckR3MGdfSkFGektkcUpUajJy?oc=5",
+       "publisher": "The Globe and Mail",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Five economic challenges facing Brazil's re-elected President Lula",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPcHk0a1NUT2ZNSm9tR2JkZnJ1YUtTdHRRVk1UQ05BbXpXYmtNYy1fY2MzaklhQ09YVGRmOUdHaW4yMVhsX1RpRGRacHFrNFpOcEFsRlBJcWpMSElnNGFKaVNCZTlzSC1RMFpyc1BuY2txb0NEd3I4X3hDTUNpcVh3clpDb19YVFdiOGRsNF9LQ0xBRWVPR2dEZzd2M0UzNElWNzNHOWZPcFhwcGp1ejZ1VGluaUM3Yk0?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Welp. Read more: https://www.buzzfeed.com/kelley_greene/2008-recession-experiences?ref=bffbbuzzfeednews&utm_source=dynamic&utm_campaign=bffbbuzzfeednews&d_id=12517924",
+       "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPQWo4T245SHo5RS12dFdSb2dORmVnZFY3N2g2V0RlTmZlY29nSU5VWWE1cncyaGVUVHZKSmM0aWphOTMzUGhseTQ1ekJFM01VM0N2d3pkRG0weFlmZVRpUkpmbnYtY214Umd2NjFpTGxzYW1HNVdvdjNDMG1MVFpPY1dn?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-25",
+       "score": 0.0
+      },
+      {
+       "title": "Is an AI Recession Coming? | The David Frum Show",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE16ZElIbDBUakV2NUxFbkQ1VUJDTWh3YUlzY0N2NmhZNDBUWkJfRTJWdk5MekZkcW9lZnZaZWpYUnB6TTBHZHphbjA3YXl0RExlbEZOYUtB?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-10-24",
+       "score": 0.0
+      }
+     ]
+    },
+    "stimulus": {
+     "label": "Government spending / infrastructure / stimulus",
+     "heat": 0.3,
+     "n": 55,
+     "why": "Mostly US tax-cut and fiscal headlines with limited direct market impact.",
+     "headlines": [
+      {
+       "title": "Trump\u2019s tax cuts aren\u2019t enough for these Nevada workers",
+       "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQcW5Id0E0UXFMNTR1LW80dVdSVkYyUVpwT09CZGlWaDR4S1pHZEZkWVRLT2N4eWF0VG5FT2pMdlQ4dExJaHZPeXp1NE5Fa1daNWJQX3Z4TEliTVUyVURwVGJmU1B0RzFFTDRXUlh1YmdtcnBWQ2lwbHZzbmxram9KT2xYckp6R0JjUThFNE1jQUpndVZUcjEyR3M4Zkp0ZGNJ?oc=5",
+       "publisher": "CNN",
+       "date": "2026-10-26",
+       "score": -0.5
+      },
+      {
+       "title": "House Republicans are working for the American people. Our southern border is secure, crime continues to fall, and hardworking Americans are keeping more money in their pockets thanks to the Working Families Tax Cuts. Remember the Republicans who v",
+       "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPTHdONVJ1cW5OelhRQVF5MlI2M1ptRVhRTWctYXJUTzdNbE5nNFJWUk4tbnVKQ1k4ejV4bTZaeUkxODNjTDdkM0xtc3NKcUVLdUFOaWY2N3RxR1A3ZVBuX19HTGdjRXBoOG5tU1NkbFRjSS03UllEd2ZxRmp6dzI0ekRjb2g4S0NrUDdwVjdFVzJ3bFpqU3g5eGJ0c05jZGJyaHM4V2F0S0ljeGdoSVdNYmJCd3Jhdmpla2dEZXdvbkcxb3ByRmg3S3B5aTh4TUxWd2ZIaXZmTUk?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": -0.67
+      },
+      {
+       "title": "GAS AND DIESEL TAX CUTS COMING THIS WINTER IN NEWFOUNDLAND AND LABRADOR \u26fd \u26a0\ufe0f Drivers across Newfoundland and Labrador could soon see some relief at the pumps. Finance Minister Craig Pardy has announced plans to temporarily elim",
+       "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxONjVMbUZZOWNaalk4SWhGNmk4LWdsU2hDWUFmNG96RHVhTmJneExwbUFLODFvb3oxWFZNejVqcHdCV0p1YUZZdFdRNFBGWldMV08tNWZaenFNQmZadXgxTE5wMnAtRlc4REI3WWdRQkN5b0dqZHBLbHZudXZBR1ctZFdmbk1Gc0pDNTJzTlppdHlWbHpHdElGUkJkOVpnb3lIUDVhemFXYl9JRUxKR0JSbTJfRU5XWDFtclNScEhybmw0MnJhLWFMTVQwei1FSVBvTFZienIyWkU2YndiaWt5d29sbTJDV1pXLUFrS01hOA?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": -0.5
+      },
+      {
+       "title": "With the Working Families Tax Cuts, car loan interest may be tax deductible. Learn the specifics from the #IRS at: https://t.co/k5z7b3RkbK",
+       "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE01dnB4emlzUDFjdWhqYVRVYXNMblBVZzhHTksxeFZZRGJQUldlMU5BN3lZTXNfRjZKZVhNSjAtTUZ0LTkxZG9sMXAzTmRLUUJWY09DTWRpMGNGTkUwck1EUlRraHRKQzA?oc=5",
+       "publisher": "X",
+       "date": "2026-10-26",
+       "score": -0.5
+      },
+      {
+       "title": "Breaking news: Meta is planning to raise $95bn in a stock offering to fuel its massive AI infrastructure spending, backed by chipmakers Nvidia, AMD and Broadcom, who will act as cornerstone investors. https://t.co/0RhgOzu6Uq",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFA1T2xfdEdpd09sNjJZd1o3Qm5UQzF1MVR3V25VTHB6cXFVSHdBclNoQkUxYmw0SVpaZm9OZXp6X281VDZSUEhLS3p5ZXhpcjYtM0Y1YzdB?oc=5",
+       "publisher": "X",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "She is a strong voice who supports common-sense policies, including making the Trump tax cuts permanent so we can have more money in our wallets, and she is working very hard to put a stop to government waste, fraud, and abuse that has been going on f",
+       "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxQLXg2MDExTlpHek9uQnJwLUY5bE13RE1fRTk2alBDSG10ejAwY0d5Z1M5MDhFb2FDUHlhOE5TWlMwbFhfVVZxa0pfVk1lTXVEZkFXT3RiUVhxTmMwRGZBZWNZaEFZY1pBaV91ZF9VRlBZbkdoTlRUQ2lMVHlLR0ZiVEctVllCSEJLYVFkaXNaTXNZZ0Zhd1d1UFFDVTFhanh0emh3QVJCNXBOQTZ5SUc4aVRlbkhrTDNBVVRDQkM4ZXJKTzF1UktTRmJRMmZfVkdxdzJyWVBndHRBTnV3YVRF?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": -0.25
+      }
+     ]
+    },
+    "deregulation": {
+     "label": "Deregulation (finance / energy / mining)",
+     "heat": 0.3,
+     "n": 14,
+     "why": "Fuel price adjustments and methane rollbacks appear, with moderate relevance.",
+     "headlines": [
+      {
+       "title": "Gasoline prices get a rollback, diesel prices rise again on October 27 Gasoline prices are set to ease while diesel prices rise for a second straight week starting Tuesday, October 27. Full story: https://www.rappler.com/business/fuel-prices-adjustments-october-",
+       "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxORkhPbHdjbzZZUGVZUDFKMnItNy1haUltY2FLNDB6b1laUEh3Z3l1VEZqLWRhT2s0cHhPV1psRDlJaW1ETWRXMmVZZHlJWTRwd2NPRkV6TE9SN29UMEVjdk9YelpoZUl3a0ZUNzBzN2twWjczRTh0aDZHclR0VUZlZTd0dENNeWR6d1FZb0Q2UkpDS0xROGQ2a19YSHVZTmh6LXFkazZtU0hmMDQ3YVEtNnN5NjdYZE1kX0l4RmE2VDhiZV9TeTZpV29DY1RvWFRzeGw2N3JUcldlcGc?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.67
+      },
+      {
+       "title": "Deregulation is Trump\u2019s gift to green energy, writes Michael Sonnenfeldt.",
+       "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNVE5yaFFUTkgtRllnRVp2aGNTZU1OazF0TktYUE5SOU9Xa1Rzd1oxdDBiVTl0aGVoNmd4SGRoN09sWDAxaDJhZmktTmhQUXBJNzhwa21zdFV1eE1VMWlmWGpsVzFQTjNySlRwRnp3ejdCVGFLZDc0LWNBUmpFY0NlZVJQNUstVXJSMEtTcVZhRHZmdU16eElRNzBoVnhhTkI3LTl4ZkNTWGtBQ005VzhNRkJBUnpaYWhxeEJ5OVhydmk3LUhiZ3dETDdn?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "How a rollback of methane rules for oil and gas wells could impact the climate and public health",
+       "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPYVJaYjdYVG5GelNkUzFfOXJLMkdUWEhBUTFPN1JTeEg0ZzlLcEdzaHgwNHJIeVl5dHJ3ajNjM0sxdkx2VUNIUW1uQW1lTUhnb1E2YmVQNS1GRU1qRUlNektucUEzV05rcnBMczE1SHZTQVplWjBuQkhOTG5TdDB4bS0xYm9oWU9hMTN4TUEtc0hjVHBveXVYYk5B?oc=5",
+       "publisher": "The Allegheny Front",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "#NewsUpdate | Motorists can expect a slight rollback in gasoline prices, while diesel and kerosene prices are set to increase, based on the latest fuel price adjustment announced by the Department of Energy (DOE). Gasoline prices are expected to decrease b",
+       "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxQTGtrZTVHUG1ZWVd6c0s4WDh5aV9BRk5kWmRVZGJONmx6Mk1tdFh0VDUwc25fZHNtb1lEM1o1VE55SjMwNjBOWjdOSDBuTTBhZnlYY3ZjdE5UdVFSTnBBZ2FyOVFrU3lnRVFmSm1jbHBRdWNfcHJCYzBMMnJDME9EUEYtQ21aS29VZmZlcGR0UlhCT01LWW5oTVRuTG5yVmY0MUdKNkxFaUNET2VyQ1pUd3A4cjB1MnJGaFcxM3BKMml4ZkItY0lVVUl5ZDRnSU1mQVV4bG9xcHVhTzkza3A2VGNR?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "OIL PRICE ADJUSTMENTS\u26fd Effective Tuesday, October 27, 2026, oil companies will implement a fuel price adjustments in pump prices nationwide. Here are the estimated price decreases per liter: #AllYouNeedToKnow",
+       "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPOXB1OXNobGxNdlBNam0wZjNHRUowUEVTRlBoM3E3T0UxVWhsazVJUTNESHpLM3V4NG8zRzNKTlFQcGViT3J0VkE5bzNXaFZoM3V2N2daZDFlN0hHZVNhTExpM01zODNMWWFOUU9vMU5OUkxfODJtZEJyYzdZNXZwMGFDazFlMldIX2tkMWFFLU4yVUowb2tjX05qWTdwZEstN3FnYzd1Yjl6cENyQzAtaHA5eE8wRnZPbmF1S1hVM3UxdGJ4MDRYUEZQQjEwQ085emY1MTVEdWdUVDBGUTkw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Lula beats Bolsonaro to win Brazil presidential election",
+       "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQVlFOcm1lZE01QjBoOExKb0QxWjBvMFVaOFdQalFwR3RDanAybFJka0pzWlgyOTJRNVZqbmRCSElEZ1VZVDh0VzFjMEd5VlVfOUdkbnpCLU5va3ZrX2tFOW9XUXJTY05iZWZUN19XYXFPeFdBZnVQSk9NNmZlX0JPLXJ1SQ?oc=5",
+       "publisher": "Axios",
+       "date": "2026-10-26",
+       "score": 0.67
+      }
+     ]
+    },
+    "gold_haven": {
+     "label": "Safe-haven / central-bank gold buying",
+     "heat": 0.4,
+     "n": 60,
+     "why": "Gold above $4,000 and Pakistan gold rising on safe-haven and Middle East demand.",
+     "headlines": [
+      {
+       "title": "Baby surrendered at Safe Haven box in West Terre Haute",
+       "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQVmVYZC1aYTFKbzJESHJmSUI4a3pyVmVMS2R3WXJ5Ulc3Y1dWQWpPNS1HeENoWUZXTUtuM00xcXluNnhvUUFwQ2M1OFpEZUFBZkMzOExhX2Zfa1pDd0R1SWtYUjlxYWwxb3BGRFd3LXVZQUVXRHdsS2JqRmJNZTIteFhaTFBsMGFyZXdSU3h3dFlOUWs?oc=5",
+       "publisher": "WTHI-TV",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "\ud83e\udd20 Texas is growing! \ud83d\udc99 Tomorrow, Texas adds three more Safe Haven Baby Box locations, bringing the total to **26 locations across the Lone Star State! \u2b50 Every new location represents another opportunity to protect a newborn\u2019s life and give a mother in crisis",
+       "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNZ3NuVHczeFhIbFNDRlhScHRqdm9CVkFUaXc1YzN5NlN4ZXo5RWR2ZnNUNHRfVjM1Nm9Oa0Q4cktVUGMtbGlZdWhtQzZiM0d4MnNDN1ZoRmhSbl8zcWxhYzVueFFFZUdUQzU4LWw4SHZVVjNPTDBfR1MzTG55d3BWcXdGOXpyRWxPeDJVdzdFSlNWdTBKTUljS0hMUWNNV3UwNkNkTVZGRVdQdnMxeEg1a3BwTEc1R3BaaG1mSDRoZ3N4OEFBcHRJal91VFR1TGhBcmVJbzBGRE1tUUJibk11aFdB?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Healthy newborn surrendered to Sugar Creek Fire Department Safe Haven baby box",
+       "link": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOM2N0UEtHMk9scTBMbUs5bVg1bUR4Tm9GMGM3OEYtdTVSV0llaExWWlhfb056S2s3VVVFeTRVa0gxSnJiaE5UM0dpdE9fY0xfNG5mR0hWcWJOWmU3OG5MU2xqRWdNSHlQbjJGMWtfUElyQk5WUjBraDVEeERCbWNraF85Rm5kN2xBMEk0YzhDWDQ5OHFQVmE1X1AxQ3hqMGs3MXZpVzZCVUc0akhzMkJNbVRmdlI2cklkUjlHMTNxYVlWd3FNUzIxWXF1QzY4T1dFT2l1QVI1RHRDeVpwdjhzWlVCeXBfNHU1SkphVzdxblh4Y0p0WnpucXZuZ3pJUQ?oc=5",
+       "publisher": "Terre Haute Tribune-Star",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Breaking news out of Indiana and Oklahoma! #SafeHavenBabyBoxes",
+       "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOaHhHRWJhaHk3ZTNlM01Ta3EyQXR0SjFkMm5WVFY3QmJZT2xtUFZYdjloT1FvdHJSUTk5ZHdJWjZoM19uTTliQ3NVbHF6Ql9ZdExWMjNEUHVuLV9JMGk1NUNXUE16dmh6TkZnUjBia2JxMmN5N2FTREk4cll1NHM3eEVLTkFKNmwycEhNZkx3ZGVOVTJBTlVwNk1hTlFFaDBfZ1ZrWnBUVk1qRHFScElDUUpNVzkySjQ4elhpc3VoWE5WN1lsM3Y0?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Is This Safe-Haven Stock Overvalued? The Hidden Risk Facing Colgate-Palmolive on Oct. 30",
+       "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQaGRvWHFKWGVPQnZDd2tNWm5jM3JBUmU5bEVub1ZnajZ4X3d0LUI3UmFIempOVUpDczlVWWRiSTlYSk9GSFFKQkNZY2c5QmNLcUh5MjJzdkJFWFBuUEg2MnJKZlZqTDVHaE1SdU1YU0ktcU04OVVwUzMwY2ZjTGgzc2ExRFFONDdKM3E2NGxDYWVIYXhDaEdqQkpLZlE2UnJT?oc=5",
+       "publisher": "Yahoo Finance",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Safe Haven with Taste of Italy fundraiser tickets on sale",
+       "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNRXdiLURubUg1Wlh0R3RUVXAwVjF4d3Iwa2NxeWJSUHRvQTNVbDBqVzlsUGdOMzFnaEZ3TzcydG1QR1ZaTWtGN2lGR3pudFFGSy1kc3FpR21GbG5hWFRJUnZuYzdUc0s3ckhReG1wRE9KMEVaSVlrSHo4Vm9GUnhCRVVOQ2dNMDNBa0VWQlRvMkx2b3dVQW9OSVpYWEs2T2lRdmVjQnpCaTEtSlNqTjVIS1BNY1l2MmxidjNMaUJRSnBXbEg2T1hUZ1VhNHk0MV9tV0E3WQ?oc=5",
+       "publisher": "nrtoday.com",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "pandemic": {
+     "label": "Disease outbreak / pandemic",
+     "heat": 0.4,
+     "n": 58,
+     "why": "Ebola near 10,000 cases is widespread, but limited direct market effect.",
+     "headlines": [
+      {
+       "title": "Ebola's spread to three African regions makes it most widespread outbreak in history - AP explains",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9tVXJ3a1p1amZYbEFDelk1a2l6RDlFdU1kbGtkTS1LZkRPdkVrR3ZiU2s3bUlrZ2NfM0g4X2g5LWVDLW5zZk82NTJJLVlLYVRIcnZ2a253?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Nigeria Could Declare Ebola Outbreak Over By December 7 If No New Cases Emerge \u2013Minister Full story in comments section",
+       "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQWjNtSmZ4X0tBNDFiejJ2SkJGTVpIaEJFbW01X29lYm4zMW9JaXZUcnRGbHpZZzRpNFJJbjJMOXgydGR1TTVIaWNLTlhpR19vUVpCdlhCb2FxTEZ2LThzSlFzWWFoMFhpcWxEVjQ1akRiX0lOdDUtY2Vqa2NzTEhkZGo0UU9YSlphb3duaTZyTXNsTWQtNFZiVkRIQklwUms0dE5mUmVJUjZidjZkQldhbE1BY1U5VXhpN2RnQ0l0M1BSYkNKWVMtUVlKNThwaWZRbWxLOXRmaVE5cWsw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Ebola outbreak: DR Congo nurse killed in attack as Uganda tightens border",
+       "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBxcXNoME5TT0NhVzNZQmZzeXZfUXhCNkVEUmNSMGZNY1pPa2drWWp1bXJ0YUwyRHFBUElRYjVPMHd5cEp5OFJ5YzBfWGhQUHY4TFR0T1E2Ty00akk?oc=5",
+       "publisher": "BBC",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "PA measles outbreak reaches 1,338 cases in 44 counties",
+       "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxNUXBLcDVWbkhGSmdTY01aeHZCSl9KdjQ4VHJOZmRocGxWRU96clFSWHRJZW1JTThDcVl3LTBBYk5fM2ItdmJBQWgtY3Q0dkxuVEZ3REVJMDlrQzZiR3Y3TUNtTWdDcF9qd1BYWVhfN3RjUksyOWlRaURWVDd2NEtleC1PUktnVGp4ZkVSbXFaS3R3cURCOXFaZ1F0Q0ZFUQ?oc=5",
+       "publisher": "The River Reporter",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Bronkhorstspruit water outbreak cases rise to 833 READ MORE: https://t.co/VrqG3na7qb",
+       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE40OU1lM0FYalJIbmR4Q3g5c18tWkNNaVVEa1laRFh3YlZ2Qmc0LWNlOTJrOC13WFRGMWUwbldMdUY5enN3NW54TjhPaEp2QlVMMXgzamY0dXJvMWJ1Z1gyNHI4S1I?oc=5",
+       "publisher": "X",
+       "date": "2026-10-26",
+       "score": 0.5
+      },
+      {
+       "title": "#Ebola outbreak update: Cases near 10,000 #DRC #Africa As of October 24, 2026, 88 new confirmed cases of Ebola virus disease (EVD) have been reported across three provinces: Ituri (44 cases), North Kivu (39 cases), and Haut-U\u00e9l\u00e9 (5 cases). Among thes",
+       "link": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxPLTMzaW04cmIwYmpVTzkyblVwcXVkUHhPR0t2aWViYXY2QmpmaVNUT2ZIcXZVWjlaTVY0TjlLUU1MOWllcE9vUFU4bHhYLWJhYm1hYjE3WTc1LTRGdWdaTXpGZVFnal9PQnZyemdQZGxBYVdTdURMLUJUQ3AyQURSWVZOdHk5Szg2RzFtanhVVURkeDRYYmxTTXoxa01yeTZVQjNoS2w0WXVFcDgzT2NISXpmWUlORFl3QlZNWVRLUWJ3QUwtVFpwcDd5QXlORWRtd08wd2oyYldYZjFhSTlQa3V2MmdvUQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "disasters": {
+     "label": "Natural disasters / extreme weather",
+     "heat": 0.3,
+     "n": 54,
+     "why": "Cyclone, floods, and typhoons in the news with localized impact.",
+     "headlines": [
+      {
+       "title": "Flood warning lingers in Four Corners as soaked towns face sewage-tainted waters. 1 death reported",
+       "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNOWk0LTJkYVBCSEJfdlpSVG5fYWRxeTJxaXZFMjlsTGltQ3g1QWx5U2tIbzNpODdBaVk5amtGTmNkUEpLNHZ3SVFFNlFGaHZpdnZoSTJIM25Wc2VHYXViSEtlZFUyN0YydDMxdk13dmlIWUZ4bWNGODF2aGVCM3ZNbVYxVGpTRXZmTzBZRHZ6Y2REbEZCdkwycGpULWVMU0xELU1FX1hPZmFlQQ?oc=5",
+       "publisher": "Jacksonville Journal-Courier",
+       "date": "2026-10-26",
+       "score": -0.5
+      },
+      {
+       "title": "Jonathan Petramala Storyteller. PANTHEON \u00b7 L'amour Toujours (Extended Mix). Two years ago when we were filming the roof ripped away by Hurricane Milton, I honestly never thought I would watch another game at Tropicana Field, much less a World Series.",
+       "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPcWJXZ2Z1Q1Z5RTU2VmZLUHNoTEkyZE11R0pfUHFNdmQxcGdHMlh2cE13NFBmT3lJd0pzVnFkZVhqRXhHWG9tbHl3LW41aU5vbkw1UXk4aGdHM0FVNFpucnVUQ1dCRVVEZGNmQ0dwRlRpX1pxS0ZWZEJ5MWZQa1hFQ0FGQU00eUxpRG5MalVoSjk4c3cxLUdENW1ELUlZckxfc2pkcy1FOS1iYlhWN045eUQyazRza0FyZHo1VlgyeHlKLXRhQ0lwcDBuZlZrQXpVR0dwdVdFZHpnd2hZUFM3X0dIaw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Assessing Post-Earthquake Firefighting Capacity of Water Distribution Networks Considering Isolation Valve Operations",
+       "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9KZDRaZjRkNDBtaHp6Sk56MFM2V1ZySFVHQ2wxbUxsOUJpaTBHMFRqMjlHZVNiVEt1UnVnRXBSZDZMY2RYV2NmV0hyRFJqUXJmV21iWg?oc=5",
+       "publisher": "MDPI",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Fire Survivors Demand Insurance Testing Pledge From State Candidates Wildfire survivors whose homes remained standing after the Eaton and Palisades fires are demanding that California\u2019s next insurance commissioner hold insurers accountable for compr",
+       "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxOb1lGZThVRTdKcks1aVFIdjZoanZWOW5hYnBHMEpSZnpOcUpYd0NrWHhrUktiZUJ2T2otWDBPT2F3VVBKMFJXNmM0OUFVak1iV0FjcENOVEFuMjdfc0dVUDhXTFhFcmNqM1JGNmJYS2NEeVNaUWE3Mm4wZDdRRFp0aDJuMU93WmhkZXczTGlrUzAtWm9nUkREalU1Z2ZFdkdwSHZGSjloaFp0ekdiT1pTcnEyUXNFejZwek05UnZIclFTZ2p3dkxvbmZLNTNGMkhQZUsxeWJMYnZwdw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "(Instagram/jessica_boucher_hansen1) Heavy rainfall caused severe flooding in Hurricane, Utah, on Oct. 22. This was the second flood to happen in the area in the last 10 weeks. A local emergency was declared and residents along the Gould Wash were orde",
+       "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQWTc0cDA5Ym9jM0s1aDRkaGwtaDVGQ1VhdFlKT2lDUHhqNUFwXy1zMlF1LVQyZXl2aTJXdmNXQXQ3YU1DSDJSanZROG5zcE9nNDItWEVmdlZwbjMwNmVOVC1uZUs0eU50SjZwbDVvUG82WVpUMEZlRHlabkRJV191MXg3emVhSVlRb0hEdU1IOGpzWWhvR283dUo3SE10MjRYZnJiNVcwb3liN2ZxVzZFSlJWRm5fZ18yY1U3anM5djBQNXk2ZDFaUWN4R0QxLUVkbU54dTR3aGo?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Flood waters recede as damage assessments begin in Southern Colorado",
+       "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1SbmVsbDZjMk5iQ2wxa2RMY3NPWXNqc2ZxWEZlWFBsQzFEcHdkSHVZOVp5VzFqQUVRcXZuZEg4dmlhQnl5Ymc0dklYeDNMbFhIOWdKMQ?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    },
+    "food_ag": {
+     "label": "Farm & food shocks (drought, crop prices)",
+     "heat": 0.3,
+     "n": 89,
+     "why": "Drought and flour prices feed inflation, but the theme is regional.",
+     "headlines": [
+      {
+       "title": "FACING an impending Super El Ni\u00f1o-induced drought, Zimbabwe\u2019s tobacco sector is leaning on science and climate-resilient farming techniques to protect yields, while accelerating the green transition towards harm reduction and sustainability. https://t.co/UId",
+       "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5CVkNudjFCc2QteUJOaVpETU9vWjctelhLaDhVS0hhN2lIWFdpaWppTl9RdFg4aUlHa3kzOWpOU09TVUcxQ1dTUTdIQXFlcTB4NERrXzk3NlRJeS0yOGRsdE1LZ3ZNU0s0U1hCYUh6TQ?oc=5",
+       "publisher": "X",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Licensable picture: Bosnia Jablanica lake drought",
+       "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNWnVYaUpVZnhCS2l4RFh2VzZqS3ctd3BsaGxsY25tRnRtMVdMRlplcXF4TUhIdXhuMDZYUXB0dEdMUG5rMFRSRC0xbW43ZS0xdVVhckFpY0tNMFQ5Y2k0MG1BSlBQajZJMVJBTEFqRzRDc2tkcVU5TFJBb096T2VmM2NYZDBkaHZURnZWNGZTeXBBdlUyeFpiT0tfYVdiWjg1R2xoN0VmVVUyZjdFUUR0MmgyRUZWOFRuLS1ZTQ?oc=5",
+       "publisher": "Reuters Connect",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Kansas hasn't elected a Democratic U.S. senator since George McGill in 1932. Here's how he won, why he lost in 1938 and how close Democrats have come since. FULL STORY\u2b07\ufe0f",
+       "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOOWRWLVYtNHhqeG9EMFRpQTNXbUtyY0dFcTRFQW9oOFYzeVYxV3ItcGE0TktKVHEwWDhJVjZTR0NrNFhLaE4tRHp4Szk1RUF5STlTVzVNR004ZnFBa0VrQmFwX2lsaktoQkMzY24zV2xRU1dtNWZWemYwaGswSmdNRWFVUmxfRTZ0dkp2OHFqT0JkaFZCbkF0dW8xdFRtX3pXbDY3djhmdmU3cl9Bc3c3QXBMWXZMVUtTMTJnbk5fd0RvTlcySzN1a3E5eE0wOHpZ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "The burn ban in Sequoyah County will remain in effect as drought-like conditions continue across the area, creating an increased risk of grass fires and wildfires. County officials say the continued lack of significant rainfall has left vegetation and ground cover d",
+       "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOYi1VbDYtdUlRMWcyWURzMXByTzgxUUl1cHM2NUNGN0YweHJPaFBwc2lBb1l1eTF0YmhJRWxSSHN3dV9kRzdZYmE1M2JuQjUwbW5seHBSNmtqTzhlU215ZlpaX1VDcjVBVk1NVmVSTWxIdUJVd2FFSVZMcFlZcFgzWE9rOElQd0t6UHkwZVhuWXkyQVhDaWI3SHpEWnhLYUVjZ3JtdnJLTnZuZDJ6M0pucUxZTDMydnktRDVURkJ5Zy1IR2tsdnlxWnVvdkJYeHliTU9jdmNCUjQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-10-26",
+       "score": -0.5
+      },
+      {
+       "title": "Experts: Beef is Enjoying a Moment Culturally and Economically, but Questions Loom Large on Horizon",
+       "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9kTXZYTDJtSzRncEhJTjFjZWlWSTZGNUVMVHVlWjVDU2pYQVh3VkYyd3FHck9fNmtyUlNFWUxyLWVhSHFDQmJyV1dkZGsyLVdUZnZWNERra0Y2SE56Q09NdkV6Z2p5MVhNeHJpcjNmNU1IVEtPN3VsQg?oc=5",
+       "publisher": "Arkansas Money & Politics",
+       "date": "2026-10-26",
+       "score": 0.0
+      },
+      {
+       "title": "Have Mercy! Ricebirds end 28-year Warren drought with 45-16 victory",
+       "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQZnVYZ1hCbzRnTDlMRlpmd0EtT3JrY0tDMWFGT0tsd2dObE5qdC11czJnblZRTlJEMzNQTVR3WVd1WXk4N1piSl9WSV8tTHpnTTNDNHJJejQzYi04azdxaEVWVkxnNFBSU0RZRmxOZDh6d2ZhV012bHUtdzMtUjEzZER4Vng5ZWR2dXpPSTRDRXREbFRJUk1jQ3YtQk9nN1YzU3c2V19xTQ?oc=5",
+       "publisher": "Stuttgart Daily Leader",
+       "date": "2026-10-26",
+       "score": 0.0
+      }
+     ]
+    }
+   },
+   "events": [
+    {
+     "event": "SBP hikes policy rate 50bp to 12%",
+     "why": "A 17-month-high policy rate lifts net interest margins for banks, while higher borrowing costs weigh on rate-sensitive textile exporters and cement/construction demand.",
+     "impacts": [
+      {
+       "target": "industry:Banks - Regional",
+       "effect": 0.2
+      },
+      {
+       "target": "industry:Textile Manufacturing",
+       "effect": -0.2
+      },
+      {
+       "target": "industry:Building Materials",
+       "effect": -0.1
+      }
+     ]
+    },
+    {
+     "event": "Gulf security talks (Iran, Saudi, Turkey, Pakistan) continue",
+     "why": "Ongoing de-escalation diplomacy lowers the risk premium on oil and supply disruptions, modestly easing input costs for refiners and marketers while reducing upside for upstream producers.",
+     "impacts": [
+      {
+       "target": "industry:Oil & Gas Refining & Marketing",
+       "effect": 0.1
+      },
+      {
+       "target": "ticker:OGDC.KA",
+       "effect": -0.1
+      },
+      {
+       "target": "ticker:PPL.KA",
+       "effect": -0.1
+      }
+     ]
+    },
+    {
+     "event": "Houthi strikes on Saudi oil infrastructure and possible renewed US-Iran fighting",
+     "why": "Escalation risk in the Gulf lifts crude prices, which benefits domestic upstream producers but squeezes Pakistani OMCs and refiners that pay import-linked prices.",
+     "impacts": [
+      {
+       "target": "ticker:OGDC.KA",
+       "effect": 0.15
+      },
+      {
+       "target": "ticker:POL.KA",
+       "effect": 0.15
+      },
+      {
+       "target": "ticker:PPL.KA",
+       "effect": 0.15
+      },
+      {
+       "target": "ticker:PSO.KA",
+       "effect": -0.1
+      },
+      {
+       "target": "ticker:ATRL.KA",
+       "effect": -0.1
+      }
+     ]
+    },
+    {
+     "event": "US-Pakistan talks on long-term LNG supply and refinery upgrade investment",
+     "why": "Prospective US-backed LNG contracts and refinery investment could ease supply shortages and improve refining economics, though deals are not yet signed.",
+     "impacts": [
+      {
+       "target": "ticker:ATRL.KA",
+       "effect": 0.15
+      },
+      {
+       "target": "ticker:PSO.KA",
+       "effect": 0.1
+      },
+      {
+       "target": "ticker:SNGP.KA",
+       "effect": 0.05
+      }
+     ]
+    },
+    {
+     "event": "Lucky Group and Qatar Energy quit Port Qasim LNG terminal plan",
+     "why": "Withdrawal reduces Pakistan's planned LNG import capacity, tightening gas feedstock for fertilizer plants and keeping gas shortages persistent.",
+     "impacts": [
+      {
+       "target": "industry:Agricultural Inputs",
+       "effect": -0.15
+      },
+      {
+       "target": "ticker:FFC.KA",
+       "effect": -0.1
+      },
+      {
+       "target": "ticker:EFERT.KA",
+       "effect": -0.1
+      },
+      {
+       "target": "ticker:LUCK.KA",
+       "effect": -0.1
+      }
+     ]
+    },
+    {
+     "event": "Iran-Pakistan border trade partially reopens, LPG supplies resume",
+     "why": "Restored cross-border LPG flows ease supply disruptions, which may lower LPG prices and reduce the need for expensive seaborne imports.",
+     "impacts": [
+      {
+       "target": "ticker:PSO.KA",
+       "effect": 0.05
+      },
+      {
+       "target": "ticker:SNGP.KA",
+       "effect": 0.05
+      }
+     ]
+    },
+    {
+     "event": "IMF flags delays in agricultural income tax and retailer tax reforms",
+     "why": "Slippage on structural reforms raises risk to the IMF program review and financing tranche, adding downside pressure to the broader financial market and rupee.",
+     "impacts": [
+      {
+       "target": "sector:Financial Services",
+       "effect": -0.1
+      }
+     ]
+    },
+    {
+     "event": "Margalla Heavy Industries signs $2.25bn lithium-ion battery plant deal",
+     "why": "A large Chinese-partnered battery manufacturing project signals electrical equipment demand growth, though its listed-company spillover is indirect and it is still early-stage.",
+     "impacts": [
+      {
+       "target": "industry:Electrical Equipment & Parts",
+       "effect": 0.05
+      }
+     ]
+    },
+    {
+     "event": "SBP projects forex reserves reaching $25bn by June 2027",
+     "why": "A credible reserve build-up path supports rupee stability and lowers external financing risk, which is mildly supportive for bank balance sheets and sentiment.",
+     "impacts": [
+      {
+       "target": "industry:Banks - Regional",
+       "effect": 0.05
+      }
+     ]
+    }
+   ]
+  },
+  "requested": {},
+  "label_counts": {
+   "HOLD": 37,
+   "WATCH": 9,
+   "AVOID": 4,
+   "SELL": 3,
+   "SHORT BUY": 3,
+   "LONG BUY": 2
+  }
+ }
+}

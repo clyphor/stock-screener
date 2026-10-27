@@ -1,5 +1,246 @@
 [
  {
+  "started": "2026-10-27T06:11:19+00:00",
+  "finished": "2026-10-27T06:16:32+00:00",
+  "minutes": 5.2,
+  "trigger": "workflow_dispatch",
+  "commit": "f00e984",
+  "status": "warnings",
+  "fatal": null,
+  "warnings": [
+   "06:12:35 WARNING no price data for: FDXF, HONA, Q, VYLR"
+  ],
+  "markets": {
+   "US": {
+    "error": null,
+    "downloaded": 499,
+    "screened": 498,
+    "news_coverage": 1.0,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-10-26",
+    "ic_mean": 0.046,
+    "model_used": true,
+    "timings": {
+     "index list": 0.3,
+     "prices": 75.1,
+     "fundamentals": 20.0,
+     "company news": 57.9,
+     "financial health": 36.4,
+     "model": 4.8,
+     "news scoring": 77.0,
+     "sector & politics": 37.0,
+     "scoring & labels": 0.6
+    },
+    "missing_prices": [
+     "FDXF",
+     "HONA",
+     "Q",
+     "VYLR"
+    ],
+    "labels": {
+     "HOLD": 376,
+     "AVOID": 65,
+     "WATCH": 37,
+     "BUY": 15,
+     "SELL": 2,
+     "SHORT BUY": 17,
+     "LONG BUY": 14
+    },
+    "ai_events": 10
+   }
+  },
+  "checks": {
+   "US": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "503 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "499/503 stocks downloaded, 0 batch errors, 3 retries; last date 2026-10-26",
+     "hint": ""
+    },
+    {
+     "stage": "Price check",
+     "status": "OK",
+     "msg": "Massive on 2026-10-26: 499/499 agree with Yahoo, 0 corrected, 0 filled",
+     "hint": ""
+    },
+    {
+     "stage": "Index",
+     "status": "OK",
+     "msg": "used SPY",
+     "hint": ""
+    },
+    {
+     "stage": "Fundamentals",
+     "status": "OK",
+     "msg": "499 companies; ",
+     "hint": ""
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 100%; Yahoo items 0, Google items 67769, Google requests 998 (0 failed); dropped: 9089 off-topic, 5693 junk sites, 28 law-firm ads, 3996 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Financial health",
+     "status": "OK",
+     "msg": "150 refreshed, 199 from cache, 0 errors, 498 with an F-score",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "OK",
+     "msg": "121920 training rows; backtest IC 0.046",
+     "hint": ""
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "OK",
+     "msg": "82 calls, 0 failed, 223,341 in / 161,929 out tokens, \u2248 US$0.103; headlines scored 3,192, reused from earlier days 3,742",
+     "hint": ""
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "4500 headlines from 45 searches (0 failed); 10 AI events",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "US": {}
+  },
+  "diag": {
+   "general": {
+    "tracked": {
+     "count": 0
+    },
+    "claude": {
+     "headline_cache_size": 34894
+    }
+   },
+   "US": {
+    "universe": {
+     "source": "live",
+     "count": 503
+    },
+    "prices": {
+     "requested": 503,
+     "retries": 3,
+     "missing": [
+      "FDXF",
+      "HONA",
+      "Q",
+      "VYLR"
+     ],
+     "received": 499,
+     "last_date": "2026-10-26",
+     "first_date": "2020-10-27",
+     "stale": []
+    },
+    "index": {
+     "used": "SPY",
+     "preferred": "SPY"
+    },
+    "fundamentals": {
+     "count": 499,
+     "missing_marketCap": 0.0,
+     "missing_trailingPE": 0.05,
+     "missing_profitMargins": 0.0,
+     "missing_revenueGrowth": 0.0,
+     "missing_returnOnEquity": 0.06,
+     "missing_debtToEquity": 0.06,
+     "filled_from_statements": {
+      "returnOnEquity": 9,
+      "debtToEquity": 22,
+      "priceToBook": 1,
+      "freeCashflow": 43,
+      "revenueGrowth": 1,
+      "profitMargins": 1,
+      "dividendYield": 1,
+      "payoutRatio": 1
+     }
+    },
+    "news": {
+     "google_requests": 998,
+     "google_items": 67769,
+     "dropped_irrelevant": 9089,
+     "dropped_lowq": 5693,
+     "dropped_promo_cap": 3996,
+     "dropped_lawfirm_ads": 28,
+     "stocks": 499,
+     "with_news": 498,
+     "kept": 6934,
+     "no_news_sample": [
+      "T"
+     ]
+    },
+    "health": {
+     "deferred": 150,
+     "errors": 0,
+     "refreshed": 150,
+     "cached": 199,
+     "with_fscore": 498
+    },
+    "pricecheck": {
+     "source": "Massive",
+     "date": "2026-10-26",
+     "checked": 499,
+     "agree": 499,
+     "corrected": 0,
+     "filled": 0
+    },
+    "model": {
+     "train_rows": 121920,
+     "dates": 1254
+    },
+    "claude": {
+     "headlines_from_cache": 3742,
+     "headlines_sent": 3192,
+     "calls": 82,
+     "input_tokens": 223341,
+     "output_tokens": 161929,
+     "cost_usd": 0.10327,
+     "headline_batches": 80,
+     "headline_batches_ok": 80
+    },
+    "screen": {
+     "total": 498,
+     "no_dollar_vol": 0,
+     "too_illiquid": 0,
+     "no_price": 0,
+     "price_below_1": 0,
+     "too_small": 0,
+     "passed": 498
+    },
+    "macro": {
+     "requests": 45,
+     "headlines": 4500,
+     "ai_events": 10,
+     "method": "claude"
+    },
+    "halal": {
+     "halal": 238,
+     "not_halal": 216,
+     "doubtful": 41
+    },
+    "dividends": {
+     "payers": 398,
+     "high": 54,
+     "growers": 221,
+     "at_risk": 14
+    }
+   }
+  }
+ },
+ {
   "started": "2026-10-27T05:33:12+00:00",
   "finished": "2026-10-27T05:38:14+00:00",
   "minutes": 5.0,
@@ -16680,517 +16921,6 @@
     "macro": {
      "requests": 44,
      "headlines": 4300,
-     "ai_events": 0,
-     "method": "wordlist"
-    }
-   }
-  }
- },
- {
-  "started": "2026-10-16T16:22:17+00:00",
-  "finished": "2026-10-16T16:27:20+00:00",
-  "minutes": 5.0,
-  "trigger": "workflow_dispatch",
-  "commit": "29bf438",
-  "status": "failed",
-  "fatal": null,
-  "warnings": [
-   "16:23:19 WARNING no price data for: FDXF, HONA, Q, VYLR",
-   "16:25:27 WARNING no price data for: ASK.AX, IFL.AX, NSR.AX, QUB.AX, XYX.AX",
-   "16:26:34 WARNING no price data for: AHCL.KA, BML.KA, ENGROH.KA, GAL.KA, HUBC.KA, TPLRF1.KA",
-   "16:27:19 Traceback (most recent call last):\n",
-   "16:27:19 [PSX] FAILED: ValueError: cannot convert float NaN to integer"
-  ],
-  "markets": {
-   "US": {
-    "error": null,
-    "downloaded": 499,
-    "screened": 498,
-    "news_coverage": 1.0,
-    "ai_scoring": "off",
-    "news_method": "event rules",
-    "price_date": "2026-10-16",
-    "ic_mean": 0.061,
-    "model_used": true,
-    "timings": {
-     "index list": 0.3,
-     "prices": 61.2,
-     "fundamentals": 21.6,
-     "company news": 59.2,
-     "financial health": 0.0,
-     "model": 5.0,
-     "news scoring": 1.2,
-     "sector & politics": 3.9,
-     "scoring & labels": 0.6
-    },
-    "missing_prices": [
-     "FDXF",
-     "HONA",
-     "Q",
-     "VYLR"
-    ],
-    "labels": {
-     "HOLD": 360,
-     "AVOID": 94,
-     "WATCH": 33,
-     "BUY": 4,
-     "SELL": 4,
-     "SHORT BUY": 2,
-     "LONG BUY": 10
-    },
-    "ai_events": 0
-   },
-   "ASX": {
-    "error": null,
-    "downloaded": 195,
-    "screened": 151,
-    "news_coverage": 0.99,
-    "ai_scoring": "off",
-    "news_method": "event rules",
-    "price_date": "2026-10-16",
-    "ic_mean": -0.015,
-    "model_used": false,
-    "timings": {
-     "index list": 0.3,
-     "prices": 33.9,
-     "fundamentals": 8.9,
-     "company news": 22.4,
-     "financial health": 0.0,
-     "model": 2.1,
-     "news scoring": 0.3,
-     "sector & politics": 3.9,
-     "scoring & labels": 0.2
-    },
-    "missing_prices": [
-     "ASK.AX",
-     "IFL.AX",
-     "NSR.AX",
-     "QUB.AX",
-     "XYX.AX"
-    ],
-    "labels": {
-     "HOLD": 91,
-     "AVOID": 42,
-     "WATCH": 15,
-     "BUY": 2,
-     "SELL": 1,
-     "SHORT BUY": 2,
-     "LONG BUY": 5
-    },
-    "ai_events": 0
-   },
-   "PSX": {
-    "error": "ValueError: cannot convert float NaN to integer",
-    "downloaded": null,
-    "screened": null,
-    "news_coverage": null,
-    "ai_scoring": null,
-    "news_method": null,
-    "price_date": null,
-    "ic_mean": null,
-    "model_used": null,
-    "timings": null,
-    "missing_prices": [],
-    "labels": null,
-    "ai_events": 0
-   }
-  },
-  "checks": {
-   "US": [
-    {
-     "stage": "Stock list",
-     "status": "OK",
-     "msg": "503 tickers from live",
-     "hint": ""
-    },
-    {
-     "stage": "Prices",
-     "status": "OK",
-     "msg": "499/503 stocks downloaded, 0 batch errors, 2 retries; last date 2026-10-16",
-     "hint": ""
-    },
-    {
-     "stage": "Index",
-     "status": "OK",
-     "msg": "used SPY",
-     "hint": ""
-    },
-    {
-     "stage": "Fundamentals",
-     "status": "OK",
-     "msg": "499 companies; ",
-     "hint": ""
-    },
-    {
-     "stage": "Company news",
-     "status": "OK",
-     "msg": "coverage 100%; Yahoo items 0, Google items 75339, Google requests 998 (0 failed); dropped: 8149 off-topic, 6085 junk sites, 4776 over promo cap",
-     "hint": ""
-    },
-    {
-     "stage": "Financial health",
-     "status": "OK",
-     "msg": "0 refreshed, 499 from cache, 0 errors, 444 with an F-score",
-     "hint": ""
-    },
-    {
-     "stage": "Price model",
-     "status": "OK",
-     "msg": "121902 training rows; backtest IC 0.061",
-     "hint": ""
-    },
-    {
-     "stage": "AI (Claude)",
-     "status": "OK",
-     "msg": "off \u2014 no API key",
-     "hint": ""
-    },
-    {
-     "stage": "Sector & politics",
-     "status": "OK",
-     "msg": "4100 headlines from 41 searches (0 failed); 0 AI events",
-     "hint": ""
-    }
-   ],
-   "ASX": [
-    {
-     "stage": "Stock list",
-     "status": "OK",
-     "msg": "200 tickers from live",
-     "hint": ""
-    },
-    {
-     "stage": "Prices",
-     "status": "OK",
-     "msg": "195/200 stocks downloaded, 0 batch errors, 2 retries; last date 2026-10-16",
-     "hint": ""
-    },
-    {
-     "stage": "Index",
-     "status": "OK",
-     "msg": "used ^AXJO",
-     "hint": ""
-    },
-    {
-     "stage": "Fundamentals",
-     "status": "OK",
-     "msg": "195 companies; ",
-     "hint": ""
-    },
-    {
-     "stage": "Company news",
-     "status": "OK",
-     "msg": "coverage 99%; Yahoo items 0, Google items 23095, Google requests 390 (0 failed); dropped: 2379 off-topic, 681 junk sites, 2173 over promo cap",
-     "hint": ""
-    },
-    {
-     "stage": "Financial health",
-     "status": "OK",
-     "msg": "0 refreshed, 195 from cache, 0 errors, 172 with an F-score",
-     "hint": ""
-    },
-    {
-     "stage": "Price model",
-     "status": "INFO",
-     "msg": "46445 training rows; backtest IC -0.015",
-     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
-    },
-    {
-     "stage": "AI (Claude)",
-     "status": "OK",
-     "msg": "off \u2014 no API key",
-     "hint": ""
-    },
-    {
-     "stage": "Sector & politics",
-     "status": "OK",
-     "msg": "4221 headlines from 43 searches (0 failed); 0 AI events",
-     "hint": ""
-    }
-   ],
-   "PSX": [
-    {
-     "stage": "Stock list",
-     "status": "OK",
-     "msg": "100 tickers from live",
-     "hint": ""
-    },
-    {
-     "stage": "Prices",
-     "status": "OK",
-     "msg": "94/100 stocks downloaded, 0 batch errors, 2 retries; last date 2026-10-16",
-     "hint": ""
-    },
-    {
-     "stage": "Fundamentals",
-     "status": "WARN",
-     "msg": "94 companies; debtToEquity missing 100%, profitMargins missing 26%, returnOnEquity missing 100%, revenueGrowth missing 26%",
-     "hint": "Yahoo / PSX pages returned gaps \u2014 data.py get_fundamentals / _psx_info."
-    },
-    {
-     "stage": "Company news",
-     "status": "FAIL",
-     "msg": "coverage 0%; Yahoo items 0, Google items 10071, Google requests 188 (0 failed); dropped: 2207 off-topic, 147 junk sites, 50 over promo cap",
-     "hint": "Google News may be blocking requests \u2014 data.py _google_news; errors listed below."
-    },
-    {
-     "stage": "Price model",
-     "status": "INFO",
-     "msg": "11828 training rows; backtest IC None",
-     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
-    },
-    {
-     "stage": "Sector & politics",
-     "status": "OK",
-     "msg": "4000 headlines from 40 searches (0 failed); 0 AI events",
-     "hint": ""
-    }
-   ]
-  },
-  "errors": {
-   "US": {
-    "news.errors": [
-     "Yahoo news HD: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news HLT: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news HON: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news HRL: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news HST: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news HWM: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news HPQ: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news HUBB: Too Many Requests. Rate limited. Try after a while."
-    ]
-   },
-   "ASX": {
-    "news.errors": [
-     "Yahoo news WAF.AX: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news WAM.AX: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news WBC.AX: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news WDS.AX: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news WGX.AX: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news WES.AX: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news WHC.AX: Too Many Requests. Rate limited. Try after a while.",
-     "Yahoo news WLE.AX: Too Many Requests. Rate limited. Try after a while."
-    ]
-   },
-   "PSX": {}
-  },
-  "diag": {
-   "US": {
-    "universe": {
-     "source": "live",
-     "count": 503
-    },
-    "prices": {
-     "requested": 503,
-     "retries": 2,
-     "missing": [
-      "FDXF",
-      "HONA",
-      "Q",
-      "VYLR"
-     ],
-     "received": 499,
-     "last_date": "2026-10-16",
-     "first_date": "2020-10-16",
-     "stale": []
-    },
-    "index": {
-     "used": "SPY",
-     "preferred": "SPY"
-    },
-    "fundamentals": {
-     "count": 499,
-     "missing_marketCap": 0.0,
-     "missing_trailingPE": 0.05,
-     "missing_profitMargins": 0.0,
-     "missing_revenueGrowth": 0.0,
-     "missing_returnOnEquity": 0.07,
-     "missing_debtToEquity": 0.1
-    },
-    "news": {
-     "yahoo_items": 0,
-     "google_requests": 998,
-     "google_items": 75339,
-     "dropped_lowq": 6085,
-     "dropped_irrelevant": 8149,
-     "dropped_promo_cap": 4776,
-     "yahoo_failures": 269,
-     "errors": [
-      "Yahoo news HD: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news HLT: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news HON: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news HRL: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news HST: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news HWM: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news HPQ: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news HUBB: Too Many Requests. Rate limited. Try after a while."
-     ],
-     "stocks": 499,
-     "with_news": 498,
-     "kept": 6738,
-     "no_news_sample": [
-      "T"
-     ]
-    },
-    "health": {
-     "refreshed": 0,
-     "cached": 499,
-     "with_fscore": 444
-    },
-    "model": {
-     "train_rows": 121902,
-     "dates": 1255
-    },
-    "macro": {
-     "requests": 41,
-     "headlines": 4100,
-     "ai_events": 0,
-     "method": "wordlist"
-    }
-   },
-   "ASX": {
-    "universe": {
-     "source": "live",
-     "count": 200
-    },
-    "prices": {
-     "requested": 200,
-     "retries": 2,
-     "missing": [
-      "ASK.AX",
-      "IFL.AX",
-      "NSR.AX",
-      "QUB.AX",
-      "XYX.AX"
-     ],
-     "received": 195,
-     "last_date": "2026-10-16",
-     "first_date": "2020-10-16",
-     "stale": []
-    },
-    "index": {
-     "used": "^AXJO",
-     "preferred": "^AXJO"
-    },
-    "fundamentals": {
-     "count": 195,
-     "missing_marketCap": 0.0,
-     "missing_trailingPE": 0.1,
-     "missing_profitMargins": 0.01,
-     "missing_revenueGrowth": 0.09,
-     "missing_returnOnEquity": 0.03,
-     "missing_debtToEquity": 0.08
-    },
-    "news": {
-     "yahoo_items": 0,
-     "google_requests": 390,
-     "google_items": 23095,
-     "dropped_irrelevant": 2379,
-     "dropped_promo_cap": 2173,
-     "dropped_lowq": 681,
-     "yahoo_failures": 15,
-     "errors": [
-      "Yahoo news WAF.AX: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news WAM.AX: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news WBC.AX: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news WDS.AX: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news WGX.AX: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news WES.AX: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news WHC.AX: Too Many Requests. Rate limited. Try after a while.",
-      "Yahoo news WLE.AX: Too Many Requests. Rate limited. Try after a while."
-     ],
-     "stocks": 195,
-     "with_news": 190,
-     "kept": 1285,
-     "no_news_sample": [
-      "ANZ.AX",
-      "BFL.AX",
-      "L1G.AX",
-      "REH.AX",
-      "ZIM.AX"
-     ]
-    },
-    "health": {
-     "refreshed": 0,
-     "cached": 195,
-     "with_fscore": 172
-    },
-    "model": {
-     "train_rows": 46445,
-     "dates": 1267
-    },
-    "macro": {
-     "requests": 43,
-     "headlines": 4221,
-     "ai_events": 0,
-     "method": "wordlist"
-    }
-   },
-   "PSX": {
-    "universe": {
-     "source": "live",
-     "count": 100
-    },
-    "prices": {
-     "requested": 100,
-     "retries": 2,
-     "missing": [
-      "AHCL.KA",
-      "BML.KA",
-      "ENGROH.KA",
-      "GAL.KA",
-      "HUBC.KA",
-      "TPLRF1.KA"
-     ],
-     "received": 94,
-     "last_date": "2026-10-16",
-     "first_date": "2020-10-16",
-     "stale": []
-    },
-    "fundamentals": {
-     "count": 94,
-     "missing_marketCap": 0.0,
-     "missing_trailingPE": 0.06,
-     "missing_profitMargins": 0.26,
-     "missing_revenueGrowth": 0.26,
-     "missing_returnOnEquity": 1.0,
-     "missing_debtToEquity": 1.0
-    },
-    "news": {
-     "yahoo_items": 0,
-     "google_requests": 188,
-     "google_items": 10071,
-     "dropped_irrelevant": 2207,
-     "dropped_lowq": 147,
-     "dropped_promo_cap": 50,
-     "stocks": 94,
-     "with_news": 66,
-     "kept": 263,
-     "no_news_sample": [
-      "AICL.KA",
-      "AIRLINK.KA",
-      "AKBL.KA",
-      "APL.KA",
-      "BNWM.KA",
-      "BWCL.KA",
-      "FFL.KA",
-      "GADT.KA",
-      "HALEON.KA",
-      "HGFA.KA",
-      "HINOON.KA",
-      "IBFL.KA",
-      "IMAGE.KA",
-      "INIL.KA",
-      "JDWS.KA"
-     ]
-    },
-    "model": {
-     "train_rows": 11828,
-     "dates": 785
-    },
-    "macro": {
-     "requests": 40,
-     "headlines": 4000,
      "ai_events": 0,
      "method": "wordlist"
     }

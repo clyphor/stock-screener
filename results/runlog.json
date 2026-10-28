@@ -1,5 +1,246 @@
 [
  {
+  "started": "2026-10-28T07:31:08+00:00",
+  "finished": "2026-10-28T07:36:11+00:00",
+  "minutes": 5.1,
+  "trigger": "workflow_dispatch",
+  "commit": "becd425",
+  "status": "warnings",
+  "fatal": null,
+  "warnings": [
+   "07:32:30 WARNING no price data for: FDXF, HONA, Q, VYLR"
+  ],
+  "markets": {
+   "US": {
+    "error": null,
+    "downloaded": 499,
+    "screened": 498,
+    "news_coverage": 1.0,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-10-27",
+    "ic_mean": 0.047,
+    "model_used": true,
+    "timings": {
+     "index list": 0.3,
+     "prices": 80.6,
+     "fundamentals": 20.1,
+     "company news": 48.2,
+     "financial health": 38.0,
+     "model": 6.0,
+     "news scoring": 61.5,
+     "sector & politics": 41.5,
+     "scoring & labels": 1.0
+    },
+    "missing_prices": [
+     "FDXF",
+     "HONA",
+     "Q",
+     "VYLR"
+    ],
+    "labels": {
+     "HOLD": 353,
+     "AVOID": 80,
+     "WATCH": 42,
+     "BUY": 16,
+     "SELL": 4,
+     "SHORT BUY": 15,
+     "LONG BUY": 16
+    },
+    "ai_events": 13
+   }
+  },
+  "checks": {
+   "US": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "503 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "499/503 stocks downloaded, 0 batch errors, 3 retries; last date 2026-10-27",
+     "hint": ""
+    },
+    {
+     "stage": "Price check",
+     "status": "OK",
+     "msg": "Massive on 2026-10-27: 499/499 agree with Yahoo, 0 corrected, 0 filled",
+     "hint": ""
+    },
+    {
+     "stage": "Index",
+     "status": "OK",
+     "msg": "used SPY",
+     "hint": ""
+    },
+    {
+     "stage": "Fundamentals",
+     "status": "OK",
+     "msg": "499 companies; ",
+     "hint": ""
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 100%; Yahoo items 0, Google items 68714, Google requests 998 (0 failed); dropped: 9563 off-topic, 5263 junk sites, 34 law-firm ads, 4094 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Financial health",
+     "status": "OK",
+     "msg": "150 refreshed, 300 from cache, 0 errors, 498 with an F-score",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "OK",
+     "msg": "121922 training rows; backtest IC 0.047",
+     "hint": ""
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "OK",
+     "msg": "62 calls, 0 failed, 175,987 in / 130,103 out tokens, \u2248 US$0.083; headlines scored 2,380, reused from earlier days 4,707",
+     "hint": ""
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "4439 headlines from 45 searches (0 failed); 13 AI events",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "US": {}
+  },
+  "diag": {
+   "general": {
+    "tracked": {
+     "count": 0
+    },
+    "claude": {
+     "headline_cache_size": 39512
+    }
+   },
+   "US": {
+    "universe": {
+     "source": "live",
+     "count": 503
+    },
+    "prices": {
+     "requested": 503,
+     "retries": 3,
+     "missing": [
+      "FDXF",
+      "HONA",
+      "Q",
+      "VYLR"
+     ],
+     "received": 499,
+     "last_date": "2026-10-27",
+     "first_date": "2020-10-28",
+     "stale": []
+    },
+    "index": {
+     "used": "SPY",
+     "preferred": "SPY"
+    },
+    "fundamentals": {
+     "count": 499,
+     "missing_marketCap": 0.0,
+     "missing_trailingPE": 0.05,
+     "missing_profitMargins": 0.0,
+     "missing_revenueGrowth": 0.0,
+     "missing_returnOnEquity": 0.06,
+     "missing_debtToEquity": 0.06,
+     "filled_from_statements": {
+      "returnOnEquity": 9,
+      "debtToEquity": 22,
+      "priceToBook": 1,
+      "freeCashflow": 43,
+      "revenueGrowth": 1,
+      "profitMargins": 1,
+      "dividendYield": 1,
+      "payoutRatio": 1
+     }
+    },
+    "news": {
+     "google_requests": 998,
+     "google_items": 68714,
+     "dropped_irrelevant": 9563,
+     "dropped_lowq": 5263,
+     "dropped_promo_cap": 4094,
+     "dropped_lawfirm_ads": 34,
+     "stocks": 499,
+     "with_news": 498,
+     "kept": 7087,
+     "no_news_sample": [
+      "T"
+     ]
+    },
+    "health": {
+     "deferred": 49,
+     "errors": 0,
+     "refreshed": 150,
+     "cached": 300,
+     "with_fscore": 498
+    },
+    "pricecheck": {
+     "source": "Massive",
+     "date": "2026-10-27",
+     "checked": 499,
+     "agree": 499,
+     "corrected": 0,
+     "filled": 0
+    },
+    "model": {
+     "train_rows": 121922,
+     "dates": 1254
+    },
+    "claude": {
+     "headlines_from_cache": 4707,
+     "headlines_sent": 2380,
+     "calls": 62,
+     "input_tokens": 175987,
+     "output_tokens": 130103,
+     "cost_usd": 0.08266,
+     "headline_batches": 60,
+     "headline_batches_ok": 60
+    },
+    "screen": {
+     "total": 498,
+     "no_dollar_vol": 0,
+     "too_illiquid": 0,
+     "no_price": 0,
+     "price_below_1": 0,
+     "too_small": 0,
+     "passed": 498
+    },
+    "macro": {
+     "requests": 45,
+     "headlines": 4439,
+     "ai_events": 13,
+     "method": "claude"
+    },
+    "halal": {
+     "halal": 238,
+     "not_halal": 217,
+     "doubtful": 40
+    },
+    "dividends": {
+     "payers": 398,
+     "high": 55,
+     "growers": 221,
+     "at_risk": 14
+    }
+   }
+  }
+ },
+ {
   "started": "2026-10-28T06:15:13+00:00",
   "finished": "2026-10-28T06:17:13+00:00",
   "minutes": 2.0,
@@ -13866,233 +14107,6 @@
      "high": 6,
      "growers": 3,
      "at_risk": 4
-    }
-   }
-  }
- },
- {
-  "started": "2026-10-17T01:23:34+00:00",
-  "finished": "2026-10-17T01:23:38+00:00",
-  "minutes": 0.1,
-  "trigger": "manual",
-  "commit": "",
-  "status": "ok",
-  "fatal": null,
-  "warnings": [],
-  "markets": {
-   "US": {
-    "error": null,
-    "downloaded": 80,
-    "screened": 80,
-    "news_coverage": 0.82,
-    "ai_scoring": "off",
-    "news_method": "event rules",
-    "price_date": "2026-10-16",
-    "ic_mean": 0.034,
-    "model_used": true,
-    "timings": {
-     "model": 1.4,
-     "news scoring": 0.1,
-     "sector & politics": 0.0,
-     "scoring & labels": 0.2
-    },
-    "missing_prices": [],
-    "labels": {
-     "HOLD": 70,
-     "WATCH": 5,
-     "AVOID": 5,
-     "SHORT BUY": 3,
-     "LONG BUY": 0
-    },
-    "ai_events": 0
-   },
-   "ASX": {
-    "error": null,
-    "downloaded": 50,
-    "screened": 50,
-    "news_coverage": 0.74,
-    "ai_scoring": "off",
-    "news_method": "event rules",
-    "price_date": "2026-10-16",
-    "ic_mean": 0.048,
-    "model_used": true,
-    "timings": {
-     "model": 0.9,
-     "news scoring": 0.1,
-     "sector & politics": 0.0,
-     "scoring & labels": 0.1
-    },
-    "missing_prices": [],
-    "labels": {
-     "HOLD": 38,
-     "AVOID": 8,
-     "WATCH": 2,
-     "SELL": 2,
-     "SHORT BUY": 1,
-     "LONG BUY": 0
-    },
-    "ai_events": 0
-   },
-   "PSX": {
-    "error": null,
-    "downloaded": 16,
-    "screened": 16,
-    "news_coverage": 0.81,
-    "ai_scoring": "off",
-    "news_method": "event rules",
-    "price_date": "2026-10-16",
-    "ic_mean": 0.015,
-    "model_used": false,
-    "timings": {
-     "model": 0.5,
-     "news scoring": 0.0,
-     "sector & politics": 0.0,
-     "scoring & labels": 0.1
-    },
-    "missing_prices": [],
-    "labels": {
-     "HOLD": 11,
-     "BUY": 2,
-     "AVOID": 2,
-     "WATCH": 1,
-     "SHORT BUY": 2,
-     "LONG BUY": 0
-    },
-    "ai_events": 0
-   }
-  },
-  "checks": {
-   "US": [
-    {
-     "stage": "Price model",
-     "status": "OK",
-     "msg": "11680 training rows; backtest IC 0.034",
-     "hint": ""
-    },
-    {
-     "stage": "AI (Claude)",
-     "status": "OK",
-     "msg": "off \u2014 no API key",
-     "hint": ""
-    }
-   ],
-   "ASX": [
-    {
-     "stage": "Price model",
-     "status": "OK",
-     "msg": "7300 training rows; backtest IC 0.048",
-     "hint": ""
-    },
-    {
-     "stage": "AI (Claude)",
-     "status": "OK",
-     "msg": "off \u2014 no API key",
-     "hint": ""
-    }
-   ],
-   "PSX": [
-    {
-     "stage": "Price model",
-     "status": "INFO",
-     "msg": "2336 training rows; backtest IC 0.015",
-     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
-    },
-    {
-     "stage": "AI (Claude)",
-     "status": "OK",
-     "msg": "off \u2014 no API key",
-     "hint": ""
-    }
-   ]
-  },
-  "errors": {
-   "US": {},
-   "ASX": {},
-   "PSX": {}
-  },
-  "diag": {
-   "US": {
-    "model": {
-     "train_rows": 11680,
-     "dates": 748
-    },
-    "screen": {
-     "total": 80,
-     "no_dollar_vol": 0,
-     "too_illiquid": 0,
-     "no_price": 0,
-     "price_below_1": 0,
-     "too_small": 0,
-     "passed": 80
-    },
-    "macro": {
-     "ai_events": 0,
-     "method": "wordlist"
-    },
-    "halal": {
-     "doubtful": 80
-    },
-    "dividends": {
-     "payers": 56,
-     "high": 8,
-     "growers": 32,
-     "at_risk": 2
-    }
-   },
-   "ASX": {
-    "model": {
-     "train_rows": 7300,
-     "dates": 748
-    },
-    "screen": {
-     "total": 50,
-     "no_dollar_vol": 0,
-     "too_illiquid": 0,
-     "no_price": 0,
-     "price_below_1": 0,
-     "too_small": 0,
-     "passed": 50
-    },
-    "macro": {
-     "ai_events": 0,
-     "method": "wordlist"
-    },
-    "halal": {
-     "doubtful": 50
-    },
-    "dividends": {
-     "payers": 26,
-     "high": 4,
-     "growers": 12,
-     "at_risk": 0
-    }
-   },
-   "PSX": {
-    "model": {
-     "train_rows": 2336,
-     "dates": 748
-    },
-    "screen": {
-     "total": 16,
-     "no_dollar_vol": 0,
-     "too_illiquid": 0,
-     "no_price": 0,
-     "price_below_1": 0,
-     "too_small": 0,
-     "passed": 16
-    },
-    "macro": {
-     "ai_events": 0,
-     "method": "wordlist"
-    },
-    "halal": {
-     "doubtful": 16
-    },
-    "dividends": {
-     "payers": 13,
-     "high": 2,
-     "growers": 9,
-     "at_risk": 3
     }
    }
   }

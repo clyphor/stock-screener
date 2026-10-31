@@ -1,5 +1,195 @@
 [
  {
+  "started": "2026-10-31T02:29:36+00:00",
+  "finished": "2026-10-31T02:30:59+00:00",
+  "minutes": 1.4,
+  "trigger": "workflow_dispatch",
+  "commit": "039b1a4",
+  "status": "warnings",
+  "fatal": null,
+  "warnings": [
+   "02:30:16 WARNING no price data for: RAIN-USD, CC-USD, USYC-USD, PUMP-USD, BTW-USD, EURSAFO-USD, ASTER-USD, WLFI-USD, MORPHO-USD",
+   "02:30:16 WARNING [CRYPTO] wrong coin on Yahoo for: M-USD (Yahoo 0.000266541 vs CoinGecko 0.95462); SKY-USD (Yahoo 0.0142164 vs CoinGecko 0.06646)"
+  ],
+  "markets": {
+   "CRYPTO": {
+    "error": null,
+    "downloaded": 39,
+    "screened": 38,
+    "news_coverage": 1.0,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-10-29",
+    "ic_mean": 0.039,
+    "model_used": true,
+    "timings": {
+     "index list": 0.3,
+     "prices": 39.7,
+     "fundamentals": 0.0,
+     "company news": 5.4,
+     "financial health": 0.0,
+     "model": 0.7,
+     "news scoring": 14.5,
+     "sector & politics": 21.9,
+     "scoring & labels": 0.1
+    },
+    "missing_prices": [
+     "RAIN-USD",
+     "CC-USD",
+     "USYC-USD",
+     "M-USD",
+     "PUMP-USD",
+     "BTW-USD",
+     "EURSAFO-USD",
+     "ASTER-USD",
+     "WLFI-USD",
+     "SKY-USD",
+     "MORPHO-USD"
+    ],
+    "labels": {
+     "HOLD": 24,
+     "AVOID": 9,
+     "WATCH": 3,
+     "BUY": 1,
+     "SELL": 1,
+     "SHORT BUY": 1,
+     "LONG BUY": 13
+    },
+    "ai_events": 10
+   }
+  },
+  "checks": {
+   "CRYPTO": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "50 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "WARN",
+     "msg": "41/50 stocks downloaded, 0 batch errors, 3 retries; last date 2026-10-31",
+     "hint": "Yahoo Finance may be rate-limiting or tickers changed \u2014 data.py get_prices; re-run later."
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 100%; Yahoo items 0, Google items 6568, Google requests 78 (0 failed); dropped: 2816 off-topic, 83 junk sites, 0 law-firm ads, 0 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "OK",
+     "msg": "12643 training rows; backtest IC 0.039",
+     "hint": ""
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "OK",
+     "msg": "12 calls, 0 failed, 46,913 in / 23,432 out tokens, \u2248 US$0.016; headlines scored 363, reused from earlier days 178",
+     "hint": ""
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "2184 headlines from 22 searches (0 failed); 10 AI events",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "CRYPTO": {}
+  },
+  "diag": {
+   "general": {
+    "tracked": {
+     "count": 0
+    },
+    "claude": {
+     "headline_cache_size": 50023
+    }
+   },
+   "CRYPTO": {
+    "universe": {
+     "source": "live",
+     "count": 50
+    },
+    "prices": {
+     "requested": 50,
+     "retries": 3,
+     "missing": [
+      "RAIN-USD",
+      "CC-USD",
+      "USYC-USD",
+      "PUMP-USD",
+      "BTW-USD",
+      "EURSAFO-USD",
+      "ASTER-USD",
+      "WLFI-USD",
+      "MORPHO-USD"
+     ],
+     "received": 41,
+     "last_date": "2026-10-31",
+     "first_date": "2020-10-31",
+     "stale": [],
+     "wrong_coin": [
+      "M-USD (Yahoo 0.000266541 vs CoinGecko 0.95462)",
+      "SKY-USD (Yahoo 0.0142164 vs CoinGecko 0.06646)"
+     ],
+     "intraday_bar_dropped": "2026-10-31"
+    },
+    "news": {
+     "google_requests": 78,
+     "google_items": 6568,
+     "dropped_irrelevant": 2816,
+     "dropped_lowq": 83,
+     "coverage": 1.0,
+     "items": 541
+    },
+    "model": {
+     "train_rows": 12643,
+     "dates": 1938
+    },
+    "claude": {
+     "headlines_from_cache": 178,
+     "headlines_sent": 363,
+     "calls": 12,
+     "input_tokens": 46913,
+     "output_tokens": 23432,
+     "cost_usd": 0.01641,
+     "headline_batches": 10,
+     "headline_batches_ok": 10
+    },
+    "screen": {
+     "total": 38,
+     "no_dollar_vol": 0,
+     "too_illiquid": 0,
+     "no_price": 0,
+     "price_below_1": 15,
+     "too_small": 0,
+     "passed": 38
+    },
+    "macro": {
+     "requests": 22,
+     "headlines": 2184,
+     "ai_events": 10,
+     "method": "claude"
+    },
+    "halal": {
+     "doubtful": 37,
+     "not_halal": 1
+    },
+    "dividends": {
+     "payers": 0,
+     "high": 0,
+     "growers": 0,
+     "at_risk": 0
+    }
+   }
+  }
+ },
+ {
   "started": "2026-10-31T02:18:56+00:00",
   "finished": "2026-10-31T02:19:45+00:00",
   "minutes": 0.8,
@@ -13531,197 +13721,6 @@
      "high": 56,
      "growers": 221,
      "at_risk": 14
-    }
-   }
-  }
- },
- {
-  "started": "2026-10-22T05:19:25+00:00",
-  "finished": "2026-10-22T05:20:51+00:00",
-  "minutes": 1.4,
-  "trigger": "schedule",
-  "commit": "b55ab85",
-  "status": "warnings",
-  "fatal": null,
-  "warnings": [
-   "05:20:01 WARNING no price data for: RAIN-USD, CC-USD, BTW-USD, USYC-USD, PUMP-USD, ASTER-USD, WLFI-USD, EURSAFO-USD, MORPHO-USD, VVV-USD",
-   "05:20:02 WARNING [CRYPTO] wrong coin on Yahoo for: M-USD (Yahoo 0.000281726 vs CoinGecko 0.776919); SKY-USD (Yahoo 0.0142164 vs CoinGecko 0.074588)"
-  ],
-  "markets": {
-   "CRYPTO": {
-    "error": null,
-    "downloaded": 38,
-    "screened": 37,
-    "news_coverage": 1.0,
-    "ai_scoring": "on",
-    "news_method": "claude",
-    "price_date": "2026-10-20",
-    "ic_mean": 0.014,
-    "model_used": false,
-    "timings": {
-     "index list": 0.1,
-     "prices": 34.8,
-     "fundamentals": 0.0,
-     "company news": 4.9,
-     "financial health": 0.0,
-     "model": 1.0,
-     "news scoring": 14.6,
-     "sector & politics": 28.4,
-     "scoring & labels": 0.1
-    },
-    "missing_prices": [
-     "RAIN-USD",
-     "CC-USD",
-     "BTW-USD",
-     "USYC-USD",
-     "PUMP-USD",
-     "ASTER-USD",
-     "M-USD",
-     "WLFI-USD",
-     "SKY-USD",
-     "EURSAFO-USD",
-     "MORPHO-USD",
-     "VVV-USD"
-    ],
-    "labels": {
-     "HOLD": 27,
-     "AVOID": 4,
-     "BUY": 3,
-     "WATCH": 3,
-     "SHORT BUY": 1,
-     "LONG BUY": 19
-    },
-    "ai_events": 9
-   }
-  },
-  "checks": {
-   "CRYPTO": [
-    {
-     "stage": "Stock list",
-     "status": "OK",
-     "msg": "50 tickers from live",
-     "hint": ""
-    },
-    {
-     "stage": "Prices",
-     "status": "WARN",
-     "msg": "40/50 stocks downloaded, 0 batch errors, 3 retries; last date 2026-10-22",
-     "hint": "Yahoo Finance may be rate-limiting or tickers changed \u2014 data.py get_prices; re-run later."
-    },
-    {
-     "stage": "Company news",
-     "status": "OK",
-     "msg": "coverage 100%; Yahoo items 0, Google items 6955, Google requests 76 (0 failed); dropped: 2541 off-topic, 33 junk sites, 0 law-firm ads, 0 over promo cap",
-     "hint": ""
-    },
-    {
-     "stage": "Price model",
-     "status": "INFO",
-     "msg": "12237 training rows; backtest IC 0.014",
-     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
-    },
-    {
-     "stage": "AI (Claude)",
-     "status": "OK",
-     "msg": "13 calls, 0 failed, 51,437 in / 25,698 out tokens, \u2248 US$0.018; headlines scored 432, reused from earlier days 106",
-     "hint": ""
-    },
-    {
-     "stage": "Sector & politics",
-     "status": "OK",
-     "msg": "2200 headlines from 22 searches (0 failed); 9 AI events",
-     "hint": ""
-    }
-   ]
-  },
-  "errors": {
-   "CRYPTO": {}
-  },
-  "diag": {
-   "general": {
-    "tracked": {
-     "count": 0
-    },
-    "claude": {
-     "headline_cache_size": 19327
-    }
-   },
-   "CRYPTO": {
-    "universe": {
-     "source": "live",
-     "count": 50
-    },
-    "prices": {
-     "requested": 50,
-     "retries": 3,
-     "missing": [
-      "RAIN-USD",
-      "CC-USD",
-      "BTW-USD",
-      "USYC-USD",
-      "PUMP-USD",
-      "ASTER-USD",
-      "WLFI-USD",
-      "EURSAFO-USD",
-      "MORPHO-USD",
-      "VVV-USD"
-     ],
-     "received": 40,
-     "last_date": "2026-10-22",
-     "first_date": "2020-10-22",
-     "stale": [],
-     "wrong_coin": [
-      "M-USD (Yahoo 0.000281726 vs CoinGecko 0.776919)",
-      "SKY-USD (Yahoo 0.0142164 vs CoinGecko 0.074588)"
-     ],
-     "intraday_bar_dropped": "2026-10-22"
-    },
-    "news": {
-     "google_requests": 76,
-     "google_items": 6955,
-     "dropped_irrelevant": 2541,
-     "dropped_lowq": 33,
-     "coverage": 1.0,
-     "items": 538
-    },
-    "model": {
-     "train_rows": 12237,
-     "dates": 1938
-    },
-    "claude": {
-     "headlines_from_cache": 106,
-     "headlines_sent": 432,
-     "calls": 13,
-     "input_tokens": 51437,
-     "output_tokens": 25698,
-     "cost_usd": 0.01799,
-     "headline_batches": 11,
-     "headline_batches_ok": 11
-    },
-    "screen": {
-     "total": 37,
-     "no_dollar_vol": 0,
-     "too_illiquid": 0,
-     "no_price": 0,
-     "price_below_1": 13,
-     "too_small": 0,
-     "passed": 37
-    },
-    "macro": {
-     "requests": 22,
-     "headlines": 2200,
-     "ai_events": 9,
-     "method": "claude"
-    },
-    "halal": {
-     "doubtful": 36,
-     "not_halal": 1
-    },
-    "dividends": {
-     "payers": 0,
-     "high": 0,
-     "growers": 0,
-     "at_risk": 0
     }
    }
   }

@@ -1,5 +1,519 @@
 [
  {
+  "started": "2026-11-05T10:43:13+00:00",
+  "finished": "2026-11-05T10:47:37+00:00",
+  "minutes": 4.4,
+  "trigger": "workflow_dispatch",
+  "commit": "0d76d26",
+  "status": "warnings",
+  "fatal": null,
+  "warnings": [
+   "10:44:16 WARNING no price data for: FDXF, HONA, Q, VYLR",
+   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request"
+  ],
+  "markets": {
+   "US": {
+    "error": null,
+    "downloaded": 499,
+    "screened": 499,
+    "news_coverage": 1.0,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-11-04",
+    "ic_mean": 0.015,
+    "model_used": false,
+    "timings": {
+     "index list": 0.3,
+     "prices": 62.3,
+     "fundamentals": 18.7,
+     "company news": 38.4,
+     "financial health": 39.3,
+     "model": 4.9,
+     "news scoring": 4.6,
+     "sector & politics": 4.1,
+     "scoring & labels": 0.9
+    },
+    "missing_prices": [
+     "FDXF",
+     "HONA",
+     "Q",
+     "VYLR"
+    ],
+    "labels": {
+     "HOLD": 349,
+     "AVOID": 88,
+     "WATCH": 40,
+     "BUY": 17,
+     "SELL": 2,
+     "SHORT BUY": 16,
+     "LONG BUY": 13
+    },
+    "ai_events": 0
+   },
+   "ASX": {
+    "error": null,
+    "downloaded": 195,
+    "screened": 152,
+    "news_coverage": 0.99,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-11-05",
+    "ic_mean": -0.056,
+    "model_used": false,
+    "timings": {
+     "index list": 0.2,
+     "prices": 48.8,
+     "fundamentals": 12.5,
+     "company news": 13.3,
+     "financial health": 0.0,
+     "model": 2.0,
+     "news scoring": 1.0,
+     "sector & politics": 4.8,
+     "scoring & labels": 0.3
+    },
+    "missing_prices": [
+     "ASK.AX",
+     "IFL.AX",
+     "NSR.AX",
+     "QUB.AX",
+     "XYX.AX"
+    ],
+    "labels": {
+     "HOLD": 94,
+     "AVOID": 36,
+     "BUY": 12,
+     "WATCH": 9,
+     "SELL": 1,
+     "SHORT BUY": 5,
+     "LONG BUY": 4
+    },
+    "ai_events": 0
+   }
+  },
+  "checks": {
+   "US": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "503 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "499/503 stocks downloaded, 0 batch errors, 3 retries; last date 2026-11-04",
+     "hint": ""
+    },
+    {
+     "stage": "Price check",
+     "status": "OK",
+     "msg": "Massive on 2026-11-04: 499/499 agree with Yahoo, 0 corrected, 0 filled",
+     "hint": ""
+    },
+    {
+     "stage": "Index",
+     "status": "OK",
+     "msg": "used SPY",
+     "hint": ""
+    },
+    {
+     "stage": "Fundamentals",
+     "status": "OK",
+     "msg": "499 companies; ",
+     "hint": ""
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 100%; Yahoo items 0, Google items 59885, Google requests 998 (0 failed); dropped: 9246 off-topic, 4563 junk sites, 34 law-firm ads, 3750 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Financial health",
+     "status": "OK",
+     "msg": "150 refreshed, 299 from cache, 0 errors, 495 with an F-score",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "INFO",
+     "msg": "122108 training rows; backtest IC 0.015",
+     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "FAIL",
+     "msg": "126 calls, 126 failed, 0 in / 0 out tokens, \u2248 US$0.000; headlines scored 4,921, reused from earlier days 2,173",
+     "hint": "Check API credit and key in console.anthropic.com; errors listed below."
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "4323 headlines from 45 searches (0 failed); 0 AI events",
+     "hint": ""
+    }
+   ],
+   "ASX": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "200 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "195/200 stocks downloaded, 0 batch errors, 3 retries; last date 2026-11-05",
+     "hint": ""
+    },
+    {
+     "stage": "Index",
+     "status": "OK",
+     "msg": "used ^AXJO",
+     "hint": ""
+    },
+    {
+     "stage": "Fundamentals",
+     "status": "OK",
+     "msg": "195 companies; trailingPE missing 11%",
+     "hint": ""
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 99%; Yahoo items 0, Google items 16638, Google requests 390 (0 failed); dropped: 2001 off-topic, 159 junk sites, 1 law-firm ads, 2416 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Financial health",
+     "status": "OK",
+     "msg": "0 refreshed, 195 from cache, 0 errors, 174 with an F-score",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "INFO",
+     "msg": "46494 training rows; backtest IC -0.056",
+     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "FAIL",
+     "msg": "24 calls, 24 failed, 0 in / 0 out tokens, \u2248 US$0.000; headlines scored 853, reused from earlier days 416",
+     "hint": "Check API credit and key in console.anthropic.com; errors listed below."
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "4201 headlines from 47 searches (0 failed); 0 AI events",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "US": {
+    "claude.errors": [
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
+    ]
+   },
+   "ASX": {
+    "claude.errors": [
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
+    ]
+   }
+  },
+  "diag": {
+   "general": {
+    "tracked": {
+     "count": 0
+    },
+    "claude": {
+     "headline_cache_size": 42371
+    }
+   },
+   "US": {
+    "universe": {
+     "source": "live",
+     "count": 503
+    },
+    "prices": {
+     "requested": 503,
+     "retries": 3,
+     "missing": [
+      "FDXF",
+      "HONA",
+      "Q",
+      "VYLR"
+     ],
+     "received": 499,
+     "last_date": "2026-11-04",
+     "first_date": "2020-11-05",
+     "stale": []
+    },
+    "index": {
+     "used": "SPY",
+     "preferred": "SPY"
+    },
+    "fundamentals": {
+     "count": 499,
+     "missing_marketCap": 0.0,
+     "missing_trailingPE": 0.05,
+     "missing_profitMargins": 0.0,
+     "missing_revenueGrowth": 0.0,
+     "missing_returnOnEquity": 0.06,
+     "missing_debtToEquity": 0.06,
+     "filled_from_statements": {
+      "returnOnEquity": 17,
+      "debtToEquity": 23,
+      "priceToBook": 1,
+      "freeCashflow": 53,
+      "revenueGrowth": 1,
+      "profitMargins": 1,
+      "dividendYield": 1,
+      "payoutRatio": 1
+     }
+    },
+    "news": {
+     "google_requests": 998,
+     "google_items": 59885,
+     "dropped_promo_cap": 3750,
+     "dropped_lowq": 4563,
+     "dropped_irrelevant": 9246,
+     "dropped_lawfirm_ads": 34,
+     "stocks": 499,
+     "with_news": 498,
+     "kept": 7094,
+     "no_news_sample": [
+      "T"
+     ]
+    },
+    "health": {
+     "deferred": 50,
+     "errors": 0,
+     "refreshed": 150,
+     "cached": 299,
+     "with_fscore": 495
+    },
+    "pricecheck": {
+     "source": "Massive",
+     "date": "2026-11-04",
+     "checked": 499,
+     "agree": 499,
+     "corrected": 0,
+     "filled": 0
+    },
+    "model": {
+     "train_rows": 122108,
+     "dates": 1254
+    },
+    "claude": {
+     "headlines_from_cache": 2173,
+     "headlines_sent": 4921,
+     "calls": 126,
+     "failures": 126,
+     "errors": [
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
+     ]
+    },
+    "screen": {
+     "total": 499,
+     "no_dollar_vol": 0,
+     "too_illiquid": 0,
+     "no_price": 0,
+     "price_below_1": 0,
+     "too_small": 0,
+     "passed": 499
+    },
+    "macro": {
+     "requests": 45,
+     "headlines": 4323,
+     "ai_events": 0,
+     "method": "wordlist"
+    },
+    "halal": {
+     "halal": 240,
+     "not_halal": 211,
+     "doubtful": 45
+    },
+    "dividends": {
+     "payers": 397,
+     "high": 44,
+     "growers": 221,
+     "at_risk": 13
+    }
+   },
+   "ASX": {
+    "universe": {
+     "source": "live",
+     "count": 200
+    },
+    "prices": {
+     "requested": 200,
+     "retries": 3,
+     "missing": [
+      "ASK.AX",
+      "IFL.AX",
+      "NSR.AX",
+      "QUB.AX",
+      "XYX.AX"
+     ],
+     "received": 195,
+     "last_date": "2026-11-05",
+     "first_date": "2020-11-05",
+     "stale": []
+    },
+    "index": {
+     "used": "^AXJO",
+     "preferred": "^AXJO"
+    },
+    "fundamentals": {
+     "count": 195,
+     "missing_marketCap": 0.06,
+     "missing_trailingPE": 0.11,
+     "missing_profitMargins": 0.0,
+     "missing_revenueGrowth": 0.01,
+     "missing_returnOnEquity": 0.02,
+     "missing_debtToEquity": 0.04,
+     "filled_from_statements": {
+      "returnOnEquity": 5,
+      "debtToEquity": 9,
+      "priceToBook": 2,
+      "freeCashflow": 12,
+      "revenueGrowth": 16,
+      "profitMargins": 2,
+      "dividendYield": 2,
+      "payoutRatio": 1
+     }
+    },
+    "news": {
+     "google_requests": 390,
+     "google_items": 16638,
+     "dropped_irrelevant": 2001,
+     "dropped_promo_cap": 2416,
+     "dropped_lowq": 159,
+     "dropped_lawfirm_ads": 1,
+     "stocks": 195,
+     "with_news": 193,
+     "kept": 1269,
+     "no_news_sample": [
+      "ANZ.AX",
+      "DOW.AX"
+     ]
+    },
+    "health": {
+     "refreshed": 0,
+     "cached": 195,
+     "with_fscore": 174
+    },
+    "model": {
+     "train_rows": 46494,
+     "dates": 1267
+    },
+    "claude": {
+     "headlines_from_cache": 416,
+     "headlines_sent": 853,
+     "calls": 24,
+     "failures": 24,
+     "errors": [
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
+     ]
+    },
+    "screen": {
+     "total": 192,
+     "no_dollar_vol": 0,
+     "too_illiquid": 33,
+     "no_price": 0,
+     "price_below_1": 7,
+     "too_small": 3,
+     "passed": 152
+    },
+    "macro": {
+     "requests": 47,
+     "headlines": 4201,
+     "ai_events": 0,
+     "method": "wordlist"
+    },
+    "halal": {
+     "not_halal": 72,
+     "halal": 68,
+     "doubtful": 12
+    },
+    "dividends": {
+     "payers": 128,
+     "high": 24,
+     "growers": 23,
+     "at_risk": 12
+    }
+   }
+  }
+ },
+ {
   "started": "2026-11-05T07:21:11+00:00",
   "finished": "2026-11-05T07:22:00+00:00",
   "minutes": 0.8,
@@ -15027,246 +15541,6 @@
      "high": 24,
      "growers": 23,
      "at_risk": 11
-    }
-   }
-  }
- },
- {
-  "started": "2026-10-27T10:46:11+00:00",
-  "finished": "2026-10-27T10:49:57+00:00",
-  "minutes": 3.8,
-  "trigger": "schedule",
-  "commit": "17c5962",
-  "status": "warnings",
-  "fatal": null,
-  "warnings": [
-   "10:47:14 WARNING no price data for: FDXF, HONA, Q, VYLR"
-  ],
-  "markets": {
-   "US": {
-    "error": null,
-    "downloaded": 499,
-    "screened": 498,
-    "news_coverage": 1.0,
-    "ai_scoring": "on",
-    "news_method": "claude",
-    "price_date": "2026-10-26",
-    "ic_mean": 0.047,
-    "model_used": true,
-    "timings": {
-     "index list": 0.1,
-     "prices": 61.6,
-     "fundamentals": 14.3,
-     "company news": 42.2,
-     "financial health": 33.9,
-     "model": 5.3,
-     "news scoring": 22.7,
-     "sector & politics": 38.7,
-     "scoring & labels": 1.1
-    },
-    "missing_prices": [
-     "FDXF",
-     "HONA",
-     "Q",
-     "VYLR"
-    ],
-    "labels": {
-     "HOLD": 369,
-     "AVOID": 72,
-     "WATCH": 37,
-     "BUY": 15,
-     "SELL": 2,
-     "SHORT BUY": 17,
-     "LONG BUY": 14
-    },
-    "ai_events": 8
-   }
-  },
-  "checks": {
-   "US": [
-    {
-     "stage": "Stock list",
-     "status": "OK",
-     "msg": "503 tickers from live",
-     "hint": ""
-    },
-    {
-     "stage": "Prices",
-     "status": "OK",
-     "msg": "499/503 stocks downloaded, 0 batch errors, 3 retries; last date 2026-10-26",
-     "hint": ""
-    },
-    {
-     "stage": "Price check",
-     "status": "OK",
-     "msg": "Massive on 2026-10-26: 499/499 agree with Yahoo, 0 corrected, 0 filled",
-     "hint": ""
-    },
-    {
-     "stage": "Index",
-     "status": "OK",
-     "msg": "used SPY",
-     "hint": ""
-    },
-    {
-     "stage": "Fundamentals",
-     "status": "OK",
-     "msg": "499 companies; ",
-     "hint": ""
-    },
-    {
-     "stage": "Company news",
-     "status": "OK",
-     "msg": "coverage 100%; Yahoo items 0, Google items 67400, Google requests 998 (0 failed); dropped: 8954 off-topic, 5670 junk sites, 35 law-firm ads, 3959 over promo cap",
-     "hint": ""
-    },
-    {
-     "stage": "Financial health",
-     "status": "OK",
-     "msg": "150 refreshed, 349 from cache, 0 errors, 498 with an F-score",
-     "hint": ""
-    },
-    {
-     "stage": "Price model",
-     "status": "OK",
-     "msg": "121920 training rows; backtest IC 0.047",
-     "hint": ""
-    },
-    {
-     "stage": "AI (Claude)",
-     "status": "OK",
-     "msg": "22 calls, 0 failed, 82,145 in / 46,742 out tokens, \u2248 US$0.032; headlines scored 771, reused from earlier days 6,152",
-     "hint": ""
-    },
-    {
-     "stage": "Sector & politics",
-     "status": "OK",
-     "msg": "4302 headlines from 45 searches (0 failed); 8 AI events",
-     "hint": ""
-    }
-   ]
-  },
-  "errors": {
-   "US": {}
-  },
-  "diag": {
-   "general": {
-    "tracked": {
-     "count": 0
-    },
-    "claude": {
-     "headline_cache_size": 35665
-    }
-   },
-   "US": {
-    "universe": {
-     "source": "live",
-     "count": 503
-    },
-    "prices": {
-     "requested": 503,
-     "retries": 3,
-     "missing": [
-      "FDXF",
-      "HONA",
-      "Q",
-      "VYLR"
-     ],
-     "received": 499,
-     "last_date": "2026-10-26",
-     "first_date": "2020-10-27",
-     "stale": []
-    },
-    "index": {
-     "used": "SPY",
-     "preferred": "SPY"
-    },
-    "fundamentals": {
-     "count": 499,
-     "missing_marketCap": 0.0,
-     "missing_trailingPE": 0.05,
-     "missing_profitMargins": 0.0,
-     "missing_revenueGrowth": 0.0,
-     "missing_returnOnEquity": 0.06,
-     "missing_debtToEquity": 0.06,
-     "filled_from_statements": {
-      "returnOnEquity": 9,
-      "debtToEquity": 22,
-      "priceToBook": 1,
-      "freeCashflow": 43,
-      "revenueGrowth": 1,
-      "profitMargins": 1,
-      "dividendYield": 1,
-      "payoutRatio": 1
-     }
-    },
-    "news": {
-     "google_requests": 998,
-     "google_items": 67400,
-     "dropped_irrelevant": 8954,
-     "dropped_lowq": 5670,
-     "dropped_promo_cap": 3959,
-     "dropped_lawfirm_ads": 35,
-     "stocks": 499,
-     "with_news": 498,
-     "kept": 6923,
-     "no_news_sample": [
-      "T"
-     ]
-    },
-    "health": {
-     "errors": 0,
-     "refreshed": 150,
-     "cached": 349,
-     "with_fscore": 498
-    },
-    "pricecheck": {
-     "source": "Massive",
-     "date": "2026-10-26",
-     "checked": 499,
-     "agree": 499,
-     "corrected": 0,
-     "filled": 0
-    },
-    "model": {
-     "train_rows": 121920,
-     "dates": 1254
-    },
-    "claude": {
-     "headlines_from_cache": 6152,
-     "headlines_sent": 771,
-     "calls": 22,
-     "input_tokens": 82145,
-     "output_tokens": 46742,
-     "cost_usd": 0.03159,
-     "headline_batches": 20,
-     "headline_batches_ok": 20
-    },
-    "screen": {
-     "total": 498,
-     "no_dollar_vol": 0,
-     "too_illiquid": 0,
-     "no_price": 0,
-     "price_below_1": 0,
-     "too_small": 0,
-     "passed": 498
-    },
-    "macro": {
-     "requests": 45,
-     "headlines": 4302,
-     "ai_events": 8,
-     "method": "claude"
-    },
-    "halal": {
-     "halal": 238,
-     "not_halal": 216,
-     "doubtful": 41
-    },
-    "dividends": {
-     "payers": 398,
-     "high": 54,
-     "growers": 221,
-     "at_risk": 14
     }
    }
   }

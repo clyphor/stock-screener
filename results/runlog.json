@@ -1,5 +1,228 @@
 [
  {
+  "started": "2026-11-06T07:21:07+00:00",
+  "finished": "2026-11-06T07:21:52+00:00",
+  "minutes": 0.8,
+  "trigger": "schedule",
+  "commit": "c43e913",
+  "status": "warnings",
+  "fatal": null,
+  "warnings": [
+   "07:21:43 WARNING no price data for: FIGR_HELOC-USD, RAIN-USD, CC-USD, USYC-USD, EURSAFO-USD, PUMP-USD, ASTER-USD, BTW-USD, WLFI-USD, MORPHO-USD",
+   "07:21:43 WARNING [CRYPTO] wrong coin on Yahoo for: M-USD (Yahoo 0.000263458 vs CoinGecko 0.826862); SKY-USD (Yahoo 0.0142236 vs CoinGecko 0.06539)",
+   "07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "07:21:51 WARNING Claude macro scoring failed, using word list: HTTP Error 400: Bad Request",
+   "07:21:51 WARNING Claude event analyst failed: HTTP Error 400: Bad Request"
+  ],
+  "markets": {
+   "CRYPTO": {
+    "error": null,
+    "downloaded": 38,
+    "screened": 37,
+    "news_coverage": 1.0,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-11-05",
+    "ic_mean": 0.023,
+    "model_used": true,
+    "timings": {
+     "index list": 0.1,
+     "prices": 34.4,
+     "fundamentals": 0.0,
+     "company news": 4.2,
+     "financial health": 0.0,
+     "model": 0.9,
+     "news scoring": 0.8,
+     "sector & politics": 2.4,
+     "scoring & labels": 0.1
+    },
+    "missing_prices": [
+     "FIGR_HELOC-USD",
+     "RAIN-USD",
+     "CC-USD",
+     "USYC-USD",
+     "EURSAFO-USD",
+     "M-USD",
+     "PUMP-USD",
+     "ASTER-USD",
+     "BTW-USD",
+     "SKY-USD",
+     "WLFI-USD",
+     "MORPHO-USD"
+    ],
+    "labels": {
+     "HOLD": 20,
+     "WATCH": 8,
+     "AVOID": 7,
+     "SELL": 2,
+     "SHORT BUY": 0,
+     "LONG BUY": 12
+    },
+    "ai_events": 0
+   }
+  },
+  "checks": {
+   "CRYPTO": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "50 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "WARN",
+     "msg": "40/50 stocks downloaded, 0 batch errors, 3 retries; last date 2026-11-06",
+     "hint": "Yahoo Finance may be rate-limiting or tickers changed \u2014 data.py get_prices; re-run later."
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 100%; Yahoo items 0, Google items 6275, Google requests 76 (0 failed); dropped: 2666 off-topic, 123 junk sites, 0 law-firm ads, 0 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "OK",
+     "msg": "12273 training rows; backtest IC 0.023",
+     "hint": ""
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "FAIL",
+     "msg": "15 calls, 15 failed, 0 in / 0 out tokens, \u2248 US$0.000; headlines scored 505, reused from earlier days 39",
+     "hint": "Check API credit and key in console.anthropic.com; errors listed below."
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "2073 headlines from 22 searches (0 failed); 0 AI events",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "CRYPTO": {
+    "claude.errors": [
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
+    ]
+   }
+  },
+  "diag": {
+   "general": {
+    "tracked": {
+     "count": 0
+    },
+    "claude": {
+     "headline_cache_size": 38867
+    }
+   },
+   "CRYPTO": {
+    "universe": {
+     "source": "live",
+     "count": 50
+    },
+    "prices": {
+     "requested": 50,
+     "retries": 3,
+     "missing": [
+      "FIGR_HELOC-USD",
+      "RAIN-USD",
+      "CC-USD",
+      "USYC-USD",
+      "EURSAFO-USD",
+      "PUMP-USD",
+      "ASTER-USD",
+      "BTW-USD",
+      "WLFI-USD",
+      "MORPHO-USD"
+     ],
+     "received": 40,
+     "last_date": "2026-11-06",
+     "first_date": "2020-11-06",
+     "stale": [],
+     "wrong_coin": [
+      "M-USD (Yahoo 0.000263458 vs CoinGecko 0.826862)",
+      "SKY-USD (Yahoo 0.0142236 vs CoinGecko 0.06539)"
+     ],
+     "intraday_bar_dropped": "2026-11-06"
+    },
+    "news": {
+     "google_requests": 76,
+     "google_items": 6275,
+     "dropped_irrelevant": 2666,
+     "dropped_lowq": 123,
+     "coverage": 1.0,
+     "items": 544
+    },
+    "model": {
+     "train_rows": 12273,
+     "dates": 1939
+    },
+    "claude": {
+     "headlines_from_cache": 39,
+     "headlines_sent": 505,
+     "calls": 15,
+     "failures": 15,
+     "errors": [
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
+     ]
+    },
+    "screen": {
+     "total": 37,
+     "no_dollar_vol": 0,
+     "too_illiquid": 0,
+     "no_price": 0,
+     "price_below_1": 15,
+     "too_small": 0,
+     "passed": 37
+    },
+    "macro": {
+     "requests": 22,
+     "headlines": 2073,
+     "ai_events": 0,
+     "method": "wordlist"
+    },
+    "halal": {
+     "doubtful": 36,
+     "not_halal": 1
+    },
+    "dividends": {
+     "payers": 0,
+     "high": 0,
+     "growers": 0,
+     "at_risk": 0
+    }
+   }
+  }
+ },
+ {
   "started": "2026-11-06T03:43:27+00:00",
   "finished": "2026-11-06T03:44:11+00:00",
   "minutes": 0.7,
@@ -15435,198 +15658,6 @@
      "high": 55,
      "growers": 221,
      "at_risk": 14
-    }
-   }
-  }
- },
- {
-  "started": "2026-10-28T06:15:13+00:00",
-  "finished": "2026-10-28T06:17:13+00:00",
-  "minutes": 2.0,
-  "trigger": "schedule",
-  "commit": "6eda45c",
-  "status": "warnings",
-  "fatal": null,
-  "warnings": [
-   "06:16:31 WARNING no price data for: FIGR_HELOC-USD, RAIN-USD, CC-USD, BTW-USD, USYC-USD, PUMP-USD, EURSAFO-USD, ASTER-USD, WLFI-USD, MORPHO-USD",
-   "06:16:31 WARNING [CRYPTO] wrong coin on Yahoo for: M-USD (Yahoo 0.000278326 vs CoinGecko 1.13); SKY-USD (Yahoo 0.0142164 vs CoinGecko 0.065784)"
-  ],
-  "markets": {
-   "CRYPTO": {
-    "error": null,
-    "downloaded": 38,
-    "screened": 37,
-    "news_coverage": 1.0,
-    "ai_scoring": "on",
-    "news_method": "claude",
-    "price_date": "2026-10-26",
-    "ic_mean": 0.03,
-    "model_used": true,
-    "timings": {
-     "index list": 0.1,
-     "prices": 76.7,
-     "fundamentals": 0.0,
-     "company news": 4.9,
-     "financial health": 0.0,
-     "model": 0.6,
-     "news scoring": 8.5,
-     "sector & politics": 27.6,
-     "scoring & labels": 0.1
-    },
-    "missing_prices": [
-     "FIGR_HELOC-USD",
-     "RAIN-USD",
-     "CC-USD",
-     "BTW-USD",
-     "M-USD",
-     "USYC-USD",
-     "PUMP-USD",
-     "EURSAFO-USD",
-     "ASTER-USD",
-     "WLFI-USD",
-     "MORPHO-USD",
-     "SKY-USD"
-    ],
-    "labels": {
-     "HOLD": 26,
-     "AVOID": 4,
-     "WATCH": 4,
-     "SELL": 2,
-     "BUY": 1,
-     "SHORT BUY": 1,
-     "LONG BUY": 15
-    },
-    "ai_events": 13
-   }
-  },
-  "checks": {
-   "CRYPTO": [
-    {
-     "stage": "Stock list",
-     "status": "OK",
-     "msg": "50 tickers from live",
-     "hint": ""
-    },
-    {
-     "stage": "Prices",
-     "status": "WARN",
-     "msg": "40/50 stocks downloaded, 0 batch errors, 3 retries; last date 2026-10-28",
-     "hint": "Yahoo Finance may be rate-limiting or tickers changed \u2014 data.py get_prices; re-run later."
-    },
-    {
-     "stage": "Company news",
-     "status": "OK",
-     "msg": "coverage 100%; Yahoo items 0, Google items 6559, Google requests 76 (0 failed); dropped: 2623 off-topic, 47 junk sites, 0 law-firm ads, 0 over promo cap",
-     "hint": ""
-    },
-    {
-     "stage": "Price model",
-     "status": "OK",
-     "msg": "12424 training rows; backtest IC 0.03",
-     "hint": ""
-    },
-    {
-     "stage": "AI (Claude)",
-     "status": "OK",
-     "msg": "7 calls, 0 failed, 32,206 in / 12,293 out tokens, \u2248 US$0.009; headlines scored 174, reused from earlier days 361",
-     "hint": ""
-    },
-    {
-     "stage": "Sector & politics",
-     "status": "OK",
-     "msg": "2079 headlines from 22 searches (0 failed); 13 AI events",
-     "hint": ""
-    }
-   ]
-  },
-  "errors": {
-   "CRYPTO": {}
-  },
-  "diag": {
-   "general": {
-    "tracked": {
-     "count": 0
-    },
-    "claude": {
-     "headline_cache_size": 37132
-    }
-   },
-   "CRYPTO": {
-    "universe": {
-     "source": "live",
-     "count": 50
-    },
-    "prices": {
-     "requested": 50,
-     "retries": 3,
-     "missing": [
-      "FIGR_HELOC-USD",
-      "RAIN-USD",
-      "CC-USD",
-      "BTW-USD",
-      "USYC-USD",
-      "PUMP-USD",
-      "EURSAFO-USD",
-      "ASTER-USD",
-      "WLFI-USD",
-      "MORPHO-USD"
-     ],
-     "received": 40,
-     "last_date": "2026-10-28",
-     "first_date": "2020-10-28",
-     "stale": [],
-     "wrong_coin": [
-      "M-USD (Yahoo 0.000278326 vs CoinGecko 1.13)",
-      "SKY-USD (Yahoo 0.0142164 vs CoinGecko 0.065784)"
-     ],
-     "intraday_bar_dropped": "2026-10-28"
-    },
-    "news": {
-     "google_requests": 76,
-     "google_items": 6559,
-     "dropped_irrelevant": 2623,
-     "dropped_lowq": 47,
-     "coverage": 1.0,
-     "items": 535
-    },
-    "model": {
-     "train_rows": 12424,
-     "dates": 1938
-    },
-    "claude": {
-     "headlines_from_cache": 361,
-     "headlines_sent": 174,
-     "calls": 7,
-     "input_tokens": 32206,
-     "output_tokens": 12293,
-     "cost_usd": 0.00936,
-     "headline_batches": 5,
-     "headline_batches_ok": 5
-    },
-    "screen": {
-     "total": 37,
-     "no_dollar_vol": 0,
-     "too_illiquid": 0,
-     "no_price": 0,
-     "price_below_1": 13,
-     "too_small": 0,
-     "passed": 37
-    },
-    "macro": {
-     "requests": 22,
-     "headlines": 2079,
-     "ai_events": 13,
-     "method": "claude"
-    },
-    "halal": {
-     "doubtful": 36,
-     "not_halal": 1
-    },
-    "dividends": {
-     "payers": 0,
-     "high": 0,
-     "growers": 0,
-     "at_risk": 0
     }
    }
   }

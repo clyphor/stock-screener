@@ -1,0 +1,1197 @@
+07:21:12 retrying 10 tickers in 5s…
+07:21:17 retrying 10 tickers in 10s…
+07:21:28 retrying 10 tickers in 15s…
+07:21:43 WARNING no price data for: FIGR_HELOC-USD, RAIN-USD, CC-USD, USYC-USD, EURSAFO-USD, PUMP-USD, ASTER-USD, BTW-USD, WLFI-USD, MORPHO-USD
+07:21:43 WARNING [CRYPTO] wrong coin on Yahoo for: M-USD (Yahoo 0.000263458 vs CoinGecko 0.826862); SKY-USD (Yahoo 0.0142236 vs CoinGecko 0.06539)
+07:21:43 [CRYPTO] dropping unfinished bar(s): ['2026-11-06']
+07:21:47 [CRYPTO] news: 38/38 with headlines
+07:21:47 [CRYPTO] 38 stocks, 2191 days
+07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+07:21:49 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+07:21:51 WARNING Claude macro scoring failed, using word list: HTTP Error 400: Bad Request
+07:21:51 WARNING Claude event analyst failed: HTTP Error 400: Bad Request
+07:21:51 [CRYPTO] macro: 1250 sector/theme headlines, scored by wordlist
+07:21:52 {
+ "CRYPTO": {
+  "test_from": "2026-06-12",
+  "ic_mean": 0.023,
+  "ic_positive_days": 0.52,
+  "top_minus_bottom": -0.0066,
+  "top_hit_rate": 0.51,
+  "as_of": "2026-11-05",
+  "news_method": "claude",
+  "screened": 37,
+  "news_coverage": 1.0,
+  "ai_scoring": "on",
+  "currency": "USD",
+  "index_name": "Top-50 crypto (built, equal weight)",
+  "kind": "asset",
+  "price_date": "2026-11-05",
+  "model_used": true,
+  "weights": {
+   "ml": 0.5,
+   "news": 0.2,
+   "peers": 0.1,
+   "macro": 0.2
+  },
+  "track_n": 4,
+  "track": {
+   "BUY": {
+    "n": 4,
+    "avg_excess": 0.0621,
+    "win_rate": 0.75
+   },
+   "SELL": {
+    "n": 4,
+    "avg_excess": 0.0179,
+    "win_rate": 0.25
+   },
+   "AVOID": {
+    "n": 23,
+    "avg_excess": Infinity,
+    "win_rate": 0.26
+   },
+   "SHORT BUY": {
+    "n": 3,
+    "avg_excess": -0.0747,
+    "win_rate": 0.33
+   },
+   "LONG BUY": {
+    "n": 22,
+    "avg_excess": -0.0237,
+    "win_rate": 0.41
+   }
+  },
+  "track_avg_excess": 0.0621,
+  "track_win_rate": 0.75,
+  "track_open": 64,
+  "perf": {
+   "index": {
+    "1D": -0.0598,
+    "1W": -0.0506,
+    "1M": -0.1164,
+    "3M": 0.0246,
+    "YTD": -0.0236,
+    "1Y": 0.2087,
+    "5Y": 1.6647
+   },
+   "sectors": [
+    {
+     "name": "Other crypto",
+     "n": 5,
+     "ret": {
+      "1D": -0.0301,
+      "1W": -0.0155,
+      "1M": -0.039,
+      "3M": -0.0187,
+      "YTD": 0.0749,
+      "1Y": 0.2245,
+      "5Y": 7.2107
+     },
+     "score": 69.6,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 3,
+      "AVOID": 2,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Meme coins",
+     "n": 3,
+     "ret": {
+      "1D": -0.0546,
+      "1W": -0.0422,
+      "1M": -0.0546,
+      "3M": -0.1017,
+      "YTD": -0.2926,
+      "1Y": -0.1839,
+      "5Y": 0.4455
+     },
+     "score": 51.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Store of value",
+     "n": 5,
+     "ret": {
+      "1D": -0.0549,
+      "1W": -0.0186,
+      "1M": -0.0724,
+      "3M": -0.0576,
+      "YTD": -0.1078,
+      "1Y": 0.1863,
+      "5Y": 2.3901
+     },
+     "score": 65.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 1,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Smart-contract platforms",
+     "n": 12,
+     "ret": {
+      "1D": -0.0661,
+      "1W": -0.0212,
+      "1M": -0.0903,
+      "3M": -0.0866,
+      "YTD": -0.1241,
+      "1Y": 0.1632,
+      "5Y": 0.9893
+     },
+     "score": 46.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 2,
+      "AVOID": 1,
+      "SELL": 2
+     }
+    },
+    {
+     "name": "Payments",
+     "n": 3,
+     "ret": {
+      "1D": -0.0762,
+      "1W": -0.04,
+      "1M": -0.102,
+      "3M": -0.1689,
+      "YTD": -0.3414,
+      "1Y": -0.1416,
+      "5Y": 1.5432
+     },
+     "score": 60.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "DeFi",
+     "n": 5,
+     "ret": {
+      "1D": -0.0777,
+      "1W": -0.0697,
+      "1M": -0.1329,
+      "3M": 0.2427,
+      "YTD": 0.229,
+      "1Y": 0.5734,
+      "5Y": 0.6873
+     },
+     "score": 25.6,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Layer-2 / scaling",
+     "n": 2,
+     "ret": {
+      "1D": -0.069,
+      "1W": -0.0648,
+      "1M": -0.1887,
+      "3M": -0.0831,
+      "YTD": -0.3777,
+      "1Y": 0.0696,
+      "5Y": -0.8585
+     },
+     "score": 50.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 1,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "AI & data",
+     "n": 2,
+     "ret": {
+      "1D": -0.0917,
+      "1W": -0.116,
+      "1M": -0.2662,
+      "3M": -0.0845,
+      "YTD": -0.1143,
+      "1Y": 0.055,
+      "5Y": 14.2169
+     },
+     "score": 49.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     }
+    }
+   ],
+   "industries": []
+  },
+  "index_level": 1083.5674,
+  "timings": {
+   "index list": 0.1,
+   "prices": 34.4,
+   "fundamentals": 0.0,
+   "company news": 4.2,
+   "financial health": 0.0,
+   "model": 0.9,
+   "news scoring": 0.8,
+   "sector & politics": 2.4,
+   "scoring & labels": 0.1
+  },
+  "downloaded": 38,
+  "missing_prices": [
+   "FIGR_HELOC-USD",
+   "RAIN-USD",
+   "CC-USD",
+   "USYC-USD",
+   "EURSAFO-USD",
+   "M-USD",
+   "PUMP-USD",
+   "ASTER-USD",
+   "BTW-USD",
+   "SKY-USD",
+   "WLFI-USD",
+   "MORPHO-USD"
+  ],
+  "macro": {
+   "method": "wordlist",
+   "sectors": {
+    "Crypto": {
+     "score": 0.03,
+     "n": 93,
+     "why": null,
+     "headlines": [
+      {
+       "title": "XRP price at Nov 6, 2026 at 2am EST Crypto Prediction Market",
+       "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOenNKMHM4VFQ2Y05fMTdzNjRqeG9Idy02Ty1MR1dISGZ5aUk3MXZYNEJ5dERXZW5xalJidE9WZ3NQOW5WSnNmRDZVUXp6bFNNdU1PZHBkeGQtN1ZfVXNQOHVBMG00Q1VtemhUYjRHOFF0YVBhNV84d0l5T2lkNVhPWl8xbkJ4RTdNRFlqMThLODl4ZmxUSEtTZFVZb2RHa0lOMWhpOFgzRThkVkl3?oc=5",
+       "publisher": "Robinhood",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "ETH price range on Nov 6, 2026 at 2am EST Crypto Prediction Market",
+       "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNU0kybDZrb0plVnNYbGZnM1RoaldwdDgzazJGc2FTRlZKakswV3hlSGFEYXRTVHVnTG5TMWZSaGh1dE1UazAzVlB5cVZBdjVWZjh1RDhwTVBOVE9rRVozbndCMW5DcDBmQlJnaFlTa0FSZFgzYmFLaDBpdkwwQU8wYUpVN1Y4ek90Qi1jZHpUbkNEQjhBamgxdGVWQ09zVWlNOVF6SHNHQlBmN3dtNTVUOXVYYWs?oc=5",
+       "publisher": "Robinhood",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "BTC price on Nov 6, 2026 at 1am EST Crypto Prediction Market",
+       "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPOHZWRGxUZzVWZGRleEJNTzE2NEZkSzZXWXUxZW1DdklweXpBTjQ4bU1PMFFzWjI5cmp3N1lhVDJzSGVGMzhlOHc2ZHVtZlpYdmlab0Nib185Zi1NRm92TFpmSE9jUWdWVGxQZEVXazJRQjFjdmxwcy1qY3M3WTktMGRDMDBxVUIzMDV6Ym5ET0xtRTJBcERJaHF6bFc5NUxCdTZlcl9MeTRuVXVY?oc=5",
+       "publisher": "Robinhood",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Dogecoin price on Nov 6, 2026 at 1am EST Crypto Prediction Market",
+       "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQTEhGZ1YwWVRwTFN1dEd5eGhpdHRLdWNiTmwydXNFaFRPc0pWSXBFczRYcGpESTBOTDdmNElRSXJEem05c2xtM25LZ01NYTZWbm4tVmd2Q09BNFlGNlYxU3RBa0JkXy13UlFCM0p1VWdYbVdSREVaNzhlcHZYZk5PdERqU2F0UThPZkE3ZjAtbS15VXBiaVdXWGM5QlA2Qy1qM3FvT2UxN2lKNVV4UWJDYVhMYw?oc=5",
+       "publisher": "Robinhood",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "HYPE price on Nov 6, 2026 at 1am EST Crypto Prediction Market",
+       "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPbTdUU0Zrd0NNRTczUUI1VjJlUk0yYXZLaGdqNmxkNS1zWGtIQ3M3UU9xS0lWcEF5UkFsYUZFRUllZEJNNWd6TV9UU2JDWmkyUnExanRQOEVvUV93TmtRcnViREZLTm9WLUdUVUVSem9zQWJIanJVcTRiNWlVT1VpeWhRWVV3bHVUZldQTTFsOU1RaElvU09HbHdUYWxOeW01M0pxUWp6U0RWMFVMVVE?oc=5",
+       "publisher": "Robinhood",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "SOL price on Nov 6, 2026 at 1am EST Crypto Prediction Market",
+       "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPZG9ZSnBrWGNiV1BqN2k3UEtfblZ0b1ljQTJ0ZzYySThsQmk0dFE0cGFWMHFORUJZd01RQ0VqVW8zRHJHbjRJMmtRTmxYZ05HQ2dEZUVFaFFBS0FWeU02UVkxSkRUb0RaM1FxVGJ1SEpPZUxRUlU1QmxqQzV6Z2U0VVBBOWR2RTlYR0VDV015SEEzV243RjYyY0F1cjhybmEtZVlTRXczeUExOFZC?oc=5",
+       "publisher": "Robinhood",
+       "date": "2026-11-06",
+       "score": 0.0
+      }
+     ]
+    }
+   },
+   "themes": {
+    "war": {
+     "label": "War / geopolitical conflict",
+     "heat": 0.43,
+     "n": 98,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Oil prices rise amid risk of escalation between the US and Iran \u2014 CNBC",
+       "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNaFhFWEhiSHByZHpzNldsZWQ2X2NkMVJocVJTdnZsWl9BWXVaYzJDemtfTjlVWWhIb3lrcGhIb3g1OE9ON0FUMlVuenh0Z2VSalY0cm54LU5xTTd4eFF6R0pMeHNPOUFjMHZ5cHhrMm1CSlJ6WkJvcE5jTWhqZXd4RmpsUEVod08za3dlNkZxQ2V3MUp4QXdmYWxjT1U2djhaWTZDT21lRjA?oc=5",
+       "publisher": "UA.NEWS",
+       "date": "2026-11-06",
+       "score": 0.5
+      },
+      {
+       "title": "Oil prices rise as investors weigh renewed U.S.-Iran conflict risks after midterm elections",
+       "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5zQW9uWnVUd0hLODVnWG1oa29OUEJuQlFjLXNlMjhyZDdrNGl5T1MxRTJDQXJ0TUJNbXh4MDhaYk1DeUM2bHh1b3RsNWZ3Sm1zT05udHZJQ3JzWS16RXd3NjR0Qmt5UWtPQnRMbE5MWdIBdEFVX3lxTE9DMzBrTllWWDUtQmdHLV9fR0hwU21fcllTNWZ2bnZTRDlTNUthbmRnWk83V1NMYVZ3eTZZSl8tZnh5NGNGanN5VEtfYVIza0huQnR3S3NVRTl5bkpzaGF0R0d1LXdCcURLVlJYWHRwS2ljS2Uz?oc=5",
+       "publisher": "CNBC",
+       "date": "2026-11-06",
+       "score": 0.5
+      },
+      {
+       "title": "Renewed U.S.-Iran tension could push oil past $100: Rapidan Energy",
+       "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBLZXJrYkJKMnZienpycEJReHZ6MWVUMTBlLXZQUnl2Q3FfU2NsLXNQSVcxREswWENMUVFCQnJtWjVoN3JuTUJRU1pMRVRzd2diaEdzVkxjNnZVZzU3NUJTSVc1bXphcF9aQWZ0aVpnUWkxWU5IM2JFaVFrSTJKNTjSAYQBQVVfeXFMTkhmWnBwU29Nblh1UjVhR25KS0tCbGRTZ0haWnRCZWJzeU85OUJKb3FHbGxxYnFoZzVVdkRvV0hhWjVGakR1SVBVcEhMdXJmT2M2YUpINFVkR0dQUFd3ZEg2YnNwdVBnRS1pamxQRU8zX3NTSzVxSTBIb1duZWtjanFQbzl3?oc=5",
+       "publisher": "CNBC",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Russian Offensive Campaign Assessment, November 5, 2026",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPYkdZZUo3R1dhenBmSHh3N1lIb3dxeENZUEhzdjktM0hvY3dwdGJSZUlidVNZQjVHRGxxY1hOTkRidkNITnZCTWhXTHQ1dzhhVWlMSTNZLWFQRE1QMUNCZ1NCRHVtcjFEMVlFNXFfV0pkMXFWaFFtMlY4YzFCc3lUSHR3NUxiTnRXOXpFSHhkTF9pR2U5enBQeDZmaUZmYUg0V2FQYkoyY1NMRnc?oc=5",
+       "publisher": "Institute for the Study of War",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Oil Extends Rebound on Uncertainty Over Iran War Peace Progress",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPc2FseVdkSnNlWHNYeDZGNFRzZ3pSXzZEb3RrV21OeE1qRUh4T1dad1Y1M25aSV9sODlETUU1TXQza3pjTGxhMFJ2TDdhdGJmZkJCbkk0eWJPTDdLRks0Z1lVemNXRmVobmtpNzJiYzE5SHQySHItWUlaTXJGSVpZUm9rSDhiOVdyLUw2UGpGbHV6LVFaRlhkXzZMXzE?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Gold eases on inflation worries from higher oil; US payrolls data in focus",
+       "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQQVNBUlY0RkQ3Vm5qcDFmbS12Nlo0Wjd4RWNEWkROOFRSX0hha1VobWJkTW82YTM1QzNMUXlzX1V5bktiSHJDYklFR2ZDUnN4aEhGM3U0UmlRT3pDcjVFRkR5ak9IZ1NVbG4wempaX1Y0R2JXb0U2THRLcE80d0l1NFppQ3l5b2M4c3RQZU1sS1RNRHdiYmFsYmw0czRoUnVJRVJLNTl0VmVNODg3NWVR?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-06",
+       "score": 0.5
+      }
+     ]
+    },
+    "ceasefire": {
+     "label": "Ceasefire / peace deal",
+     "heat": 0.05,
+     "n": 79,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Oil prices remain uncertain after the US midterm elections as investors watch developments in Iran, peace talks and disruptions to shipping through the Strait of Hormuz",
+       "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxOdXU4TDdreXhBNG5zczBNX2VpU0FUU3Bjc0daSUxZNERjUXRPRGZLWHdBc21PRmxHT1dWSWE3WlltaFRTeDEtQkpMRjI5YWY1eFRDSFdnYzNUcG9scU15cEJZM2tLVXNydkZwcWtLY1VuX3ptenFfR0RVMHZrdkplcGlPdFVKa1ZZN0RFQkVaXzRMSWRVTDZiajBrQl9oNTVpWGplNEZWVTBvVWdsMXZxVVdGX1BCZzNzbGsxQktWVHFQS3VlMGJiaElMaDNhQXNCeEJIT2k3REppdw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Australia faces same issues that flipped control of US Congress in midterms, experts say",
+       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPdm1WSGVFUmdkXzBJZVNoVkp4YnliSU1GbmZ0dVJYLWxQRTlpdXc1bEZkY3dCTXJGQkFpcG04LTltNlo0TThlTVctVFBSQURpeHVla0tVSTZlR1g3LXVwenlDRElzSGFzMGxoRzhVSzZ4QXNCLVBrV0tFRVB0d2EtbkhjaEdPQzhmQjJralBKdWVRRGx2NWszcEFMRjYzVUJLT0xOLXhMb19JeXM0TzhzRFh5LThWdw?oc=5",
+       "publisher": "The Guardian",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Russian Offensive Campaign Assessment, November 5, 2026",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPYkdZZUo3R1dhenBmSHh3N1lIb3dxeENZUEhzdjktM0hvY3dwdGJSZUlidVNZQjVHRGxxY1hOTkRidkNITnZCTWhXTHQ1dzhhVWlMSTNZLWFQRE1QMUNCZ1NCRHVtcjFEMVlFNXFfV0pkMXFWaFFtMlY4YzFCc3lUSHR3NUxiTnRXOXpFSHhkTF9pR2U5enBQeDZmaUZmYUg0V2FQYkoyY1NMRnc?oc=5",
+       "publisher": "Institute for the Study of War",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "EU-China truce under strain as both sides brace for potential trade war",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNbjVtNGU1dEM3bzhWMDFrSVNJdEhyajJKSG1sS1pUWGdBX084eVRkQ2x6MGd5RWV6bm5GTE9xbVdZRHhZR1M3UzYwekh0MGZOXzJJcTRzUmtlZjN3LU1qMHNPTkhUQmE0Zm5QLXEzLWMtcXUySFotUS1VV0luZzdyUE1acVdtd0VUZC1LaWJSMkV6dThfVWZ1SGxDQWJZZ29zcUY5STREX2pRd3g3Z1pRbVg5c3Q2VVhYU0HSAboBQVVfeXFMTzFXVmdua3JUbjNFTGZWT2o3VjdVUVBmQXVKSWI3VmJmZkJhVTl1ZFBpZm5KZU0xNXB1bktfNDJxMWlQTk1QQWVGdnJ1SE10NHZwVWtlQWxaOE5FMmZnQi1QX0tMQVZVdkFQSjFBOXA2YzVweTJHaGJiMF9nNjdBNmFSWnNpWDlaVUFoaC1ZbW1SSmlkbTVXRUxEaElYTUhTYTFpQXZDU282cEJKWk1hVUpYNWtYd1ozLWhB?oc=5",
+       "publisher": "South China Morning Post",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Asian stocks slump after tech rout on Wall Street amid AI jitters following US midterm elections",
+       "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOSjlJYS11OHROUWR4T09lSjlRcTVPdHZqOUJSamVGTjAtMGZQZ2F2eHdubHVIZzNmcHBHQWQyOE9GbE9SZFRYcmJHczRrR0NVOVlqbWpmYV9jb2lXb2hwcTVLWmZnMmlWbG85SU40UVZiYUFmV1k1cTZ1SUo0bGN4bEh6cjJXVlNLTkprM044MNIBjwFBVV95cUxNc29TX3FkTGVZVUhlRHE0eVJFaWJ3NEJjOE4zTUxIMDhVMTVrZTVHWkFzYk8xVGlucHBKZkwzVmlZaUNLQ3M3Snphb0FqT2Y0b2N5eG55Y1ZfRG13czcyVzQ1YjlZWDhlWHoxanVWSHY4a21vbWxmVnhMZFRoQTUzamtiU3RJYnJ4YVBYSlNHOA?oc=5",
+       "publisher": "DW.com",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "Trump says he and Putin are close to a deal about Ukraine and \u2018all of Europe\u2019",
+       "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQVjJDSVFXTjRQMG1LcGVjOFlhSUo3d3JXTjY1SE44VVFOaGNERmtKVmx6OWo2c19kNXhaTW1JYnJlTzJmbVJRNjZIT1FoV3NpOUVuWlJBaVRaOHVla1lmXy1aNDN0S0ttbmhVYlFnMkFTdU5ZU2pkTTQ0NlhoeDhZVjVxUXlEWGFpTjRha3VHMWZEMFNkU0RJMFduZEQ0cmdJcmZGQmNVZEtRVncxRmcwdkJvRmRxZmpaakVuOXZ3?oc=5",
+       "publisher": "The Washington Post",
+       "date": "2026-11-06",
+       "score": 0.5
+      }
+     ]
+    },
+    "tariffs": {
+     "label": "New tariffs / trade war",
+     "heat": 0.8,
+     "n": 96,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Minister questions PUCSL public hearing despite no tariff hike proposal Read more \ud83d\udc47 https://t.co/NrRVTDJ4ea",
+       "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1YQTFlN25fb2FtQzRUQnY0LTI3VlZYdThSV18xLWNORF9KU2N0UWRJQW1ja0o5YXQ3MDEwNDBFVkFVWjlURzdhM3YxbWN1bGxuRVMwTVZNWUE0VEJSTHNsZ0RrQURYdw?oc=5",
+       "publisher": "X",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "Shake-up angst at the White House: who is at risk?",
+       "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPb3hrOUVWY0pGV3Q3NDYwdXNyTm0xRDFGUDNzZ3E2enotelY0SU5teVd4YUhZamJtN3NsYTc4SS1mT19JczdxdlBHbEs4ckVjVTFmYWwzb0k4LTY3UVdwc1V4c3VQbTdqalBua2ZJUG1wOE0wRmppQXlzN25rRE9Cc0UwZzY?oc=5",
+       "publisher": "Financial Times",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Australia faces same issues that flipped control of US Congress in midterms, experts say",
+       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPdm1WSGVFUmdkXzBJZVNoVkp4YnliSU1GbmZ0dVJYLWxQRTlpdXc1bEZkY3dCTXJGQkFpcG04LTltNlo0TThlTVctVFBSQURpeHVla0tVSTZlR1g3LXVwenlDRElzSGFzMGxoRzhVSzZ4QXNCLVBrV0tFRVB0d2EtbkhjaEdPQzhmQjJralBKdWVRRGx2NWszcEFMRjYzVUJLT0xOLXhMb19JeXM0TzhzRFh5LThWdw?oc=5",
+       "publisher": "The Guardian",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "New TiRADE database logs every tariff rate Trump has announced",
+       "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPbkVlTC1KNG9jbWh2Y2o0WGtKRWNzaHZlb1FjVEd2Z0M5X1NFMXFqWUlDZm9MU09GWEVwYkdXQkQyY0xtV3FCSE16R3p6YS1pdktNampiRW4wcjc2OHZCYkNRaFVhd01VaUg3REZPdzRNclAxXzZPb2R0SEZha0QwM0ZmUzNzbUJzaHc3Tk9fMkJmUkxsTU5ONExJUjhtWUhiQ3VZUlVJcEJzOXVVc1JKa1RB?oc=5",
+       "publisher": "Brown Daily Herald",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "President Trump said \u201ca lot of things are cooking\u201d over the next week to preserve his legacy, hinting at imminent actions to protect his tariffs. He said removing them would halt new factories and predicted prices \u201cwill come way down.\u201d",
+       "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPbTZfNlZFQ1BfbFVSQ0NPNUI3MzlwcEpRMlI0SjJlajFBc240QlhPVktjWDFxRUN5WDV1emhUSmg0NUFvajVfU3ZTd2w5bTNYb0F5TzJfYWtJckFVbE40N0EzSkl1WWRJVmZJZXVjcWNJWmVzRlV2UDdkME5fTWIwb3Vyalp0VnBSX0pjNFJ0Nl9TQW5hdGZnTTdaNEwxT2hTc24tTy1NWHV4bUxxQnRTRGM5UWNwRGdGUzVTaTVGenV6SnNBOHl3cGdBR0ZHb3JLMHRIazV2azA5dlU?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-06",
+       "score": -0.67
+      },
+      {
+       "title": "'No impact on India-US ties': Tharoor says Trump retains power on tariffs, Iran war",
+       "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxNUDJsdV9mUHZvZm9Ibjg1X1BRRERtM0p2MmJNSTZXQTlOd3VKX2lXYWRXdWdlUVpmaE9BMUplRGpReGJCcVJBczdZOENUY1RZNmJrYXFtSk1sR043TWtYRUJfRUdhTUktOEFKNUZlUGloU1NoZ29WVnBxZkV2VEYxcW1nVE96UERwVEpWMmdvNXM3cDlMTmM5Q0JRRkRCbTVBZUlhUXZVY052Tl9aUGREVmdobUM5a1NhTlhjOEY0V1lLOTNKNVFleDNKa1Jmc3QtanBNTUVDVHZHWHZWak9iNtIB5gFBVV95cUxOWm9QY3JzUUlPTElkcUx6QU1iTDA3TWYyd3pIRVhPQklGYmVIc00wbFlWUGkzS0x0aEpPaFhkLUtJUFljNlJNeWptX3dtNkstcFpaQ2hUd3NpOW1GZHJlUVp6Zm45WjdGa2hveEswVjFfV3VPSnR0Q1dJY0E1dlkxUkROSm9wb1FtWnk2LXNscWZvWTd0TlZtT0ZieGE2emVRa1VSTG5DaDMtZ0ZITVc4a21ZWGx6YTl6M212Vmc4TWd0WFZreGk4cVBmQktnYVdnSm9laEQzbEZOLTRWTExFbzZPc2IyQQ?oc=5",
+       "publisher": "The Times of India",
+       "date": "2026-11-06",
+       "score": -0.5
+      }
+     ]
+    },
+    "trade_deal": {
+     "label": "Trade deals / tariff relief",
+     "heat": 0.41,
+     "n": 82,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Liam Livingstone in four-player trade deal between CSK and SRH CHENNAI Super Kings and Sunrisers Hyderabad have completed a four-player trade deal that will see Liam Livingstone and Jack Edwards move to CSK, with Khaleel Ahmed and Nathan Ellis",
+       "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxORW53WWhZTHAtWDZkQ2pRQjJldVNGSTJGb0Q0TjZKVVl0ZTJPWnJnUGZpSHFHZWl6WW9CVEEyWmc2VTBoYWpsdDE0WWhyOUNvU2tDUDhJTGVwT1M2amNuck1BODdSeGNlQ0FXN0g3ZzU5M2UtVFVwckxvQzRBOGQ4YjlMeWNSYTBLbjRpRnluTHJrVDkwcDhmM2ZqMnc0S2FSQUgwb0VxTU5WMFFVM2xEUTZEekFxa3V3ZzJRcnJXdndxaWZpbmdHd1k2VG1nZFgtQ18wMm5tUi0?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-06",
+       "score": 0.67
+      },
+      {
+       "title": "EU-China truce under strain as both sides brace for potential trade war",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNbjVtNGU1dEM3bzhWMDFrSVNJdEhyajJKSG1sS1pUWGdBX084eVRkQ2x6MGd5RWV6bm5GTE9xbVdZRHhZR1M3UzYwekh0MGZOXzJJcTRzUmtlZjN3LU1qMHNPTkhUQmE0Zm5QLXEzLWMtcXUySFotUS1VV0luZzdyUE1acVdtd0VUZC1LaWJSMkV6dThfVWZ1SGxDQWJZZ29zcUY5STREX2pRd3g3Z1pRbVg5c3Q2VVhYU0HSAboBQVVfeXFMTzFXVmdua3JUbjNFTGZWT2o3VjdVUVBmQXVKSWI3VmJmZkJhVTl1ZFBpZm5KZU0xNXB1bktfNDJxMWlQTk1QQWVGdnJ1SE10NHZwVWtlQWxaOE5FMmZnQi1QX0tMQVZVdkFQSjFBOXA2YzVweTJHaGJiMF9nNjdBNmFSWnNpWDlaVUFoaC1ZbW1SSmlkbTVXRUxEaElYTUhTYTFpQXZDU282cEJKWk1hVUpYNWtYd1ozLWhB?oc=5",
+       "publisher": "South China Morning Post",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Bangladesh needs to move swiftly towards a free-trade agreement (FTA) with the European Union (EU) to safeguard its export competitiveness and secure long-term market access amid growing global trade uncertainties, experts said on Thursday. Link in Co",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQZ2JwWjBQcWFQRGxDdDc4ajQ2bmcxaXFjbGJKNFRQY3hCUkF6OVB5d01vVVRhVTJaZkt3RkJ1SWo1UVdJNHQ0elpRaE94czB4eU4wTjJMcXBDZmdxd3A0WFJnSjJBRjBlZ1FHcDZ1Z180alJBajdjc3hRMFJLd1FSb25VN2Y2VXJTalVocVB0cU5CQjNqVTFVVXItbUVnNXJHTzl2el9YRkQyT0s5eFVHQmRObE5DYW5vaFFfaEN6a0pnWXN1T19pLWxlYzdqeEpzdmMzYy15SQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Brussels removed talk of ratifying Canada trade deal in EU summit text: Wilkinson",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOU3ZOdzJ2b0NEV080YkFTVW1QSGgtZ2lhMmEzdlFYNTVZd1NfdWgzUDdFS1FmUTJ2NFJPb0ppUjAyR2V5Yl92WHcxRHR1Zmt2b251UU9rVjMwOExLZEZVcklRbDBGRHFjQWhXVl8wd1EzRzctZlNLNG5lYlotWDMxRVBwakVqWGFRc1hwWGRTNWFfcjFLTGRYbElDQ3FyU1JaUU9fS0Q4T21PSHp2VlhZSWFNaWdSMTZzN3c?oc=5",
+       "publisher": "meadowlakeNOW",
+       "date": "2026-11-06",
+       "score": 0.5
+      },
+      {
+       "title": "US blue wave renews prospect of Canada tariff relief",
+       "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNeE5zb3BES3A1VWVZSzRYR21KREdDWExjSlZJWWdpLTlzUFBINFRaclczU29DeGU4Z09Fc0p0SGF5eExqaTkwWnY2VWw3YTZRZ0FtcTZ6Y3BaalhYTkdRWTBqTjMxUmtESEctQnhnOUthd0x0dE9sS0ZSd3hLTXo5VU1xa0g3REFXcEowSUFTYnptQWdFNmFUdXQ2OFpfd2tmWHVDSl9WTW1GQ3FnbmZ4TV91dXo1T1oyQlBRcW9MYi03MWdIeEE?oc=5",
+       "publisher": "Argus Media",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "India-US trade deal: Democrats may challenge Trump's tariff policies, but will exporters get relief? https://t.co/4Rca2gHe89",
+       "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBOWUNvUkRYVXZocDNGZmFaTGVoRzU1eFY3UEtYa0p3Zk5IdE1VTW1xX0JZLUdqNGVLOURiR3MwNVBoWENLZFc4MG1QX2NYWlVudHVUemt3bmpWOXFDQTBUU3JHLXU3QQ?oc=5",
+       "publisher": "X",
+       "date": "2026-11-06",
+       "score": 0.0
+      }
+     ]
+    },
+    "recession": {
+     "label": "Recession / slowdown fears",
+     "heat": 0.34,
+     "n": 57,
+     "why": null,
+     "headlines": [
+      {
+       "title": "New Zealand went through a recession early in Luxon's term. The economy grew 1.7 percent in the year to June, but inflation has risen back above the Reserve Bank's target and unemployment is above 5 percent. Supporters say the government got spending",
+       "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPbjZGRW54a1BDQm05QTNBUXo2SlZkY1FnT1A3OGlKdG94UnVKVVpieWJBVmNUMlFyVjlMV01Oc1dVUWNQaUZhQnVVeUF5VlZqSDJBbXp5OFdDY1lBc0hvRTBfZWhVNXNrRjBNRF83QWQ5NUxycGNONjM3MElxUHRONE5HemIzQUh0d0FvRlFWLTNRblpXV1hKSWZ6elVTaDVnTjRVWEM1MU9zeGY3eTVrZzQ5Y0hEd3dsc0JiUW4wZzM1TFBadDQ1LVgzR2gwY3JSeGc1aUJZUlh5UXg2YUdVZQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "What is a recession and are we in one? A bluffer\u2019s guide",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPZVgyMFpCWFBMSUZRY1lrbnhUdWFJZjdYQkhEOGFoYjVGeThySGhHUVFxczFYdnVjR1cwbWUzQjBBeUw2UnJsVDZmUnE0Q1ZqM3ROQnRMMDJiN0xUU0prWGdueDA0YzNSRnRfQ0NkdnJmXzZma1pSZUxhZTZxMGsteWlHbDJCX3lRVGxwWHloYklldnlqdWM3WTNSRzhsNlVMZDZRVzhzV2tSd3FweWVpZHNrUHZLVWM?oc=5",
+       "publisher": "SMH.com.au",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Rural voters were feeling left behind before the midterms, poll shows",
+       "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPY1c0bXdrUElOZXpRTkVieDAzU2VNcl80SWVvb0NBTEpzWlJaTG4xVEdXVEI1d1F3X2o4YXh6TE51WTJBeDBoX0E0Wm1BNVZ3RTJ4RHFmamVvR1VVYmJJRUUzcml6VjVyaG5kRmUzUm9PeTUzalpSLUFSU1p6RkJIUTdB?oc=5",
+       "publisher": "The Guardian",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "Jim Paulsen on why he thinks AI stocks falling could help economy avoid recession",
+       "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxONlZBSnU0bXhjRW82V05aS3dtZVpNTFlWOG9LdXRidkJvZXhRclBtQTZQWEdlb0VTU21kREFKTkVuUDJGX1RKbXlkRHRFYzJUcm01MTJWcl9Wd2UtN1Vta3NJSDdjYlJDTEg4QXdSYXNTSlMtTmk0VnFqUlkzUzFUcmFuWXZsdm1WM3lRZHJGNC1wOFlzMlFJYklXS0xYWWxlTXBKN3R6eXZqTDRRRlFOUVNJcXRHbHA4c3p5MFdPcG1Mdw?oc=5",
+       "publisher": "CNBC",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "The economy is changing rapidly, but that doesn\u2019t mean the future is bleak. Natalie Gochnour shares why she remains optimistic, highlights opportunities ahead for businesses, workers and families, and discusses the strengths helping the Intermountain West",
+       "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPVW4wQ3Z5OS1xMHNuQ1lSY2pZMEp3UUVoMEk3Rkp4QVhyUG9yZHZoX0tIUUVYYkJIQ1hzaC14RWJsMjgwTE05TzEwVGZKdkFYMGZMT0MwS2dXZ2lCTThXUVQ5dHEtRlVzcnVyVlBnSVpmbXNhZEpXYklDdTFsWHpJWDFQUjQ4bFYxb0p5LUJxOGlmay1paGNPejZvTDFBOTlGeEFHZ2NjdHBDb3d5X1Z6bDlZUkFhZThzYnoyeklndEhrN2c0TzBrUjNSU2xESmlQVlE0Mi1aWW1MRnRBZUE?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "It\u2019s (Not Just) The Economy, Stupid",
+       "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5ULTVGTDNTN2dnVFctQjhGbjRKbzJDd3c3bVFRYVRoY1pxNnZDVUNaMDVnR3lQc3pQZjFWY0ZESVVWZ21QWHZXbno4eDVGbTZoV1B6U0pNUlltMURuSWJOdm5URjRnT2VFbkFiMGhwaTRqdmlrSXc?oc=5",
+       "publisher": "Jewish Currents",
+       "date": "2026-11-05",
+       "score": 0.0
+      }
+     ]
+    },
+    "stimulus": {
+     "label": "Government spending / infrastructure / stimulus",
+     "heat": 0.44,
+     "n": 86,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Hegseth defends record as Pentagon chief, slams 'sham' push for his impeachment",
+       "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQbVVEX3BrOWxXU3RfRmc4QXQzQUZMcDI0SDFxUUNWZVJKaEE5TF9kNzNWSFF1Zk1hTXF1MkUyNUJmRVctMUhYbjk0OXJfOEdsWlRFamV0ZUdHSDBMUWpuc0xuTWN4aGtuRTRjUHIzTkQxVEtjYlFSOFhyVnNvd0tjbUlR?oc=5",
+       "publisher": "CBC",
+       "date": "2026-11-06",
+       "score": 0.5
+      },
+      {
+       "title": "Amendment 3 passes: How Florida cities and counties are preparing for property tax cuts",
+       "link": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxQSElJalpVTFU5aXQ2aWRDRm11WTRfYmE3Y1cxR2FXZm1GOUV0eF91aE9GVmd5ZEFPeEc1Z1pwR19wbk02eWM0SXFjS09hZjNhNFBGVVV6VllNUlVnZF9RbFdOLUVsZFZ5eDVMQ2d4U1hDa0xVbmlwQXF0YVdRRC1KVFNvM1I2OEFRZzdsWmhVV1I5Z0VLa2NyTktZWV9wWVA3R1J0R3V6T1JhTi0tbmpoMUVXYk5SR1FyZGJDQ0VidHBYM3F3aTVlQm1yS29iVnFhWmVEOEM1Qm5KQjBoaTd3QVpfaGgzOVdydXc?oc=5",
+       "publisher": "wtsp.com",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "Trump-backed critical minerals deals may be under pressure after Democratic sweep - Bloomberg (USAR:NASDAQ)",
+       "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOVWg2T0RPT3QyY2JuanZnZ1RzQzYzV09Gb19jTlBibmV4ZVdFVmRCNzRiR1YtMUw5VE5OSWs4RWloUFROd0pzdnNsbnlIT1ZQU0VkUG5iNzZLZFAtT2JYeFZDVXF1Q3VKS1NjMUo3MVlqTHlFQ0k0R01wZlJ5UC1FRDQzSC1LZ3hoOUpVZ1dMRGJyRVcySGNnVE5XdFN3dzNjc0Q5MUxXdFY0cmRJenBpSkYzZmdybFI1MEpXNDkyekVSUQ?oc=5",
+       "publisher": "Seeking Alpha",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "\"Tax cuts do tend to grow the economy, but nowhere close to enough to pay for themselves. That's the big fiscal myth that is sold to us over and over again.\"",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPM2pwNlJ3VVZVekVSTkR4WWs2YVFma2loaHNCTWRFN1lsZ2lpT0MzUFJIa1VLRnhaYmpES2o5dDVOSElRSVp3VjFEM051N2ZEVk5veHd1WW9rSGVFY0JRR0hDX3hqMVBuQ3pCNFNrLVEzVUpsY3oxRTdiLUR4cGdPMmp4U19LeGRLNFlKRXpDYnhqXy1xWFF6TjVyZWdOcldIX1VtalZLb0xDWTJmVS10czlsWFkwNUZ5TUJWbWJwMGVhek5wMmtOMUpVS0VXM3JONWNGUUU3aw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-05",
+       "score": -0.5
+      },
+      {
+       "title": "Could a broader sales tax protect Nebraska\u2019s income tax cuts?",
+       "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNcFFnaUtWUjVjNm84aGZiVEJnWncteTYtV3gyamlHc293QXo4enZLTWhqOWtnOTRYLXBHcjNwX3ZrV3J1TmdwVEliN3ZuNkpRMVlmNU5CZ2NnbVoxcGJKLWoxNjJ3T1E0ZUstMWs4bkRvNEpTd1Nqb1VubVEteHM4eWhraVd4N1M4V0VhYVdlV2RBMTBNQTByOU15RV9BT0M1?oc=5",
+       "publisher": "KOLN | Nebraska Local News, Weather, Sports | Lincoln, NE",
+       "date": "2026-11-05",
+       "score": -0.5
+      },
+      {
+       "title": "Hegseth vows to keep fighting from Pentagon, defends Iran war",
+       "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQR1JFX1RGSnZ0bDI2d1ZxN0JpSGpTN2NDT21RbEVMaXhyVGNfNDlHUkVsaU9pNGd1d1hzTjhFWmVxeGgzSmt5SDVEZHA2Q3RjUmVpaFdUSUVic3RBLTJNNms0U253VURJU3Uzdm5rSXRjMmtnSDRMbWhKaFA1R1dtRUZ0LUQxLTlieGhXUzA2QVVvU3BnRkhpLWJBekQzVm5YRVFzTzJxU2s?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-05",
+       "score": 0.0
+      }
+     ]
+    },
+    "election": {
+     "label": "Elections / political uncertainty / shutdown",
+     "heat": 0.42,
+     "n": 99,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Stocks tumble, erasing post-midterm gains as markets weigh future of AI build-out",
+       "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQQUpGQzkxVmNmRExmRDFCaThqUVpEeHRlaW9WaV9tYUJ0TFFPUEdtRllXUE1CNHpsRzdhdGJkNHh3M2RsX0hQLThEUm5WRnFzYXJ4VFF0S2dwVS1sWWI4Y3ptQlBQVzBLbGlwSXBSSEhvYWVTUXM0YldfY2luaDc0TURVUUE2aWZhdnFTc2Zlcm1pdXljRHdfb25ZaDJfZw?oc=5",
+       "publisher": "The Washington Post",
+       "date": "2026-11-06",
+       "score": 0.5
+      },
+      {
+       "title": "AI stocks plunge after US election, driving down markets",
+       "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOTUVrR294T3BIbUVvTlEzZ2dlUkhxc09weTF3RGZWTmR5bldoQ3h5OG4zS3ctN2lWSUtzcTNUbVQxN1RuTWY3a0tqWmFZTW5WMDBQMGJvaXNTNU9WV1h3ZXcxNkJaSUtVd2JNeGVTOWNUR2wyR29USF9heDhoM0ZSSkFjR2hxbVpnZS1jZ3dQSFViRVBldlU4RVRnNnhNdXVh0gGmAUFVX3lxTE5PbkJvMFphbUp4cnZfU0xEOVlrZWcwU0pkOWFPSGtmZ1FfUlZiZkxtSWl6TmR0Y2pXY0VUVTVUT1Q1a3dpMnRnSUU3SkowQnQ0WEh4OGpYdHUzQ0YzQkZXOXhqR2E2MXZkc05pRGg2cC1KM19mOGxOcTRsRkM5NmtyeTdaOEFlRjllRktBYVFxZ3BfQzVHRm5fRU1aTWRCVy1LYk0zX1E?oc=5",
+       "publisher": "Al Jazeera",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "Stocks plunge as election outcome and AI worries crush tech shares",
+       "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOOTNfLWhKbG1YQW94UmZzUGpiYlNJUlNhZWstcGdKNE9mVnRlWDhTcE1FSW9iZkpwTDI3S1R2QWNoTFhndEN4bFpwMXQwQ1paZDlNbXNxSlBRNVh5MlVKOVNKMHowZVNiN00xX2FfcHVyeFBIVzhaVF96azRNWE5VZ1VndXItWmdwelE?oc=5",
+       "publisher": "NBC News",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "Global tech stocks plunge as US midterms add to AI slowdown fears",
+       "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5XdkJGRE8yWFZFWXBDYzA4WXRyM1doblZVak9PRjFMNGszT1NCSEx0UEQ1QWduQjlvZ1Bnd21qcEc5MDU3cjRxRXFtTV8xd3BPdURJaENhUDdUMms?oc=5",
+       "publisher": "BBC",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "What prediction markets told us about the midterm election",
+       "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQVnp1R25HWEtCWldPeXo4UUxhM3lFdllGVEphd2hoaUYweXViejR6NnF1Njk4OHVWa1IzT0FXRDlBMXZ1NzFBaEFoVTJzbjgzRXg3dkhzRDNRSFRpYXVCY05FOWhLQUFLUkR4U25hUGN0MmpiYXdmOEdZTzFVUnVuZnlPem05Zw?oc=5",
+       "publisher": "CBC",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Why the midterm blue wave just triggered a red Wall Street",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPMDNYbkU1OXF5YUtrZ2NoNWFoQ0huM1ExbGIxdzNnU2RtQ3B3bmQyTUk3bUdMWEZKcjBFQkY3MFlTSGFXcl9xT2VDSnZBQlplNHhZNk01bWdNSUhiQkQ1RlpoMkJ4cmhyeDF2MkNHcmI0NUhrdEJuSFE4MTcwOFkwOXVwdkFIdC1MazY0OTVUVDlnMjZIUEQyQUhVNmhoMnNkSGxldmItWDczVWxZNGJ0T293MjFYQmc?oc=5",
+       "publisher": "USA Today",
+       "date": "2026-11-06",
+       "score": 0.0
+      }
+     ]
+    },
+    "usd_strong": {
+     "label": "US dollar strengthening",
+     "heat": 0.62,
+     "n": 49,
+     "why": null,
+     "headlines": [
+      {
+       "title": "#FMTBusiness The US Dollar Index (DXY) edged up 0.03% to 101.60, supported by signs of resilience in the US labour market, says an analyst.",
+       "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPdTNhTmdGeVVoVzVaZ1pCY1FFVHJxcUtoV3pmdFU3NnpqSEhUUi03dWVGby1lVXc4al9rMXpCS2djZC0zRGtrSnRJTnlEVEpWci10bkNTYkhHRnQ1WGViMWd2OUh6TlVKSEVsX1hUdENTZEd6RkRPREFHTFZKdnQ5TjNuekNnV2xEV0l5YkhtTC12THdaelh0NTdGSm1RX1pWcVltb2ROc2FOUFRIOFFqMVBTMlJUckZyNDZZd3MtWldEZVBzQm5ENFc5TGkyWXQ1MVNkN3ZCdTRCakJTcHpqeA?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Gold rallies above $4,100 as NASDAQ 100 crashes, December hike bets fade",
+       "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNYjFpdnVNUk9rSkQwUUhfRU5NRXpiSlRlcDRKLVlzSDhDNV9QSWRfUWQ5bHpBSGpOSEhxM0tQamx2eTEtZkw2eWI3dEhtemVMMGhBQ3loRUMzaWd3Nk1uVGViOFNGeVRiODdPeWF3dmFkSUcwdnAyWEJSdHhiRmlwRHhkUU1rNUU2YTNqNzY4UHNYcG1HUndqaFlhTnJ4UExFY0NnUzBDNHo3elBqRHpxY2hFWHhoVW1CWTd5VTZ2VnNjSXNsRnQwd3JZalJmTDAwZ0E?oc=5",
+       "publisher": "www.tmgm.com",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "Wall Street fear gauge jumps most since \u2019Liberation Day\u2019 as AI trade stumbles By Reuters",
+       "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPRHpYVnBTaTJxZ19oMWVCWWhicjdpVlFDYTZqZllpOG5aTUprU2dkTjJfUGRCbzJjNk5McWlZbVkwaTg0SGM3LXVpX2N2Tm1wRkhEbDdId1BaM1BldDNzTUJ6TmJReHhINVhyUEYyN3FkVWZ3Sl9BczJkQlBacFpzVTlkSXhWX20zdXlhZzY3RFdvekNkamlrU1hxeVlSVi13OTVuazk5bzZQZnNrQ2V0ajJWLVhZTXBuRlMxeHlUQVFNOGlFZ3RfQWtvSEk?oc=5",
+       "publisher": "Investing.com",
+       "date": "2026-11-05",
+       "score": 0.5
+      },
+      {
+       "title": "Trump's Defeat Brings a Boost to Global Markets \u0964 Gold Jumps \u0964 PRIME BULLETIN-297\u0964 THE KHALAS TV",
+       "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxOcmxSYVhCYjVFeF9udnBaY21PY2FzXzA5bzJrMnBJZnp5dEI4TWNqNDdsVlpGVXUzTGc4VHVwcUYtX1NreVRBOGQwSG1fMDVyR0dubWlUcExadnlGZV9BLXpzbG1lcEdrVmM3VkpBSzM5dmVoVWRpTHdGeTFINUxXQmYtQnlhbG54YVZqaEVBa0k5UURvQm1PSzhTb0VTaDB1aWhPS1hQaUgyUEtXUlFvZ2s0d01DenRIbXJWU0dkQ3RrS012S2dSZ3FudHdCQThVekYyTnpGMGNnWmZPa3dKdXZINA?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-05",
+       "score": 0.67
+      },
+      {
+       "title": "Premarket movers: Qualcomm, Snap slide premarket; Unity surges",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNQWF0UW1ZN2dVRXF6RFI3ZnRpRFh3M09JQVZ4OHdnc1hEM3RYV2JnNmNIT2t4NnhSTGRSOEVPRlJyNGtCN2pucUxBWUpDTy1Zcm9YUjkzeVZMdmRzaks1S0pHUldJQmh0bGtuY0VrOEFBNXB2eUE5cldab3ZqNG9hQWFJOGsxQ3BEM01rX1JQclhRRjVXcnVrR1A1MEtsTUdEejk5cGVkcHd4U01xSUZCeTdKTXFBVm8?oc=5",
+       "publisher": "Investing.com",
+       "date": "2026-11-05",
+       "score": 0.5
+      },
+      {
+       "title": "Sony Boosts Guidance as Profit Jumps on \u2018Spider-Man\u2019 Hit, Game Strength",
+       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOTXpwOEQxbFlIUHZMTWZJekVmNVJJaU82b3F6XzRQR2RrNEJfeVQtZ3JfSmRrUDk5NnVwZXh1QjRiaE9YLWxZeUQtUEZkamVtaGlDMzM4WFplb2hzNlByNk10WXhrOVhVNUpKSmJtOFVhbFRhNGUxV25YaXVWeDIzZDVZalV3YTdrMFIzaHdMLXBQTkY2NW9iR0h2X1Z3SjJrQTNfU3Y1NXhKMzlKeHNJZFpxdlpuQQ?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-05",
+       "score": 0.67
+      }
+     ]
+    },
+    "usd_weak": {
+     "label": "US dollar weakening",
+     "heat": 0.85,
+     "n": 67,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Rupee falls 9 paise to 94.50 against U.S. dollar in early trade",
+       "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNUGRkTXY5ZWVNd3lSTTRoTGRoM2F4WjBNcGc4NENOLTlnenpmMi1ndnRNWjhKOTcxTGlwTVBRVnI4TTNTWUkzeHlBOHkxSC1xSWJmR0ZUTXVJc1dCdGw1Si1XMWdYTE5IcTI5X3drNWU2VHRTek1vdVhUYmhvYWU5OE8xdVQ3RE9EZklEbkRiQV8wQlhIQzVZaUdqSEt6WGIwYWkySWYzcHdEbXlOZmJDTklNMy1zY19rTkZySTZhV27SAccBQVVfeXFMT25wMXoyM09XQ1UzSEcxakY4QTd6VWpoNmM1RUdSajdmMTNVa2lFTUJWRXVZendGUHAtLXpoZVRqQUhsVFNUcFUwUklRbnVybGtxZHhTc01XYjVxQnhyTExCZEVwblktdk50OFJ0VDBWODlEeHRJQUl3V1gyaDFySk1oM0E5T3hYRXhCVUhMREt2T2RyZUpxNFVybV9nV3NLSmhYcG9LdWhQdEphUW9xUmNlODVxQ2JGc1lNcnNJSVIxNm1PSFRBZw?oc=5",
+       "publisher": "The Hindu",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "News Alert! Rupee falls 9 paise to 94.50 against US dollar in early trade Sensex up 33 points to 79,343.06 in early trade; Nifty declines 52.95 points to 24,477.40",
+       "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1WdEVGV0pRNnZZTjJoQUNNZllLa2o2aXR6bGNvM0pZanN5Y3ZFTE82NmdMSUxsWVpxZjVSQ3R5dHpBYlljMWtWQkJQNi1GeEt5ekVJUWpURk52bWthVllKWUlHdlpSQkJy?oc=5",
+       "publisher": "X",
+       "date": "2026-11-06",
+       "score": -0.67
+      },
+      {
+       "title": "Taiwan\u2019s Currency Weakens Past 33 Per US Dollar on AI Jitters",
+       "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNQXB1cFN4S0FZMFNHN21qX2dXdHAydHpGRzlZR0dYVldpdGMwWUcweXJfeUVVVnFNbkhSSzlwaE9qN1NRQkNhQy1aY2dJSTNDLWVpOGEtM0JxXzlnNEd3Rm5MTUdQYjdub3kzckxvQXVsUWFjYVBoenIxVnVqbjVhWWxYWlpWX1ZQdjJFZlp5U1Y0a25NTmNVS2FYd0ZrVEQ4ME9kX2JkTHp2VkhEeTZjVUJ3?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "WSJ Dollar Index Falls 0.08% to 97.00",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOTnhMSHFSb295REZyWXJBNGt4cG8zRDlOQnRGZ3F3LUdRQlYzODJXYzdlUklzd085UGtlOTl1ak0zRlY2WVdXRzZnOWpPN0UzTE9tY3BHTlpzUTJHS3FfV2FRNnJIN0FEaWdBQ0VPc1FJYkFDazBhV1R5aU5OTXZqbGE1cDd1SkJLeUhtTWdCNlltSks5SXRhOExzZEJDNno5X3dxZEZfMUduZEE?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "China's yuan dilemma: too weak abroad and too strong at home",
+       "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOdG8tUkNHdE1DSTdndG40UGVsSEh6cVBmcFZBSmFHNi10VU9ET3JPbU1XRlg3bHI4SnptNGcxV3BGNHdXT2Qycm9Oa1VfRmJNNFFyNGxJN0ZfbHdyNi1zbHRISnBlZWNKUGdqT0V0UVJHRHhFLWRYVTB1alpvSGRCZWZaTzJyaHdicWpyVDdGQmVWVlFqREs2TTNMcVZYVlllb1FCUlVZMDMxQQ?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "WSJ Dollar Index Rises 0.11% to 97.05",
+       "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPQTZ0S2dmWVlFQllSWjVpYi1PN1d2ZnV5amExZlRJTVhwMWMycjgxZk1BUkNMbF90QW5kaS1WalktOUdVVXhZOGkwbUhEVDh1OEc1Y3dIUlZzZjNTbE45V1ZmRnJTeG4wd3JRekxPeEhyalBENzVLUHVpdER2NkdMMGdjOGZDbk9JOVJ3Y0RpQzB0Qmczd1JDRk5nS3EtMGJGaEV3NGdjT2JCN21kc1hHZl9LQQ?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-05",
+       "score": 0.5
+      }
+     ]
+    },
+    "fed_cut_assets": {
+     "label": "Fed rate cuts / easier money",
+     "heat": 0.56,
+     "n": 45,
+     "why": null,
+     "headlines": [
+      {
+       "title": "The trigger for the retreat from risk was a Democratic sweep in Congress that hammered US stocks on Thursday (Nov 5), with the Nasdaq recording its deepest one-day drop since \"Liberation Day\" in April 2025.",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOQk5tVzNZQ1JGYjQzYzhDeElpVUhMeGhyZm1HZzlScndKYWk3YzM0aDFZLWhoNHQ4R1BBV19WRXVZOWRxZFFvR3FtWmN5RHNOMnZHYUpzdHhyd3NZa3RfMWNtRHcxNnh1NFFHWTJ0Sm9ST0NqSm5zTlI0SF8telpTY2xQVmxHZjdXdExQb0RGQ2c1QXhJRmJWbEhKaW5mN1FXdG45OFBqYWxsdHpsTmxJaElwT0NHMmhrbF9IdDdsczI1R1pERFB5aGZMTWZGYmhCazRNZ21hYw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "LIVE What\u2019s Hot: Stocks, Gold & Big Money Moves | Daily Markets Show | November 06 | Business Today Watch LIVE: https://www.youtube.com/watch?v=OMMBH3wDBTY | #BusinessToday #BusinessNews #GoldPrice #MarketToday #StockMarket",
+       "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNVkxieTBMWmtwNG9Jbno5cXhFdEUzMUZFd0V0cTdVbGhiSnZ6RXJkRThpc2M5c1IxNFhORDgtWXJoLTZNWm1XSmhBZGdTLXFMbW10eWcxcjN6Y2JCUGNnZDdqdmlWemZIU3pZYklvMHIxQ0NScG9tTGtiODNjeEZBd1RCenRlcm9ma0xldnpCZTZyZFkxTUhhWnhvYXFKaTF1UFVNVTZZT0Y0anAtLVZhS21DaDdxNHJ2b1pGVW8yQXI5ZEsyMWcxN0k2WU81TWlPb2diSlRYNTk5OEE?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Gold drifts lower as rebounding bond yields and Fed hike bets support USD ahead of US NFP",
+       "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQd3psa0dKdVVZQ2tXdHVXVTBHT1Brb0dPc09PZmtXNmJ4RFQwZmlZUmcxRHNDOS1XUWFPMnVjdXFMWjFhRWRobFR5T0tYYXdOVVNpNmNKNkx1TURrQTV5QmJUOWRHeGdKRlFZRlB6Tk5KX2J6LTJnand6UDZpUF9fT3RoSWR4SXBqUzV2TExMa0swVmhxOV9ZUnViR3BjNzVvaFREbTZENjJ4UHptU0FGWkhWc3ppTktZNWRLNUVKQldZYmxfZXhQREl4c2Q?oc=5",
+       "publisher": "FXStreet",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "Gold Price Forecast: XAU/USD corrects to near $4,060 amid caution ahead of US NFP data",
+       "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNZGhTWnFEQkJ2TS1VT2JlTUFoeXhhNEhlMjNockhnVHNwOFhmOTl0X1ppa1BkdjNqWnowdGgzeG9rNG1kLThiMHI4a1dXemE2M3AwYWRKR1ZLYTRuV0dfTngzVlhIRFdQbnZERW9ZWUtJSHlCeXVwNFBnbW0yYjZBWjJKZHl5VzAyNXJUSDUwMFhRa3pSd0VPTEE5ZGNKa281MlMwVENJV3RFZUNZU0s1NE80aE5NTk9lU24xdUh3NTNMRExuOWF1M280RQ?oc=5",
+       "publisher": "FXStreet",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Australian Dollar drops on dovish RBA outlook, stronger US Dollar",
+       "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOaDE4QlVzeG1GVThxTW5TU0tUYTBPTU1Pb2R2b1hia3VLSnE1SG5CR1RvdktpbnZhTlFWWno1UVBxQl96WC1IRVJnbjl2UEVzYXp2TTJPQ0swczNoS0luQXpwUUxoeVdlZm9VNnFwN1p1Vi1RYzVaZ2RBQXBybFRuTnZfRElEdDRFYnVUamRQSF9GNjhvakY0TUlPcmFXMi0xMnFMel9nUTVaS0hVMTZ4Qk5nVnF5UHlIZUdDNUh4amJBRzQwRldvTjN3?oc=5",
+       "publisher": "www.tmgm.com",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "#Gold and #silver prices will be in focus on Friday and remain on track for the biggest weekly gain since August after a resounding Democrats victory in the US midterm elections and the subsequent plunge in oil bolstered sentiment. #ETMarkets Read more he",
+       "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOM1R0V3YtNXBsNUs1dWtvb0hkejdCWklTTkVDZUFZZXdPNVNzX2xEc1p4d1FBRXZXcGJsQWRzWTFRTVNRcVZEN3I4NVI4NzJQVk9NZnZfVVhic1REYVh4X0dGeVBnVnY0VlJKRV9KQnR1a0lZZUFtMWhYeFVDREdyRG0zOFpSYzVvbVRjemxXXzZoc0pRaVNDblo2MXVTa3YtM1gxQmtrVzRuNGRfdmVXVjRsWUthZ3lYUE1nd0JNQVFUR1JDNEFXS0FvMzJDSVRpZFhoZ3NR?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-06",
+       "score": -0.5
+      }
+     ]
+    },
+    "fed_hike_assets": {
+     "label": "Fed hawkish / higher for longer",
+     "heat": 0.54,
+     "n": 52,
+     "why": null,
+     "headlines": [
+      {
+       "title": "The BSP may be one rate hike away from ending its tightening cycle. Security Bank\u2019s Angelo Taningco expects a smaller 25-basis-point increase in December, which would bring the policy rate to 5.75%. The reason: inflation may have peaked, and the econo",
+       "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQbm5CSnU3a3hhd0xKZlBXd29Oc21EREFfNWxQMjk4TVhLSE9DcFlmbGNwMW5fUkJ0REVKT2pDUVBCM2N0UGtCUGJlRGtjUG9Ud2UwMGhwM2xiZmVXX2pNZ2ZuUTNsLUduTms1bWFZUDIwNE9faHhQWXVpWllsUUw5Z29JNXJiTGx3MVcwZDVJaXliczE1NVZlWmxnOE0xM0YyZnZiY2hncl95cFpwYkRSM2lCdjNpaDh5Ty1IOXAyb1FldnBZX2lXLURYbW1JblAwR2RHTg?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Implications for the Fed's rate hike outlook! U.S. October non-farm payrolls data due tonight\u2014could it become the \"savior\" of U.S. stocks?",
+       "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNV3dXN2ZkUEREeFJJd3I0NWpnT2kxQU41RG5ZRnJHVFY0VzRjNEs2VlcwU3hCN0drV0l1OWwxMGFvUHQ3d3oyTjNYWEQ2ZU00WUR1SnVmdUZJWGJWckNoZmtOeFhlaDhId09CTlZGOGZxMnlNbndhQ3ZCeFpSMTBtVFNMRjZRUVRydWlsdHdFTHJsYTd2bldUZEZEWVQ3MlBE?oc=5",
+       "publisher": "Moomoo",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "It's all about the Fed's rate-hike outlook! U.S. October non-farm payrolls are due tonight\u2014could they be the \"savior\" for U.S. stocks?",
+       "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNNFNMczBaZXg0ejhRdXdJRXJ3QVhuRVI4ZzF4T29tRXREQ2pzSEZXYVNaY1RWSDMxRnFXcV9ha3Z4X2NXY3NiWm5IY0o4SlY1UldQOTRnemJKYlVPOGxpUVd2RW9pd0dTdXlxSkN3RFRiOUF1c1VnN3NZQXU4d08yRUtqMTlsa3hSM2dGUlFB?oc=5",
+       "publisher": "\u5bcc\u9014\u725b\u725b",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Gold Price Forecast: XAU/USD corrects to near $4,060 amid caution ahead of US NFP data",
+       "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNZGhTWnFEQkJ2TS1VT2JlTUFoeXhhNEhlMjNockhnVHNwOFhmOTl0X1ppa1BkdjNqWnowdGgzeG9rNG1kLThiMHI4a1dXemE2M3AwYWRKR1ZLYTRuV0dfTngzVlhIRFdQbnZERW9ZWUtJSHlCeXVwNFBnbW0yYjZBWjJKZHl5VzAyNXJUSDUwMFhRa3pSd0VPTEE5ZGNKa281MlMwVENJV3RFZUNZU0s1NE80aE5NTk9lU24xdUh3NTNMRExuOWF1M280RQ?oc=5",
+       "publisher": "FXStreet",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Samvat 2083: How much gold and silver should your portfolio hold?",
+       "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPODRTMVJqZjkxQXJGNEtPZUNraEt2aGpaSldlQUpDYlJwN1JMeVFJQk9McC04ajNPNkJEM21yaTdfNEo2VmQ5bjdKQkQ3Q0RndzdiNjd1UEdjWi1qOFlzQXMwZlZVc1JzLWY2ZjEwczVDS2dRNnh3WHNuNWRoZkZiUEZJQXV5alpBQVZCN2REQy1FakI4N25IT241NVVZMTlOWWdrOFB1RzN1WXhoMVZJUEY3b1NfeTRjdWlHaA?oc=5",
+       "publisher": "TradingView",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "U.S. Shale Giants Hold Back on Drilling Despite Higher Oil Prices",
+       "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPTzdXakZTOXRzcmw0Skt3RXdkdGo2OC1oWGZrN1k3VTNOWG1FRktfbmZjNzZkbnlnejZKdEtPVmhHNUhUVXJjVVY4dmpBTW5HYldLd21adFBSOEx6bEZfaDRJeks0OXFlWDc3aTM4aEJsZ2FOMlFEUWtHc3lFVW9pTTJOOEJ0V0hQbUpzeEVtWG56cldJMm1HSklwZzdxN0JDUjVUWmRMLVNYUdIBrwFBVV95cUxOdnVVdEk1TEpucHI0TVczSFNfc2tkNGNZQTRFdXNvSGxLNGJJNDdaVDFMcHdQTmt2X1NGWlhESTVWRlAwVW9MV2J5SXVkZlRld19lbnFsLWpqODV2R2s3WGhPdzVqNDk1S0haZVNhbUx4NzhFM1EtRUdScFJNRWsxSEozVm1zV0tvbHBXNVpuUmpUajAyRFpJeVU2MEZuNWp6YmRReVU4R2RCSUo5M0hF?oc=5",
+       "publisher": "Crude Oil Prices Today | OilPrice.com",
+       "date": "2026-11-06",
+       "score": 0.5
+      }
+     ]
+    },
+    "crypto_etf_in": {
+     "label": "Crypto ETF inflows / approvals",
+     "heat": 0.93,
+     "n": 46,
+     "why": null,
+     "headlines": [
+      {
+       "title": "BITCOIN ETFS RECORD $430.2M IN OUTFLOWS",
+       "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxONE5ad1psb3hzeGlTaEp2S1VkemdMZTdLRjcwanRYaTlmSVV4WkdxMGVpbUJtbklJZzhCMWR1WjhzdDh6WHF1UzNKSGRUdXdFajExLVJtUy0yLW5Udmtzc2FQQVpZQ0VvVTd2RkZ2ZGxxODRRS1g2YTZickFwRWJ4OEhMTkN6RmlBaUtpdGpfb0tua1JBa0RGUENZa3JULUptVlhHbWhqZ0NnQXlv?oc=5",
+       "publisher": "Moomoo",
+       "date": "2026-11-06",
+       "score": 0.5
+      },
+      {
+       "title": "James Wynn Doubles Down on Bitcoin Crash Call Despite Fresh ETF Inflows",
+       "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5OU1NYRktLZllYVzJsdFZuNzczYjFkeXppZnl3eTlSZW5oRkQxMFgwLTZlejY3NndjMTk3NlBaMUJhc3EzVTNZOWYyU21VQWlJX29jSzJYbGlJeTczQjgxaWZjejNZMThhM1M0?oc=5",
+       "publisher": "BeInCrypto",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Michael Saylor: Bitcoin Is Entering a Bull Market That Could Last 2\u20133 Years Strategy founder Michael Saylor @saylor said during the company's Q3 2026 earnings call on October 30 that Bitcoin has endured roughly a year-long bear market and is rebounding f",
+       "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBPeWExSUhpb0hMQ0MwbTlZVGtmdEF4LXdEdHhjdVFURlRGbmZWR3FvZDhZeGZsRG8tU054R3F1RUJ3WXRlZTZzNUR0WE9NbWJ1Tk5QOEpQRk9yZDZmSndSTGk2Zw?oc=5",
+       "publisher": "X",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "US spot Bitcoin ETF inflows hit $74.6 million after $1.15 billion in outflows",
+       "link": "https://news.google.com/rss/articles/CBMiwgJBVV95cUxNWk4ycTBlVDNQaFRFcFc3azRKd19SNWlFN0pPV0VuOVVxVVVya1RPRHRqRlMtaGdjSHVYMTFnLVQ4LW9QbmM0Z0g3NmtVR2MtU29YWjBGZWxSX0VWQ1d2dGZGSFI3Y2NBSWppV3VJNVFDNTB5RmtvSXUydG02eU5nS1NyYUdaMEY2eWFobHBzVDlaaVJBbHFvVTFJYzYza294NnNrMXc3Q2txUVl2T3diaFNEOGdmQzFLRnJCTVZxZV9IaEpoNDRIQUx4N01PODg0V2hKc05qaUlCOXZQV0tMRGphLVJZV0hZSURqV3RkTmxFV29GYU8wUXczV0NjQlRhZ1Rma083dW9oRjdmTzFxbFM3Vk1fZVRFQVZLRlFsbVRwdWVaamFtLVpsZXM1NVBNMzVubE9HZ2o5ZG53R2NadUNB?oc=5",
+       "publisher": "cointurk news",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "The Crypto Desk Archives - Page 41 of 41",
+       "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE43VmQ5cl9qbElZWjZyREhzTEpNLVZ5TmNtT0lWSW5lZGU1SlhiaW14SkFDX2ZrZTBKVzN5OTVjTEhTTjByWExuNkpiYW5rNldZb1h0aHpqMVdHVUFRbjdwSlZB?oc=5",
+       "publisher": "24/7 Wall St.",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "Bitcoin ETFs see $74.6M inflow post-election de...",
+       "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPTWgxRnZablJUSzNPbDJXaWZ3VHRaS3NoWXc4cG1GQjloTVJEVzhtYWc4dk15NHR3X1kxa1h0OHZBQ1MzbDJvbi14bEI5VUlrZHFUWkFZYjd3NlQ5OW5tNU1WNnY5Yloya0kzcUJqQWxmQkY2S3VfNVA2Q0JnQktTM1B3MjQxcGZJb293RmJTeDhQZEtmUF9tcw?oc=5",
+       "publisher": "Pluang",
+       "date": "2026-11-05",
+       "score": 0.0
+      }
+     ]
+    },
+    "crypto_etf_out": {
+     "label": "Crypto ETF outflows",
+     "heat": 0.55,
+     "n": 54,
+     "why": null,
+     "headlines": [
+      {
+       "title": "BITCOIN ETFS RECORD $430.2M IN OUTFLOWS",
+       "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxONE5ad1psb3hzeGlTaEp2S1VkemdMZTdLRjcwanRYaTlmSVV4WkdxMGVpbUJtbklJZzhCMWR1WjhzdDh6WHF1UzNKSGRUdXdFajExLVJtUy0yLW5Udmtzc2FQQVpZQ0VvVTd2RkZ2ZGxxODRRS1g2YTZickFwRWJ4OEhMTkN6RmlBaUtpdGpfb0tua1JBa0RGUENZa3JULUptVlhHbWhqZ0NnQXlv?oc=5",
+       "publisher": "Moomoo",
+       "date": "2026-11-06",
+       "score": 0.5
+      },
+      {
+       "title": "Oil rebounds towards US$100 after dramatic three-day collapse",
+       "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOZjR1TzRpR0NkT2VTSEFITVhXVXlaVDRYdjZvamdYekVtRnNvTmcwV2IxcF9rSEszTThTMWlPNG95bUxHNGRBT3pzNU9TaVFXNi1mcmhxaVFvVUd6OTdSazB4c0QyMm9zY1p1Y1VFOFJyRG9Gb0ZZZjRRdDItUHFlRFNsY3hJQmpQc1pDdXlMaVpSb2pjRU5Rd1ZKbzRjbkNzY0NjdUFjOVpmYWp4YWh3?oc=5",
+       "publisher": "Proactive Investors Australia",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Ethereum Price Drops 7.9%: ETF Outflows and Liquidations",
+       "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9iZGpJZ0ZDV19FdUt0dVd3YWpydXZLTmdSNVFqYWF2Q1MzaHc2Y2ZCV0Nid3ZOTjVySFNaTk9jckRmLTI2bDZENFF5LVh4NlBpRllnekU3dTJHc1A4VlBybjNfcUMwZ1ZJaEhzR2lsTU9JSnFpZEhicHpPZGhYZw?oc=5",
+       "publisher": "CryptoTicker.io",
+       "date": "2026-11-06",
+       "score": -0.5
+      },
+      {
+       "title": "James Wynn Doubles Down on Bitcoin Crash Call Despite Fresh ETF Inflows",
+       "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5OU1NYRktLZllYVzJsdFZuNzczYjFkeXppZnl3eTlSZW5oRkQxMFgwLTZlejY3NndjMTk3NlBaMUJhc3EzVTNZOWYyU21VQWlJX29jSzJYbGlJeTczQjgxaWZjejNZMThhM1M0?oc=5",
+       "publisher": "BeInCrypto",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "US spot Bitcoin ETF inflows hit $74.6 million after $1.15 billion in outflows",
+       "link": "https://news.google.com/rss/articles/CBMiwgJBVV95cUxNWk4ycTBlVDNQaFRFcFc3azRKd19SNWlFN0pPV0VuOVVxVVVya1RPRHRqRlMtaGdjSHVYMTFnLVQ4LW9QbmM0Z0g3NmtVR2MtU29YWjBGZWxSX0VWQ1d2dGZGSFI3Y2NBSWppV3VJNVFDNTB5RmtvSXUydG02eU5nS1NyYUdaMEY2eWFobHBzVDlaaVJBbHFvVTFJYzYza294NnNrMXc3Q2txUVl2T3diaFNEOGdmQzFLRnJCTVZxZV9IaEpoNDRIQUx4N01PODg0V2hKc05qaUlCOXZQV0tMRGphLVJZV0hZSURqV3RkTmxFV29GYU8wUXczV0NjQlRhZ1Rma083dW9oRjdmTzFxbFM3Vk1fZVRFQVZLRlFsbVRwdWVaamFtLVpsZXM1NVBNMzVubE9HZ2o5ZG53R2NadUNB?oc=5",
+       "publisher": "cointurk news",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "Bitcoin at $75,500: support or stress test? Bitcoin\u2019s latest decline is not an isolated crypto event. It is a broader risk-off move concentrated in high-beta assets. BTC fell from approximately $80,900 to $76,100 within two hours of the U.S. market open, while the N",
+       "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNU3VYbFVwMHhaZmd2aVBGbkN3WUJJMTdXVENrSDU3ZV94X2dCVDNteWROdW9qMWxmeFM4S3N4SVRKdG1TcDYycC1NVU1mdkV6ZlZFRUhIcXBzUFI4aV9TS1hscVFjZjhaWUNzdWphc0otTW1uNHdfU01iRE9FR0pYT0hxSldidGY1S3JMd2ljLUJfZ0R6WTQ4SnZVLTdEaVEyV256THpnOC1fTGQwNjNnQm5ranNwbFFQLVc2dkt4b3JsQWtCb0NB?oc=5",
+       "publisher": "LinkedIn",
+       "date": "2026-11-05",
+       "score": -0.5
+      }
+     ]
+    },
+    "crypto_policy_good": {
+     "label": "Pro-crypto policy (clear rules, reserves)",
+     "heat": 1.0,
+     "n": 23,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Push Broader Crypto Rules: Democrats Weigh Market Bill",
+       "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9kYV9MODBFTDh6V0JZSGFLTHBTcmxsY2hpOTZzYlRMYXlrVEpBa0J3elRvZW10OWhUYTdYQzZreGdjRDhrQW1VWm9LY1IydkhYQlNweV95MnU3R2NJZmF3Nk1McjZmdkhtQTdfWW5nT1RnMnZJNzFN?oc=5",
+       "publisher": "BlockTelegraph",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Eleanor Terrett Confirms New Crypto Market Structure Bill",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBvQ3ZoeUotVVRVZ1JZSTc4UmU4VXR3QXZPMkhGZ0NyS18ySkF5M1JyTWhwckwwb0h3SzFzQV9hSGZQWFJ5SHowTnAyWU9WSUpSOTFEXzJn?oc=5",
+       "publisher": "Cryptonews.net",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Democrats to Push Broader Crypto Market Structure Bill After Sweeping US Midterms: Report",
+       "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQQ0pweXhpSUwyUDBNcmQ2cnJtdWp5R2J2VWczQi1vUHl4SVZOcG9INkZnRE5GcGFaMXpCRXJUUUV2SWs3OTd6cGFJT0tjMDF1bHhRRTJXZHExTEk4a2ZPcF92MmhvdUFqZFpYUVdoSnhpZ3dLS24tRXZFc3hVWE4wMkZEdEYxSF9vT194UVVfYk1XSENmaGFZb1hhVXBqZmFYeXdpajMtRHZ3UDZDMFJOWldUbno?oc=5",
+       "publisher": "Decrypt",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "House Democrats Eye New Crypto Market Structure Bill With Greater SEC Powers: Report",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE92Yk1tdnNFbUZFcU96bTJjNlQwcXVVWU5ESmpZLVNiN2czWE5JVUVleUNtU0l3QjRZT084Vkd6TWczdDUyVVZTcVJHLWRWS3gyNWRia0NB?oc=5",
+       "publisher": "Cryptonews.net",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "House Democrats Weigh Crypto Market Structure Bill for 2027",
+       "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPVFRTSkh6UzdPZHRnTVZBVUt4OGNRNWFQb0tKX3V5dzFSdkZPM19MUkNnb3l2NHZfaWFrbDdvQkpqQkpyRjZ0blRYU196VWdNZUVUa1hhMzF2bjNXclZkSi1pZk5yYTdzVkhONUNkb0FybXUwbUd4X0FNdFRvLWlUUVF2WmswQQ?oc=5",
+       "publisher": "Coin Gabbar",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "House Democrats Weigh Crypto Market Structure Bill With Bigger SEC Role",
+       "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPdV9yX0VZM2RtWGl1V1k0ZjJ3bF9OVGdCaVNqa3JzWUFJRmM4LUFyeUdRcktLYklyWTh0RTFOenEzYUROX2gxNUxhZm1lM2ZnZV9XWHBnZEFPSlRSNTZDMjBYWHc2Yk9YZTF6VlpSYVZuWDc4NHhodFFUX05QYXFmaU9LYlp3TmNLc0FOU2RVRQ?oc=5",
+       "publisher": "Altcoin Buzz",
+       "date": "2026-11-05",
+       "score": 0.0
+      }
+     ]
+    },
+    "crypto_crackdown": {
+     "label": "Crypto crackdown / lawsuits / bans",
+     "heat": 0.64,
+     "n": 89,
+     "why": null,
+     "headlines": [
+      {
+       "title": "A judge blocks construction of Trump's arch moments after it won federal approval",
+       "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNNkVYRWN3WDlxZGlQYXpFUTFqVnBadS01anJFR1NWQXh6THdBR1RERDBFMDNhTVh0UFpleU1WanN4TDFNZlpCczlIQTNsbnBhQ0szUUpJZlB0MTFjSk5TVmtiMU0xQS13QUJJdTRHdTRoNlJjbFRVc1Q1Y1dxUmNXSVliMEdIaTM4dVFfbExKdw?oc=5",
+       "publisher": "NPR",
+       "date": "2026-11-06",
+       "score": 0.5
+      },
+      {
+       "title": "JLR knew of faulty Range Rover part years before expanding recalls",
+       "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQS2VLOUZnTERwRzlQNGwtZkJGdjhFaEROdjZQeGtpdkYzV3lRaWJ0d1VmTjltamJYX1hmUkxyeWdPYVZIb0tvbE4ySGh2YVR6ME5ZSE9jU1Y5V0huZ0ltNV9kLTJOMzNsY2JwbDFIdl9GZVVyRHJPLVRiSUowSnJUOVNidUI?oc=5",
+       "publisher": "Financial Times",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Iran-linked ships hover over subsea cables after threats",
+       "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPNE9LVVlCM25qOUVDTUFLN0xhREg0LW9WcnB2RTllX21CMTVUTmV4OE5NMEJ0bktnamJ3c1lMR3RwWm45S3J4NU80aTIwallzc005ZF9jcTB1UlRXa19ZVEhxUlVvc001Vm9aUUo3V1dqWWJETHphYzg4c3RJdVFxak91REs?oc=5",
+       "publisher": "Financial Times",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Taipei mayor election is a victory for democracy over China whoever wins, says candidate",
+       "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNRW5XalRkamVpa3ZpbjZneDktVzZXeHlkVV91TVdMcFRQZ0VpOURMSy1fM0t5UmVrNTVMNlk2b0d0YXF4cFBhc0VOenVXRlIwdVpkck9VSmZxRWJQRU4zd1gxWjdjMlpCTkloYUh2d2tqS19KTkt5dTVPbXdqWG5PUTZlSXFfdTJkNDNlbkpvT2ZzRWxoWWZTaXdHU21icjQyenVlVmNOMU9Lc2dFdk1XUUtrYVBLa1RpeVlv?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-06",
+       "score": 0.5
+      },
+      {
+       "title": "India bucks Asia tech rout as oil slide reverses market fortunes",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOWjNzeFpJV2tDZUlhN19jRzc4UDQ2NUJ2eWNvdnBjdW1Bam5YdE9HUGhfLUZ3Z3FMOVpQMFdId2Z4SlBlMll2Z2dYVXZqamZYdjRMazg3NnZfbzA0WHFNMVNLY0VqQ0dwMkI5RDB2S1ZrNFNGWWpnQmdjUXE2cjcwem9KVzVPYzJMWm5ycGVJaTFWTGRTX3g3T1JIbVAwb3pFUGFXVHBmMWIxdGhOWUtIQm1hWnZsbUhHMVE?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Ex-Guardians catcher Bo Naylor: Nothing unusual about Clase, Ortiz pitches",
+       "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPZGtKY2E5clFpckxNOEljUDNfR3hKc05aVmc3QVB3ck85Q0hXSE1LMVp0ZlRlbGlTYWxBUVlLZ2hHcnJrWXFPTDY2MnR1SzFxTERBWG1kWDJ5Ukp0Z08xTjA5NDRjN3JXN05GMlpTQlVSNTYwRlRUYkNNUkg3UVdfaWZSWTBLLVJiWFpQbWwzQXBYc0JXQ2N2UV9B?oc=5",
+       "publisher": "ESPN",
+       "date": "2026-11-06",
+       "score": 0.0
+      }
+     ]
+    },
+    "crypto_hack": {
+     "label": "Hacks / exchange failures",
+     "heat": 0.34,
+     "n": 95,
+     "why": null,
+     "headlines": [
+      {
+       "title": "North Korea's army of world-class hackers is secret weapon that took down Binance",
+       "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNbFdzUlg5LTJNVHdsSWIyX2UycEcwbERwS29uTTVaNXhBbHY4V0ZvR0VJWktxcm5OdkxuUWE1Q3ctWVFZZ2dKclYwX21iVnl4VEJ4dWplSm84enVCallLSGdHejVrQTQ4bXUxUXBuLXZReDRpenpXQ3dIRUtiNlZva3dta2pFWV9ZeVlKU0RldWczLU0wREdvMTNkQXQ5Zzl6UzI2TkwwMVdLTnpfXzJlYUZ6UURtU01EZnRTdmI0YWdOMzZndXRmX29HWG0?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Hackers Paid $15 to Drain $2.5 Billion From Binance in One Hit",
+       "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOSHhzQjhLUDE4TE5HdS1GanQxa0xST09zUkVRUFlxallSU0tCYzZBeFpkUmpSSXJmNUx6ZHFUZkUwZ1gwT2RqcVNycTdwMm93LWhKNjM0a0x4aXNGUnRCZzhiU3MxblgxS0JPYTVFZG8yZ2JVYVFMLW5LWllzbnB6WDcwX3BSQnZfaDRGZUM0b2I2UFZ2RWZjX1NrbG5sTnNZSmllb0FmY3FMUEFGa01tVQ?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "Binance hack prompted US regulators to check in on bank systems, sources say",
+       "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNUTBnQWFyUm5Ob1BXb24yOUNReWNWOW1IV3FYaGVrcjh2Z0pBTy1QdE4zTVpfSHg0cm9KY3dCeVd2aFR4aGpueTJ2UmZJUUE4T3haMWMwY3VqemRBNXIzdUtfZ19HS1QtNVlscFhmVnBCT2FFUUdpUUtEb2ZLUHRKVnZUZndrcXEyWl9ZMEpnTFVLS2JVc01lT295X0RMWjN5UlhYNTZweHU0VlpJY0xLTlZPWjlPamJuRmxv?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "Bitcoin Sinks to Seven-Week Low as Risk-Off Mood Deepens",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOLWlCQ2R1MFhOVjJNUzlDSlVsY0dRTlotS1AtazVMc0Z5WXllamtzdHd1RDFlbnd6Z2x3NkJPaFlFUGtKWUtjblE0NHRFdUxqRUJHWk93eG5qNEJJTmFkZmdoazhWYmdMT0hnNWdHRWNsbWVtVDAyS2JGMllGZGp3WUZKa0ZPWHVTTE9fMkNvWnMwQ2J1MUUzUVNHeS1SLXRMd3dvenc1REdoYlk?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "What is TraderTraitor, the hacking squad behind the $6.3 billion Binance heist?",
+       "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQVjZGUVp0d29tY3d1Z1JBLVNJUDRkOFJaRUh0ckRJVFZpbG4xVzU5ZDBWaF9pU25fUHgycUtwTWlVYlFUUVhLSEpkSTE0YmllNG5fZDZ5MW1ucWszd0ZPNy1DRUN5a29ISnJyZFk0S2tfa2RHemFCY2FhYm1sOXpNME1lOEUxeVZ2alhkV0ctakZBc3ZCcHN4VWd2X1BkaWZqMXhVaFJlN2VBb2g4aDlQT3U2T0RJclhyV1YwMkhqeEU4UQ?oc=5",
+       "publisher": "CoinDesk",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "$6.3B Crypto Hack, DoorDash to Acquire Instacart, and Apple's New Touchscreen MacBooks | Tech Today",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNM2ZtRS1qTGw4Y2xGSXBWcElfX1VKa2xsNEJFVFUzZ2tldGZua1JWeERsdlZ1YVduVW05Mk9YUjJXQmF0UUhYbk9xd2Rlai00R0R4aXAtRFY2ZG84ZWdZeDgzU2ZidGR5OUJncUdic2pwN0NzSVVaVE01YW5EeEtYQklLMmFtb2UwZEdiN2N5a1d2djNxREVvZGFKS3kwdWFoWUw2aHpyT25xckZLUU5HNWlnR3doaWc?oc=5",
+       "publisher": "Haystack News",
+       "date": "2026-11-05",
+       "score": 0.0
+      }
+     ]
+    },
+    "crypto_corporate": {
+     "label": "Companies / institutions buying crypto",
+     "heat": 0.72,
+     "n": 40,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Trump's Crypto Vehicle World Liberty Financial to Buy Back Tokens After Post-Election Nose Dive",
+       "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPanNqdnc5ZENuMURnRUctbmVHa0pneEZwZlpPcTRacUZQNWNYUm52dVJlSlZsWHB1emJMaDZ1d2JQZlFBbjdSYzFvRURBMlZ2cTllTnluUklpVWVTd1E5TnN4X1hsbnNWMFhEeFFKOTNtd2t5WnpzaWF4MVNZUVlTdjBuQVl1b0tOWE1ISDBlTXlQQldRLVVGei1oTkRKcHBtbjJGODVqSUo5dU1RMjZFaVZ4VENyVEV1QXI2QW54UVQyeE0?oc=5",
+       "publisher": "Gizmodo",
+       "date": "2026-11-06",
+       "score": 0.0
+      },
+      {
+       "title": "The Real Reason Crypto Is Crashing...",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE8wOGhxTHR4YjN1VVk3R3RIWl9UOGl6dHFMSGtFZmktUG1ZbVI1cVpjOHpXOFlUSGQ2UUpHcEVwcVlLN2s3YWwzX2dzY2NKNHh1Ukc5V3hB?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "Keel Infrastructure Dumps Entire Bitcoin Treasury for $192M as Mining Exit Accelerates",
+       "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNY3otaHhDNmxINS1KSU5nUXN3XzhsNFk1VUNLTnM1YnJvSERGNGtDYnFiS0tNV204WEQ5eG9DdWVIVkU5MlR4OGdySHRGODlQMVRSS0FyaERYdjBxTG5ZMTF2UHhqc0JFT0o2dUZCZlpVU29QWU5ydzZya2ktTVhEV3pLLXJRV192ajYzbVBtMzFXMXJ4cnRTYkV6U1hHenkz?oc=5",
+       "publisher": "Bitcoin News",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "Keel Infrastructure Sells $192M Bitcoin Treasury for AI Shif",
+       "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNbzc4dHVKdkd5RFYxMnhXMzMtV2o2QW1KRjNicHhhbGZyWmNJalBnV1NJbXI0VHY4OHBxT2w4cFdsZmY2N0tvODg5SWxLN2ZBUlNteS1KVGpwMjZGSjk2bGlETDNDYjRKMGYtM1FuMkpxR0FUVXFEbldvVXlMR0JCY1VjNm41b2ZrV0RUdHJURFhrb0RGdGZWM2pNOEVpZHYtWURqUktkaVlxWFdFSDcxcEh3S2ZVSGpYLUk5djZn?oc=5",
+       "publisher": "Bitkub.com",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "Trump Media Just Lost a Quarter of Its Value in a Day",
+       "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQUWNCbEZuMWdpRjlaZTNlMHJDcmRaTm9TTTN6dkZOVmhsMzNlM1JsbGk4QzEzME9VbnRrU0l0VExuWXpiUUV3U3hsMHU1OUYxRTRyd25hM2ZaV1l6WUsteS1Rc0hHM08xYTdYc0dJbjNDNUt1OE00MmI0azdtQXhnU0ZCQ2tsWVAwb1FlVkwwc2NLNnVfTk05NzZn?oc=5",
+       "publisher": "Yahoo Finance",
+       "date": "2026-11-05",
+       "score": 0.0
+      },
+      {
+       "title": "Keel (KEEL) Sells Entire Bitcoin Treasury for $192 Million, Will Sell BTC Daily",
+       "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTFB5OUJiVU9wX19VNl9zZzBUXzFodGNpTTg0X0ZSSnZ2TFZ5WDVRRmF5NnVHMHctUkFmXzZFdi1ROS1RdEFzaXNyazFRMlJfeFRoWHU4S21Yd3JCS2xTR0xHUVNFS0JGSWUzTGpzZ2hkOHNrYnhaZTRuQmZLd0Y?oc=5",
+       "publisher": "Bitcoin Magazine",
+       "date": "2026-11-05",
+       "score": 0.0
+      }
+     ]
+    }
+   },
+   "events": []
+  },
+  "requested": {},
+  "label_counts": {
+   "HOLD": 20,
+   "WATCH": 8,
+   "AVOID": 7,
+   "SELL": 2,
+   "SHORT BUY": 0,
+   "LONG BUY": 12
+  }
+ }
+}

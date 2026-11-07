@@ -1,5 +1,229 @@
 [
  {
+  "started": "2026-11-07T06:33:36+00:00",
+  "finished": "2026-11-07T06:34:19+00:00",
+  "minutes": 0.7,
+  "trigger": "schedule",
+  "commit": "09807da",
+  "status": "warnings",
+  "fatal": null,
+  "warnings": [
+   "06:34:11 WARNING no price data for: FIGR_HELOC-USD, RAIN-USD, CC-USD, USYC-USD, EURSAFO-USD, BTW-USD, PUMP-USD, ASTER-USD, MORPHO-USD, WLFI-USD",
+   "06:34:11 WARNING [CRYPTO] wrong coin on Yahoo for: M-USD (Yahoo 0.00026354 vs CoinGecko 0.814125); SKY-USD (Yahoo 0.0142236 vs CoinGecko 0.064056)",
+   "06:34:16 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "06:34:16 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "06:34:16 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "06:34:16 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "06:34:16 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "06:34:16 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "06:34:16 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "06:34:16 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "06:34:16 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "06:34:16 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "06:34:16 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "06:34:16 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "06:34:16 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
+   "06:34:18 WARNING Claude macro scoring failed, using word list: HTTP Error 400: Bad Request",
+   "06:34:19 WARNING Claude event analyst failed: HTTP Error 400: Bad Request",
+   "06:34:19 {\n \"CRYPTO\": {\n  \"test_from\": \"2026-06-12\",\n  \"ic_mean\": 0.045,\n  \"ic_positive_days\": 0.55,\n  \"top_minus_bottom\": 0.0058,\n  \"top_hit_rate\": 0.51,\n  \"as_of\": \"2026-11-05\",\n  \"news_method\": \"claude\",\n  \"screened\": 37,\n  \"news_coverage\": 1.0,\n  \"ai_scoring\": \"on\",\n  \"currency\": \"USD\",\n  \"index_name\": \"Top-50 crypto (built, equal weight)\",\n  \"kind\": \"asset\",\n  \"price_date\": \"2026-11-05\",\n  \"model_used\": true,\n  \"weights\": {\n   \"ml\": 0.5,\n   \"news\": 0.2,\n   \"peers\": 0.1,\n   \"macro\": 0.2\n  },\n  \"track_n\": 4,\n  \"track\": {\n   \"BUY\": {\n    \"n\": 4,\n    \"avg_excess\": 0.0348,\n    \"win_rate\": 0.5\n   },\n   \"SELL\": {\n    \"n\": 4,\n    \"avg_excess\": -0.0094,\n    \"win_rate\": 0.5\n   },\n   \"AVOID\": {\n    \"n\": 23,\n    \"avg_excess\": Infinity,\n    \"win_rate\": 0.43\n   },\n   \"SHORT BUY\": {\n    \"n\": 3,\n    \"avg_excess\": -0.1017,\n    \"win_rate\": 0.33\n   },\n   \"LONG BUY\": {\n    \"n\": 22,\n    \"avg_excess\": -0.052,\n    \"win_rate\": 0.32\n   }\n  },\n  \"track_avg_excess\": 0.0348,\n  \"track_win_rate\": 0.5,\n  \"track_open\": 65,\n  \"perf\": {\n   \"index\": {\n    \"1D\": -0.0598,\n    \"1W\": -0.0506,\n    \"1M\": -0.1164,\n    \"3M\": 0.0246,\n    \"YTD\": -0.0236,\n    \"1Y\": 0.2087,\n    \"5Y\": 1.6647\n   },\n   \"sectors\": [\n    {\n     \"name\": \"Other crypto\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": -0.0302,\n      \"1W\": -0.0156,\n      \"1M\": -0.0393,\n      \"3M\": -0.0188,\n      \"YTD\": 0.075,\n      \"1Y\": 0.2249,\n      \"5Y\": 7.227\n     },\n     \"score\": 67.5,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 3,\n      \"AVOID\": 2,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Meme coins\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": -0.0548,\n      \"1W\": -0.0424,\n      \"1M\": -0.0551,\n      \"3M\": -0.1023,\n      \"YTD\": -0.2931,\n      \"1Y\": -0.1843,\n      \"5Y\": 0.4452\n     },\n     \"score\": 57.1,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Store of value\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": -0.0548,\n      \"1W\": -0.0186,\n      \"1M\": -0.0723,\n      \"3M\": -0.0574,\n      \"YTD\": -0.1071,\n      \"1Y\": 0.1882,\n      \"5Y\": 2.4069\n     },\n     \"score\": 67.5,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Smart-contract platforms\",\n     \"n\": 12,\n     \"ret\": {\n      \"1D\": -0.0662,\n      \"1W\": -0.0213,\n      \"1M\": -0.0903,\n      \"3M\": -0.0865,\n      \"YTD\": -0.1228,\n      \"1Y\": 0.1645,\n      \"5Y\": 0.9873\n     },\n     \"score\": 43.5,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 3,\n      \"SELL\": 2\n     }\n    },\n    {\n     \"name\": \"Payments\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": -0.0762,\n      \"1W\": -0.0401,\n      \"1M\": -0.1021,\n      \"3M\": -0.1689,\n      \"YTD\": -0.3413,\n      \"1Y\": -0.1417,\n      \"5Y\": 1.5412\n     },\n     \"score\": 67.6,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"DeFi\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": -0.0775,\n      \"1W\": -0.0696,\n      \"1M\": -0.1326,\n      \"3M\": 0.2523,\n      \"YTD\": 0.2374,\n      \"1Y\": 0.581,\n      \"5Y\": 0.6893\n     },\n     \"score\": 30.6,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Layer-2 / scaling\",\n     \"n\": 2,\n     \"ret\": {\n      \"1D\": -0.0692,\n      \"1W\": -0.0649,\n      \"1M\": -0.1887,\n      \"3M\": -0.0845,\n      \"YTD\": -0.3793,\n      \"1Y\": 0.0661,\n      \"5Y\": -0.8585\n     },\n     \"score\": 52.4,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"AI & data\",\n     \"n\": 2,\n     \"ret\": {\n      \"1D\": -0.0915,\n      \"1W\": -0.1154,\n      \"1M\": -0.2653,\n      \"3M\": -0.0836,\n      \"YTD\": -0.1118,\n      \"1Y\": 0.0578,\n      \"5Y\": 13.9532\n     },\n     \"score\": 35.9,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    }\n   ],\n   \"industries\": []\n  },\n  \"index_level\": 1117.7433,\n  \"timings\": {\n   \"index list\": 0.2,\n   \"prices\": 33.3,\n   \"fundamentals\": 0.0,\n   \"company news\": 4.0,\n   \"financial health\": 0.0,\n   \"model\": 0.7,\n   \"news scoring\": 0.8,\n   \"sector & politics\": 2.5,\n   \"scoring & labels\": 0.1\n  },\n  \"downloaded\": 38,\n  \"missing_prices\": [\n   \"FIGR_HELOC-USD\",\n   \"RAIN-USD\",\n   \"CC-USD\",\n   \"USYC-USD\",\n   \"EURSAFO-USD\",\n   \"M-USD\",\n   \"BTW-USD\",\n   \"PUMP-USD\",\n   \"ASTER-USD\",\n   \"SKY-USD\",\n   \"MORPHO-USD\",\n   \"WLFI-USD\"\n  ],\n  \"macro\": {\n   \"method\": \"wordlist\",\n   \"sectors\": {\n    \"Crypto\": {\n     \"score\": 0.05,\n     \"n\": 95,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"\\ud83d\\udea8 ED searches CoinDCX and Delta Exchange: Is India's crypto trading model under the scanner? On Nov 4\\u20135, 2026, the Enforcement Directorate (ED) searched 3 offices in Bengaluru linked to Neblio Technologies (CoinDCX) and Excelium Technologies (Del\",\n       \"link\": \"https://news.google.com/rss/articles/CBMimwFBVV95cUxPaThJRFlXYjVsMzFydmowTGZ1MUpwNl9fVGx4WmNIOW1XYVVrNGI1WVViVTc4S3ctR3ZFajgwRlg0b1RGSUQtWGVvTVNqQXBzNkdhZmVqa1g3Ym1pMURFVmlMRzFJWk5DSmp0R25tSjhnY3ZLeEhQbHNfVWZEVXlXbWI5Y0g4cWJERGVXRXhSSzh6VmV4d2V2N05fRQ?oc=5\",\n       \"publisher\": \"LinkedIn\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Keel Infrastructure (KEEL) Leaves Bitcoin Behind As AI Data Center Permits Move Ahead\",\n       \"link\": \"https://news.google.com/rss/articles/CBMipgFBVV95cUxPMmFDMmVxZGhJRUpndmhwVjBMQmNiNEY4Q3NqSGpqTjh4WVhzSUFWcHNMdU1XU0JMOFJWV1RNVHRCdC1UaXVKSnZLSXd2Wi1MY2tjTWZhWkdFOTh2Ym5WaFA5bnM3dFlyRG9lUW5qUG1JeVFYczJOREhJUzFXT0hMNU1LcUJoZzVlSE1wbExBeWFmWmltallKMnJwdGVKZDZXQVBFZ3J3?oc=5\",\n       \"publisher\": \"Yahoo Finance\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Bitcoin set for weekly loss on post-midterms regulatory uncertainty, jobs report\",\n       \"link\": \"https://news.google.com/rss/articles/CBMitAFBVV95cUxNSmxXWG9HRTNES2REaHpmNGRTVEN6OUIzU0tPTFYtZjNfc0dDNE9RdzZjdDdpTlBqSkgwb0lMVnQxS1Fza3ZkNGhwWFZlZlRUVzBGQ1NOVlNMOGpQYUlMVU9FVW0wRURRTVFFVVpNUUxWSjlKSkJpRVpaclZyZmpWalJvWWtmNW9YR296QXFTWkZzeGpMem1JcVhDS1VIbzZUaVptZHBGdmNFS29IOHJqdjhPSzk?oc=5\",\n       \"publisher\": \"Investing.com\",\n       \"date\": \"2026-11-07\",\n       \"score\": -0.5\n      },\n      {\n       \"title\": \"How North Korea turns child prodigies into crypto thieves\",\n       \"link\": \"https://news.google.com/rss/articles/CBMirgFBVV95cUxNNlVhNndmU1g2VDY0SEFrZWU1dkRYdFBVOGlRVkp4V3ZOeFZCUW5KQ3dFb2tyWHBVdGQ2MjkwYUltQ1RNUUs3SDhJdzJsZkFjUXhJUUpKTnc0a2VoRjJkOXZ5N0FlWU5NQlV5UmQ1X3lRcTNUbktvNHYtdW00NzBSSzhSMUFlTDQxWmRaOUFteWk4ZnVVQnhZeXpVbVZwQlJvN0NzYmFWdzUySG42aFHSAa4BQVVfeXFMTmk0cUxpTjdvRnkwYjFFN0NoSlZJMkRnUkdzTWRHNjFBd1RZLW9xaENPTUVhbl9ZQW1BdHRmSmc5am1MLXhFV3R2aEM4Y19JWF9kbDd1X3pXRmlySnBfaW9oQkJwSjRNUV95OGtsbEpTRmpwSGNhRFB5Ql94OEVKQnNrR0Q5MGlacXNiOGdYQ1I0eGFFR1BHUlNzbU5qVmhMVmxYel9MUWs5cVJkSUR3?oc=5\",\n       \"publisher\": \"South China Morning Post\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Ann Arbor City Council approves crypto regulations, religious worship protections, $10M park funding\",\n       \"link\": \"https://news.google.com/rss/articles/CBMigwJBVV95cUxQaXZqUXBmYnVkbzBzbzRyTE1oa1gwZ251S2J4OVpkS2R3bDBlWmVwZThxMXJhX0drQlgwcWRqQmEybWpHTkhWbUV3dDhTbXFKeGdPamlWRjMxRTRGNGNkS0JSZE5rc0luZkp6RnZvb1lGdnNGek5QMURSbi1oWmVXb0poZXN6cmFqWTZSeGFPMEhaRFpvb25SMXBMQ1JWZjRaZEgzeVBPLVpJazQyRnhwa1dWWndHeWZZajI2QzlMTXJGVVIwUWw5clg2TXdvd3RPQU9LVGh4RzBGcjZJTU1KT0FIWGJ5QlNYRjlZdENDeV80NjlIcVVIb1JzREhOS1BzRTNR?oc=5\",\n       \"publisher\": \"ClickOnDetroit | WDIV Local 4\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Bitcoin vs XRP All-Time High: 66.56% vs 209.32% [2026]\",\n       \"link\": \"https://news.google.com/rss/articles/CBMimAFBVV95cUxPSFNNMlRXcnI1OTlNS2pqemxYMDFrNktRcmNjZTFnQmtXTEwwbE5FLUZBcXB5NE9LaGxDOGV3SU5MdmcweE5lNDI1UkpmSGlBREFCQnp3QVVnTk1FZTc5Qm42Y0QxTkxheUtsWG1BM0tocEYwQWNFZHMxbk5TakZKQ2psUThhSWNhQ01reUFNcGxhMjJYRjZEdA?oc=5\",\n       \"publisher\": \"tech-insider.org\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      }\n     ]\n    }\n   },\n   \"themes\": {\n    \"war\": {\n     \"label\": \"War / geopolitical conflict\",\n     \"heat\": 0.31,\n     \"n\": 96,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"Iran war latest: Qatar says mediation efforts between US and Iran continue\",\n       \"link\": \"https://news.google.com/rss/articles/CBMikAFBVV95cUxQaFNGVjU3UzU0cjFEQUhzeDVsZGJsRUsxeTVNUHNRbldqRWtZVFhiejFqNEZFMEs3T2luRkhkVXNmRkx4RVMyR2hjOUEzMXIyZU9Pak9KOU9WcVJCWEFnQUd2MVZhUWxIaWtwOHczMHRkaWwtZC1ua3VWU0R0ZEhIXzdBUENXN3NlT2pkYlJzdWg?oc=5\",\n       \"publisher\": \"thenationalnews.com\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"What\\u2019s the point? Ten years after the Paris treaty, are climate talks getting anywhere?\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi5AFBVV95cUxOMWxESTlfQmNVUVVEMzRxX29QeFVIOGt6OTlqQjV6dEZiT2JoMUcydTNySVdHQ1lpbmxqSHU4UkdWVWUxSmlrOVExYnhleExZbzd5c2hfdjZrQlF4dGV5bE5IbjZTVzlDOWd5cUpZMkxybGNvZk1kNTQ2RWg4ZzJrVXZFZEJKRHF1aDNBT2dFYThhOVBOV29PbjZvWE03U2tNankwLVROUFJoZUx5ZnFtV3NMSDBGaExlRlZoeGZwTXpWbU5WZUx2cFp3MVE5YkFtcVk0U2d4bjk2bWZaSVdzV2RWblM?oc=5\",\n       \"publisher\": \"The Guardian\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Oil prices fall as mid-terms signal possible end to Iran war\",\n       \"link\": \"https://news.google.com/rss/articles/CBMizAFBVV95cUxPRXlkWkZDQWhUblg3c0VWaHN4Mmp4MjgwMGFmRWRieWp3VnNHR2t1MzlSa0xsRExCVDc0WFdXOGduekR5RmlsbEFuOGFJWW5VX3hOOW1ELVY4SjhlMTZjSkRsRTFFeURyUVhaNkcxajNMalpQbEtKSHk1Y3BEYmU4em5wV05GVFZ4RlFWQUhiTjdzQmh3Mkg4UWZ6SGNYNjlMcTBxOUh1Q21VemVZQWRRcUZmdVY5aG90eGhBSkJiZmNQQTdRSXJ1UDBSU2c?oc=5\",\n       \"publisher\": \"Oil & Gas Journal\",\n       \"date\": \"2026-11-06\",\n       \"score\": -0.5\n      },\n      {\n       \"title\": \"Crude gains on worries about renewed US attacks on Iran\",\n       \"link\": \"https://news.google.com/rss/articles/CBMifEFVX3lxTE93aGoxbFV3NTZJTWEtUExsdk5UejJqcUVlSG9KRk9IOXEyTkhVWVBfT2lacEcyN0tNbzJIX3hORlpBQUlCQ0NVcjZsaUExQ2JIUzhCQ1VDVFk4UWNzT2VsWWlnYXE4djd5TEtWbzc3TDNKSE1LSGlpTXM4N3I?oc=5\",\n       \"publisher\": \"Yahoo\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.5\n      },\n      {\n       \"title\": \"Soaring freight rates give US refiners edge as crude discounts widen\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiuAFBVV95cUxPSW1NSjFpQTdNeUIyY2JFVE5yTm1MS3F2NmZSOGk4ZGR1ZzA0dFJROTVHMVc4QzJOYXlBUHBYOEZuMlZlOFBlVkZkLXE1OEplanMtYTIwVkFmXy1pSlhTcHZfQ3Zha3V0R1FqcUNTV2xIT2l6Tk10d1BVNDhPc1JvOVZHMEx6Sk9rcC1ORktnZzNVTW1FM21wc2pPVlFMaVdoVlhlT3pjd0E1cXg1R0VvU2ZfMjMxd2ZY?oc=5\",\n       \"publisher\": \"Reuters\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Oil Declines on Signs of Moves Toward Gulf War De-Escalation\",\n       \"link\": \"https://news.google.com/rss/articles/CBMisAFBVV95cUxOVXNmZnh6cENKbU1vdHBCWUxseFF6ZlpFenZlcFRxMjZjT0RveUdzRkdRZFpoMk5BWUN4SnNqRGJSbENOSGtlbHVDWFhOS1FmakR3WmJIRzhlNmVOYW5udGlCSGhVWW1rWU5zdVkxeFcwVEpfNG16SUIzQUswRDI3N2VSd3NKZnBtRmxaWmpBalZtXzFob2owdDZYUVJrbW5kMWhGd3loeERqdmpXVW00TA?oc=5\",\n       \"publisher\": \"Bloomberg.com\",\n       \"date\": \"2026-11-06\",\n       \"score\": -0.5\n      }\n     ]\n    },\n    \"ceasefire\": {\n     \"label\": \"Ceasefire / peace deal\",\n     \"heat\": 0.3,\n     \"n\": 81,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"Trump\\u2019s defeat heralds a US retreat\",\n       \"link\": \"https://news.google.com/rss/articles/CBMihAFBVV95cUxOM3ZPRzlyVTQxTG9xcS1IeE9aaXhhZTFtWHRPSzFqSmNxSHZ6dm1QZ0UtZ1MtVmxoVnN2aXdDQjZ6YmNqdXN6TzhGWWZoUlFURUIzVnhmQmE2Z3VrVEhQb2R2ZHFUZFlhZTRCd2lXYUJvWFBYSzdzSWdsYndreHNqLW1EYlI?oc=5\",\n       \"publisher\": \"Financial Times\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Have a look at \\\"US-Iran Conflict \\u2013 History Suggests the Stock Market Recovers Swiftly after Resolution\\\" by Dr. Amjad Waheed \\u2013 CEO NBP Funds. Click to view https://bit.ly/xh73 Click on the link to open your account: https://digital.nbpfunds.com/v3i/yauglt1rlvsb\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi1AFBVV95cUxPelJHb3h6V1Jra2FmVmZwSlFHZk9IbW9pN0NQaloxWmljbTMxazdLdWJJYk5xV0dXbnVnUExCRVFiU2ZVVmttc04wUWRfZHRwNkxPb0Jxbmg4cFJpUTF5Q2ZtbGZYVDF2R24zRmp1dmFUbnNEZmtocWw0YUxIZFZZVHZ2SnQ1NHZwdWFzTzBiZl9VU281dEp5R2NJZzBKdzVKbEJfNXdKOTZQUkh1aHl1QVRoelhmOFBYamZEQnFhZmJaZnp2Umh5QWFTbXl2NGt4LUlsUw?oc=5\",\n       \"publisher\": \"Facebook\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Opinion | Trump\\u2019s wounded presidency turns to two unresolved wars\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiqAFBVV95cUxOejlPaW93SW16bjdCWFBFbkR2NDNmekt1LVdYU2pESjdTcVNlUHBiSDhaRldHZU5lMEs4RmZCdGsyLUtSRFVJbGdZMzNCNGNpZUFWck4wb1FqdG1VT1FOMGoxaEFHN0hkZy1PVGtMZUJYR0hoNHAzTDBIelRWNng5aUkyeXk1azNpUnJrQ0NfVlRIeVRobTFIUllVYlZic0dCVnI5aG00d20?oc=5\",\n       \"publisher\": \"The Washington Post\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Ukraine war briefing: Beijing confirms historic Xi-Trump-Putin meeting under discussion\",\n       \"link\": \"https://news.google.com/rss/articles/CBMizAFBVV95cUxObHRCcDhuX0lWbVJuNHA2TFVfMzd0dTFhd21WZWR6Zlc1bm5YaTR1enFmQnJGSWtRVnAxdHN0eWhjY0I2bDVfcHFmMFRYV3pILVBQeTFPVDdCVm41dG15ZkZjS29oUzRpSFY5WWpLLXZZREVkOV9RbTJsbVZhMC1UMTNPQ3k3LXN2MThOZG5MRTdpVUFRRUZWbWZ4SEhrbmF1UjFhT1dGU3NWUkhvT2k2c2dKZF9TckV0d2JCVUhTaDBkaEFsWlhfeDhyRFY?oc=5\",\n       \"publisher\": \"The Guardian\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Midterms give Ukrainians cautious hope for aid, even as Trump talks deals with Putin\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiwwFBVV95cUxOb19ZQ1YzT1VSZmdRY0RLQ293eHBNQ3RqQmo1QU5kdFJYS2tHX21acVBKXzFoOHM1NXpsX3hDWXMtWk5EenJ5dHNqbk9CR0ZPRTNHdVdoUUpGQll4M3hpR29WYnpFVkpZdHhCMXZ1ZTRkWXlYV2pnQXdQOHpvb242NzRLOFM0LVJFd1BuSTNNMzdfOG5TQzBsRGVnTW0zMTFHZThhMkZFc0YyZnF3MktKYnNsSXY2ZXdLTS0tSXVpa0Q1U1U?oc=5\",\n       \"publisher\": \"The Washington Post\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Is Donald Trump negotiating a new European security order with Russia?\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiqgFBVV95cUxOTnZCbWk1U3FZYkpHenRqb3ZGU2tzanRsYzl0SVFyY05aMWZEWkRyUlVtd3RuOVVodWRXdGU0U3psLUI3NmpzR1A2WVZQT0gxUzdwVU54TVVSbmJfUktXS0tCNEpyNzdMNG5vMl8zTDdSU2l1TVF6ME9QLS14MWF3TUk3VGQzUTRTS2t1TFowZFlzUFhvSExOdGI5SzNpUGN4R0lfQUZYNGRoUQ?oc=5\",\n       \"publisher\": \"DW.com\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      }\n     ]\n    },\n    \"tariffs\": {\n     \"label\": \"New tariffs / trade war\",\n     \"heat\": 0.49,\n     \"n\": 96,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"Days after the midterms, Anthony Albanese will have a chance to meet with Trump as he picks up the pieces\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiugFBVV95cUxNZ1dxQjdXcnlyVWFrc0xvaEZ1alF5NGlsS0lDUkFfVGtQcUFQOTBncFptd0JpUTB6QTdvQ1VLaEtiUVdRb2N6VnhiYWNHcFNXeXhzX1ZZcXpRaU44b1hsY2gyNVhNaWlZWV90eXkzdzE3ckF0OGN5UjdHNFpqQmxSdkJSUXVqVVBQY0VaQVhHbzFpbVN0RXNyRzc5SkVKMHVRLXV5RW9OYVNHVnc5em55ZjZmMHRsclM5eFE?oc=5\",\n       \"publisher\": \"The Guardian\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Nepra raises industrial tariff to Rs25.30 per unit, despite dissent\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiSEFVX3lxTE9lU1JqNlg1SGFlS3QyVXB2Nld0LUQ1WGVLRmo2VFNpNkxyV3dlTnR6ZGNpa1UtMF9WeDFxaDRUNjNMVWVGOFU3OA?oc=5\",\n       \"publisher\": \"Dawn\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Former Sen. Flake, outspoken Trump critic, on the GOP reckoning post-midterms\",\n       \"link\": \"https://news.google.com/rss/articles/CBMirAFBVV95cUxNb3ctcVR4RUNSbDVWaWhjM3lLZVhPeFB2dmJpWVM2anhzd2dNZmJ6U2Y4eWRBYXVBaGk3Z1NTeGJLZnZpRXQtV0dOSDdBNVUySGd2YzlUTWN5TVlIX3R1TnNFM1RVU2x3MzVpdXg1eDVydXFKUHEtQVMySnRiOW5IZ05CS2JROGtSMXVxX0N1NkRpZVlwQUoyaW1pX0RsQVZ3a3lzZ0EySk1hMVUx?oc=5\",\n       \"publisher\": \"PBS\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Democrats plan to fight Trump's Canada tariffs once they're back in control of Congress: report\",\n       \"link\": \"https://news.google.com/rss/articles/CBMizAFBVV95cUxPTTgzTlY3NzZJQk9LMmZnbW9STGFBRzZpVUhONm5EbEpMV0hkVFhNeFdDcFJxb3VjbEtfeUwwTlBOMkFjNkU2UXgtWkRDNTBQY3duU3huWkVqV0hPbXplVy0tZGYyYkp6Mi16Q3FmTUdvN0tMT3JYQlhmZjV3alBnSnM0MGRuS2tQQTUzcjFFLU5sMlpoT0hMdjBiQy1iYVl3LTY1djBScnVmTGpYXzdIN2FiOTl6cS1vV2tqdW5oYldYSnRjazFuV3NsVDU?oc=5\",\n       \"publisher\": \"New York Post\",\n       \"date\": \"2026-11-06\",\n       \"score\": -0.5\n      },\n      {\n       \"title\": \"Hope, history and the vote count in Mississippi\",\n       \"link\": \"https://news.google.com/rss/articles/CBMimAFBVV95cUxOd293NGVoNXBpX1UzSFZkUnUtMWozQXJSMGtBLTZGNjI3dmxVUlE4RVVoVWJvTE55Y0hxdFI0YlMxRGtqQ3Y5ZXBCcnZUYXV3RHBzRnE5aDZXOHlPbHE3SWFObDVjdDlTZEo0Q1FraXQxRmN5TjR3Tm5Pdm9qUU8xVUtaSDQ0SGVUNDJkdkg5TmRJODN5SHIyaQ?oc=5\",\n       \"publisher\": \"NBC News\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Could the \\u2018blue tsunami\\u2019 jolt the US job market back to life?\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiakFVX3lxTE5EYXd6WXBKSXZTSEg1WkprRGVjRDBuWTJpZVBFNlUwSjM5S0hkREI5VC1LX2E4NWQzT3I4Y3Z4eGhEU3g0VmFlUUVZT0FsWW1BdEVYRFJLSDFjNm1EaS1oeHNGalNzY01pVHc?oc=5\",\n       \"publisher\": \"CNN\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      }\n     ]\n    },\n    \"trade_deal\": {\n     \"label\": \"Trade deals / tariff relief\",\n     \"heat\": 0.22,\n     \"n\": 71,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"US asks China to uphold Busan trade deal commitments ahead of Trump-Xi meeting\",\n       \"link\": \"https://news.google.com/rss/articles/CBMijgFBVV95cUxPbkp5eXozMF9JcUhTajVhRzVsZTVQdnBCTjdZOFRscFB2TFVRLV9mZEhKTzlTN2hUSEJTWnFsOWZlMUYxN080S1ZjUTJyVlU3WUhDZVMyNTV4OTFIR1FHRU5FTWtiSVh1S213WFVGU3MzaktxWGxjak9lYVB0Vnc1a0NvSGR4M3RqekhyRVln0gGOAUFVX3lxTE9qanZtWWwydWFYQVVwRU1oT3B6V3dtNTJacloycFd6WUwzRC1FcUxERmtkZmpqMDktaXhjVkt1U3duMWc0WXZpQTZaaUFLelJOdkdBR0RVX0lqbjZTNk9DbVp1TVRpLTMzTzY3ZzRDVUV2eFFWVzMzdXVEUzY3NjM5Q0JIbW5SaUEtVVhNZkE?oc=5\",\n       \"publisher\": \"DW.com\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.5\n      },\n      {\n       \"title\": \"China-US trade truce faces next big test Trade agreement faces implementation hurdles China demands reciprocal tariff cuts Kanishka Sarkar brings you more\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9SalpYZzM3TmhUdHprMzVHUHNjcjVudVZUTVdma3FNbUV4WEdIMDFiNHhnVHBESkFSWWx1dzYxZVlEOC16R0RLNXQwTVFRa01jV1JGSGE0bVBjcER5S0VTM1N5SDAwdmc?oc=5\",\n       \"publisher\": \"Facebook\",\n       \"date\": \"2026-11-07\",\n       \"score\": -0.67\n      },\n      {\n       \"title\": \"I-CA CEPA: Can Indonesian exporters turn tariff relief into growth?\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi0wFBVV95cUxQa3lJMUFLejdMS2VUTkR5eVNxRTNqQzBMTDJNMVpVXzFEcWRlNjNKRTAxZHRPeDFTTjZaOHpjc3M5QVVpQ2h2M05Md29lMTlvT1JBVFdaVHkydWpIRDNpUUpNTmVQWEpfTWk1aHRWcHl4TVktVWY1UE9oSk5lZkdieHBxbXV2NHB5T3o0dDhOVzkxWFM2QXZNRm9kcVZtOVZOeUt3aUsyczRwNy1nUjd2a0hveERORTNuNzI4dS1TMHpwSTk4QUxfOVpMVDE2T21WVVA4?oc=5\",\n       \"publisher\": \"Fibre2Fashion\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Carney says Canada welcomes \\u2018any moves\\u2019 to restore free trade after U.S. midterms\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiuAFBVV95cUxNdUxtdktrU2Y1YmhkNXl0U2U5endUTmNVcmhkTGpkWDFYTW1heEVLZ2M1THJrRW1uVFhqSFdEbkJoSktMLXJFZzkwcklMcmxqZmxyaVo4a25wYzZUNVdmOG9nR1dRRDVXRE1uRENSTDJVTDkyNVNpeUkwMno3VFVzMkFSWVBTZ21jR3FSUHZXY2N2Y1l0TjZ5U2Fua2V0QmpIY1U5UVhDbmdnRm51Z0hxMFFWUWNGM21Q?oc=5\",\n       \"publisher\": \"NanaimoNewsNOW\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Labor\\u2019s DUD EU Free Trade Deal is so bad for Aussie dairy farmers they want to be TOTALLY EXCLUDED from it. The Albanese Labor Government needs to listen to dairy farmers - dump the deal, or carve dairy farmers out.\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi3AFBVV95cUxONS1aODdYdF9kbG1LX0ZrM0w3WVoxWUpyVFZYNklQcUlsNF9TSGZvTE1tOXd2aXROWTVtRmx2LWFjR21nc0Zmam1aNmlrNzY5aFFBX2Z2VEY4REhNeXBVeVNORThFSEpuVjJla2owRG15c2ZvdEhQQnZ3MUtmME9fdlNzTDNJRF9PTnBpZlFZUEFlS2JnS3FPZVhyNzdJTzlWUW0yci1MOHhBanE2UEpCTDlvRk9KT3VTdVhtQzdiUjBpUGdkUkthczdOSl85N3NkU055aVhWUjctd1ZD?oc=5\",\n       \"publisher\": \"Facebook\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.67\n      },\n      {\n       \"title\": \"Carney says Canada welcomes 'any moves' to restore free trade after U.S. midterms\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi_wFBVV95cUxONENoRWRpZlV6QzZ3a1B3SWRrOVVJZkkzdjZzNHMxbElteFRsNjBCdWpRa3hoZjVZNkdxQlN6Nm42TVVMZ0M3TU1KeFNKT2swenVtam5qTm5PdjgzQk9wWnNwRmhVdGQ4U3lfejJNM2E2RW16YW5TYW5YR2cyTTZUaXFqbWY2a2lRZm9lYjBRT0VEX2pRYXRFTUVPdGNpeDdYSWQ1U2JQTjh1NENTTjRKZ0R6TU4wYXFMUG5MU0JzWWFuRWc3d1pxaUNWWlBSekRpRzRVTnNsZy00ZW10N01HSUp4aVFNMVViLVRxMUtjQ1R5aUsxbzNHR3Boa29zUTQ?oc=5\",\n       \"publisher\": \"Winnipeg Sun\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      }\n     ]\n    },\n    \"recession\": {\n     \"label\": \"Recession / slowdown fears\",\n     \"heat\": 0.3,\n     \"n\": 51,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"Canadian Dollar Notches Worst Week Since September on Weak Jobs\",\n       \"link\": \"https://news.google.com/rss/articles/CBMitAFBVV95cUxPTkZrR1lieXFoN2dwRVppTTZTYjVqSTFLbVctczRKYzdmYllKcUlMT1BFXzV1a3Z2M1NOVlUxeVJzQkxfUER0dlFSOUxGU29hMHFwRTk5X21MSEtWLVZpMURfdWl1WktOWE5TbzRBenVhWjlDNVo1OWZXYmpLY3YyXzh2cWZOcm1Udzh1NHJmUV9Ra281ZE5oY04zXzM5T1BRTjNVY2FqOFpmSnhnNjRGdkp3Y3k?oc=5\",\n       \"publisher\": \"Bloomberg.com\",\n       \"date\": \"2026-11-06\",\n       \"score\": -0.5\n      },\n      {\n       \"title\": \"US labor market regains ground as job growth surges, unemployment rate falls to 4.1%\",\n       \"link\": \"https://news.google.com/rss/articles/CBMisgFBVV95cUxPakNLaDVCMElHQkc5cjV5SmVJcFNPdVpMbnZHRmVFMkoxR3hhbERYTnBZcUlmQVZBanhMeVhEZHpsN3JxM0xrUHNsYVZPWW1EdXBWam1pNk5lSEZVNHkwcUV1VG9xbmVYek80a3JXelRIcW9fQjQ3TUljTUdpZkhYWUJaZHhxNTUybWQwME81bUtPTmJ4UUg4ZjVrZjVlLUx2azFkWjhmeThDWkp2MHJwdTVR?oc=5\",\n       \"publisher\": \"Reuters\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.25\n      },\n      {\n       \"title\": \"Democrats win the Arizona House, Senate and governor's office for the first time since 1966\",\n       \"link\": \"https://news.google.com/rss/articles/CBMixgFBVV95cUxNZG1sZWN3cTljTThNUnlpNGc3WFZPREh1b2hJRWdOM244LThtWkF1RHJWLXFJdVJJSTc1TWZld3VfLXd4bkFoVHBOdzFmLVhzazJuYWxjTElQaDRiX0M2R1MwVHo5NTZ5Z0FmWUY2R0tQTW5mQXVXUlJSSTNFRnc2MGxJTHFEM0xrOGwyWjRHNEljOGh6aHlRTTFRTFFidHZNeGNoZkpwQ25TZERiMXpKRHhPT3YtZFk2NE56Zjc1dklUTjBoWEHSAcsBQVVfeXFMTjZqTUI2YWFPUWlIUGFvQU5PLXE2R2lZdmRTRDRVaVhBVWtBdGtrMG9PSUExYkxWNWx4ZEVzWGVPTm80YUcxMkFtTXBEV0VneU40UUs4NjFKNnBHMWV4QnF5dHR6Mjd4WmxZTkg5eklpbHhPV2Z3MUpiN01qOWVMRE96amRqcmRwVmVVdUpmeF9ncE5sYXB6dTYwVW91cUFxZ2ptZE9HVEVCUVM2emN2QzBrU1JqTnJ1Y1Ftc2luaFgxcmxNNURFaV9tRmM?oc=5\",\n       \"publisher\": \"PBS\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.5\n      },\n      {\n       \"title\": \"Could the \\u2018blue tsunami\\u2019 jolt the US job market back to life?\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiakFVX3lxTE5EYXd6WXBKSXZTSEg1WkprRGVjRDBuWTJpZVBFNlUwSjM5S0hkREI5VC1LX2E4NWQzT3I4Y3Z4eGhEU3g0VmFlUUVZT0FsWW1BdEVYRFJLSDFjNm1EaS1oeHNGalNzY01pVHc?oc=5\",\n       \"publisher\": \"CNN\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Data centers are unpopular \\u2014 and a powerful motor of economic growth, experts say\",\n       \"link\": \"https://news.google.com/rss/articles/CBMie0FVX3lxTE9LMHV6SHByY2lNTHZKZm9QOWdhYjhzUFlOYjdNWUxJQmswNWJjNUgwUldDRmhjamFGZW1mSlpyNFEyQm5tMFRYVHNRajhoN0ZidzBIWllyYmxQOTFPQkxCWWpMLVd1dG0zUUNiTlNoenVzZllqQWM5emJKUQ?oc=5\",\n       \"publisher\": \"CBS News\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.5\n      },\n      {\n       \"title\": \"A Skeptic\\u2019s Guide to Buying the Dip\",\n       \"link\": \"https://news.google.com/rss/articles/CBMifkFVX3lxTE5RTnpFbzVKV2ZDaGk1cF9PZS03U0Q5SndiWVlNSEJQZHpDdFktd193UGh3Y3AwX1dudUZCejMtUDZyVWFOSm9NZ1R1UVVVcWh0VDR6OUFKQkh4STdpVE1zU0xQWVhRRTczcmFxTFBxcG1vQThmSWt6Y1lYSm1EQQ?oc=5\",\n       \"publisher\": \"Barron's\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      }\n     ]\n    },\n    \"stimulus\": {\n     \"label\": \"Government spending / infrastructure / stimulus\",\n     \"heat\": 0.29,\n     \"n\": 87,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"Gov. Pillen says Nebraskans want property tax cuts, a lookahead at the next 4 years | LINK IN BIO\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiWEFVX3lxTE9PYmNRZnJEaXpKQ2d4WVZSSkhyc0FFN253aVpFNDVHQ2t5bVBkOUNnYzNjRzhyaHBhV2ZmVEYxajhoMkZtSkp6YkZYZnBpcGFvM3g1SXVOems?oc=5\",\n       \"publisher\": \"X\",\n       \"date\": \"2026-11-07\",\n       \"score\": -0.5\n      },\n      {\n       \"title\": \"'People of Nebraska spoke': Gov. Pillen says Nebraskans want property tax cuts, a lookahead at the next 4 years\",\n       \"link\": \"https://news.google.com/rss/articles/CBMihwFBVV95cUxNNkhTZGlPQU9NcGczXzUyeVlZai13MF9hcmc1czc2SF9VNzcwUVZJSUV4VFBDWThha1g0ekNldlI4ZnJSOXhUTlFfMi03cTFmVG94RlliRmM0bm5FbXh3R2MxNHVsSktoNjI1OGQwaTF5Y0FNUmVtQmRMVVpSV0drZXU5MTQ3b2s?oc=5\",\n       \"publisher\": \"KETV\",\n       \"date\": \"2026-11-07\",\n       \"score\": -0.5\n      },\n      {\n       \"title\": \"Texas\\u2019 \\u201cBig Three\\u201d set to all be women for the first time\",\n       \"link\": \"https://news.google.com/rss/articles/CBMimAFBVV95cUxOVmpXYWszS0JQWDJzUjZ1Y1hCcFpVUS0yQUJ5azdXRHJaQVNKRE5QT0ZvU3pNb3BLZkxlLVBJOHFOcFNkeEFVejVqRmtYYmVVamc1VjV2WGpXMHIza2YzUmcxME5vRm5pVHRsMDZ0QVNrUnB0TzMyY2lIdG1sUUZWZ3FLellnVXVaRnliYjZIYlBSSzZxYVZvUg?oc=5\",\n       \"publisher\": \"The Texas Tribune\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Pillen outlines 2027 priorities, calls for property tax cuts amid Nebraska deficit\",\n       \"link\": \"https://news.google.com/rss/articles/CBMirwFBVV95cUxNcmlaREF4bWNUSndRSEZBVHR0VktzakdmdkN0MkQ2emx6N2hjZHNJM3M0bnZBRmUwd2g1Q0s2RE9NbDZLWEgyMG8zTjZRSWlwX2J1RzhvTnk0Mm9MY21IOFJVeDJmdGd1QVFVc2tzZE1mdklJc08zMGRicUxlM09ZNE9uZVBLWHhZYXBIMjluM0NaN0tkQ0x3Ql9oTUFQekxBQi03THFjeGtmUjRudWlN?oc=5\",\n       \"publisher\": \"KFXL\",\n       \"date\": \"2026-11-06\",\n       \"score\": -0.5\n      },\n      {\n       \"title\": \"Susie Wiles issued a statement earlier, on her final day as White House Chief of Staff, calling her service under President Donald J. Trump the honor of a lifetime. She highlighted the administration\\u2019s record on border security, tax cuts, economic policy and the\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiY0FVX3lxTFBDeUhwbi1TM3pOc05kUVkwVDVNYnhOdExEaFotMUxwcXBFOEpZdERQUkdnU3BuWnE5RmpWZjF6cElPV2poNThTSGZacEdBVkxCRkxFekV2Nk1oX3pBcDRlRnFRUQ?oc=5\",\n       \"publisher\": \"X\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Opinion | Americans have had enough of corporate tax cuts\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi4AFBVV95cUxNZW9FSjZsVXczM2tyMVZtYVNwbXcwN1BuSXNISUh5OE1oUnV1T1k2ZUZSeUVTaUJDNzd4aThJOUVEckM0WVJEVzFBX0lhbWQxTG9NM2x4TDF5cWZtVng5Z21ia2NQcTlXeDd0c1BScksxMXF3ZUo3b2RvYzdmdDJCb1ZjaENZcG42dVlIVUJJcHU5aVR3Szh4ZEdIMVYwNVd0eE5SMW14Y3Q0TGF0a3VHSXJDb0tCNk5kZ3ktRlBsUkM1NFJPVFdnSDNEM3htY2lmTGh6NXdRTmdqMmlaVUUyNw?oc=5\",\n       \"publisher\": \"The Capital Times\",\n       \"date\": \"2026-11-06\",\n       \"score\": -0.5\n      }\n     ]\n    },\n    \"election\": {\n     \"label\": \"Elections / political uncertainty / shutdown\",\n     \"heat\": 0.28,\n     \"n\": 98,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"Why investors are dumping AI company stocks after Democrats\\u2019 election sweep\",\n       \"link\": \"https://news.google.com/rss/articles/CBMixAFBVV95cUxOeHBQalQ0UlBpeEtqdmZBTlJpQTJtaVNlV1B4Zm45UnV3Q0R4VWl6MXF6U1RfZDRUSXBLQU5YWWFma0xxMnJ5OXpiRVliTFlELVoxZEZiWGFmbm8xNlJvTkJBdlZCTlY0RzlOTVNZNFp2UU1qTnFsalotZmZPcE5YbVktcm9URUNUN0dSN2draU5EYU81ekl1ZTZCOGZoZFRmVDI0NDlON2k1ZEREMEdyaWJsaHZyLTU5QWhNNnJ6bWE5U3BU?oc=5\",\n       \"publisher\": \"The Washington Post\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Show HN: Did prediction markets do any predicting this midterms?\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiWEFVX3lxTE5jSlVabi1ZMDU0RkxzX2VSOEthRm0zYUNpZng2UVY5ZXpiS0lWMnpRMVRRaHpKeHVQbjBfWEVfdnZkWWNLTnNleFVpam1oOVE1OUpFaFh3eUU?oc=5\",\n       \"publisher\": \"Hacker News\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Investors try to regain their footing after tech stocks tank\",\n       \"link\": \"https://news.google.com/rss/articles/CBMisgFBVV95cUxOLWlzcGJ5b2FoTDRoekZ5blNRdTExdkc3NURPalBjNElDM1NzamNoS1IzS1B4cXlzX3dGMlJXcG9RdWMweW5CM1NCQ0MwdGYwc2h4dGZQaFZSZVBBZUpIZGw0ci01bE1aamxNRktLdGw3MkFKQ05peWZQVjdkdEk4d1U2M2NQNDVqUy1aZFJWUEdvN1RWSFNaNXFzSnJ2aEZmbmxTVW11aUFQS0lhbFlaWDd3?oc=5\",\n       \"publisher\": \"NBC News\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Tech stocks stage partial rebound while dollar gains after US jobs data\",\n       \"link\": \"https://news.google.com/rss/articles/CBMimwFBVV95cUxOX0VZMFRzYW5VZW1FU3NyU284U201Z3BtTkw5aU1HUFk5SEd3RjhGMG44TGxxYno1ekVzcHVBWkFZQmRZeXdCTjh0a1p2WC16bDdRRmd5VFRTb0hFdzVlU0pEbU1SaFdyOWV4RjZfdnFnbm1zUU5HUXNaOGZ5RkZmQk5ONG0xajRUSjgya3pObWFkWDZyeTZZbUhaOA?oc=5\",\n       \"publisher\": \"Yahoo Finance\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.5\n      },\n      {\n       \"title\": \"World\\u2019s Richest Tech Billionaires Gain As AI-Linked Shares Start To Recover\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiyAFBVV95cUxQLUczZW9XZi1IRFFQQjZxMG82S0VSb2hXZmgtVkFIZGpSM21iSVNtS1VWdUFTd3FkYzY4aHBnWXVOSUlLb0RhNzJtdVBYUW5BT0RUd0FScWxFbl9ENU1jMTlwdTVpVnZkeU14QWl6a25HS1lnX3ljTHJXX2N5V2J3NkE1R0JSMWdXV3RrNUY1V1ByQmtEQk1OeHBUclotNm1aN04xWUNKbWlyc05GVU9wVDZlRDlaenUtVF9SbXZKbkwtSlJiYnpqMg?oc=5\",\n       \"publisher\": \"Forbes\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"SpaceX Land Deal, Tesla Merger Dealt Election Blow. Space Stocks Rebound.\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi4wFBVV95cUxNM2JQek9iNjBJQ1pWRDVQVmtsbGlPcGNHNEp2aWN1UEhQWDdKSWxaNmZta1hUUTZMRU10UjFmaE5PUkdQUERVaktPa3VrYURkVDhRcGZhRmZ2TmkwVDdUYVFFWWYyd19CbVVYdk0yWUxyRDRuVWpHb1NNREFaZ2RSTHpjSTBtZURuazNQX0RVQWN0MG11UDFtZl9BVXB4TDNac2FFbFVzS05nRFNpdmJSX3ZZVVR6VGNLZjZvU0pxOGpPQ0dVNWduZ2JPSTdJT085OG41WndPWUFjYlVpYkVybmV5QQ?oc=5\",\n       \"publisher\": \"Investor's Business Daily\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.5\n      }\n     ]\n    },\n    \"usd_strong\": {\n     \"label\": \"US dollar strengthening\",\n     \"heat\": 0.52,\n     \"n\": 51,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"Kenyan Shilling Holds Against U.S. Dollar as Pound, Euro Gain - CBK\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiwwFBVV95cUxNay1OWGhacFFmUGRtU1RKdThtTU9sNVJZNC1jc0FGR3BaYmpOTUFRWFlvRk1CdXBGZUc0UDlXbkhrd0hwbkFvNU5MWGktY05GdGlqLXdnVEx3YzhSSjNlRkh5aU9QZERreE5HZHFfSkZGaGJlemxVR2cxZU43ZEM2T1VCRHplbnJEYk0xTzY4WE9iTzF3ZV9TajVlckg3Vjk3SWFoZEhDa3pjRzUtamNBTXdDMU1abnNMLXEwYUxLNWN6eU0?oc=5\",\n       \"publisher\": \"Facebook\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Silver Price Forecast: Doji standoff puts $49.00 support at risk\",\n       \"link\": \"https://news.google.com/rss/articles/CBMigwFBVV95cUxQMWtpMF9TSFBGMk8zTXBpQW56VDl2LUZ5b1MtZkZCaVcxRVJ4ZDFwQmpMVHl0Rk9MZ0I0MV9EakRMYWs0UWpjXzg2X1pTU0IwYlZxNnBqMGM2dUxQTllIR1kybmZqZ25hblVGSlVNa0QxRG1fcjF1VmVMWm1JY1k2cTRQSQ?oc=5\",\n       \"publisher\": \"Mitrade\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Dollar jumps after strong US payrolls report By Reuters\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiwwFBVV95cUxNbkVfMzFneXl6am9uQy1KZGt5OGxxbjBSb3pWNEl6LU1odXpzODRYeU55c3VDU0w2dkMxbDNnRVYwYU4zZFRKM09TdnNKa3JmSUZJWXl4ejhFTy1LV3VsaHpGWnRyb3VjbVRTeWNfcl9yaTd1NF9HcC1WeTd6UDlibVNjcG85WW81SVM0bG1Rc0NZN2pWU0JNYTRRUkY3Ui1zVnNQT19fS2RFSWExTTFCRDdVNFBYaFZlSTJ0OFJiZ1hjaEk?oc=5\",\n       \"publisher\": \"Investing.com Australia\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.67\n      },\n      {\n       \"title\": \"Dollar jumps after strong US payrolls report\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi2wFBVV95cUxOVVRKdXB2TGlEVkFQbTJFVkNsaXVxaEtwdS13VFpmak9YZE1VOEpHaWFTbmFxMFJUeU4yLXFiN0plWmoyT2ZSb3pNek0zWlBFTkIwXzJyTk5sNVBXLUswbkxkcVZ0MUkxVWFLcTdRZDN5ZmdqZnZrbGhoLTBPMGQwQlJVbUVxUVZVUE1VMnRSV1VuU3F5UmlZbC12eFlCRXlRc3hJMWo5em5idUw0WHMzVGlGdjdldzZ4UmczWnpiWkE4NnAtRmdvUV85SnRUd2k1YlZCRjdMS2ZSSXc?oc=5\",\n       \"publisher\": \"Central Oregon Daily\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.67\n      },\n      {\n       \"title\": \"Daily summary: Wall Street rebounds after the sell-off \\ud83d\\udd3c US dollar strengthens on solid NFP data, oil prices fall\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi-gFBVV95cUxOSnluWjlqaEJoY2JfNk90OTNwOUhyNy1mQjFnOUE4MGJrVHIxMzZSbjlRR041Sk90VFZXc2xuX09fSXJsRmtPTU9ORk5OWEFPQ2ZxdEVuZ2RhZ3k1eTdCTFMxY3BzZ3o3amFnNUhibDBRajdrNExOTzBaRWRuUVpZSkZSV0xNSlZMVlB5NDRvNEkwNTE4OXhocUVERmtycm5KV3hJeUgzRHNmb29US2p4eGNaZlNfMHFyVm9TNXVhNE1VdWY5MFF4aVJULTNrTUxwOUNtYTBoa2FUUkp2cmN5OWpOS1M1eFB0bTI1dW5OTjRUZm9NWk9PcFNn?oc=5\",\n       \"publisher\": \"XTB.com\",\n       \"date\": \"2026-11-06\",\n       \"score\": -0.5\n      },\n      {\n       \"title\": \"The Case For A Rising Dollar Index And UUP Is Not Dollar Strength, But Euro Weakness\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiwgFBVV95cUxNMWd6SjVSaVRXZWtMSXVicVhNQWJRVldmVGoxOXBQOU1wVHVheFI3cUtZZ3QzemZ0U2Q3S1NHcUZFV1E1SERGVGR3cXpGREQzQlh5dGxWZHBJcDFhTW5ldm1WM19vSE00TDdqeVJWLWtPTjQ3cjR1WXR5cEFBZ0JRVkVnbmI0RE9YMExZc2xqN2VBdU44VjlnNkdEY1RLdzl2dEJ4SGN3bUk3Z3JvTnh3UDRrNFl3N0dpT0VYNlZ2RkZrUQ?oc=5\",\n       \"publisher\": \"Seeking Alpha\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      }\n     ]\n    },\n    \"usd_weak\": {\n     \"label\": \"US dollar weakening\",\n     \"heat\": 0.19,\n     \"n\": 68,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"XRP Falls 10% In Selloff\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiigFBVV95cUxOMHRiMXdNSmFZcGc2U1VpTXFHOWVtanI0UmlxeFoxd2thY2YxdjlxanRiS1hJVEdUNGc4OFRGVmpHWTRpTkg2a1J6SWhrcXBpZjNSUGpVZEdGVXR5bmE3RThSUkNMX1VOeDk3RWNIamFFS09SV3g4dDVsX0VfS2RiZ3NaREtRR3A2S0E?oc=5\",\n       \"publisher\": \"Investing.com\",\n       \"date\": \"2026-11-06\",\n       \"score\": -0.5\n      },\n      {\n       \"title\": \"Oracle falls 4% as Microsoft reportedly winds down AI cloud capacity deal\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiyAFBVV95cUxOSW5SZF9qeldQdThJVTBTTFdZZDgwN2QyMnRVdl9aRjhZUUNLanp3Q2UwaHVlbHlmcHRrYk83dENrOFNMcXdDRjRBdmoxbThDU29YUV9XQnZxM2R6V25ucVZmVHBnVm04NlBMa05tWThMeTNQNks0b1VCUjlhOEF3X0Z5cEFYOXdYUGtZbEVISjJ6amFVTVhaRHVFTVRPQVptdTFPMzY0TkNWVXY0eFZlZ2YzaklqckNabGVNTnh0MlRsVlN0OEVlTg?oc=5\",\n       \"publisher\": \"Investing.com\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Gold falls as robust US NFP boosts Dollar, but remains on track for weekly gains\",\n       \"link\": \"https://news.google.com/rss/articles/CBMisAFBVV95cUxOU2tBcWJzVzVBRWR3OHU5RU1sb1FxRG9oOWZfTVliR3VndTRjR1ExMVRJdjdjaXpxdnNzNk9oYnk0UDZRdW04NUV3UG1PMS1OZUt6bUtkZDQtVUNTSF9TLUxrRGktTFZFbWZCSE9obzNrbDBNeUNoT09oakZWZ01fNTUzaG9RMi1lcldIVHNxNzZLNW9lNEJUUldtYXd6dERTNnlMRy1JTE1felJCR3R4Sg?oc=5\",\n       \"publisher\": \"FXStreet\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Dollar Could Rise Further on Prospect of December Rate Rise\",\n       \"link\": \"https://news.google.com/rss/articles/CBMirAFBVV95cUxQaVcxbmJsSVl4dlZKbTFZSUlWcmdweDJTVEZ6WVN0UmE3X2VHdHNnRjNiZmx3Y3dMc1BSZll1ajBiTUlxRlZqZEhpcndkVVJkUmZDT2ttQ2VKbkVpYklQc19TQV9adlRtSE4wbV9xMEl5UFJ5dGwzZVNWcGFkTzN4T3V4OVRDYWtNT3lrOXNvY0VFMHROaXhadWFFR00xRjhEUFRNTEVIMTdsVmpM?oc=5\",\n       \"publisher\": \"WSJ\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.67\n      },\n      {\n       \"title\": \"Gold falls as U.S. payrolls surge by 165,000, strengthening December Fed hike case - Kitco AM Report\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiugFBVV95cUxNTXI2NUgwV2RLMm5RUVJVVW9ESHRPZ0dCT3lPRHpnZG03UUpsZFU2MW9vdHduRS1Mb1h2V29xZm5WVVpzN1dWdmJSY1ZnMHhDcndyT2FGSGdYOWZLTHJZWXQwUXdIaWNKU1hyQlZXMWlMT0R4ZGdRUWtBRDQ4MUc2dzBFZmxlRmtYaTNMcFdRVVU0YjlPYTdUV19kSlVmWktXX2VycmV1ZjJ1NjNUdS1zYmFWbU5PS21vWFE?oc=5\",\n       \"publisher\": \"Kitco\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Canadian dollar slides as U.S. dollar gains amid tech selloff and jobs uncertainty\",\n       \"link\": \"https://news.google.com/rss/articles/CBMihwFBVV95cUxQazZtNnR0WUNKa0RSTnRoalU4ekxub2NWdzduYy13SERwSU5qUTZaUVZvTE5TVG5zdGxDU0ctQVpJRWJFWWN4TlJzV3dLNGRyR2RQV0VCV2JOamM4azNLVVBmX1lEWmwtbFc0WVlzOFFTSGRVc2JMU3FMSG1tcnZwNlNXeVhXNGs?oc=5\",\n       \"publisher\": \"Yahoo! Finance Canada\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.5\n      }\n     ]\n    },\n    \"fed_cut_assets\": {\n     \"label\": \"Fed rate cuts / easier money\",\n     \"heat\": 0.64,\n     \"n\": 47,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"Stronger-than-expected US jobs data pushed global gold prices lower on November 6, lifting the dollar and US government bond yields. Market pricing put the probability of a US Federal Reserve rate rise in December at 81%, up from 72.8% before the employ\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi4AFBVV95cUxOSXFhdnZnd2dJLXp2dkVTOEJKaElqZTVjdGV0YzVxbGtyMG1HVEZqSkRoTFEzTUFOblUwWW1kOHgxak1RbUQxVU85M1RaZG56bUF6THdhMGFnVXZucTQ3cEZYZVpsbnlJY3R0V2ViY1dqaG5CVEtROXU2bkNGcDVUQkI4NzZwOWVQVW43OEFnNVZON2RHWElQVURpb2V0cm1YRUNGU25NTF9veGtpMldfM1M1UDlETmR5RXBuaFJrUFdwbklqMFJiaDZyLWxoZXZEWVNIc2hZSFB6cXBjUV9Ndw?oc=5\",\n       \"publisher\": \"Facebook\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"US job growth accelerated in October and the unemployment rate fell to 4.1%. The labor market may be strengthening after stumbling in midsummer, keeping the Federal Reserve on track to raise rates in December https://reut.rs/4j1L431\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi0wFBVV95cUxQUjVwQ0xXY29oTURSRGpJZUQ1a1VjaC1meUlkcW43ZXg5YlV4N0Z4QzZpMnR1ZUZLQmtpa2pLalFRcDM5OGQxYUhFWXFsSUlXXzlTWC1kMkZ4bXRuS0RHRmVrQzNOUGhmTGY4cC1TUHhNbEtITWFzVnZ4X29BRlhzalF2T3NkMzZqWFIxMGRpMmF0T3ctbEZYYU5lYm1sbDRhY0Y1Yms2MXZueEd4cHREeVk3ejBxdHV0d1EwRWRiTDkxR3c1azRmMlVLVExKdXlXUXJv?oc=5\",\n       \"publisher\": \"Facebook\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.5\n      },\n      {\n       \"title\": \"Unemployment rate dips to 4.1% as surge in hiring shatters expectations\",\n       \"link\": \"https://news.google.com/rss/articles/CBMivgFBVV95cUxNNWpGSEVpanIyQld5blVjUWtCejFhUmhFSmdwUkhiSUd5REwxRDlyMDdxMXBBRldqT1VnVkZLLU9VZXNTZXJ3NE1LR0g3SlBoWnZLQXRwVlJpcVh1M1dYMHBfcHdLQTg4R3hlSl9id1YyTFBpMUdFZGNtV09fWm1qTWtPVE03NGlQQzdjNGF1b3JDdFBQaUhUNkVUN3A5VmxfUlpQdUNvemIwck1IcDc5cExLejlEY0VJZ2tkdV9B?oc=5\",\n       \"publisher\": \"CFO Dive\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.5\n      },\n      {\n       \"title\": \"Fed Rate Odds: 78% Chance of a 25bp Hike in December\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiR0FVX3lxTE1Ra1hrN1pTZ1Fxd3V1dUpqZTBZNVdubGVpOHBpU1FyVFFaOF9XMEp2MmlwYWE0ZVlHVmJhWkdDQ3JseU9nNEpR?oc=5\",\n       \"publisher\": \"Kalshi\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Bitcoin Selloff Eases as Investors Explore Cautious Recovery\",\n       \"link\": \"https://news.google.com/rss/articles/CBMisAFBVV95cUxPanI5WVpaVXdYVDM4dVdieTFHSnFjcU9vLUhPMk1velVJMUFZdHdzUjB1WGJMYTlkeVRaVEJVeHdSd0tJVU1IUVpsZ3JReUxORTBLVlFzSGo5cjU2R1dMemRhcWNHbTNfV29oUEFQYldxaTB0UmltbFpsVy1BX1JlV1l2MjByb3RxQVNyTzcwdmp4NDM4UHhrZW9odWVlVmZxX3VuWkxLNVJNRmdPY1gtbA?oc=5\",\n       \"publisher\": \"Bloomberg.com\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Silver Formal Flats - Silver Price Nears Key 31 Resistance Amid Fed Rate Cut Speculation Forex News by FX Leaders\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiU0FVX3lxTE9OUVZidVB4WVNuS1lqd3UyUzh5X3czVW9FMTE0Q1ZUT3dRUGdoUFRmNzNOa293RWRKaW1nTDB6MzNaOXdBekZMWlhTTW9SVmVsUC1F?oc=5\",\n       \"publisher\": \"auroradesio.it\",\n       \"date\": \"2026-11-06\",\n       \"score\": -0.5\n      }\n     ]\n    },\n    \"fed_hike_assets\": {\n     \"label\": \"Fed hawkish / higher for longer\",\n     \"heat\": 0.78,\n     \"n\": 67,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"Qnews. . Goldman Sachs expects Fed to raise interest rates as US economy continues to outperform expectations: Babak Emamian, political economy analyst #usa #Q_News\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi1gFBVV95cUxOMENnbWFNQWVPRl9xYUIxU1BOQ28yaUlhVXBRamsybFVxcnl0WkhlMEJLSDFydFZTN0NObTJxdVZLclBvcDQ0bHpHQThfMGhKRFVfTElOczNtWUtvcFFqUUR2RWwtN0N0SklOWFNJMU1obDhMaWlzR1dQSjJEdWkwR1M4cU9aQ0hqcGhhVkhRWURCMlhOVGFTc2w0VE5UZ29GaFpoeHhxck1yNVZDblNteV83Ym1ZcGY4Szdzcl9Xc2pZSnVGNDdENTRPdTMyMzE2bGtscGFn?oc=5\",\n       \"publisher\": \"Facebook\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.5\n      },\n      {\n       \"title\": \"Financials Down as Jobs Data Spur Fed Rate Hike Fears - Financials Roundup\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiyAFBVV95cUxObC1sYk1GUHNTeXBBMWhtRGFpNlNVZmVMWHZNenNkSWNrZi1BQVVxWHl3dGJLT3hXSW9NbkhVbmtIZWxXYnMwTjFMaG1MYlhLZ2dPRWNSbFFTUjZOdGFiOFhuRXdoZlFIdTZ3am1OMVk4MFBQT0lKNWVrSktaX0Q5NEJXODFLaTBFOXYyTnBYRWxPTlJWaWVmOUFPZTJEQlQyZGkwWVlYeE5DS1RuS0czN3dNNWFKS1NJZWdKY2FjZENuenJGUzdCUw?oc=5\",\n       \"publisher\": \"Morningstar\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Conflicting numbers complicate Fed's monetary policy decisions\",\n       \"link\": \"https://news.google.com/rss/articles/CBMidEFVX3lxTE1PY0dMbS11QXpwYTlhSXhzdFFtMXdXcnJUTm0yWFBXcDFNZzh4ZmxyeER1MXAxTHVzWW1FVS1vYzFuV1lYZmdrSnlwY2U5QlRRekl1dlFZTHZSeDN6MFNyQVFLRk1ZUHZ1eHZSbHlxV3dMa3gx?oc=5\",\n       \"publisher\": \"Axios\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"US labor market regains ground as job growth surges, unemployment rate falls to 4.1%\",\n       \"link\": \"https://news.google.com/rss/articles/CBMisgFBVV95cUxPakNLaDVCMElHQkc5cjV5SmVJcFNPdVpMbnZHRmVFMkoxR3hhbERYTnBZcUlmQVZBanhMeVhEZHpsN3JxM0xrUHNsYVZPWW1EdXBWam1pNk5lSEZVNHkwcUV1VG9xbmVYek80a3JXelRIcW9fQjQ3TUljTUdpZkhYWUJaZHhxNTUybWQwME81bUtPTmJ4UUg4ZjVrZjVlLUx2azFkWjhmeThDWkp2MHJwdTVR?oc=5\",\n       \"publisher\": \"Reuters\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.25\n      },\n      {\n       \"title\": \"Chipmakers Rebound as Dip Buyers Lift Stocks Despite Fed Rate-Hike Bets \\u2013 US Market Wrap\",\n       \"link\": \"https://news.google.com/rss/articles/CBMizwFBVV95cUxQNFpadk5OZmZKY3ZycHZTSW1ISFJLUnROYXRUeHZ3LUtKbUgxVWFWSklIRXFqd0FsZzl0OTVSX0ptclBEbno2RlU0TGJDTklKTEFiZUcybnNDdEt5c2pubTZCMVNXR1l1Y3FhQ0NyQUN2X2ZheTZDckJMMS1WMTg1T0g0UmU2ajZ0dm1uT3FsRWZsX2JhbzJ0TUtlNzJEZERvbWFac2JyOFN2LV82NHNBcFQ0T0RvNkF6d0FXVDBWblRVelpVUkV6RWpwUkhPeUU?oc=5\",\n       \"publisher\": \"Financial Juice\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Daly says Fed rate hike likely, despite 'painful' tech-stock dive Click the link in the comments below.\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi0wFBVV95cUxNQ19LOXg3V0ZBdkVjZ05jbGpoMkxaV1MxbmtYN1VheHByR2ZqRjVIX2lYT3dRSTZIV2NPcks2MmJkYlMtbWYtN3dKUkg2Y3I2Sk5DaWQ0Uno5N2tLY0M1QzFYRDVsbHdBRk1fZ0ZkNTFMa1p2Z0NqaWR0Y3R0dlNCT0d1RjROd3BpYW5UQlBKZnowOU8wa3JTRTVYVDFoV1lrLXVhUEhzVzRXU3NEZGZISHE2WVFDWWVNV2x1N21PZ1N4QmZrMTI3QmFYR2JQdjU4LUtr?oc=5\",\n       \"publisher\": \"Facebook\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      }\n     ]\n    },\n    \"crypto_etf_in\": {\n     \"label\": \"Crypto ETF inflows / approvals\",\n     \"heat\": 0.93,\n     \"n\": 47,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"Bitcoin vs XRP: Which Hits a New All-Time High First?\",\n       \"link\": \"https://news.google.com/rss/articles/CBMirwFBVV95cUxQemYzQ3VxQ2stMnJsU1NIWFl1bFJEQjZ4QW5rQS1vTDFzT2dBaE12Yzg1em92aVh3SW5Qdzd0Q3FKT1pGNFNJZExCV0lZMm0wZnd6N1p2ZHFIeUV5NVdfdkhkVmJCZHNiMU9URTNuZF9QbFBhdHcweXNxUnBmRzNibjRkeWhSV3V1a1pkNndKUGMtQXUxY0JYR01VR0JwZEtOTDRpXzNRTGdRcEE3cUpB?oc=5\",\n       \"publisher\": \"24/7 Wall St.\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"US Treasury walks back crypto surveillance 'travel rule' proposal\",\n       \"link\": \"https://news.google.com/rss/articles/CBMivgFBVV95cUxPVXBiQUVpMlZmYW4zMW8zeUdzZTJ4OU40ODVEUl9DUUlWWGhYZUctTGJnY1dUMmdZaEZYU3hsY2xQN2QtcHp4TWtyZHBDZU1pb3RQakRNNjJOdUpWSFRCbjgtWmJCNURMU1d0c0g4dk5yRnJIRkduUlVvQXMyU09CRXIxRUJfUDZCMUtLelY5enlMbmtwcUZvRl9uTWJoRjN0cTI0dzUxMGJkV3czV2xES1FCUjhlQWJYS2tsSjJR?oc=5\",\n       \"publisher\": \"The Block\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Bitcoin ETF investors pulled more than $1 billion after Binance hack: Net outflows reached $1.04 billion over Friday and Monday, with BlackRock's iShares Bitcoin Trust accounting for $405 million of Monday's\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi1wFBVV95cUxONWlfQ0dPZkdaXzQ5UVhqMzFGMTQxYi1HTWhiU1ZiQjFTZUVJYVRwVGVOZzdQcHEyVjJtUmtNTlpwbHR3RVBxRmMzUUx3SV9FbW1QTE5Ma1JYU2RhZjZhckxQeldYcDBQV1ZhNUNqaUZVWU1uMXFBSXlKNy1BSE83LVd0elJIdTdtYlpMTG5ZRmZFdHJxWjB2eWN4T19jOVB4S1BaT0liMHlYUGdNdWluazNrZ1AwMkluMENvMTQ2VjFuUDJiTmxuamcwSTZUNEhuNFpBaW9pTQ?oc=5\",\n       \"publisher\": \"Facebook\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Crypto ETF Outflows Top $540M on Thursday\",\n       \"link\": \"https://news.google.com/rss/articles/CBMioAFBVV95cUxNSkR4NXFYQXpRZU82OVFua3pwSWZjUnVzQnRVR1ktRGk4TzByRU1QMWlUNmlMZHJTMzhTaWtfc2l6dTFENzVLS0FqOUE0QXN0NDk2Rl96SUVnQmt2M21EYy1LcDZpVTc1bnFuN29lQWNNWTVUTnNhVDNGM3BPWHM4cG9HMGdtTjBkWkdtYzBRZ29TV3dpQWtZSVRycDBJZHND?oc=5\",\n       \"publisher\": \"Bitcoin Foundation\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Bitcoin ETF Selloff: $26B Outflows Erase 2026 Gains\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiqwFBVV95cUxNY0ZoYmY5TDZVVXNGZ0lmWTVzQ3d6VlVDWlFoX2VZbWVYSDhnVDdzYXQ4ZWc5VUdlbUpPa0w3a3BfUEdNeWxSSmR5bmlYaGU0eUo0WVFfQXc4QjJEY1dNWXEyUHk5T1BGY0JuYlJ6M2hBQXN4ZTJheEI1NDFnOVhpVGtFbElZWkFQcm9tNEV1ODR4UzZXRHdaR1J1bzVYSHZUaUlzLVhIY3dDRU0?oc=5\",\n       \"publisher\": \"Bitkub.com\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.5\n      },\n      {\n       \"title\": \"Is XRP a Good Investment Right Now at $1.18?\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiowFBVV95cUxPbU5yeER6NWlDLUJJUVIwLVNRbXZCMVI0clNPVW1kX2FvOWNCLTdTWjR2SkV5b0VkbzlYdERnbG1hX0JUeFZHY0l0Y3ZyWFkwalk3X3doUzFSQkdzcXBfbVIyVTVfTHFOMEhlLWlBOEphN1h3TXVhWlRVTzNYdm9RZG1GZ0FjazJBMEhsZTE3a2NkNk5UX3BnOGxmbWNBUU9oMmJJ?oc=5\",\n       \"publisher\": \"24/7 Wall St.\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      }\n     ]\n    },\n    \"crypto_etf_out\": {\n     \"label\": \"Crypto ETF outflows\",\n     \"heat\": 0.82,\n     \"n\": 55,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"Bitcoin vs XRP: Which Hits a New All-Time High First?\",\n       \"link\": \"https://news.google.com/rss/articles/CBMirwFBVV95cUxQemYzQ3VxQ2stMnJsU1NIWFl1bFJEQjZ4QW5rQS1vTDFzT2dBaE12Yzg1em92aVh3SW5Qdzd0Q3FKT1pGNFNJZExCV0lZMm0wZnd6N1p2ZHFIeUV5NVdfdkhkVmJCZHNiMU9URTNuZF9QbFBhdHcweXNxUnBmRzNibjRkeWhSV3V1a1pkNndKUGMtQXUxY0JYR01VR0JwZEtOTDRpXzNRTGdRcEE3cUpB?oc=5\",\n       \"publisher\": \"24/7 Wall St.\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Bitcoin price prediction: BTC USD could crash to $68,000 before recovery - here's what analysts expect\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiggJBVV95cUxNOHRvWlk3TmdxcnZBcW5nQjhRUVdTRXhHcHA1cmRJS0FVeUNDYlpSSGRQdFRpcTQ2OEI2Tm4zelQyYjVxT0V5cmthY0diNGctOEJxNTZHWnFGbHJlV0VmS2Y2ZlB2eU94TGVqWGZsZzY1OWx0allhT2VlWTd4eXV1akxENl80WHBzOHZ1bWtXWkFSUlRVekJrMGlWSEV5Uk5sa2djeEhzYmRMVlo5RURoNzktNFNQa0pWcjVXMWdTRTFTalVmbFN6b0Z0d1p2VE1ZOFBWWFV1WmpSa2duR0FGd1IwRFFXQlpoSzRNT2ZyNWVaWUg4b1p2aVE0VmJ2dnd1bWfSAYcCQVVfeXFMUExTT214VC1PaXYzQngxdWtYNjgtY0hQalNHcXRfXzVXV0R6c3lyWF95VFZkX0xEeGdwemszZ2xFZkltVDJ3VUppbGMwSldjVzZNNENrOFRTM003akxwbnpLVUJGT2RFUnZuVVMyMjVlaEFyUGhQdGVmWl9XdEYzcXk1OEp4SHZZR0FIeUxlZnc5QVRaY1ozMmE3MW1hOU9HeUV2OFpTcFROMHAzcHFCWHk3aHRCVUowd2pKeUl2WmRyejBRQnBDd09XRWU3QlRzV1hXU3k5bkhkcWRzRlJvem8xMFpZQzE1blU5eWlFZGViVks3QkxkNGZoRFJyTHZXalNmMGV4c0E?oc=5\",\n       \"publisher\": \"The Economic Times\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Bitcoin Tumbles On ETF Flows, Liquidations. IREN Leads Miner Rebound Attempt.\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiugFBVV95cUxNNTduUTZvOU5uSk5YVTE5cERublV3QTdCSkRnbUo4SEpQSW9Ea2lzenZ1Tk1UcFNlM2EzNWtlaG9MdFUwT0t6UzlNbTd0dlB6U3gzT1BPeUc4dzAxckxiMDdJZERydlRrSWQ3aXlYTzE1SEVYc2syUXhjemhGenFiN00wYjVoOTFSbllibnVkRHFYRkpCVkFMVE5qWTJKSkxrWDhaVXZLR2R6YWpRWkdsOVBLWnlQRGFoUFE?oc=5\",\n       \"publisher\": \"Investor's Business Daily\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"We Asked ChatGPT What $430M of Bitcoin ETF Outflows Means by Month End\",\n       \"link\": \"https://news.google.com/rss/articles/CBMixwFBVV95cUxNNG15S051TC1TUlFhN1V1Mk9JclNSYmtNNGlMS2pOZkZBcmVPTkZiejhfLWppejl0OUswUVJ2Q3NkUk1PZHM5V1NfNGpxT0Q1Q0prN3BZd20zM1RuTFhCMVlRdGxLNDh2UnBjOVFHZ2Q2dlNCY21UeHpCQTR5b3B2NHM4TDZReVRlYUY1SW0wdkpieFIzWU93UFRoMmphUzd4V3RrdkhNV0ZXcW9wU0lWb08tV25kRGpRSmZ0ZVQ5aUJBeGpqYk5F?oc=5\",\n       \"publisher\": \"24/7 Wall St.\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Bitcoin ETF investors pulled more than $1 billion after Binance hack: Net outflows reached $1.04 billion over Friday and Monday, with BlackRock's iShares Bitcoin Trust accounting for $405 million of Monday's\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi1wFBVV95cUxONWlfQ0dPZkdaXzQ5UVhqMzFGMTQxYi1HTWhiU1ZiQjFTZUVJYVRwVGVOZzdQcHEyVjJtUmtNTlpwbHR3RVBxRmMzUUx3SV9FbW1QTE5Ma1JYU2RhZjZhckxQeldYcDBQV1ZhNUNqaUZVWU1uMXFBSXlKNy1BSE83LVd0elJIdTdtYlpMTG5ZRmZFdHJxWjB2eWN4T19jOVB4S1BaT0liMHlYUGdNdWluazNrZ1AwMkluMENvMTQ2VjFuUDJiTmxuamcwSTZUNEhuNFpBaW9pTQ?oc=5\",\n       \"publisher\": \"Facebook\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Crypto ETF Outflows Top $540M on Thursday\",\n       \"link\": \"https://news.google.com/rss/articles/CBMioAFBVV95cUxNSkR4NXFYQXpRZU82OVFua3pwSWZjUnVzQnRVR1ktRGk4TzByRU1QMWlUNmlMZHJTMzhTaWtfc2l6dTFENzVLS0FqOUE0QXN0NDk2Rl96SUVnQmt2M21EYy1LcDZpVTc1bnFuN29lQWNNWTVUTnNhVDNGM3BPWHM4cG9HMGdtTjBkWkdtYzBRZ29TV3dpQWtZSVRycDBJZHND?oc=5\",\n       \"publisher\": \"Bitcoin Foundation\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      }\n     ]\n    },\n    \"crypto_policy_good\": {\n     \"label\": \"Pro-crypto policy (clear rules, reserves)\",\n     \"heat\": 1.0,\n     \"n\": 30,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"Democrats' control may delay US crypto market r...\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiqgFBVV95cUxPR1J0Qk1LTG53V1hBeV9KQndLN3duYzNBc0V0TlVsRGNwUGtYRWpFeVhiV3FTc3VUUk9HNzdsODRENU1iZ2RMLXB5YmFCc20xYmZCYVBZOW8wNWg5RVJMb3Zhd3E0LUZWV0lmb19MNVl1a3lTcmNfSng4cjE4Tm1xX1pxNHVSMVEtTDhwMldyRkxSTHJ5VVpaTW16Y3lvUDMzSzJwNHNYbVo3QQ?oc=5\",\n       \"publisher\": \"Pluang\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"US Crypto Industry Spent $233 Million on Midterms, but Democrats Won Congress\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiVEFVX3lxTE5pMWxVSVRaazVPb1M3aHlVdTRrTzlaMUZSeTVlTXg2M21XWkpjNlNxT0NtLUJsQjJaZktWNmg5VWVZbUliMmFxSkVvT1d5YXV2Qk1BZw?oc=5\",\n       \"publisher\": \"bloomingbit\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Democrats Weigh Crypto Bill With Trump Restrictions\",\n       \"link\": \"https://news.google.com/rss/articles/CBMihgFBVV95cUxPMDluZlROekF1ZHdlc2NkZW5Na1dmanZpN25wb0lUMzRqV0Y5My1SNm5hTk5vUnhWQmMzWmN3NVlkbUEtQmhTd2xDRlhJUXRab3lfeHdLNnVhTUdidG1lQjhJakY0QllkUXl1ejVUZ29iSFlBRXJLWWp6TlBVeVJ2VnBCWUtSUQ?oc=5\",\n       \"publisher\": \"Crypto Economy\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"House Democrats Plan SEC-Led Rewrite of the CLARITY Act After Midterm Sweep\",\n       \"link\": \"https://news.google.com/rss/articles/CBMivgFBVV95cUxPTmJGODQyTnZMZ3M3MlU1Q3h1VlJyenlGcnNiSlYzXzBUV3laRXdvaUViNldheUlaWUl1anZQTnZRNEhiNTM2aGcwUWNhenJDRTlZN0VlczM0b0NSVURzeUVFX3ZWemJBek1tV0pFZWtCRWVGTGl0b0p1WlVOa2htY1FCQURXSzlIZG5zVnZQVXhtU1BwQUdyanVrM2doakVNS0YxYXdXNHVBQnNYUHBvcjVoRHFLbGJtb1pDZ1N3?oc=5\",\n       \"publisher\": \"Disruption Banking\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Waters\\u2019 Investor-Rights Plan Could Put SEC at Center of New Crypto Market Structure Bill\",\n       \"link\": \"https://news.google.com/rss/articles/CBMizwFBVV95cUxNOHVGM2UzVFBBWll1MXFQTGQycVVKRDk1Q0s4SXVTS0FQc3VVZEcwUDVYbGZ4VnpyRXNFOEFnbktUZVdFUmw4bjZFS05VRUMxUzU3LUhQQXI2SWVtSFpaaFN1d0h6Y0RwRTA1V3pRQ0RKMG8yWHFWaEt1ckUyZXFRVF9GaUN0MXZ6SktGY3RDd0N0QWFHWGJTZmQ2VWdhcDdTZXl5MUhYci1uSG0xdnNaNDdFVlpxbVJfdnM4MGJLUFd4ZkZqcXhwcnFDaEdTOVk?oc=5\",\n       \"publisher\": \"Bitcoin Foundation\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"WuBlockchain Weekly: Democratic Win Triggers Market Selloff, Vitalik Flags Crypto Survival Priority, Binance Exposes $6.34B Hack Plot, etc\",\n       \"link\": \"https://news.google.com/rss/articles/CBMic0FVX3lxTE05b3JTOXZObWZCTjAydF9PTHhSUDk0eHJrX3hrWERJSXFkWW50M2hTN0pxMXV2Sk12VEVDSHZhS1ZBNDI2YmdWZ2RxcmJtRURVYkR0N3hwLVVSNnBmSEFiSTRza2xSR0dfNE5Ka0tEbXRLREE?oc=5\",\n       \"publisher\": \"Substack\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.5\n      }\n     ]\n    },\n    \"crypto_crackdown\": {\n     \"label\": \"Crypto crackdown / lawsuits / bans\",\n     \"heat\": 0.45,\n     \"n\": 91,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"History's largest crypto theft, Trump's lawsuit loss, and Tassie's ferry excited\",\n       \"link\": \"https://news.google.com/rss/articles/CBMitAJBVV95cUxNV0tLdC1YWEhNaUtsN2dZcXJHcEVZNXhZYlBUUUh1RGQ3b2xHY01GOE1raDZSS2MzVVhwQXgzMGU1U3FSVlJ0X2FGcU9hbVJtcUxOTThVUjNKY0xtb0k2S3ktSUU0a0hWbFBQTGYza3gwMmFwbThVLTVEYmJHVUNuakRzeUtJT2NoeVlnQWhwZUd6U0lfMDNGU092SVRYYlVUUHBtOXRUOFJzSHhNQVk0YTFHcEt2MUxMb21nSHJLMml6U3NVeDdXazI1NGtiT3pWdHZCWVFEQzMwYTZCZEc3ZUVwaVQzU1ZhR2ZUZk1pbXFvZVZPWGp4NUZiLWptRlVjZUdpLVh3MF9QemNnMFhVZWVjaHFUSTcteGlMdEU0S3BCTzg1V19BOFdpYWtnWUphdmVhRw?oc=5\",\n       \"publisher\": \"Amazon.com.au\",\n       \"date\": \"2026-11-07\",\n       \"score\": -0.67\n      },\n      {\n       \"title\": \"US carries out another round of \\u2018minor\\u2019 strikes on Iran, Trump says\",\n       \"link\": \"https://news.google.com/rss/articles/CBMirwFBVV95cUxPNlhQNEhVWUJ5ODk5MkxWbFlVZVZVUnU4dGxYVWJzdTh2R2x1aHdSd1pkVHlERGNod3JCOEVSWVIxdC1SbHlRX0RPVGM5UkVCTk5KR3RWb0lWczUza01JWkNwNU93ZnpKV1pGRHk2ZW1ZZExxeGEzYW5qekxFM2dRZDhFUWZ0MzVka3RYajRBVU96cWlDTWhvM2NpVm85YTlZZm5JdkxUQ3o3VVVFUzFR?oc=5\",\n       \"publisher\": \"The Guardian\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Roseville man charged after leading police on 4-city chase following stabbing\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiywFBVV95cUxOam42di1KUXVaV1VjY1R1em92Tnh4Mzc3eGY5V2lKMV9QS0pqakRDNDBtNkRRd0VQdGdLcWt3RDdEeWZVekdlTHpTdzZNRmVwZVBzSG8teERRQmNranlxLU1hcGdZS3IyMGFMamtaNm54LVUxS2tPQk9ZYWpVOEl3OFEzaFVyWVFfZWlOOGw3Z09FWHM2VjdhXzNjNTdfLW9Fb3N3dEtsVm5hTmp6aFZITjhDRUhVdmhPXy1Cb0NmNHhHTEp2Ui05TmtTVQ?oc=5\",\n       \"publisher\": \"ClickOnDetroit | WDIV Local 4\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Ferrari have 'plenty to work on' in Brazil \\u2013 Leclerc\",\n       \"link\": \"https://news.google.com/rss/articles/CBMi2AFBVV95cUxQaW5ldXRlcExZQThOMC00QU5fTHl2aVZkWkFETUtRS05QV1ZfZlliSHZPanhPMTFVOHhhS0pCVkJVTDFLWFVCbDBOUUk0WUc0VGk0c1d2MEdIZDN0T3ZSUVhzY0hZbnN6TTlzYW9Gd1l4T2FaLXBsVng2ZUwzNEhyRGdrZ1d4dGlwRlZOWVotNW1uczI2a3RXOUhLLWpwak1GTEZFTGJXRDlnWFBXdFJxLUtKLXJ6ODY0UGdVTXVsd29yY2dvRDZLeUJQQW82bEpiOFpXeTE3OUY?oc=5\",\n       \"publisher\": \"Formula 1\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Three men charged in US with using AI to impersonate CEOs and steal millions\",\n       \"link\": \"https://news.google.com/rss/articles/CBMif0FVX3lxTFA1T1hvM2JnV3FjOU1NWG1aeUQ5WEFnSUVWUmtlTllPNkJ6UTNEZjBxNWcyNGc0WTYyQXFvYzhqR3g0RlJCbDVnTFZycFZDR1pFZVZ1Wm1ORW16OGhDQUhyWkp5dHpFY0gxZzA1bWp2RElsaGRSSlpfczZOX0x5b0k?oc=5\",\n       \"publisher\": \"The Guardian\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Restaurant owner defends planned ban on children under 15 amid backlash\",\n       \"link\": \"https://news.google.com/rss/articles/CBMikAFBVV95cUxONDFQdllkdW9rcXAxY3NyaVBPZ2VfMWh5Q3ZNQTFERG5hU195NW9FNFlvdi1jcEVoV1BCZ2NFWThWODl4X1BjR3l1NmM1MnlPTkdQTGEwUlc3NGJJQzd0TUp4YlpJd3VmWmhrMlp2WEdyOTdMaEJSZE5IbFhjc0NvYmlJZlJTazZ3QkpPRE04MHQ?oc=5\",\n       \"publisher\": \"CBC\",\n       \"date\": \"2026-11-06\",\n       \"score\": -0.5\n      }\n     ]\n    },\n    \"crypto_hack\": {\n     \"label\": \"Hacks / exchange failures\",\n     \"heat\": 0.15,\n     \"n\": 90,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"From a record-breaking crypto heist to hacked supermarket fridges in Europe, cyber operations are becoming a key tool of geopolitical competition. Since 2005, 34 countries have been suspected of sponsoring cyber operations, according to the Council on For\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5yM0VFcVZQUEg5SU1KRzJ6Yk4yQV9QVWU0VFEzTjlBYTV5Rms1ZjBtUXhWRDJOd3BQbFRYRGw3RENNMnBnTVJJNlFqYlNKUms0bGdFcUVsQTBOcGV3dXV1aUVxSndWMjQ?oc=5\",\n       \"publisher\": \"TikTok\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.5\n      },\n      {\n       \"title\": \"How North Korea turns child prodigies into crypto thieves\",\n       \"link\": \"https://news.google.com/rss/articles/CBMirgFBVV95cUxNNlVhNndmU1g2VDY0SEFrZWU1dkRYdFBVOGlRVkp4V3ZOeFZCUW5KQ3dFb2tyWHBVdGQ2MjkwYUltQ1RNUUs3SDhJdzJsZkFjUXhJUUpKTnc0a2VoRjJkOXZ5N0FlWU5NQlV5UmQ1X3lRcTNUbktvNHYtdW00NzBSSzhSMUFlTDQxWmRaOUFteWk4ZnVVQnhZeXpVbVZwQlJvN0NzYmFWdzUySG42aFHSAa4BQVVfeXFMTmk0cUxpTjdvRnkwYjFFN0NoSlZJMkRnUkdzTWRHNjFBd1RZLW9xaENPTUVhbl9ZQW1BdHRmSmc5am1MLXhFV3R2aEM4Y19JWF9kbDd1X3pXRmlySnBfaW9oQkJwSjRNUV95OGtsbEpTRmpwSGNhRFB5Ql94OEVKQnNrR0Q5MGlacXNiOGdYQ1I0eGFFR1BHUlNzbU5qVmhMVmxYel9MUWs5cVJkSUR3?oc=5\",\n       \"publisher\": \"South China Morning Post\",\n       \"date\": \"2026-11-07\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"North Korea\\u2019s Binance hack raises global financial security concerns\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiqgFBVV95cUxPN0o5R19pOWFoWDZtRV83QWZKNTZHa0hwVTBOVTkxUFNNTEU5Mzh3TWlqaXJlazV1S2U4T0lQa1dqSDRPQ2NzTmRKNzl4M0pPWmxoUWctZXl3M2VNV09zUDlkYzFXbUk1Q0d4VlRwVlRCdGpUbDJJWFY1Vl9GUkIteTlzVDE0Z2NoZEF3YXM2TkJkLVBpMTdpd0VJME9QQThpTERYUDRNc3E5Z9IBrAFBVV95cUxQYmlVTXNLT2g4R0dTTkNod212T25UMGhqZ3Y5OXFfRGRKSTNkNVo2dEcwR09ZZGdjeXl1LWVPTHhxQmhuajFyYTFDdUlTbVEtUXdrU2NlTFdVbTVvM1lTREx3VzQ3VHBveVoteWdWUlUyaDhIdGtPcHFTV1Jaa3RTdGVhengyUGxLV21aYmZrdkdIUmFtRGlRR1JqNmVyWFc4dkJOYjRZWVFxeGRV?oc=5\",\n       \"publisher\": \"VOA - Voice of America English News\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.5\n      },\n      {\n       \"title\": \"Is North Korea responsible for the Binance crypto hack? | ABC Business Daily\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiVkFVX3lxTE83aHhrTHNrTTZCWDhqdzF1SjNoUHlodUdObzNPRmkzN1JGbUZjODBXZS1DdHJ1MG84QTFENXBNTWl4THp0MWpoei1KaFdqLUpxWU1rZ2tB?oc=5\",\n       \"publisher\": \"YouTube\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Fake job interview scams like the one that hit Binance are getting more sophisticated. Here are the new signs to watch for\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiigFBVV95cUxPTzMxRG1oMjZMeTA0RVVxTXhGa29PRWRyQm5GbnI4MkM5YjRXcF9TYUZYczRYWmEwYWotT2RqUDl3aU9kWU5TREJSNVVmR3FCRGliUVBLVW5GODFVQV9STE1EcVFvRXM0TG5ZZ1NWeC0zWTk2MmNlX1R3bm4zSndhMHJwQTZMTi1mTEHSAY8BQVVfeXFMUGFWa05xTlMzY1pWUS00Z0RRbVlTWmhLSlUyV1dCZ2hYU19neVppZXVVTkVBRHBCa0lNNDBVcE03UVBBaE5qd3cwSWFiSU1KZmx2ZWF2UDdFdDAyYTlBYkVpRE5kRmZncmhxRTJkeXloZXFNU2ZyNUNrRDFMUnVCRFpacTFKcGtkRjIxYXZQZXM?oc=5\",\n       \"publisher\": \"CNBC\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"INSIGHT: @VitalikButerin to crypto exchanges after the @Binance hack, \\u201cPrioritize survival over market share for the next two years.\\u201d\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiXkFVX3lxTFBSeHl1X08tOS1fQVcwUThjZlZLRXp6enY4OHZtaW1TRVFTUmlrcFRXU3lHSm00STBMWG9FYnNfNURjNUE1TDg2WDdRdDl1djlCUHF6OEdrbzI5QV96Z1E?oc=5\",\n       \"publisher\": \"X\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      }\n     ]\n    },\n    \"crypto_corporate\": {\n     \"label\": \"Companies / institutions buying crypto\",\n     \"heat\": 0.51,\n     \"n\": 41,\n     \"why\": null,\n     \"headlines\": [\n      {\n       \"title\": \"NEW: \\ud83c\\uddfa\\ud83c\\uddf8 Public company Strive disclosed a net income of $509 million and the addition of 28,000 BTC in Q3. \\ud83d\\udc40 This brought their Bitcoin treasury to 43,124 BTC worth $3.26 billion! \\ud83d\\ude80\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1iTkhPbGFhOHZhR21OdXZ3S1BZaERLNW85UFJCQktiT2JxY3k4UWxNRHhaT3JMRlU4aVBqVnBLaVItTUY0V19CX1Z4YVh1eFlMVExRVjlrcFhBR0RqZ0lacHhRWldlRnc?oc=5\",\n       \"publisher\": \"X\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"\\\"We see institutional adoption of blockchains happening much faster and in a greater scale, moving rapidly from pilots to P&L.\\\" @noah_pravecek shares his market insights with @therollupco and explains how institutions use Prividium Commander to accelera\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiW0FVX3lxTFBHc19EejBBZGxYVGdGLVppRFBxV0w2UDAwU0xQN2Myc1FDWkNFdnlJWGo3OGdPS1QycExPNHgybV9DVEN3SHl3RTNHbWJfM1JNUF9VbTVLUkhmNlk?oc=5\",\n       \"publisher\": \"X\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Strive Buys 15,124 Bitcoin: Holdings Reach 43,124 BTC\",\n       \"link\": \"https://news.google.com/rss/articles/CBMirAFBVV95cUxOSE9wd3Zyb3RWX3hPa29STHpTaW93V2Zhb2FUUFZsNEc5NDQ5WDVJZkxENlhNd3ZreG96Tk9NbS1WdGdjQkVXUnRxUGkwZUs4NzhwT0szbmN0aURVcUI0SDhEQTAtdGlGUlVUbkdiZGlibUNVcWo5N1RvbWxBSWpXNk81bFF4YjFDdTdfQ3hzS2xWUm0tWkhLYkx3WUE1UzdOZk1YRkdUZlA0d051?oc=5\",\n       \"publisher\": \"Bitkub.com\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Institutional adoption is moving onchain. Join TRON, @Securitize, @hamilton_lane, and @0xPolygon OMS for a discussion on the infrastructure, access, and opportunities shaping the next phase of digital finance. \\ud83d\\uddd3\\ufe0f November 12 | 9 AM PST\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiXEFVX3lxTE05ZHhZTVBjaXdaN0o3R3QwM0ttNWpNZC10MXNjZGpCU2RIaXh1Tk1VOWtJWHVWUWw3NzRiMDdELWtVWFBwMDVCM3RNWnd0N2d4WG5PWEtKZzZST0ZG?oc=5\",\n       \"publisher\": \"X\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Blockvia(@CoinTopSecret)'s insights\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiZEFVX3lxTE9LOHloQ0NfekxVanlhMzlHSFZ1S01jRWZ0RGt3TnZwN3JFQnE1cWNZU2ZId002OThwWm9hSzJ1RTZvdk1XZ3hLanVybUhNZXVnNTdUMjJRaEdaVklROXNEc3drTkI?oc=5\",\n       \"publisher\": \"Binance\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      },\n      {\n       \"title\": \"Strive Buys 15,124 Bitcoin in October, Nears Top Corporate Treasury Holders\",\n       \"link\": \"https://news.google.com/rss/articles/CBMiZEFVX3lxTFByQktHYXVMUnd0dVBsUzdDMXRwUkc2SzI5UmdsV2VqelA2ZkJZTmdfd3hBcEE5NmkzZWYyR3NGQm5OSnFTRFZOX0lTcWY3SmkzSEtWTDlRV1pRTzE2eUV6WkxUZ0w?oc=5\",\n       \"publisher\": \"Binance\",\n       \"date\": \"2026-11-06\",\n       \"score\": 0.0\n      }\n     ]\n    }\n   },\n   \"events\": []\n  },\n  \"requested\": {},\n  \"label_counts\": {\n   \"HOLD\": 20,\n   \"AVOID\": 8,\n   \"WATCH\": 7,\n   \"SELL\": 2,\n   \"SHORT BUY\": 0,\n   \"LONG BUY\": 13\n  }\n }\n}"
+  ],
+  "markets": {
+   "CRYPTO": {
+    "error": null,
+    "downloaded": 38,
+    "screened": 37,
+    "news_coverage": 1.0,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-11-05",
+    "ic_mean": 0.045,
+    "model_used": true,
+    "timings": {
+     "index list": 0.2,
+     "prices": 33.3,
+     "fundamentals": 0.0,
+     "company news": 4.0,
+     "financial health": 0.0,
+     "model": 0.7,
+     "news scoring": 0.8,
+     "sector & politics": 2.5,
+     "scoring & labels": 0.1
+    },
+    "missing_prices": [
+     "FIGR_HELOC-USD",
+     "RAIN-USD",
+     "CC-USD",
+     "USYC-USD",
+     "EURSAFO-USD",
+     "M-USD",
+     "BTW-USD",
+     "PUMP-USD",
+     "ASTER-USD",
+     "SKY-USD",
+     "MORPHO-USD",
+     "WLFI-USD"
+    ],
+    "labels": {
+     "HOLD": 20,
+     "AVOID": 8,
+     "WATCH": 7,
+     "SELL": 2,
+     "SHORT BUY": 0,
+     "LONG BUY": 13
+    },
+    "ai_events": 0
+   }
+  },
+  "checks": {
+   "CRYPTO": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "50 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "WARN",
+     "msg": "40/50 stocks downloaded, 0 batch errors, 3 retries; last date 2026-11-07",
+     "hint": "Yahoo Finance may be rate-limiting or tickers changed \u2014 data.py get_prices; re-run later."
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 100%; Yahoo items 0, Google items 6273, Google requests 76 (0 failed); dropped: 2720 off-topic, 140 junk sites, 0 law-firm ads, 0 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "OK",
+     "msg": "12271 training rows; backtest IC 0.045",
+     "hint": ""
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "FAIL",
+     "msg": "15 calls, 15 failed, 0 in / 0 out tokens, \u2248 US$0.000; headlines scored 517, reused from earlier days 27",
+     "hint": "Check API credit and key in console.anthropic.com; errors listed below."
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "2086 headlines from 22 searches (0 failed); 0 AI events",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "CRYPTO": {
+    "claude.errors": [
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
+    ]
+   }
+  },
+  "diag": {
+   "general": {
+    "tracked": {
+     "count": 0
+    },
+    "claude": {
+     "headline_cache_size": 35520
+    }
+   },
+   "CRYPTO": {
+    "universe": {
+     "source": "live",
+     "count": 50
+    },
+    "prices": {
+     "requested": 50,
+     "retries": 3,
+     "missing": [
+      "FIGR_HELOC-USD",
+      "RAIN-USD",
+      "CC-USD",
+      "USYC-USD",
+      "EURSAFO-USD",
+      "BTW-USD",
+      "PUMP-USD",
+      "ASTER-USD",
+      "MORPHO-USD",
+      "WLFI-USD"
+     ],
+     "received": 40,
+     "last_date": "2026-11-07",
+     "first_date": "2020-11-07",
+     "stale": [],
+     "wrong_coin": [
+      "M-USD (Yahoo 0.00026354 vs CoinGecko 0.814125)",
+      "SKY-USD (Yahoo 0.0142236 vs CoinGecko 0.064056)"
+     ],
+     "intraday_bar_dropped": "2026-11-07"
+    },
+    "news": {
+     "google_requests": 76,
+     "google_items": 6273,
+     "dropped_lowq": 140,
+     "dropped_irrelevant": 2720,
+     "coverage": 1.0,
+     "items": 544
+    },
+    "model": {
+     "train_rows": 12271,
+     "dates": 1938
+    },
+    "claude": {
+     "headlines_from_cache": 27,
+     "headlines_sent": 517,
+     "calls": 15,
+     "failures": 15,
+     "errors": [
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
+      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
+     ]
+    },
+    "screen": {
+     "total": 37,
+     "no_dollar_vol": 0,
+     "too_illiquid": 0,
+     "no_price": 0,
+     "price_below_1": 15,
+     "too_small": 0,
+     "passed": 37
+    },
+    "macro": {
+     "requests": 22,
+     "headlines": 2086,
+     "ai_events": 0,
+     "method": "wordlist"
+    },
+    "halal": {
+     "doubtful": 36,
+     "not_halal": 1
+    },
+    "dividends": {
+     "payers": 0,
+     "high": 0,
+     "growers": 0,
+     "at_risk": 0
+    }
+   }
+  }
+ },
+ {
   "started": "2026-11-07T03:08:16+00:00",
   "finished": "2026-11-07T03:09:04+00:00",
   "minutes": 0.8,
@@ -15766,197 +15990,6 @@
      "high": 24,
      "growers": 23,
      "at_risk": 11
-    }
-   }
-  }
- },
- {
-  "started": "2026-10-29T06:25:10+00:00",
-  "finished": "2026-10-29T06:26:26+00:00",
-  "minutes": 1.3,
-  "trigger": "schedule",
-  "commit": "86bf010",
-  "status": "warnings",
-  "fatal": null,
-  "warnings": [
-   "06:25:46 WARNING no price data for: FIGR_HELOC-USD, RAIN-USD, CC-USD, BTW-USD, USYC-USD, PUMP-USD, EURSAFO-USD, ASTER-USD, WLFI-USD, MORPHO-USD",
-   "06:25:46 WARNING [CRYPTO] wrong coin on Yahoo for: M-USD (Yahoo 0.000283162 vs CoinGecko 1.037); SKY-USD (Yahoo 0.0142164 vs CoinGecko 0.064499)"
-  ],
-  "markets": {
-   "CRYPTO": {
-    "error": null,
-    "downloaded": 38,
-    "screened": 37,
-    "news_coverage": 1.0,
-    "ai_scoring": "on",
-    "news_method": "claude",
-    "price_date": "2026-10-27",
-    "ic_mean": 0.041,
-    "model_used": true,
-    "timings": {
-     "index list": 0.1,
-     "prices": 34.3,
-     "fundamentals": 0.0,
-     "company news": 5.4,
-     "financial health": 0.0,
-     "model": 1.0,
-     "news scoring": 9.1,
-     "sector & politics": 24.3,
-     "scoring & labels": 0.1
-    },
-    "missing_prices": [
-     "FIGR_HELOC-USD",
-     "RAIN-USD",
-     "CC-USD",
-     "BTW-USD",
-     "M-USD",
-     "USYC-USD",
-     "PUMP-USD",
-     "EURSAFO-USD",
-     "ASTER-USD",
-     "WLFI-USD",
-     "MORPHO-USD",
-     "SKY-USD"
-    ],
-    "labels": {
-     "HOLD": 26,
-     "AVOID": 7,
-     "WATCH": 3,
-     "BUY": 1,
-     "SHORT BUY": 1,
-     "LONG BUY": 14
-    },
-    "ai_events": 12
-   }
-  },
-  "checks": {
-   "CRYPTO": [
-    {
-     "stage": "Stock list",
-     "status": "OK",
-     "msg": "50 tickers from live",
-     "hint": ""
-    },
-    {
-     "stage": "Prices",
-     "status": "WARN",
-     "msg": "40/50 stocks downloaded, 0 batch errors, 3 retries; last date 2026-10-29",
-     "hint": "Yahoo Finance may be rate-limiting or tickers changed \u2014 data.py get_prices; re-run later."
-    },
-    {
-     "stage": "Company news",
-     "status": "OK",
-     "msg": "coverage 100%; Yahoo items 0, Google items 6343, Google requests 76 (0 failed); dropped: 2519 off-topic, 55 junk sites, 0 law-firm ads, 0 over promo cap",
-     "hint": ""
-    },
-    {
-     "stage": "Price model",
-     "status": "OK",
-     "msg": "12425 training rows; backtest IC 0.041",
-     "hint": ""
-    },
-    {
-     "stage": "AI (Claude)",
-     "status": "OK",
-     "msg": "5 calls, 0 failed, 27,681 in / 11,403 out tokens, \u2248 US$0.008; headlines scored 117, reused from earlier days 402",
-     "hint": ""
-    },
-    {
-     "stage": "Sector & politics",
-     "status": "OK",
-     "msg": "2105 headlines from 22 searches (0 failed); 12 AI events",
-     "hint": ""
-    }
-   ]
-  },
-  "errors": {
-   "CRYPTO": {}
-  },
-  "diag": {
-   "general": {
-    "tracked": {
-     "count": 0
-    },
-    "claude": {
-     "headline_cache_size": 41498
-    }
-   },
-   "CRYPTO": {
-    "universe": {
-     "source": "live",
-     "count": 50
-    },
-    "prices": {
-     "requested": 50,
-     "retries": 3,
-     "missing": [
-      "FIGR_HELOC-USD",
-      "RAIN-USD",
-      "CC-USD",
-      "BTW-USD",
-      "USYC-USD",
-      "PUMP-USD",
-      "EURSAFO-USD",
-      "ASTER-USD",
-      "WLFI-USD",
-      "MORPHO-USD"
-     ],
-     "received": 40,
-     "last_date": "2026-10-29",
-     "first_date": "2020-10-29",
-     "stale": [],
-     "wrong_coin": [
-      "M-USD (Yahoo 0.000283162 vs CoinGecko 1.037)",
-      "SKY-USD (Yahoo 0.0142164 vs CoinGecko 0.064499)"
-     ],
-     "intraday_bar_dropped": "2026-10-29"
-    },
-    "news": {
-     "google_requests": 76,
-     "google_items": 6343,
-     "dropped_irrelevant": 2519,
-     "dropped_lowq": 55,
-     "coverage": 1.0,
-     "items": 519
-    },
-    "model": {
-     "train_rows": 12425,
-     "dates": 1938
-    },
-    "claude": {
-     "headlines_from_cache": 402,
-     "headlines_sent": 117,
-     "calls": 5,
-     "input_tokens": 27681,
-     "output_tokens": 11403,
-     "cost_usd": 0.00847,
-     "headline_batches": 3,
-     "headline_batches_ok": 3
-    },
-    "screen": {
-     "total": 37,
-     "no_dollar_vol": 0,
-     "too_illiquid": 0,
-     "no_price": 0,
-     "price_below_1": 13,
-     "too_small": 0,
-     "passed": 37
-    },
-    "macro": {
-     "requests": 22,
-     "headlines": 2105,
-     "ai_events": 12,
-     "method": "claude"
-    },
-    "halal": {
-     "doubtful": 36,
-     "not_halal": 1
-    },
-    "dividends": {
-     "payers": 0,
-     "high": 0,
-     "growers": 0,
-     "at_risk": 0
     }
    }
   }

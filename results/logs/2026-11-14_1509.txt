@@ -1,0 +1,1198 @@
+15:08:27 retrying 10 tickers in 5s…
+15:08:33 retrying 10 tickers in 10s…
+15:08:43 retrying 10 tickers in 15s…
+15:08:59 WARNING no price data for: FIGR_HELOC-USD, CC-USD, RAIN-USD, USYC-USD, EURSAFO-USD, ASTER-USD, WLFI-USD, PUMP-USD, MORPHO-USD, BTW-USD
+15:08:59 WARNING [CRYPTO] wrong coin on Yahoo for: M-USD (Yahoo 0.000229229 vs CoinGecko 0.838928); SKY-USD (Yahoo 0.0107148 vs CoinGecko 0.055393)
+15:08:59 [CRYPTO] dropping unfinished bar(s): ['2026-11-14']
+15:09:03 [CRYPTO] news: 38/38 with headlines
+15:09:03 [CRYPTO] 38 stocks, 2191 days
+15:09:05 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+15:09:05 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+15:09:05 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+15:09:05 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+15:09:05 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+15:09:05 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+15:09:05 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+15:09:05 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+15:09:05 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+15:09:05 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+15:09:05 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+15:09:05 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+15:09:05 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request
+15:09:07 WARNING Claude macro scoring failed, using word list: HTTP Error 400: Bad Request
+15:09:07 WARNING Claude event analyst failed: HTTP Error 400: Bad Request
+15:09:07 [CRYPTO] macro: 1118 sector/theme headlines, scored by wordlist
+15:09:08 exchange rates up to 2026-11-14: AUD 1.4762 PKR 276.35 per USD
+15:09:08 {
+ "CRYPTO": {
+  "test_from": "2026-06-20",
+  "ic_mean": 0.049,
+  "ic_positive_days": 0.55,
+  "top_minus_bottom": 0.0066,
+  "top_hit_rate": 0.52,
+  "as_of": "2026-11-13",
+  "news_method": "claude",
+  "screened": 37,
+  "news_coverage": 1.0,
+  "ai_scoring": "on",
+  "currency": "USD",
+  "index_name": "Top-50 crypto (built, equal weight)",
+  "kind": "asset",
+  "price_date": "2026-11-13",
+  "model_used": true,
+  "weights": {
+   "ml": 0.5,
+   "news": 0.2,
+   "peers": 0.1,
+   "macro": 0.2
+  },
+  "track_n": 5,
+  "track": {
+   "BUY": {
+    "n": 5,
+    "avg_excess": -0.0348,
+    "win_rate": 0.4
+   },
+   "SELL": {
+    "n": 7,
+    "avg_excess": 0.0318,
+    "win_rate": 0.43
+   },
+   "AVOID": {
+    "n": 27,
+    "avg_excess": 0.0217,
+    "win_rate": 0.41
+   },
+   "SHORT BUY": {
+    "n": 3,
+    "avg_excess": -0.1057,
+    "win_rate": 0.33
+   },
+   "LONG BUY": {
+    "n": 22,
+    "avg_excess": -0.0392,
+    "win_rate": 0.27
+   }
+  },
+  "track_avg_excess": -0.0348,
+  "track_win_rate": 0.4,
+  "track_open": 90,
+  "perf": {
+   "index": {
+    "1D": -0.029,
+    "1W": -0.0561,
+    "1M": -0.1566,
+    "3M": -0.0561,
+    "YTD": -0.0706,
+    "1Y": 0.14,
+    "5Y": 1.5697
+   },
+   "sectors": [
+    {
+     "name": "Other crypto",
+     "n": 6,
+     "ret": {
+      "1D": -0.0186,
+      "1W": -0.0384,
+      "1M": -0.0649,
+      "3M": -0.061,
+      "YTD": 0.1403,
+      "1Y": 0.1747,
+      "5Y": 5.8472
+     },
+     "score": 63.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 3,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Store of value",
+     "n": 5,
+     "ret": {
+      "1D": -0.0429,
+      "1W": -0.0865,
+      "1M": -0.1584,
+      "3M": -0.1152,
+      "YTD": -0.2071,
+      "1Y": 0.0414,
+      "5Y": 1.7982
+     },
+     "score": 59.7,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "DeFi",
+     "n": 5,
+     "ret": {
+      "1D": -0.0339,
+      "1W": -0.096,
+      "1M": -0.1707,
+      "3M": 0.1272,
+      "YTD": 0.0724,
+      "1Y": 0.392,
+      "5Y": 0.4338
+     },
+     "score": 29.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 1
+     }
+    },
+    {
+     "name": "Smart-contract platforms",
+     "n": 12,
+     "ret": {
+      "1D": -0.0387,
+      "1W": -0.0786,
+      "1M": -0.1738,
+      "3M": -0.1852,
+      "YTD": -0.2093,
+      "1Y": 0.0432,
+      "5Y": 0.7043
+     },
+     "score": 48.4,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 1,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Meme coins",
+     "n": 3,
+     "ret": {
+      "1D": -0.0465,
+      "1W": -0.0698,
+      "1M": -0.1859,
+      "3M": -0.1575,
+      "YTD": -0.3899,
+      "1Y": -0.1984,
+      "5Y": 0.2045
+     },
+     "score": 59.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Payments",
+     "n": 3,
+     "ret": {
+      "1D": -0.0282,
+      "1W": -0.082,
+      "1M": -0.2135,
+      "3M": -0.2476,
+      "YTD": -0.4397,
+      "1Y": -0.2483,
+      "5Y": 0.8596
+     },
+     "score": 58.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "AI & data",
+     "n": 2,
+     "ret": {
+      "1D": 0.0021,
+      "1W": -0.0218,
+      "1M": -0.229,
+      "3M": -0.1425,
+      "YTD": -0.132,
+      "1Y": 0.0744,
+      "5Y": 11.5745
+     },
+     "score": 39.6,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Layer-2 / scaling",
+     "n": 1,
+     "ret": {
+      "1D": -0.0367,
+      "1W": -0.0906,
+      "1M": -0.2324,
+      "3M": -0.3065,
+      "YTD": -0.5818,
+      "1Y": -0.4118,
+      "5Y": null
+     },
+     "score": 58.4,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     }
+    }
+   ],
+   "industries": []
+  },
+  "index_level": 1011.8706,
+  "timings": {
+   "index list": 0.1,
+   "prices": 35.0,
+   "fundamentals": 0.0,
+   "company news": 4.1,
+   "financial health": 0.0,
+   "model": 0.7,
+   "news scoring": 0.6,
+   "sector & politics": 2.4,
+   "scoring & labels": 0.1
+  },
+  "downloaded": 38,
+  "missing_prices": [
+   "FIGR_HELOC-USD",
+   "CC-USD",
+   "RAIN-USD",
+   "USYC-USD",
+   "EURSAFO-USD",
+   "M-USD",
+   "ASTER-USD",
+   "WLFI-USD",
+   "PUMP-USD",
+   "MORPHO-USD",
+   "SKY-USD",
+   "BTW-USD"
+  ],
+  "macro": {
+   "method": "wordlist",
+   "sectors": {
+    "Crypto": {
+     "score": -0.16,
+     "n": 95,
+     "why": null,
+     "headlines": [
+      {
+       "title": "BTC price range on Nov 14, 2026 at 11am EST Crypto Prediction Market",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPdS11SjFDaFZ2ZWdEMDdJRVFEVzhQeXhoQks1aFNsTHBld2k3c0doS3RSRlZPTFJkZ0t3YVV2TzU4TGpFN01QdEJNYUgwdDNCTDYyd2Npd2tIa3J1ZjFZMzVvS2diWU1ySHFxRFFTM3VlRWdaWE50Nzl5OUdSTVJSYzRWdEJDYXo1aUZrd0NKZDdwV19VN0VELXZVeXRIY1hrS25JVFdqT1dTRG1abDkwam4wQ3hsVDQ?oc=5",
+       "publisher": "Robinhood",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Northeast Iowa officials draft rezoning plan for bitcoin mine",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOS19MVGV6Q2gwcF9aRE5FTkY3SHJDNDVzVVNsT1JTNnY4WnIyLWMyTlh2SW5Sd29yazk2RFZiVUw0RVozRlh4bnhyNnVZczlKY2l1SlM1cEhuS1dEdW1EU3Z3cUVOczhtWG5Ma1VKY2l6eUMxaEpDOGtTNHZ1dkZPbmsteXhXVTgtZXRQaHVNdFhESV9hdE1iYW00V0RSaXhMOEE?oc=5",
+       "publisher": "Storm Lake Radio",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "BTC price on Nov 14, 2026 at 11am EST Crypto Prediction Market",
+       "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPSmVnbVRRTXdZQ0hUcWdnblIwWE04T0c0S3JQTGllRktJWXVkVi1oN2lkcm5OWS1STGx2ZkZWeWt5aDE1Y0pPMXlMZkJ6UWJhbG1uUU9EMzg0TmxjQUNoeGVZNkpCalYwREFYZzdNYm5TX0lGTDlKRWh3WjNxT1FDTEhEX2lFVHZsaEZTUmVaaHVxTUNIaEdOTnJrX1c4Q0haSmhzcnFDVjR4azJxWDdZ?oc=5",
+       "publisher": "Robinhood",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "NEAR 15 min \u00b7 10:00\u201310:15 AM EST Crypto Prediction Market",
+       "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPbVJqMkR5ZXRmT2xmSDBCLWpVT3ZQR1lTU19sVm9TbGdKdmgzUlpnb09ockdIMDNQOC1kM2JhUUlOT05zYnpKSllES2lkcE0zTWh3eFZzOGhOd1BIdUkxNHAyRndrU2NYbGIyRzN2WEF6Q2YzYWVONHg3NWNhaW1jRTRYSExxcEdkYmVtY2VHMHdwQjRlQmYwM3BZakpHejJhVWQ3b3A4R3ppNlZHemc?oc=5",
+       "publisher": "Robinhood",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Why Tech and Crypto Sold Off After the Blue Wave",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQc0R2N01GeG01eDh3Mjg0RDBXbWZvbkFFTzVyc0ZPZldqNXpsZThERFpTbzdaUEJ1SHM1MExXWG50T3lJajIyaXB2ekpUMWRvU1prU1F1TkpENmNYVWlVeFYtakJCcUFCZ3hDekQzdG1hY0JZZW5rTURzREF6dW1RMFdQMkctSnBPaGlDZmY0UmJMZDB3bUVHSGQ1bkk?oc=5",
+       "publisher": "Entrepreneur",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Virtune AI Crypto Index ETP | VRTI | ETF | SE0030936779 | EUR",
+       "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBZcW02YzhsUnZQOE83bGtWX09iSnkwZm84UDVQTWpjcGZrM3ZTX3ExbHJ6Vkg4bENra0hLbEFqaDlzYjdCOURucXp6dFlZdmgwdnFDdGVGLXpSUjRMLW5qa3IxcXNxOVdESVJ6T1gwZ1ZGaFhGYXhMUG9n?oc=5",
+       "publisher": "Morningstar",
+       "date": "2026-11-14",
+       "score": 0.0
+      }
+     ]
+    }
+   },
+   "themes": {
+    "war": {
+     "label": "War / geopolitical conflict",
+     "heat": 0.19,
+     "n": 88,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Middle East latest: IRGC says two oil tankers caught fire after hitting sea mines in Hormuz",
+       "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPSXFoNFFYdTBqTjZjZ3pBRTk4bm9QWkRnRUstbndsQV8wd1dhX281Y1hhblZCNjdJT2dZWGZXZWZBWGZTWDBZNXg0bVc1a1hGbjNSWHFNb2FveFY3VjhXRy1ZRU1CVWFUa3B4aGtNdjVwZU5WTmR2VkhHNmJHYjZ1VGg5dXpYWG5JWmVuSExGQ3MwLUE?oc=5",
+       "publisher": "thenationalnews.com",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Space Wolves Battleforce: Champions of Fenris",
+       "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5aVVl5Q21BOWpPRjhEQjdaam1tckdFNENJZmUyQVA4RkUwUGxSM3pobDJvWHZVRURiYkM5WE05QzVTdFVZNDVTcGNmTDZjcHhxNkZZRlZIS2JVS29TTy1UVFVpUnJaWW9LSW1zSXNGNXAyYWVrY3l3ZndpV2Uxd3c?oc=5",
+       "publisher": "Warhammer",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "The rise and fall of LIV Golf: How a $5 billion illusion met reality",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQRzVuUDQ4LVNHeXlwODRWSDFOZGhqMWZMX0E2WTBZT29RZ21NalFhQ3lqR0JRVWZGWnB1NDFLQ0JJT2hfbW9MOENidl96TXNpR2Y5WTJSRk5NVFE4LWxxeGgydFJKQ25SQ2JzZUNpRXdUQ0hZb3BzbmFWc0VPVzlrcmhOTUFRbUJMZGQtODhfeWV3NUY1UjNOQTA3S3I?oc=5",
+       "publisher": "The New York Times",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Interest rate rises likely in coming months, Bank of England\u2019s chief economist says",
+       "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNbTJTaDRiMXdzRmJWYTFnR2RDak1FNklXdm5sT0pYQUlXZzFtZkVVT3VER1g3dEpKb0YzSzRiS0JBWE1RbFJ1czJ0MnZSOE1QZGt0TF9sRUNrSGJ3YmZpVDFvMlVpdmhvMVdIbHhQcnZpVFdleTVmb1lCRzRNcm9CejIxdVZPVF9NNjR4ZDJ0Q01ZVGxoNnQyYkEyU1J5T0FGSUlueGJxeUdtVlJaaDJB?oc=5",
+       "publisher": "The Guardian",
+       "date": "2026-11-14",
+       "score": 0.5
+      },
+      {
+       "title": "Commentary: Missouri Republicans, voters didn't leave conservatism. We did.",
+       "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNVFNaTm9aTHRHTkxfbGsxM25VYTRzMVQ5cUtuaW00OXZ3TWFUZmpXQWdFd1ZCOGtSeVNVbmVNM1NENzRCbXVYYVR2aTBUWGoySV9zVHM0b1RUWXd5eHJ5dm0tWE9namJXSjJVdUdKR255dWJzRlExN2llTGhvZ015dUVmNnZ3UXctaEJrOFhPV0FSSC03ZG4zZ2psR2VLdFFPUVBJN3Zn?oc=5",
+       "publisher": "Missouri Independent",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Ukraine, Russia race to build military satellite networks as war rages on",
+       "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQd0hSajl2c3VrUjNsS1YwRlFmVk9GRnpQR3lpNHpuSi1rX1ZhOTllQWxIY2JmeVA4eEo1RGxoYUR6WEozWVlLZy03VXFPenVseTBDVTNxUEZrT0xBMzVFN2xaSTRRU2loTEpTMGl6T1Y2ckdVRlRpa05PaFlvVDRTZUhnUkhzeF8zZE1HNFFiZEd4Yk9nc1o2UDBVSEt3ZUVRRnl6RWl2dDRsb3RvOG82RmNEcFrSAboBQVVfeXFMTXZwOFlIbVlXWFZ5dnlHQ2o3NVMzN19VLUh6QzZpNjdwVF9WZDNreklJSzdVQUlrOWF6NVNxNzNuZldPQV91SXJIeVBiNmxtQVRTVEpJZmg0OFJBa2t3T3BfZXBJVWpaVUdEamR1VXBwWkRoTTdHZ2QwNmJpYy1BX00xNTNyUlNMWUFiajNBV25zMWU1U1p6eFlDLTJ6aHRHdWdnV3NtdkREMFliRGVmMjlqd3FXWFNSRlZR?oc=5",
+       "publisher": "Al Jazeera",
+       "date": "2026-11-14",
+       "score": 0.0
+      }
+     ]
+    },
+    "ceasefire": {
+     "label": "Ceasefire / peace deal",
+     "heat": 0.39,
+     "n": 78,
+     "why": null,
+     "headlines": [
+      {
+       "title": "US floated idea of Ukraine swapping land for NATO membership, Zelensky says",
+       "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE02ZlQ2Y1A0enpwLWYtVDFSYVgyVWZmUTJzcjdrLVp2VmlnSHNkcGNfbi00VkliUXdtNV9VbHlINDdDOTc3dUxHRlQ4aE9BZ3p6V2Ywdk1BQnhXbDBKYU5DZ1ZfUEJSVDNvNXJfTnpQbUFsSzV5cVE?oc=5",
+       "publisher": "CNN",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "U.S. floated idea of Ukraine ceding Donbas for NATO membership, Zelenskyy says",
+       "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQb0Npc01uNW8wRmNnWGtEd3FkNGd4Nll3TFNQaTVhMVJMeWlSV283OGx3bjI2LWp3dGRQRVBGVXl5VmE0cXZIUHMyZFFUUHU2cDVRSGNUN1ZYMjFBU3FsWWxOQ0x3ZG03OGV5a3gxd3ZWOHlDS0kyQ2VOSjBYSktSczlhZXJ6RFnSAYwBQVVfeXFMT3l4eTRTY0dJYmhFODNjSk03OGZZS2dmQ3BlWGJSNi05d2pvcFR4UUNUTFlubnlWUHVEOTRaMDRPZ1BHWGoxTFMtR1RaQ1FDeDZNNmRHTlFrRExDdHIyMmR6dFJvTk9lRlF4SEdIam1Ham5BMEsxVDhkQlpmaHdySkN2TkJPUWg3cHh1VE8?oc=5",
+       "publisher": "CNBC",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "US floated idea of Ukraine ceding Donbas for NATO membership, Zelenskiy says",
+       "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOUy1QYS1aemtYbV8xczk0cmRVeHl2ZGNLTlFwVE1SUUZ3OHctZGRnZlpTMi1DRTFkbWlXMWRaVGliVk8xU1N1MGZ6dVdNTTJHd1BMaTVnT2JQaTAwdm1QWWh4aElDM1JlMVJvcjJNQ2pIUWlHd09qUXNuc2Q1Qnd6ZVJGTlIta3dkaHlMcWRYZC1KX0tneTJKVkNSaVdZQXlFX2Y2Z0Vwa1VmNGRzZjZYVDRRdDBNLTNF?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "SpaceX not being honest about \u2018political\u2019 reasons for slowing Starshield, says Zelenskyy",
+       "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQMXlzLUQtSFlMUmxtemZJTk13emUzT2stSmpjb1M1UC1oUS0wRFhtOVVSOUJ2TE5NNTVzVmQtc2VIN25GZ3k5dTJNTmJidDRoUnFaVHZtdFljXzB5aFY4R2pvbk1kN05Kb2hrYjdNM2w0bG1lOFdPUjUtbzU2MHdEemI1aFFYTWtNd3k3RzFscThLREFGenJvR3BBdngySWczdlZuc19KR1JSaGk3RG15ZEJB?oc=5",
+       "publisher": "The Guardian",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "US has floated Ukraine ceding Donbas for Nato membership, Zelensky says",
+       "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5Sc2FZdms0a2VhSnZ3bHhCakcwcnl4SWhTWi1HaDJUdmZXdzVKTmtocFp0aFRYQk9VYllVZ1Uzdkp5OV9Ic2l5NmtUUXU4WVBaNFpMdDVselhoS2c?oc=5",
+       "publisher": "BBC",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "\u201cSort this out with Putin.\u201d Zelenskyy Reveals Russia\u2019s Reply on a Ceasefire Negotiations",
+       "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOWWxhOHpkV1VYMXpsS2w0ZFRucHp4QnkwWll5bEVOS2J6ekZFa0FwOEl5eXJ4ZHlScVFnZUhzUW9kbXZValRKRHR1RVJyV1d5X3hFYTgxYUxBbkptZTJWeEwtbjRYODF2OFBnaDFXY1BIZjFIa29aXzJ0T2M2MURvLUhCUzRpMU93ODhHdWRnLUJSQldzNU9DTVZhM0FWNjFVcDNrdXFfLWpFanRZZi1zblYyLXg0dHJVWEJ2dDhlYlYwY3M?oc=5",
+       "publisher": "UNITED24 Media",
+       "date": "2026-11-14",
+       "score": 0.0
+      }
+     ]
+    },
+    "tariffs": {
+     "label": "New tariffs / trade war",
+     "heat": 0.42,
+     "n": 68,
+     "why": null,
+     "headlines": [
+      {
+       "title": "India set to get better tariff rates than U.S. rivals in new trade deal: The U.S. has quietly promised India lighter duties than competing nations will face \u2014 a significant concession as the two countries race to finalize their bilateral trade pact. Despite ongoing frictio",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNQ2VsT0MzZ3JieklCakNSSC1Ud2NVSDU1SUhpTTJSUVdvLTEtNWUyQUVTeUFEblN6cUY5dVEwQVEzZnROX3NUQ29lNnM5N1ZkZHJjMzNxa3FtVGNlMGF0WHRIVEFSRHRqUFRpb3I3OHVCbGxfZlhiOC1VbWt1bWZXTWZKUjZkNTRzZldrLW1Dc0tjMjJIMGZsOUtPc3owUjFyR3JESDVydjNZLUR3LTVxUGZ3UGtUOHEzYldNWGQ1M09XSEI1VzhFTG1FbTNMOFRabXBWcHE5UQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "One industry surged DC lobbying 337% under Trump \u2014 here\u2019s what\u2019s driving the push",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNemdnQ28tdmVkNzZxcnk5LXdDQlB4SUZRTDM4aEhtNDEzaTIwQkN6eHhUM3dvcW9RWmVKZ0IyTmFnUTAzZmZtMHdTU1Z6LTR4a005WGJhNG96eC0tY05GaEJuY1hSSDBIWTRmNld1ZERDb2dLdmM2Q3MxVXJoWW1sTzRtUEJwV0ZQSUM3d0RjY0MxNi1aZTlTVGRQaDfSAaIBQVVfeXFMTjBMa0lCNnhhRmJ2WWljYkZaelVoc0dhLXRCb2x1STNsRGkxbDRKdlExMUFJZXV1TDc4Nk5tZnRrM2lnVEFibVE1aDh2MHBqNjJCdVVRRGFxd3EyczdnTWxvODN0VzRFZndBdzJHZUREbFZKa01zcUpWeGswc2NIMUllZ2p3VERhaEkzNDREYXREekszQk1XWTdRblFyQTIzeTdn?oc=5",
+       "publisher": "Fox News",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Commentary: Missouri Republicans, voters didn't leave conservatism. We did.",
+       "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNVFNaTm9aTHRHTkxfbGsxM25VYTRzMVQ5cUtuaW00OXZ3TWFUZmpXQWdFd1ZCOGtSeVNVbmVNM1NENzRCbXVYYVR2aTBUWGoySV9zVHM0b1RUWXd5eHJ5dm0tWE9namJXSjJVdUdKR255dWJzRlExN2llTGhvZ015dUVmNnZ3UXctaEJrOFhPV0FSSC03ZG4zZ2psR2VLdFFPUVBJN3Zn?oc=5",
+       "publisher": "Missouri Independent",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "China, US discuss tariffs, farm trade ahead of Xi-Trump meeting",
+       "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQQVhXSU9VNTVyLUgzS0NsMUIxZXhQTFdfZFBjN3V1U2k0WEtZdm5JR0t1eWRxNndTWVJZQjJ4dDdreUFjWGhwZVdrRXBGWUVZSHJheWlURFViUlBTTHoycE5jdFB2SExkYmh1X29adnA4WGU1d1Z4QnN5a0JzTW8tTnR6UnhtS2hDaUlSRVVkaHk?oc=5",
+       "publisher": "The New Arab",
+       "date": "2026-11-14",
+       "score": -0.5
+      },
+      {
+       "title": "Asian News International (ANI). . Nearly 2,000 Migrants Gather in Mexico, Resume Journey Despite Trump\u2019s Warning A migrant caravan resumed its walk along a highway in southern Mexico on Friday (November 13), despite U.S. President Donald Trump\u2019s th",
+       "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPaS1qeVpCVnpRaU1mUmNDdDFKNmJwM3V1MFJkVXdTUVRsTmFWdmpEYVl3NU96TVUwVF93VGRsc1hhc0Q4T3V6ZWxkU19nc0VCWUVEdlQxeHVYaUhRWUtEeExmN2FhLUxRTWJ5RlFIZWlYU0E1dUdPMUIzQU9xaV9Lem5yOVdXdlJUYXFnOUxNaFJjVjJwWlNRajNwcnA5RWdPNDFlT3RTR1VvbVFabXVwUzNqUC1MT3djbGpnOEJlQUlHOFNyYnl5V3NuRi1WZFZnODBNTUtkSWE?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-14",
+       "score": -0.5
+      },
+      {
+       "title": "India may secure a tariff advantage over competing countries under its proposed trade deal with the US. \ud83c\uddee\ud83c\uddf3\ud83c\uddfa\ud83c\uddf8 \ud83d\udc49 Washington has given New Delhi an assurance as negotiations continue. \ud83d\udc49 The final tariff framework is still awaited. Which sectors could stand to",
+       "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOLWJiYmNDaDk2RUxudzY3RllBTURaT0lnejB4RkhXd1BXLWRsdHc2eXVlMUxCNDVISlp1SFBMWDVjMTQ5U194OUw0aHJVbk1HY1B3V29BQ25WZ3FJQld1b1ZDa1FnU1Y2TDlRdGw3RDVEd3ZyZTJBOTNwTm4xTDZKVlhtamFMVUFydm1KaDlrY0tRRFNpU1ZVX2VDRG1tdk04c21IVjUtUzRPQkNiZVFITTQzSkxZekZRdjlFb1pNN1N0V092cG1pcE5YTktpeXhENXNZQVdR?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-14",
+       "score": -0.25
+      }
+     ]
+    },
+    "trade_deal": {
+     "label": "Trade deals / tariff relief",
+     "heat": 0.49,
+     "n": 76,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Zelensky: US Asked for Ceding Land | Carney: Making Progress On Trade Deal | WION Headlines",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE51UFF0LXpJemZVVmFaUzJYdHdUbU9Sdk9xMjBxa3R1by1UWmZkQmRUaERFR1Y3RU1zWXFtbW1BZDI3c0JDLVdYNlZ2dkt3bkFkQmtVTTVB?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-14",
+       "score": 0.5
+      },
+      {
+       "title": "India\u2019s exports to Free Trade Agreement (FTA) partner countries during April\u2013September FY 2026-27 reflect the expanding reach of its trade engagement across key global markets. Strong export growth across several partner economies highlights the increasi",
+       "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9UX285S1FsZU84cW1GTTJaNEdJWEdReG81ZXl2YUR0elRWQTVURk1rUEQtS2d0aWZ5UndBeFNoVmt3Si1vdUotbDl2VlZhaFhHN2x5bEQ3Y2t3RFJ3?oc=5",
+       "publisher": "X",
+       "date": "2026-11-14",
+       "score": 0.67
+      },
+      {
+       "title": "'India-US Trade deal to be concluded soon' & more | DD India Live | 6 PM IST",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBnX0xhLXBkRjN3RjVGZHROMEkwa21YQlhzcFlERFhqcTFWcy00cFlsUFFLaG9IX2ZHNVZDOVlRektaU3BaRHlfb2I0SThXMG0wYktIZ2F3?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-14",
+       "score": 0.5
+      },
+      {
+       "title": "India US Trade Deal: India-US Trade Pact Nears 'Finishing Line'; What It Meant For India",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE15LVJVeXhNSGNQc1ZENjNxanByakNSQ0xvbFdxLWhzQ1ZvbUgtREdUTUZuX004YVNxak5ESjJPN2R1cWoyU3NsRGdjaDI2RDYxd21NanV3?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-14",
+       "score": 0.5
+      },
+      {
+       "title": "Carney says Canada will only sign a U.S. trade deal that includes viable auto sector",
+       "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNbFFNMFBXQ1g1SHZETWpDcll6MGRzbUpIYzZEQ3lTNUhXTlJJaEMtN2ZOSWxtX0oySTBrcUt0b1dmbGt6VzY1dHdLalU2NER5Y2ZIZFVxZUo3VkFkLUNwQkU3a1BUWVN6TUx4RHlyS0xFVTVrQ3FJaHEwdG5PTUczbThaODUxanY2dkZ1Qjd6TE8tNzZmWDNHc2RXMA?oc=5",
+       "publisher": "CBC",
+       "date": "2026-11-14",
+       "score": 0.5
+      },
+      {
+       "title": "Zelensky: U.S. Asked For Ceding Land | Carney: Making Progress On Trade Deal | WION Headlines",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1tazBGNVRUQnJPZEtiWmZhc0FDYjVVem9kUXVUeGN0M0pGQjZlVldTVVNPWVBoTjczLVlUNXVmeWQ4b2NVTExtMDlxbmJNOG9ORm94OE93?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-14",
+       "score": 0.5
+      }
+     ]
+    },
+    "recession": {
+     "label": "Recession / slowdown fears",
+     "heat": 0.34,
+     "n": 54,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Chart of the Week: The great market rotation",
+       "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPVWNvNzdPOS1MMlMyNks0VENKa2VxOVFvSkpEbFRVbmN4enBoeDUybWNBeTlnLVZrLWVMU3JrMjdHRFRIUHp0VjcxaWFXZFNXd1Z3bkthQnJpVnB2QURRLThIZ0ZBWUN5UWU5Nmx3UlZXVHREMk56dUpKRU9Qc3lsa2gzaHg?oc=5",
+       "publisher": "Financial Times",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Washington, D.C., Is Paradise to Me",
+       "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTFByZXVENkFQbzAzSHBwdkJSUWFkR2ZtQ0EySEhzOHRnMUtHTEl6ZXlFV0ZQQXR6NzVLRGNRSllMUFgzSTlfeGJsdGJGYWZIN1RnSlpaalhYVlk4MmQ1T0lhVUhsUS1wbzZIQTZmR195ejFoOGJwLVFCTjFaMG4?oc=5",
+       "publisher": "The Dispatch",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "How bonds got interesting again",
+       "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPLXQ4ZXF1ekczcXBHUXlFRi1OcFhCZ2c3Ump1TVZkeklJdUF0R3Bidk5sNmtpWnJCRV9uVnNnWXBkWmFmbThqWElyNTE2YnVVSzg4cWdQSmxlcC1DNGdyV05yZ2k5M1JJUngyUzlhQjdrdS1ldDZ0UlFtdXQwaEhZSGFRTFk?oc=5",
+       "publisher": "Financial Times",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "\u2018Done\u2019: Major bank\u2019s huge RBA rates call",
+       "link": "https://news.google.com/rss/articles/CBMilAJBVV95cUxOSUdIeUVaaFRpTmxmeFNuNUZuWWs2RkZhQ2RkT3pRcFdFck8xNUd1N2lEZ2w5VnlwLVprbkFCdXBMZWNKQkh0Z3pVSUdicTFYTzdaN0ZBMVVuR3E4VV9OSG1fbjk4alc1cXB4cERzM3FaLUI3RWprYUtidjZKWTl4NW9hRkkyNGVsN3pnY19Ba3IxNUdQZ1VEbDFFWk9PZjl5LTFMTnBCWEltc3FVdUs0b0l3RG1ra0JubGlYS2Zyc2lsNmRyekk2bzhDZEFSWm9zdDNiUm8zSUtXblA3S1JpcUw3X2JOM2JVME8tbFhmZWM0VV96MTBPWGVjMlZhV1FmZk1XekxFRHZOWFVoVUFfVWpNNnTSAZoCQVVfeXFMTjd5WjJIb29YZDVydC1RWVlqWUU5WGhZcVFfeTJKMHl6djNRS2FmVjFYdjYyRHkzS0NjS19EZUR6RXhwU29FcDd5TzFBdzVKZXlYZ3dDRjNGQlpKQlVXN3NqNVlYQjduR0tLaTRpd3NaaDA3UXRwUktJajlaX3NmbXFHclN6a3NuMWNNZVdRQzFDOWJSYmU0QWNFRnc1TS1WYk1tLUlkVGZLUXkxT0dHRUwydFh3dmtVNWkwdWcyYkZUM2hxY3JJanRRUmRfWEJQb2QxUDhzeDNnSDU5X3pXMXJ4U3BTbU1YYUU0cm81cWcxYmZWUkltcDhYOTNHY2Y2a2FkMUdvQ0lBVWpxd1NsWTZYRUNTRkVFRk9B?oc=5",
+       "publisher": "News.com.au",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "November 13, 2026 - PBS News Hour full episode",
+       "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQUjV0R3Q1MkUxelg2RVp5blhFUlJGQ1I0cUxEeFJSUEFPeF9EVGV0NWYwQWdzX0d2d3hXS1g2MW5xRTJSb21Oam56UnNhN09VbHBrVnZjLWk2NHczbWQtdjZlZkQweDlHaktmOGdaZ2JGYlFRV3c4NVVXUXpsbGpWQnlqWll3cnU2?oc=5",
+       "publisher": "PBS",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Microsoft \u2018deeply sorry\u2019 for global outage that could have billion-dollar impact on Australia",
+       "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxNdlQ5Ty14MWpQMERrSHcyTkVNRUxnQXIwbFBZNURDMEhOLXhwMWpLWHhhMGxLU3hhbGthT21ab09GM3hpWmtjTzRESEVoTFdjUjF6UzRiTThGUk9rQWJfR000X29EeFZ5b3hScjVNOGZwYklWQUlIeDRmbll1c0E2Qm9rbnJ3bVpuOGxUSnU4Q0pudGVZdy1WX05aWkFOOFozaVctbDJucFZDSlJKSjdjcWlyUmpxU0h6bHlZRjlyRWR0OEpnUFU4TVNoYk5aRmFTSGFxVEVjMVJfbWF5MXpoQnNfdkw?oc=5",
+       "publisher": "The Guardian",
+       "date": "2026-11-14",
+       "score": 0.0
+      }
+     ]
+    },
+    "stimulus": {
+     "label": "Government spending / infrastructure / stimulus",
+     "heat": 0.14,
+     "n": 71,
+     "why": null,
+     "headlines": [
+      {
+       "title": "\u2018There\u2019s No Juice Left to Squeeze From MAGA\u2019",
+       "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPdmFPYTh5TnVBWmlDRG9STUJVUmhJbTdQNjFxUURxS2l3WTVpUWdBVVVTb19sR3kyN2ZUOGZlZlJBRzV1YUhxbXFGNU0xOURDaUlMOUUwNkFJOXY4bXl6X09FbWVzT1V6SENsNThCN21QZXdSSjgydDlCOG1vMC14R01JRUlVNXVKM2V6cUQ2RWN2RHpZcUJyU2NNQjEyVm8?oc=5",
+       "publisher": "The New York Times",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Not Only Did President Donald Trump Fail to Keep His Social Security Promise, but He May Have Accelerated the Program's Path to Insolvency",
+       "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNeXBxTEFJVDkzWFRJZHItVmxhdkpOV3pxTHZCNUVWd0dCMzJBQ0xoZG95M3lYMHA1dndncnhPenlLNjVCY0tSeGpEUzI1eWttN215ckhiQ1dndXlDem92dDlYU0xONFdicG9mOGdfcGZfWVNBVzJXZzlZeEExdW8wOXpVOThHaFBkQ1hQc3I5SFJwX1k2ZkRjbXlUUnA2aUlpc00wZHllTm9qWFN4bjlnanhJZU1TWE5CelBEV05TQXVtWG5yaDlqWDVLclg?oc=5",
+       "publisher": "The Motley Fool",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "\u2018Trumponomics\u2019 is on its last legs",
+       "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9UZDJVNnVqRFBOdEpZaVRnZVRFcjV5T3I4bjFQcG0xcmpJTndPSlItQVpRUEhVX3hwU0FKb3RQejc0YTN1RVBWLWJrMnhHY05QMXF0bW1ZdkRMNXZLOWFoRmVMTFlmeDdxVFBqTzUxZzA2Uk50?oc=5",
+       "publisher": "MS NOW",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Top Democrat Eyes Filibuster-Proof Budget Bill to Unlock Affordability Agenda",
+       "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNaHNPUncwTk1XUUVDRUs1MzZSdVFwbTcyRjVETUEweTA3dHRhaExjZlljcHYtc0xESUhBTmJvZWVRcVNBZ3pfSTF2ZXFrQnRUdl9RNVFfODlDNkxKZEdqRWt1VFVHSlNqdDJoc3JPaFFUeFhuWkNlX2xxSnZxbUNLbE9Mcy1Rc013cVN3M3BqMktEU2dWM1RPSlJn?oc=5",
+       "publisher": "The New York Times",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Schools and tax cuts dominate Victorian election campaign | 7NEWS",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9fb3MwRUZ6SDFNTkpQSmsyRWVJaHZSNWdRZ2loV2FqTE45aC04aUNLM0JzU01jWFE1YjhiOWRxNjZSb2Ribjl2U0QydWN1V3pTemxqdHJR?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-14",
+       "score": -0.5
+      },
+      {
+       "title": "This is what so many of our air traffic control towers are like, literally utilizing technology from the 80s. A brand-new tower is under construction here now thanks to the Working Families Tax Cuts\u2019 $12.5B downpayment for a nationwide ATC overhaul. Congress",
+       "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE4tOWtJVDBReUF1a0laU2lRV0l3RF9FMVZPRUpDVjVIeER0TmRVMk5rNlE5NDFDQUxtcnpWMzRUX1RIbkY4aDI3bW1JN291U1VjNkY2cDZWdnRlT0gwN29RLWlQS29TcWM?oc=5",
+       "publisher": "X",
+       "date": "2026-11-14",
+       "score": -0.5
+      }
+     ]
+    },
+    "election": {
+     "label": "Elections / political uncertainty / shutdown",
+     "heat": 0.29,
+     "n": 97,
+     "why": null,
+     "headlines": [
+      {
+       "title": "How Canadian stocks could be big winners of U.S. midterms",
+       "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1PNW5TV3hXaF9mVF9CeTktVGZDOU04OGx3c1U4TFAwVW5Nd1dmbHBJRFJaWEpWQTJjOE9vZWJhSGd1djEyWFdxNWpPcGVKTG1ocXdFSW44TGo5QWk0OXQ2UXY3a0hYSXd5NTk0dHZ5UEhlOWhlZmtiNGpR?oc=5",
+       "publisher": "CNBC",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "How Rockstar's 'GTA IV' release could reshape gaming, streaming and even paid time off",
+       "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5GLXV6dVp1X1M2dUQtNHR5NUY5dHdWbnJpbHdKYnU3Q0prMnFKTmk2bTdlb19VOHRSdFVabG04TFpWMzJUYTFzb1ktYi1Id09nUWRHZUlSbmJnSWRlekxLMVZDU1Q5X083c0MyR0VhUnFoYVh30gF6QVVfeXFMTXRRZ2p5eXRCZDRNcUh1MEIxNEo0QzZvS3pMaG03ZWxvVV83LTk1bGZBRHFhbnBCdlYta2dNTXkzRk5kQ0loVmczeXJsWGNla3BWb3VNS1p2UVdmLW5sSzAtODN1S291dGRnVVN5RDdXRmNKMC1vMHQtT3c?oc=5",
+       "publisher": "CNBC",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "GOP midterm bloodbath exposes cracks in Vance's 2028 White House ambitions",
+       "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOamdZM1pTU3BfVTNWMW1leDVJeFhxcEtvMjdGOFZqSVNPUlU1bjFSa3ExVC10Rk9SM3lKSkRCcWNUR2I2THNMX0lHd19DTExuZ3pCWlZJWjNhRFhSeVExWUhvVmVoMzhxUmt6LVVrTXJxanEzcGRPTGs1X2MzU043Y3BlTzlkeExtb0lZYmZPXzlwYkRwQkdsQVMtcjFBWUJPODRfN1hR0gGrAUFVX3lxTE56WG51SHJ2S09Gdmt5d243WERPclExWG5xOXNoMENtX0VZUkV0cFFQUFlGNEUwMktDMW5ydGZXbWRfNEtTcHN4Yjcyd3hqdTFfOXN3U25jNDAwbEVOZFI1WnNHQXE4U1oxNGl5YWdTOFVNNG9wMHhidTZ0LUQtWFlTZHE4cWgwQmxVWjZ5TmhnLVkydUpSaWlqU01IRWdGRGJyaXU3MFk5Ty1YNA?oc=5",
+       "publisher": "Fox News",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "U.S. floated idea of Ukraine ceding Donbas for NATO membership, Zelenskyy says",
+       "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQb0Npc01uNW8wRmNnWGtEd3FkNGd4Nll3TFNQaTVhMVJMeWlSV283OGx3bjI2LWp3dGRQRVBGVXl5VmE0cXZIUHMyZFFUUHU2cDVRSGNUN1ZYMjFBU3FsWWxOQ0x3ZG03OGV5a3gxd3ZWOHlDS0kyQ2VOSjBYSktSczlhZXJ6RFnSAYwBQVVfeXFMT3l4eTRTY0dJYmhFODNjSk03OGZZS2dmQ3BlWGJSNi05d2pvcFR4UUNUTFlubnlWUHVEOTRaMDRPZ1BHWGoxTFMtR1RaQ1FDeDZNNmRHTlFrRExDdHIyMmR6dFJvTk9lRlF4SEdIam1Ham5BMEsxVDhkQlpmaHdySkN2TkJPUWg3cHh1VE8?oc=5",
+       "publisher": "CNBC",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Strategy's Michael Saylor Says Bitcoin Is Now a Bipartisan Issue That Crosses Party Lines. Here's Why He's Right.",
+       "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOekdFNXNYTWZYbC1WakM1SUFFY1BETXJwSXBLdlExdEpwTzVwVTk4My1Pc0NheHVfSW93WW1NOGo3X2gxeU05eGJEcTlQcktteFRsbThuQjBFUDRwNEFucFFxUzF4QlI0cUZwUFZ1WC1CLTR2UnlocWRxSkZjU2pPOEZrMVcxNFZrYTVRNmg0SDZ0RHc5MkdCVjJqQ09hd09WM3RwUQ?oc=5",
+       "publisher": "Yahoo Finance",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Commentary: Missouri Republicans, voters didn't leave conservatism. We did.",
+       "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNVFNaTm9aTHRHTkxfbGsxM25VYTRzMVQ5cUtuaW00OXZ3TWFUZmpXQWdFd1ZCOGtSeVNVbmVNM1NENzRCbXVYYVR2aTBUWGoySV9zVHM0b1RUWXd5eHJ5dm0tWE9namJXSjJVdUdKR255dWJzRlExN2llTGhvZ015dUVmNnZ3UXctaEJrOFhPV0FSSC03ZG4zZ2psR2VLdFFPUVBJN3Zn?oc=5",
+       "publisher": "Missouri Independent",
+       "date": "2026-11-14",
+       "score": 0.0
+      }
+     ]
+    },
+    "usd_strong": {
+     "label": "US dollar strengthening",
+     "heat": 0.38,
+     "n": 53,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Why is gold dropping? Even as a classic safe haven, gold can fall when: \u2022 Real yields rise \u2022 The US dollar strengthens \u2022 Investors take profits \u2022 Markets force liquidity selling 8 drivers explained \u2014 plus why gold & Bitcoin sometimes fall together. Read on Gate L",
+       "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9DSHI5NXkwS1Fwd2w0UmhCSTRXUU1FcnhlU2JtWUw1VU9adzlmbkZLdnN1V0hfS2ZKRkNIaHktUEZMME1ibURCeG5oS0Y1Q1c3bDNidXJUOV8?oc=5",
+       "publisher": "X",
+       "date": "2026-11-14",
+       "score": -0.25
+      },
+      {
+       "title": "Dollar Rallies As Markets Reprice The Fed\u2019s Next Move",
+       "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPSmpVdlgwTGxjOGNTNVBUUWlRUC1CUi1zNjc3ZjhCMkprZTZET3FDRUVOdFhYdElsalpTdS1ma2ZLb2xwbTRoYVhUaGxXQ19LaDU1R1JzYUFhRXprYWRTLU1TSGhyNUQ5NkFRM1NZM2JDUUNmZk9ld1pEc2pnb3prR1h6SGVSOWVU?oc=5",
+       "publisher": "Finimize",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Gold's drop below $4,000 offers long-term value as WisdomTree sees potential for $4,800 by 2027",
+       "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOTTBfZngzcHEwdE1RQ3hVcWI2Rndhb2c1MUVxVElnN1RQb3l6NzNrazk5X0VwVWk2cko5M1VmZzVOYVNfc2tJcGtjYnVVdktuaHZYSzFsU2xPZUM4d1RlRHJ2bWZuZHZaLWFCaU83WmN4bW8xTXlQQk1HdTNkNEdnZ3FMMXdwWWlzLXhZRnNjRFFvenlVTFY0OFNvWG8tNVVPNjlMbU1FOWVPY2g4UWllV2o0dUNsaWQ4NlluYm9R?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-11-13",
+       "score": -0.5
+      },
+      {
+       "title": "MOD Stock Jumps 30% as Samsung Reportedly Explores Acquisition of Modine",
+       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOYktNMUhKN2szZ09GYy1lY05uamZSNkdua1dCa3ZrejdyVEpPLVZkOE54R2syazdsc290N2Rsc2xHeTlpVzlWYWNpcVZfTG83c19La2JnQ0NPY2dfcDU1NnZrbWJyUnpVbmI3Y1ZIbm84Q2szRWxpcDRzQWpEMXh3d2xNU0FtR0hodllZMGFWYUQ2dXdPLVQzNU5uTHh3MmNjVHBQRzhlYzNwX0RkaGdiNGhHR2FmZw?oc=5",
+       "publisher": "Barchart.com",
+       "date": "2026-11-13",
+       "score": 0.5
+      },
+      {
+       "title": "The Tug of War in Gold",
+       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5kZ292S0l3bkE4ejhKenE0V29BM1pvVVhiWjZGNFpsZlY5eTU2enhRU2lnU3p2UTdDOHVlelBLdFJ6N3J6aUU3VnBRQjUwM1ZpOEpPMmhTMjgtZUFxUnJ6blJuaUk?oc=5",
+       "publisher": "frankgiustra.com",
+       "date": "2026-11-13",
+       "score": 0.0
+      },
+      {
+       "title": "Gold News: Tame PPI Fails to Lift Prices as Rate Hike Fears Persist",
+       "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQMEdXckpzWkJlMzZfb1BDVUNFZnRBT0dOZmhMdlVLalJrWmhMRzJoLUJ0R2Q0cUJ0UXUwTFZrRlFHLWpUZ3FVcGc5UnZ4a1pQckNZLThBQzU3Sms5WnhvT1NmOHdWaTFtbk02YzhKSjB0Nno1c2xkUU1ZTFFpejFSS3phVlRkWDVvam9TS2xmZ0o2cUFLbVRlV05LVFJMN0pwbDlheHplaS0wUElKMHVobk9Jb21qdlI5?oc=5",
+       "publisher": "FXEmpire",
+       "date": "2026-11-13",
+       "score": 0.0
+      }
+     ]
+    },
+    "usd_weak": {
+     "label": "US dollar weakening",
+     "heat": 0.23,
+     "n": 45,
+     "why": null,
+     "headlines": [
+      {
+       "title": "BUSINESS NEWS Rupee falls 8 paise to close at 94.20 against US dollar Read more; https://t.co/1KZGPcVsSl #IndianRupee #RupeeVsDollar #ForexMarket #CurrencyMarket #IndianEconomy",
+       "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1TVm5EWEQ0b2lJOXpBLXRRWExoN1RjN1pOX0FnOWZVbjlKTk5RbHlXZllpcWdrdlRMVE02eDQzS1BnT0VTdlpsNDdyNUZMZHMtYktLT0Y2OTNyX1hldmthSUpEeGE3Q1k?oc=5",
+       "publisher": "X",
+       "date": "2026-11-14",
+       "score": -0.5
+      },
+      {
+       "title": "PESO SLIDES TO \u20b163.72 AGAINST US DOLLAR AT FRIDAY'S CLOSE The Philippine peso ended trading weaker at \u20b163.72 against the US dollar on Friday, November 13, 2026.",
+       "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPaVI0M2lQTEpXVFB3VkJ4MkNCODZMNWpkdFdicFVVYmFvdms2RTUxeTNGemRZTWltcFVpYnVrSko1S0VoaXFTTTNmWUFPWktFQTNwWTFmYVJ2OVJ5R0gwektwWmhwMm8zMnRWSGtsN3JvM3VINkc4ai1YOVFOWVU5cDB2dHZmSjlSdVk5cGtfSzZoWDhXVkQyM0ZkaGVsZklienNIZVdTOFVqU2NQWVZkamx2YmMwSEh5NGhqXzV1ZG1MR2V6YUc0NTB1aGdlcnVoWXlzT05tbkRueXJ0VUVn?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Dollar Supported by Hawkish Fed Expectations",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQN0lpN2NyRjltQ2RwSDNYY1JrckxZOVl3aXN5Qk1pRklSQldfS3Fsci1jeEtWblA3YVVCSjdYbWtCV3ZFc0JfLW9iVXN3dUw1VTBxVXRBdUgyM25uUy00Q2tHMThIMHI5WGIxamVXUlBxeEJoakRKUFVwWWhJZXJybDJYS093b1dUcXZ0N0Y5a1AyNTFKSnFZVVQ2MVozVGxfRGNudnlLZUdKWVU?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-13",
+       "score": 0.0
+      },
+      {
+       "title": "Bitcoin Slides Below $69K With Dollar Index At 19-Month High, Wiping Out $1.6B In Crypto Bets",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPMmN6UEd4ZFFXLU9tQTVxZ3loUFJBd19LVzEtU2hnb1BUUjBrR2JCa1JfNlQ3TFRhSll5RmhBdGFBN3R2Zi1TREhvUEEtS0UyakctclhsWHBJeEJQd1JtSmRjZHMxODdPTmxHZzdZcnE4ODh5cmV2T2V1UWpTXy0xc28xMGV0cG5POUlQY194TEtXYWJubmNLeUFSa2M?oc=5",
+       "publisher": "Yahoo Finance",
+       "date": "2026-11-13",
+       "score": 0.0
+      },
+      {
+       "title": "Bitcoin falls below $70,000 as dollar surges and $1.6 billion liquidated",
+       "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNbmN2SHc5R3NaLW95Rkw4bzdvbzA5NldfS0ZDTFlES0hYZjAwVlBXS2t1bk5ocDJfZjlkS0NmTWFqUjdVWFVmYThReUxyWmFueEU5RXQ4NXZoRGxXS3N1UVc4enJueVdwdlZYc2xSQmtsVnNaZTJWWExFU0s5c1N1YjhJMkpIOGtxSmlQbEpveU44OWxSWUtJVC11R09KQlB4TktFd296RE5RODdicENOemhtZU5YLWxmdWhxc0RZZmt3Y24tN1ZES05vSFM5elVsVGYyNjRkUC00cTg?oc=5",
+       "publisher": "CoinDesk",
+       "date": "2026-11-13",
+       "score": 0.0
+      },
+      {
+       "title": "Indian Rupee falls further amid fears of Fed's aggressive tightening cycle",
+       "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNUF9xLWdyVzRCMnpEbWJuUUMtNU5iREpWMm5zQm9xMkR6UjhCM05IYXByUFhZVXZSQXgxTGJiNkwwOVNjTkl5eFgzR3NUcXpSM05XTTkwaGtLdFJuN1E2SnRMdU52cnVqRjdiU1FhVXJ4QTloRmZtd3N6LXN4dE9xc2lSU3ZOdHM0NGRxSU9xaVJ3S3E3ZFZLZ0ozMlRIc2ZRMDdtUllXYjNwVk5TM1pv?oc=5",
+       "publisher": "FXStreet",
+       "date": "2026-11-13",
+       "score": -0.5
+      }
+     ]
+    },
+    "fed_cut_assets": {
+     "label": "Fed rate cuts / easier money",
+     "heat": 0.34,
+     "n": 48,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Markets see almost a hundred percent probability of a Fed rate hike in December, which leaves little room to breathe for gold and silver. READ HERE: https://www.financialexpress.com/market/gold-pulse/gold-silver-prices-crash-from-record-highs-why-do-i-still",
+       "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQZ3FiV0NXam1RWlhWT1dvTkxoZEVDUW1oTm9sY2FIZGY0LTQ5MmFVSzltb1VwREc1QmVGUngyeDgzNkJURnVtelc4a0haWmpLYmpvM2dld2VDX0x0TEhoZ2w3UFVzdWZnUzFtX3pQUHVFc1R0Yk1mc1RMc19iUHgwZnRfM3h1LTN0U0Q4c2F1T3RFdG1uT2Q0ZW9vMVpjTDVoeDdwX2NuUkNBRFd6cElKMDM2WGMxc0tUYmVubzhSX2ktcXFsZ0FtbU42RHpSYUZITFQxNjA4OEFXLXlxLWMtdXplWQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-14",
+       "score": 0.5
+      },
+      {
+       "title": "Microsoft outage shows the risks of relying on a single technology provider for essential services",
+       "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPYWY5MnRXdTRCaHJZT3BKRWs4TzQxdUR3NEZzQ3ZsTmxCLW9wcFJJMzFaLS1pVGhtb3BabWdhN3pvQUhPU0FNbDJMV2I0a3BWaGtuQWpxVVNxRTZIUGhNS3c5RG5oVHNGaGg3XzJDdkE1V0RBWFJKVzMzTFVnN3otc0xZNWhCWWducmlfS2dXZ3lGcUtWcFJQWkxnejVqWjFxTlZKbENDamJfUQ?oc=5",
+       "publisher": "AP News",
+       "date": "2026-11-13",
+       "score": 0.0
+      },
+      {
+       "title": "Investors Warn Bond Rout Isn\u2019t Over After Week of Soaring Yields",
+       "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQWjhkdkdUYk85b1djY25EQk9aY3VBUmdlZGVpS251di03VTMzaDRvVHIzbEZBcjZSSlNvMDNXdXFNX3A0QTB6TFBXRndSdFFyNXBwMXRtRmZIcVJySzVXaEZDQ25HN0ZDOGZtbkpibUZ3UDZPUWpiVWVLMU1hVzk3X3JwQ2NxVXo3WkVWMnhqandnNUg0UjlnUUNSTkUwYjFLd3ZBeEFBel9yT2h5WVRObU0zYw?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-11-13",
+       "score": 0.0
+      },
+      {
+       "title": "Leave the 25, Take the Cannoli Rational Dissent Episode 017 Hot inflation has turned a quarter-point Fed hike into the \"dovish\" option amid an internal FOMC family fight, while Jensen Huang\u2019s sudden exit and booming AI debt issuance leave markets bracing",
+       "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE82UEIzaVBITExId3JuTV9JMzhkLXA3T2hlWjQ2M0JYUHItcXdzRFNBZkh5OEkxTWJtWWtZV3BMVDVRb3dON05vSC1PNC1QSnpKSXB2VkZWOGdtWHljSUJnNEtrQ0hZZw?oc=5",
+       "publisher": "X",
+       "date": "2026-11-13",
+       "score": 0.0
+      },
+      {
+       "title": "Mexico Rate Cut Fuels Speculation Officials Want a Weaker FX",
+       "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNMjBORFI3VVJEVHo3S3l2VDdDdWNCNkg5WHhWc0RpdlRvTURNOGJZX0U0Q0FHdi1jRFotdkNqeEVGYmxQYnlCWmtWVGxvMDNlek83UzhVcEFGeVR6UlhuQ0R0YlJUbUVxbUJjblY4dWJFTWduUnp6Y2M2Rk1nQkZoMkVraUtocUFjajEtTTdMOXNRWGVsNVF0ZW85c3F4S1FrZEFDM2psblhiSEJqeVptSWNkaw?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-11-13",
+       "score": -0.5
+      },
+      {
+       "title": "#Gold futures were on track for a 4.8% weekly loss on Friday, trading at $3,879.3 an ounce, after #US consumer prices rose 0.4% in October and Fed Governor Christopher Waller backed a December rate hike. #Forbes For More Details: https://on.forbesmiddle",
+       "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxPNzIzdENQUlNBTndpYUFGLTJHVWJ5Tm9VNFo0dHlUamJrcERTOFMwdDFvWGZqR2ZUOXZCTDJ0Z0NqanNnbVJUYnFNRTVYX3VZYk1TNlZqSHJFbTVLQ3p1UGhSM1ZoeEd2YzNIUXg4TjQxenFRSFMwcENlSzMzRXQtb0hfUGVBc0lqYmFRNFRKMkNPb05sRWdZQnZaa0V2ckJQSVBnNlN5clpaeTRSdnhnZ3ZTZW5jbFcxdGlwX3hadWZVT3BDeWRfVWRzYjdPeHpfMVE2UmhJR3pVQzJ0enI4cVh3?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-13",
+       "score": -0.5
+      }
+     ]
+    },
+    "fed_hike_assets": {
+     "label": "Fed hawkish / higher for longer",
+     "heat": 0.69,
+     "n": 91,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Charting the Global Economy: Inflation in US Exceeds Projections",
+       "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQMnhYS2hsVENzOW9lbGxhZHNXZGptazRlOW5IUk1MRThqUi02N3N6VklkTDVnMk9DT3lKWVNJVzBacW5zVUNEamw5TzhtTWluRVNheC1pcDZFUGVEREZHMG5aVGxXT1RQVEQ0Q1dnT3BWMHNQMkFUWWZZeTZaWkQydWtvVEctbnpnZWV0MExYa29fTEZjcFJjemNHSEpjdHM5Y2tsZkpUYkhrX0xRRU5ybTNxTDM?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Asian Bond Yields Rise on Growing Expectations for Fed Rate Hike",
+       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOY0lWUTNMTnpyanJUcWctaTM1TjBEajVySEdCRG9FTVVtNmFJYkdULXo1cll5Yi1UbVZRVmg2UmZBZkJESG1pelM1NHluMG1OVVI5Z3hkamRIU0xFVVZvd1Q5Ymdma3J6MFRoVWNMUS1HZlhXaThDWG16aGh3Zllfd0dkUlJrTnE4bVhYY2QyNW9Ha3VvV3Flb2RoYVFwazZBUWM0?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-14",
+       "score": 0.5
+      },
+      {
+       "title": "Yen Slumps as Fed Rate-Hike Bets Boost Dollar",
+       "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQM3EzbUZLMzVNX1JTTVVjTVYwOVhoR0JQMXlRWjh3WjA3OGlfRkhvek43Qk90UW1jeWVDOWZMa2djT0JlSnhoRUh3SXBtbWpRQ1Q5SkNJbnVhZHR5X2NsWTFLT0w4TG4tOEdXQlBVdG91RGp1aWFtNkxJN3NZYktEN1dRWWU3LWQ3MTJ3SjNKejBkc1Zsb3JTV3Myd2t5SnZEeHRaZQ?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-14",
+       "score": 0.5
+      },
+      {
+       "title": "Markets see almost a hundred percent probability of a Fed rate hike in December, which leaves little room to breathe for gold and silver. READ HERE: https://www.financialexpress.com/market/gold-pulse/gold-silver-prices-crash-from-record-highs-why-do-i-still",
+       "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQZ3FiV0NXam1RWlhWT1dvTkxoZEVDUW1oTm9sY2FIZGY0LTQ5MmFVSzltb1VwREc1QmVGUngyeDgzNkJURnVtelc4a0haWmpLYmpvM2dld2VDX0x0TEhoZ2w3UFVzdWZnUzFtX3pQUHVFc1R0Yk1mc1RMc19iUHgwZnRfM3h1LTN0U0Q4c2F1T3RFdG1uT2Q0ZW9vMVpjTDVoeDdwX2NuUkNBRFd6cElKMDM2WGMxc0tUYmVubzhSX2ktcXFsZ0FtbU42RHpSYUZITFQxNjA4OEFXLXlxLWMtdXplWQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-14",
+       "score": 0.5
+      },
+      {
+       "title": "Coinbase Institutional: Fed Rate Expectations, Not Binance Hack, Drive Bitcoin\u2019s Recent Decline Coinbase Institutional said in its weekly report that Bitcoin\u2019s recent decline was driven primarily by shifting Fed policy expectations rather than the Binance hack. O",
+       "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE04NVVaRThCbnZtQlJDdDdMUnpNSEhUcTNPdEJ2c0xaaFZjLTJzWDZ1ZHluSWcySkFPbFlyVWRoc3dCb2VQZ3BrT0M5YU1BeFJEd2xzWDVlWHFwZm1zUUhHY3k2SQ?oc=5",
+       "publisher": "X",
+       "date": "2026-11-13",
+       "score": -0.67
+      },
+      {
+       "title": "Wall Street bears abound after inflation sours Fed outlook, Main Street abandons bullish bias as gold drops below $3,900/oz",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNZ09SOU1XMmZSdkZoVU5iQkdoN1duRHpoNUhqWHlJVVRhd3ozYzFLLXkteml0ZXJoODBvUy1iMDB1Yk9qRy1oSFhfQ296RlBITmhSbzFSRVBVeGZLQ1lXb05ZRmRIVl9PclVZdzVJQ0h0M2JTRnZKUzZndkswa1JNNEtwbjdNMW1IQXZuQ1BDdVJlM0Y2TmRRWnhEUDFVb3FROEZyOFA1ZEdjNjlWbzYxak9QSjNKLVk?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-11-13",
+       "score": 0.0
+      }
+     ]
+    },
+    "crypto_etf_in": {
+     "label": "Crypto ETF inflows / approvals",
+     "heat": 0.58,
+     "n": 48,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Bitcoin Mining Proposed as Solution to Scotland's Wind Power Curtailment",
+       "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQRjVvQ2paNW1maHkzM1NBS0RBV21UaWVCV1d0TjU2OFhOWnkzNjFlVlQwTG5lS2JLRDVPZnhHU1Eta2hYM0pVTlVLMzI5SFNNMXpBVVY0dTJRN3RSR05nMmtyZTZmUmtpRXVrRkgwNzFiUExWaF9nQmpWOVA2enF3OE40RWg3a1dSTmFYVHhEZ0ZCanRkbTNlZFpGYnRlVkFXVlc2Um5ObzQ0UQ?oc=5",
+       "publisher": "KuCoin",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Key facts: Bitcoin ETF outflows hit $1.44 billion; dollar firms",
+       "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOOXJVczdtdDlNYnZoWDk4THZGLVNoVGtrc21ZZG53SVUyYUVuUEQ0MlJrazk5SnAzOFo2Qm4wTEVHSmN5WUU4VC0tMGNXYXdMeTFCM2x1NkQ2VWNBQkNrQm1ZdUYyQl9sWXBMTEtDWHljSzJIb1Nid3dfcU1oWVBMS0VOSHZQTFVUMmZHYnc0MkU5WkxPVFR3eWdtbVlNUFlFZGZkNktVZ01ucjhSMVRsb0J1M3NMaWtsZFVObkRGNA?oc=5",
+       "publisher": "TradingView",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "ETF FLOWS: \ud83d\udd34 Spot Bitcoin ETFs have bled over $2.35 BILLION in just two weeks! This week alone saw ~$1.07B in outflows, led by BlackRock's $IBIT at ~$908M. \ud83d\udcc9 IBIT has now seen 11 straight days of outflows, and all spot $BTC ETFs combined are on a 7-",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNejlvRmI1N2lxeDRheVJfRWYtR29EYWlJMHZEeGFmdWRPVXhSdk80MVFfZkt4RHpwUUUxNEVpcF9Ed09hZ29JU3RMY2tqQWs4anY0ZV85WTVYcXRWSlJlRjRYb1ZKSXgyaDlVaHZEc2duZmRPdDdEZV96Qm5EeHJ2WU9ZYzBpaElEWWxRU1Y5VGs5bzU1cDByYTFIVUh1QlFJZ0RVc1ljR3c3TlNwR3VRN3Y2aU1hbDczRHFqQjhCT0hibmo3eV9CcDhDeVFkYmRzRzlqbUhHaw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "SMART MONEY: \ud83e\udde0 Wall Street giant Jane Street spread its Bitcoin bets across more ETFs in Q3, per its latest 13F filing. \ud83d\udfe2 Fidelity $FBTC: up nearly 8x to ~$509M \ud83d\udfe2 ARK $ARKB: +~$249M \ud83d\udfe2 BlackRock $ETHA: more than doubled \ud83d\udd34 BlackRock $IBIT: trimmed",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOVGs1MGZZVWZSczhEUXQ0S0RBMkhLRjU2NkJydnZzcmpCckJmUGE3X2NGS2ZiQlI3bFJpcXVLY1E3aDE2a1NjYVRFR0hlaDFxeEh6Z1NHM2ZXZXR5eFJNVzVyMEVlbi1wemsySHBWQkd5MmctOXZvZWVNQlVnWE9iWDA3dFg1S2x1eDJ4X056cFpZWHBwN2hJaTRYR0gtUTgzSkNOcTBZNFcyaWtNMXlNWVNZUGptUXJpNmVPTU9feVUxMHNjd2xlTEFMeW5FRi1QdjRqSk1ZRQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "BlackRock Leads $2.35B Bitcoin ETF Exit as $65K Bets Jump",
+       "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOV3V2RC0wTi1MQm42VXBNZUFfYll1MlZ3Y0t4TTdmR3lvYlgwOWZwYUxDTVhpQTRJRDVxV0pGeHJGTGVfMXA2LWhBMWxpRVpPb1FwQWdLSURDOVZERFpmYU1qVW5xbF9wcE5qbV9INW5uOFBDY1prWWl3b2lLVzBUSjJialJabmtpQnJTMjVpYw?oc=5",
+       "publisher": "Token Metrics",
+       "date": "2026-11-14",
+       "score": 0.5
+      },
+      {
+       "title": "Whale's Insight: Bitcoin, Nvidia, And Strategy, What\u2019s Changing In Crypto? (BTC-USD)",
+       "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNQnJsWVQxMkFqOGdHNG5VVy02Y2VKbnIyZEVzanBnX2VEeDVUSjN0SkdVODJ3MWp2d0Z2eXVRQ1B0RXU2b3BHcW81NHBWbEdZZWFRVVNhVTctZlRGLXgzc2ZuU2p2RTRYcmZuazFKYVZIY2VzLUNJcTI3NHRiY25uQ281WktmZGU2cl9SOHhja1AweGNmUVhKS3hyNHo5V1NoSTV3OThndlc?oc=5",
+       "publisher": "Seeking Alpha",
+       "date": "2026-11-14",
+       "score": 0.0
+      }
+     ]
+    },
+    "crypto_etf_out": {
+     "label": "Crypto ETF outflows",
+     "heat": 0.63,
+     "n": 55,
+     "why": null,
+     "headlines": [
+      {
+       "title": "XRP ETF Outflows Hit an 8-Month High as December Rarely Reverses Losses",
+       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBxSUxIRkwxcFlleUwzTUo0b1NaZzgzTkMxN1k0QnY2Rk04NDJfek5sd3hDLWlwa3c5d1c2RUpEVDNmcW94cFA5UTl0N2F6Q2t3ZXVkZzdkN2t0aTdJSmRjdDJLX1A?oc=5",
+       "publisher": "Binance",
+       "date": "2026-11-14",
+       "score": -0.5
+      },
+      {
+       "title": "Key facts: Bitcoin ETF outflows hit $1.44 billion; dollar firms",
+       "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOOXJVczdtdDlNYnZoWDk4THZGLVNoVGtrc21ZZG53SVUyYUVuUEQ0MlJrazk5SnAzOFo2Qm4wTEVHSmN5WUU4VC0tMGNXYXdMeTFCM2x1NkQ2VWNBQkNrQm1ZdUYyQl9sWXBMTEtDWHljSzJIb1Nid3dfcU1oWVBMS0VOSHZQTFVUMmZHYnc0MkU5WkxPVFR3eWdtbVlNUFlFZGZkNktVZ01ucjhSMVRsb0J1M3NMaWtsZFVObkRGNA?oc=5",
+       "publisher": "TradingView",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "XRP ETF Outflows Hit an 8-Month High. December Rarely Brings Relief",
+       "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPVnhZR0ZLUDlNZTZXM2tTOE1ZNE1nc250ZXB5SGdQdzgxSEJBeUh2amxSbldLV3UzR1RUZ3pQbUVVYkFOeVJDZmZBTW1WMTkzMm5XcEtxTEJ3Vk1YQmFZZDYxalJkczhPUElmaEpJVjlyc3cwVEpQR3FXYWVTcE9vVW9PN2dPZkU4VjFVbWJubWM?oc=5",
+       "publisher": "Yahoo Finance",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "U.S. Crypto ETFs Experience $1.53 Billion in Net Outflows as Bitcoin Funds Continue to Face Redemptions",
+       "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPYWtZbnB5RDVXcDBGeUNGRFFSYlJVZk1wQmF3dmZLSWRhZGhkaHE1T01KTFFnOGRkaWVRUDVxb3F1QkdQLTMtNGE2bTZ5MWE3U3pEV0R1X3hGSDAzbzVNVTJ4cnEtMkdzSWwtVk93SE9JX0cxSlowVnNvTnlNb0hlVDU1c182czlHa3QxaGF0clJiZ1psM1ZvQW5KY2huek8tNjE2VXRkMmFsejNNWlpyTnFxaEUxRDc2NEwweWtqOUc?oc=5",
+       "publisher": "KuCoin",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "ETF FLOWS: \ud83d\udd34 Spot Bitcoin ETFs have bled over $2.35 BILLION in just two weeks! This week alone saw ~$1.07B in outflows, led by BlackRock's $IBIT at ~$908M. \ud83d\udcc9 IBIT has now seen 11 straight days of outflows, and all spot $BTC ETFs combined are on a 7-",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNejlvRmI1N2lxeDRheVJfRWYtR29EYWlJMHZEeGFmdWRPVXhSdk80MVFfZkt4RHpwUUUxNEVpcF9Ed09hZ29JU3RMY2tqQWs4anY0ZV85WTVYcXRWSlJlRjRYb1ZKSXgyaDlVaHZEc2duZmRPdDdEZV96Qm5EeHJ2WU9ZYzBpaElEWWxRU1Y5VGs5bzU1cDByYTFIVUh1QlFJZ0RVc1ljR3c3TlNwR3VRN3Y2aU1hbDczRHFqQjhCT0hibmo3eV9CcDhDeVFkYmRzRzlqbUhHaw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "BlackRock Leads $2.35B Bitcoin ETF Exit as $65K Bets Jump",
+       "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOV3V2RC0wTi1MQm42VXBNZUFfYll1MlZ3Y0t4TTdmR3lvYlgwOWZwYUxDTVhpQTRJRDVxV0pGeHJGTGVfMXA2LWhBMWxpRVpPb1FwQWdLSURDOVZERFpmYU1qVW5xbF9wcE5qbV9INW5uOFBDY1prWWl3b2lLVzBUSjJialJabmtpQnJTMjVpYw?oc=5",
+       "publisher": "Token Metrics",
+       "date": "2026-11-14",
+       "score": 0.5
+      }
+     ]
+    },
+    "crypto_policy_good": {
+     "label": "Pro-crypto policy (clear rules, reserves)",
+     "heat": 0.47,
+     "n": 10,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Bitcoin Could Crash Below $10,000, Peter Schiff Warns: \u2018Get the Hell Out\u2019",
+       "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOa1BHU0RTQ2JSaTk5U2Q4R3dveGx2dXBsM0d2R3drcUR6ZUxxcUViNEFRS3k5SWZaT0k2V05XdWNxVTFraXE4azFMLWVnUDU4angtRzdlUm1FWkxTRV9WeWRnSEpmdGlXYUV2VVIzUzdsdVV2bGxjZDdEOEhzdjQ1Tl9xVzlEXzIzaEJ3el84Rl9XUDItclNET2lLdVk4a3VteWZmNGpBTWVsN3FuVjVobnFYNnZJb0dDQnAtR0I2cGRmby15SFE?oc=5",
+       "publisher": "TradingView",
+       "date": "2026-11-13",
+       "score": -0.5
+      },
+      {
+       "title": "Kevin O'Leary reveals real reason behind crypto's market crash",
+       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQUnZ0bzg3VDg3dGVfT1pKNW9mVE9jbUptT1BLSUdpNVpWV1B0bmtDYzVMV0pmRmtVRGk4ZU85Y2JmQm4tVTdzdGJJODB1VWd6b3YyV2J3Z2UyclFMdXNiVEM4cEw2VUtKeTByeElET3ZWMEJpVzhHLURDdTIzZGtIZ0NWM01SWjF1QkM2c3B0U3czNHRWMG9HcjN0cXEwUXZJbnlj?oc=5",
+       "publisher": "TheStreet",
+       "date": "2026-11-12",
+       "score": 0.0
+      },
+      {
+       "title": "Kevin O\u2019Leary Says Crypto Sell-Off Reflects Institutional Hesitation, Not Just Bitcoin Weakness: \u2018We Need",
+       "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPWmV3eS04ZmF4X2tSUmtfNjNaYWNCTi1hYUFIRThieUNkVXgzbFNNUi1yTHBVeEdSQ2doWTA2bU4ybHVQM2s2UE5oOUU5YmZhUk1rR3hQWUtVLWZPLUJBVHhxRDlrTUFTaE5XYzJ5UEs4Zkh0YTdkOFZWMk56bDBCWUVubmYzMmRaWDdJSDNpeEdJVC0zQ1ZRODFXUUVrUS1DRnViRGMxcktRRXRSQVBYTTJjYi0tYU9oNk5UWHZEVQ?oc=5",
+       "publisher": "Benzinga",
+       "date": "2026-11-12",
+       "score": 0.0
+      },
+      {
+       "title": "Chainlink Amplifies Calls for Regulatory Clarity in Crypto",
+       "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPc2xCZEpQQ0JvRklwSFNoMFFWSWUyenRJckZ5QXdyTVdxeXF3NEJNRlZIRDlLbGZTQ1VoUGVCNkcxdnJ3Q1dJUTZuQjgyY3NpaE4tVHFxWktwbHFLQ3NpWWZWRlhMLTFsVW4zZEZVLWJPQldRdUhjV3RJYVFYVzFKSHMtaHJRaUtjT1JN?oc=5",
+       "publisher": "Coinfomania",
+       "date": "2026-11-12",
+       "score": 0.0
+      },
+      {
+       "title": "Outlook for Crypto Market Structure Bill By Democrats | Chris Giancarlo, Former CFTC Commissioner",
+       "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNbV9vVExFTmxoV3JaVGZORGhwa080MHVUQmh4NjlPOWp1VnpXV3ptSnFfLWdhYXF2WEU0U0R0bDhybkdfYzJSRm5QV05zMERvSWJiY2ctamE1bGZ6NzRGdEhpMHc4ZS1lTm82Y2cxT2lZTXdqRHpBV20yb0VRSkZBajM0TEFVU3RlVmkwUk1xbk5tM3V5UDRrRFAtbjJKa3JKUkVfVnBVaGVLSHlHUGl5TjJpM0QzZHBjVUQ1YWNUa1Q0M3pFQWx0eQ?oc=5",
+       "publisher": "Bitcoin Magazine",
+       "date": "2026-11-11",
+       "score": 0.0
+      },
+      {
+       "title": "House Democrats prepare tougher crypto rules with SEC oversight",
+       "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNQ3BCNXRtZFRXeWJqQS1iLVVSbGNWNUpId19KVkZzcEdNWGVjT1YxcFFOYlEweEY0MkNfQW8xUkNJTXRDaVZsMVdzbkVsN3U3X0YxZVhlTmFsTU5QaGsxMHFvclBwR0RJQmxIenF4dVgwSmNHTHVFbmdsU3Z5YXlneDNn?oc=5",
+       "publisher": "Crypto Briefing",
+       "date": "2026-11-11",
+       "score": 0.0
+      }
+     ]
+    },
+    "crypto_crackdown": {
+     "label": "Crypto crackdown / lawsuits / bans",
+     "heat": 0.03,
+     "n": 49,
+     "why": null,
+     "headlines": [
+      {
+       "title": "US has floated Ukraine ceding Donbas for Nato membership, Zelensky says",
+       "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5ncHB4Ym5vZzlHclkySUNxbFJzeHhobEFlcnZHNkxrOXptenBPT0hvVTI1dHBSYzZqbHY2Smt3enFMWC1mQXFTdVZMVS1uYmhXU3BlVzJjeld6cDc4OWc?oc=5",
+       "publisher": "BBC",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "75 BTC moved from a 2011 Bitcoin address named in a lawsuit, proving coins can still be spent.",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQREc4WG9XWUhpZFQ4eVVfQ0VzTW5VbjRleEp5cVRKWFhFZnE2cmY0MVh1Z1piMlMtSGs0X2RaNFZpVFdEdkE2TGluN0tkay1fZmcwOXh3ZlBpb3NIenBvY2JHSVpSSXNRejJDTUlGM09FNlFmMVNReUhxNWdETzVIRTJhVHBRaXozc0NVTDZqZWFJMDItYmtDS21YNzVIUm0yb0xUZjM3bEVqVjA?oc=5",
+       "publisher": "Pluang",
+       "date": "2026-11-14",
+       "score": -0.5
+      },
+      {
+       "title": "Satoshi-Era Wallet Empties 75 BTC Stash Amid $260B Lawsuit",
+       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPd0ZEQWs4TFpmTlNMdFdEZHpDOTNHOVlZOGNkUzZfN0lXbXJ6bHZuaWxzNi1QZVNWMktIVHZjZnZPU2VPcHRaM2p6MkpSR3VVR3p3SERzMnhhai1CSUQweV9BRWp1anBhajB0SWlQYnQ1d2NfWFY0NGIzRGw5VUZReHRyVzNwRE9PbG1pWmkwSkZPOVh3R3Vna0kxTUtobWpkeTY4?oc=5",
+       "publisher": "Bitcoin Foundation",
+       "date": "2026-11-14",
+       "score": -0.5
+      },
+      {
+       "title": "Satoshi-era wallet served in a $260 billion lawsuit moves 75 BTC it held since 2011",
+       "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQNXdaQlBHUGhrc0ZWUWxFZzNVVjhsemt5aW42UUI4MEJkRGUtcGNpckxpY2VKMlBxN0lCdjc2ZGhaWFlWbldKeElRZUYzUWFoUFpJZS02MklacjhUdmowSnphYUVpVHRpNXU1bGxUV0F1ZjJNVURZRzE2WlIxWVNHWUZvWlY1VzBhNGVxNzE1azJQZ3hrU1U1QkQ2eFhOaDNVVHJvaExuSGNxa2VFblh1ZlB6bG11aXFlNjk2LVowVXZFeHUyb0ZjaA?oc=5",
+       "publisher": "CoinDesk",
+       "date": "2026-11-14",
+       "score": -0.5
+      },
+      {
+       "title": "Springfield City Council to consider full ban on cryptocurrency kiosks to prevent scams",
+       "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNOGlFbGtMTk00cXM5SGo2dm0wUWJqd21XR2xmUGFUeElHY29lZHExVXZmT2t4NFFnTWRNRWxQV0VUbXQ2dS1SekoyWWF2d2E4VGh1ZEg5emp1OG81M1RHTW1GSlVsNUNrS0hNVjlyUDh5ZHp5OElva3o2TWRGZFRkRE9QbnJLdw?oc=5",
+       "publisher": "WBUR",
+       "date": "2026-11-13",
+       "score": -0.5
+      },
+      {
+       "title": "Lutnick faces questions over Nvidia spy scandal. His sons' firm has deep ties to the chipmaker",
+       "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPMS14RTRiS3dmNkJYanF4ay0yMkFYWmlEdHBDTjZlUjBDWWlHMTYxa3VkbDRFTld6eHJBdF9UczMwQVVkN1JqVW8xdXRpNTZ5X2VYZEdObFBBVlFLdXIwdjdHcFYzZTNOelNFVi14RnNyTXp0ck9OQzJfQldSSTRFTVBVNDVJWUJjemVxUFZGeFlPcC1ha3A5YjV6d9IBoAFBVV95cUxQM3VxeV9ud0xRcW1EWkJnVEFWanVOc1FuNE5EcXdKMzNVWmM3akJoM01XejdvbTRJWmtIbHF3VEtaUzlzdFZDT0dFUzhvZlVEUTRWVEpWay15b1F6ZE8wc1VwemNHUENlNmZ2VUl4cTRxTjJzbWt1V0ljUTdXR1hnT083UnhjZWdNcUozVzduRWRsNWlNcm5pcm5CaURNNFpm?oc=5",
+       "publisher": "CNBC",
+       "date": "2026-11-13",
+       "score": 0.0
+      }
+     ]
+    },
+    "crypto_hack": {
+     "label": "Hacks / exchange failures",
+     "heat": 0.36,
+     "n": 50,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Binance targets full reopening of withdrawals by next week",
+       "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQYXBlRXR3ZlBNUG15N2Q3eWlLOXNrMV9vUFlqZW5kalNLdFZIb080U0FyQkpyNlB2N0YtSHFweXlWMl9xT083VHRYaWRyZWxXQUlKRE1HTERGMmZnV3NDaGdyalBhTEtkazhPVjhPalhRRUhJNUtJTlltdW5wVl84MWstLTdXNzJIcFNpeFBWYzZLMVRETDNDUWpWejVzSkVpOGExcnJibDNsWVB0?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "ICYMI: Binance just covered the full $6.3B from the biggest crypto hack ever: After North Korean hackers pulled off the largest digital heist on record, Binance made every affected customer whole \u2014 absorbing the losses itself rather than passing them on to use",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQYWQ1blduc2RybXVZMDZucHlKbU5aZ2M5cmVVZ0REai1aRnBrcjM4UlFYQ3JwY2hGVW9YMXRScGdUSlZiM05BZGxxUUh3T2E2V2hxMXN3TGY1b1NrMDkxSk5NcG1QV2hwbUY4VGVNVi1CeGktaDBBcU5YR1pfdFBCb3dLejM1RVV6OFZucU9idnFMYUVHNGQ3OTBvR29QV1ppR2hrVXh2UXRzRzAwTWFOVkM1ZWxiTkpOZ1ZjVHJNVVBHSG4wYTIzVWpheWs5RFpvQ29NUktERQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Cybore CEO Ori Segal tells the Post the Binance hack's novelty was the exchange's own AI, used to reach two more engineers' computers. He also names a weakness that helps the attackers.",
+       "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNWW1GRnNlRzZtRWRBa3p1MlRXQUpqQlRsRmlidDhlMzJ4NmQ2X0piQlJteUVXclcwS3Y0MEQyMmREdHJSQnBtMzJIRl91N3VISklxSkZCUlZCdERSeEwyZ2ZUbEN5blhYN1hvOGs0MVcxaVpVblplb1lPMml3TFVENVFXa0VhazhOLVMxWmx3ejFWdGE5RzA1ZWs5ZFY4LThLWGprdmZjUEhWblhLdVBpQm82OXNSUGd5b0tKMFNSbzMxb2ZsbDRNU0RUbF84SFBuLTJnYzZPblNSNHZCdlZr?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Coinbase Institutional says Fed rate expectations, not the Binance hack, sank Bitcoin",
+       "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxPa2tSYmtpOUoxX09tX2xHeWtoNUkzanRYTDdOTEFFVVpJQUY3amd2UTg5RUExYUg4dDRnRzMyN0NudUlOSThhQkU5LWhFMHdCaGd3Q1RpVnF2ajFrbkZsQlU1WVRpRzhTWF9adjhuMzdTdHRXVUtNVGIwRE0wYjNvWTBPRWF2M0dsY1ZJSUhzLXJfSEZxVnlHUkE5Q2N5WDNvRURDc24yRlZBLW1ocjhHcEo2cjBmcWpPSjhVTWFhRGo0ekNjWHpXRVN0aVVOT2pxM2QyXzlIamdiSDdnUC1EZTNB?oc=5",
+       "publisher": "TradingView",
+       "date": "2026-11-13",
+       "score": 0.0
+      },
+      {
+       "title": "Billions of dollars of crypto stolen \u2014 in a hack that we\u2019re now learning involved corporate vibe coding efforts. You couldn\u2019t come up with a more quintessential cautionary tale for an era when employers are embracing AI at every level. In a detailed report explai",
+       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1GWVp5YXpYY3JlNk5XNWpjUllDMUlxcGVNakt6elhuSmNubXItbEtZT0RVN0Frd1BITHYwR0JVb2ZHTG5VSlhmY2VNOXA5N2NMaWc?oc=5",
+       "publisher": "Instagram",
+       "date": "2026-11-13",
+       "score": 0.0
+      },
+      {
+       "title": "Hackers stole $6.3 billion from Binance\u20142 habits that take 'a few seconds' can help you avoid similar traps",
+       "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNcVQxTWhyeEtGN2wyV0Z5a09NVVpzMlg0VHJEQ3VNTHEtSjQ5dDc3WFdTR2FFTFNTV0xFdm9pV0ZsTEhjdFV1NVRPclpMUFJWdlEwZnJWSkhTanlhTV83d3lkcXhOVFRDTHBLelgtdk9UbFdyZHNodXQ3bUEzTHd6UldYa0tOdjZoOUgtLUZ3UjhRYzg4NVBfc20tSVdJRlBoSTYyRWExVdIBrAFBVV95cUxNZmNXUkpQdVBiZTcyNnNDREpwUmt6TFJVd2pLOUxSZzVBVk4xTDFYM3diRWNLLUUtLTNOTDFJWk1zOWZoMmx5QXZPaWVFTmZTMEtRdnBQLVQtQWFqcVFWaWRfNXU2Y2s4a2xDVkdEYkE2d01TOGZnZjRaMzVZMzhDVGhYYXlTRzRGWlBTaUNyYkFYVGxFWDcxSXdrRVlfY2J0RVRZcDBxU2JnVlJB?oc=5",
+       "publisher": "CNBC",
+       "date": "2026-11-13",
+       "score": 0.0
+      }
+     ]
+    },
+    "crypto_corporate": {
+     "label": "Companies / institutions buying crypto",
+     "heat": 0.49,
+     "n": 42,
+     "why": null,
+     "headlines": [
+      {
+       "title": "Trump Media group stares down $1bn debt crunch as bitcoin bet fades",
+       "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOeFZqX2ZESVVsSVVJMU1kR3czUU9wYzdyN3lpTkZsMms4azhnTVRyTkpEZ055c1BjQ1RiTDNLVWZTcHFLYkNQY0RhQVIydEthXzFpTFVvMGxPaXZPM0VFdzEzY1psNi1xOE5ZYzlaRjBrWVZQU1oyRkdCMzRfX2VyUVkwbXQ?oc=5",
+       "publisher": "Financial Times",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "Nakamoto Inc. extended 60 million USDT of its 165 million USDT Kraken loan by a year, the bitcoin treasury company disclosed Thursday. Under the amendment, the net value of its bitcoin derivatives positions, such as put options, now counts toward the loan'",
+       "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFAwc2dCYXNNR0ZCNmsyMF9FOTJqeFNFTmVEd0VxZURXX2lLY2VxTG51UWVSVjF5eGlNaVRVMFRiOFY4Q1c4SFhuYkYyMV9UQmdtU0NYcW9pZzVuR0FYTzVZ?oc=5",
+       "publisher": "X",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "It\u2019s Over: Nvidia CEO \u2018Purposely\u2019 Crashing The Crypto Market?",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1ybUNuRXp4Z2FONnppODk1cXpTYVlVbFlzZXkyZU9rVmFQVlo3eV9sdnNMRDUtcDc1eGdKbURSekJELVhyc0pKbGgwOFRZcTFDUVphUGN3?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-14",
+       "score": 0.0
+      },
+      {
+       "title": "\ud83d\udd25 LATEST: Metaplanet cuts its 2026 revenue forecast by 59% to about $41M. The Bitcoin treasury firm reported a net loss of about $170M for the first nine months of 2026.",
+       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1wZFJDbWx5UFhoUW4yc0tTU1ZxVnBkR3E2bDNGVzU3blZKbUxaNzh1dzhPS1hRNHBfcF9PVHM5OXdUd2VYakV3dFVnNUV1dTNCT0pVQ3ZjaGVSZFJ2SVJveW1hb0Y?oc=5",
+       "publisher": "X",
+       "date": "2026-11-13",
+       "score": -0.67
+      },
+      {
+       "title": "Quantum-resistant upgrades can be adopted if and when they're needed. $BTC",
+       "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9lcExSSDFHSXcteHlFU3ZmdGJxcFhMOGhNZUp1eTVwaURzQ0RfZXpsZ3k5Sm5USVREWGJtaEdPZklRX3UzTVYxRDBFa01NNEwxNEtRZ2V1d1BVTzhTY1E?oc=5",
+       "publisher": "X",
+       "date": "2026-11-13",
+       "score": 0.0
+      },
+      {
+       "title": "\ud83c\uddec\ud83c\udde7 MSCI ADDS #BITCOIN TREASURY FIRM SMARTER WEB TO ITS UK MICRO CAP INDEX \ud83d\udc40 EFFECTIVE NOVEMBER 30TH \ud83d\ude80",
+       "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE01eEhUTlctRTZSUlpzQ1FRcGV5RGNob08ydXVuUGsxVHlwd2dvNS1WMkJCOXEyZnlLMUktS1BUY1hzeU9zVU9LVFpSRzV6eEdvdndZRmJ4TVNsWDA2RnpNZ3RTblNuUQ?oc=5",
+       "publisher": "X",
+       "date": "2026-11-13",
+       "score": 0.0
+      }
+     ]
+    }
+   },
+   "events": []
+  },
+  "requested": {},
+  "label_counts": {
+   "HOLD": 29,
+   "WATCH": 4,
+   "AVOID": 3,
+   "SELL": 1,
+   "SHORT BUY": 0,
+   "LONG BUY": 7
+  }
+ }
+}

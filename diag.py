@@ -139,8 +139,7 @@ def checks(market, stats):
     if c:
         calls, fails = c.get("calls", 0), c.get("failures", 0)
         st = "OK" if calls and not fails else "WARN" if calls > fails else "FAIL"
-        by = ", ".join(f"{k[3:].replace('_', ' ').title().replace('Github', 'GitHub')} {v}" for k, v in c.items()
-                       if k.startswith("by_"))
+        by = ", ".join(f"{k[5:]} ×{v}" for k, v in c.items() if k.startswith("used_"))
         add("AI (Claude)", st, (f"answered by: {by}; " if by else "") + f"{calls} calls, {fails} failed, {c.get('input_tokens', 0):,} in / {c.get('output_tokens', 0):,} out tokens, "
             f"≈ US${c.get('cost_usd', 0):.3f}; headlines scored {c.get('headlines_sent', 0):,}, "
             f"reused from earlier days {c.get('headlines_from_cache', 0):,}",

@@ -773,6 +773,7 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
         df["weakening"] = False
     stats.update(news_method=nf.attrs.get("method"), screened=int(ok.sum()),
                  news_coverage=round(float((df["news_count"].fillna(0) > 0).mean()), 2),
+                 ai_used={k[5:]: v for k, v in diag.D.get(name, {}).get("claude", {}).items() if k.startswith("used_")},
                  ai_scoring=("off" if not __import__("claude_api").available()
                              else "on" if "claude" in (nf.attrs.get("method"), ctx.get("method")) or ctx.get("events")
                              else "failed"),

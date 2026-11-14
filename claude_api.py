@@ -116,6 +116,7 @@ def ask(prompt, max_tokens=4000, where="claude", timeout=180):
                     _fails[name] = 0
                     diag.claude_ok({"usage": {"input_tokens": i, "output_tokens": o}}, paid=(name == "Claude"))
                     diag.inc("claude", "by_" + name.lower().replace(" ", "_"))
+                    diag.inc("claude", f"used_{name} ({model.split('/')[-1]})")
                     if cut:
                         diag.sample("claude", "errors", f"{where}: reply cut off at max_tokens={max_tokens} ({name})")
                     return text

@@ -24,7 +24,7 @@ PROVIDERS = [
      ["gemini-flash-latest", "gemini-2.5-flash", "gemini-flash-lite-latest"]),
     ("GitHub Models", "GITHUB_TOKEN", "openai", "https://models.github.ai/inference/chat/completions",
      ["openai/gpt-4.1-mini", "openai/gpt-4o-mini",
-      "https://models.inference.ai.azure.com/chat/completions|gpt-4o-mini"]),   # older endpoint, same free quota
+      "https://models.github.ai/inference/v1/chat/completions|openai/gpt-4o-mini"]),
     ("Groq", "GROQ_API_KEY", "openai", "https://api.groq.com/openai/v1/chat/completions",
      ["openai/gpt-oss-120b", "llama-3.3-70b-versatile"]),
 ]
@@ -75,13 +75,15 @@ def _call(p, model, prompt, max_tokens, timeout):
         headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
     if name == "GitHub Models":
         headers.update({"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"})
-    req = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers)
+    headers["User-Agent"] = "stock-screener/1.0 (+https://github.com/clyphor/stock-screener)"
+    req = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers, method="POST")
     with _opener.open(req, timeout=timeout) as r:
         raw, status, ctype = r.read(), r.status, r.headers.get("Content-Type", "")
+        hdr = {k: v for k, v in r.headers.items() if k.lower() in ("server", "x-github-request-id", "x-ms-request-id", "via")}
     try:
         resp = json.loads(raw)
     except ValueError:
-        raise RuntimeError(f"non-JSON reply (HTTP {status}, {ctype}, {len(raw)} bytes): {raw[:200]!r}")
+        raise RuntimeError(f"non-JSON reply from {url} (HTTP {status}, {ctype}, {len(raw)} bytes, {hdr}): {raw[:200]!r}")
     if kind == "anthropic":
         text = "".join(b.get("text", "") for b in resp.get("content", []) if b.get("type") == "text")
         u = resp.get("usage", {}) or {}

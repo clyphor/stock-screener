@@ -549,7 +549,15 @@ function renderMine(){
       ${(()=>{ const m = done.map(z=>z.main), ok = m.every(v=>v); if (!m.length) return "";
         if (!ok) return `<div class="kv"><small>Total in ${MAINCUR}</small><b class="mute">rates loading…</b></div>`;
         const pnl = m.reduce((p,c)=>p+c.pnl,0), cost = m.reduce((p,c)=>p+c.cost,0);
-        return `<div class="kv"><small>Total in ${MAINCUR} (all trades)</small><b class="${pnl>=0?"good":"bad"}">${pm(pnl,MAINCUR)} <span style="font-weight:500">(${fp(cost?pnl/cost:null)})</span></b></div>`; })()}
+        const open = done.filter(z=>z.x.status==="open").map(z=>z.main);
+        const openVal = open.reduce((p,c)=>p+c.cost+c.pnl,0);
+        return `<div class="kv" style="grid-column:1/-1"><small>Total in ${MAINCUR} (all trades)</small>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:4px">
+            <div><small class="mute">Invested</small><b style="display:block">${money(cost,MAINCUR)}</b></div>
+            <div><small class="mute">Profit / loss</small><b style="display:block" class="${pnl>=0?"good":"bad"}">${pm(pnl,MAINCUR)}<br><span style="font-weight:500;font-size:13px">${fp(cost?pnl/cost:null)}</span></b></div>
+            <div><small class="mute">Net worth</small><b style="display:block">${money(cost+pnl,MAINCUR)}</b></div>
+          </div>
+          <div class="mute" style="font-size:12px;margin-top:4px">Net worth = what you put in plus profit/loss${open.length&&open.length<done.length?` · still held: ${money(openVal,MAINCUR)} in ${open.length} open trade${open.length>1?"s":""}`:""}.</div></div>`; })()}
       </div>
       <div class="mute" style="margin-top:8px">Converted at the exchange rate of the day each trade was bought and sold (or today's for open trades), so the ${MAINCUR} figures include currency moves. Change the main currency at the top of the page.</div>
       <div class="mute" style="margin-top:8px">By label when bought: ${Object.entries(byLab).map(([l,a])=>`${l} ${fp(avg(a.map(z=>z.vs).filter(v=>v!=null)))} vs index (${a.length})`).join(" · ")}</div>`:`<div class="mute" style="margin-top:8px">No paper trades yet. Open a stock and tap “Paper buy” to test a signal.</div>`}

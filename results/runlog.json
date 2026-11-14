@@ -1,5 +1,266 @@
 [
  {
+  "started": "2026-11-14T12:23:40+00:00",
+  "finished": "2026-11-14T13:27:00+00:00",
+  "minutes": 63.3,
+  "trigger": "schedule",
+  "commit": "52af746",
+  "status": "warnings",
+  "fatal": null,
+  "warnings": [
+   "12:24:37 WARNING no price data for: FDXF, HONA, VYLR",
+   "13:26:19 WARNING Claude macro scoring failed, using word list: HTTP Error 400: Bad Request",
+   "13:26:56 WARNING Claude event analyst failed: HTTP Error 400: Bad Request",
+   "13:27:00 {\n \"US\": {\n  \"test_from\": \"2026-04-17\",\n  \"ic_mean\": -0.015,\n  \"ic_positive_days\": 0.52,\n  \"top_minus_bottom\": -0.0045,\n  \"top_hit_rate\": 0.48,\n  \"as_of\": \"2026-11-13\",\n  \"news_method\": \"cached\",\n  \"screened\": 500,\n  \"news_coverage\": 0.0,\n  \"ai_scoring\": \"failed\",\n  \"currency\": \"USD\",\n  \"index_name\": \"SPY\",\n  \"kind\": \"stock\",\n  \"price_date\": \"2026-11-13\",\n  \"model_used\": false,\n  \"weights\": {\n   \"ml\": 0.1,\n   \"fundamental\": 0.45,\n   \"news\": 0.17,\n   \"peers\": 0.1,\n   \"macro\": 0.18\n  },\n  \"track_n\": 57,\n  \"track\": {\n   \"BUY\": {\n    \"n\": 57,\n    \"avg_excess\": -0.0023,\n    \"win_rate\": 0.61\n   },\n   \"SELL\": {\n    \"n\": 30,\n    \"avg_excess\": 0.0339,\n    \"win_rate\": 0.17\n   },\n   \"AVOID\": {\n    \"n\": 386,\n    \"avg_excess\": 0.039,\n    \"win_rate\": 0.3\n   },\n   \"SHORT BUY\": {\n    \"n\": 78,\n    \"avg_excess\": -0.1269,\n    \"win_rate\": 0.36\n   },\n   \"LONG BUY\": {\n    \"n\": 24,\n    \"avg_excess\": 0.0095,\n    \"win_rate\": 0.71\n   }\n  },\n  \"track_avg_excess\": -0.0023,\n  \"track_win_rate\": 0.61,\n  \"track_open\": 612,\n  \"perf\": {\n   \"index\": {\n    \"1D\": -0.0036,\n    \"1W\": 0.0259,\n    \"1M\": -0.0226,\n    \"3M\": -0.0213,\n    \"YTD\": 0.1149,\n    \"1Y\": 0.1158,\n    \"5Y\": 0.7215\n   },\n   \"sectors\": [\n    {\n     \"name\": \"Financials\",\n     \"n\": 1,\n     \"ret\": {\n      \"1D\": 0.0371,\n      \"1W\": 0.0143,\n      \"1M\": 0.351,\n      \"3M\": 0.2216,\n      \"YTD\": -0.0505,\n      \"1Y\": -0.0093,\n      \"5Y\": -0.3645\n     },\n     \"score\": 45.1,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Consumer Defensive\",\n     \"n\": 31,\n     \"ret\": {\n      \"1D\": 0.0143,\n      \"1W\": 0.0258,\n      \"1M\": 0.0779,\n      \"3M\": 0.1249,\n      \"YTD\": 0.2381,\n      \"1Y\": 0.2595,\n      \"5Y\": 0.9848\n     },\n     \"score\": 47.8,\n     \"labels\": {\n      \"BUY\": 1,\n      \"WATCH\": 2,\n      \"AVOID\": 5,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Healthcare\",\n     \"n\": 60,\n     \"ret\": {\n      \"1D\": 0.0058,\n      \"1W\": 0.0232,\n      \"1M\": 0.0714,\n      \"3M\": 0.1659,\n      \"YTD\": 0.349,\n      \"1Y\": 0.3946,\n      \"5Y\": 1.5107\n     },\n     \"score\": 48.2,\n     \"labels\": {\n      \"BUY\": 6,\n      \"WATCH\": 12,\n      \"AVOID\": 9,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Financial Services\",\n     \"n\": 70,\n     \"ret\": {\n      \"1D\": 0.0078,\n      \"1W\": 0.0276,\n      \"1M\": 0.0646,\n      \"3M\": 0.038,\n      \"YTD\": 0.1042,\n      \"1Y\": 0.1317,\n      \"5Y\": 0.9438\n     },\n     \"score\": 50.0,\n     \"labels\": {\n      \"BUY\": 1,\n      \"WATCH\": 2,\n      \"AVOID\": 13,\n      \"SELL\": 3\n     }\n    },\n    {\n     \"name\": \"Consumer Cyclical\",\n     \"n\": 54,\n     \"ret\": {\n      \"1D\": -0.0044,\n      \"1W\": 0.0301,\n      \"1M\": 0.062,\n      \"3M\": 0.0453,\n      \"YTD\": 0.0501,\n      \"1Y\": 0.0465,\n      \"5Y\": 0.3967\n     },\n     \"score\": 47.6,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 21,\n      \"SELL\": 1\n     }\n    },\n    {\n     \"name\": \"Utilities\",\n     \"n\": 31,\n     \"ret\": {\n      \"1D\": 0.005,\n      \"1W\": 0.0224,\n      \"1M\": 0.0599,\n      \"3M\": 0.0094,\n      \"YTD\": 0.0715,\n      \"1Y\": 0.0254,\n      \"5Y\": 0.7406\n     },\n     \"score\": 43.9,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 4,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Real Estate\",\n     \"n\": 30,\n     \"ret\": {\n      \"1D\": -0.0009,\n      \"1W\": 0.01,\n      \"1M\": 0.0587,\n      \"3M\": 0.0048,\n      \"YTD\": 0.1775,\n      \"1Y\": 0.157,\n      \"5Y\": 0.5116\n     },\n     \"score\": 45.1,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 2,\n      \"SELL\": 1\n     }\n    },\n    {\n     \"name\": \"Basic Materials\",\n     \"n\": 19,\n     \"ret\": {\n      \"1D\": -0.0017,\n      \"1W\": 0.008,\n      \"1M\": 0.0337,\n      \"3M\": 0.0164,\n      \"YTD\": 0.1938,\n      \"1Y\": 0.2343,\n      \"5Y\": 0.6839\n     },\n     \"score\": 50.3,\n     \"labels\": {\n      \"BUY\": 2,\n      \"WATCH\": 2,\n      \"AVOID\": 5,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Industrials\",\n     \"n\": 74,\n     \"ret\": {\n      \"1D\": -0.0043,\n      \"1W\": 0.0383,\n      \"1M\": 0.0145,\n      \"3M\": -0.0713,\n      \"YTD\": 0.1674,\n      \"1Y\": 0.1771,\n      \"5Y\": 1.5111\n     },\n     \"score\": 52.6,\n     \"labels\": {\n      \"BUY\": 3,\n      \"WATCH\": 8,\n      \"AVOID\": 9,\n      \"SELL\": 1\n     }\n    },\n    {\n     \"name\": \"Energy\",\n     \"n\": 21,\n     \"ret\": {\n      \"1D\": 0.0096,\n      \"1W\": 0.052,\n      \"1M\": -0.0234,\n      \"3M\": 0.0504,\n      \"YTD\": 0.5405,\n      \"1Y\": 0.5325,\n      \"5Y\": 2.0346\n     },\n     \"score\": 60.4,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 5,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Technology\",\n     \"n\": 87,\n     \"ret\": {\n      \"1D\": -0.0162,\n      \"1W\": 0.0289,\n      \"1M\": -0.0738,\n      \"3M\": -0.0411,\n      \"YTD\": 0.2917,\n      \"1Y\": 0.2676,\n      \"5Y\": 2.5637\n     },\n     \"score\": 54.2,\n     \"labels\": {\n      \"BUY\": 6,\n      \"WATCH\": 15,\n      \"AVOID\": 11,\n      \"SELL\": 1\n     }\n    },\n    {\n     \"name\": \"Communication Services\",\n     \"n\": 19,\n     \"ret\": {\n      \"1D\": 0.0027,\n      \"1W\": 0.0381,\n      \"1M\": -0.1005,\n      \"3M\": -0.0467,\n      \"YTD\": -0.0583,\n      \"1Y\": 0.0082,\n      \"5Y\": 0.8652\n     },\n     \"score\": 49.6,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 7,\n      \"SELL\": 0\n     }\n    }\n   ],\n   \"industries\": [\n    {\n     \"name\": \"Insurance Brokers\",\n     \"n\": 6,\n     \"ret\": {\n      \"1D\": 0.0156,\n      \"1W\": 0.0101,\n      \"1M\": 0.1281,\n      \"3M\": 0.0828,\n      \"YTD\": 0.0573,\n      \"1Y\": 0.0713,\n      \"5Y\": 0.4602\n     },\n     \"score\": 44.2,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 3,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Insurance - Diversified\",\n     \"n\": 4,\n     \"ret\": {\n      \"1D\": 0.0051,\n      \"1W\": 0.0387,\n      \"1M\": 0.1223,\n      \"3M\": 0.1807,\n      \"YTD\": 0.1682,\n      \"1Y\": 0.1744,\n      \"5Y\": 1.0616\n     },\n     \"score\": 52.1,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Industrial Distribution\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": -0.0039,\n      \"1W\": 0.0544,\n      \"1M\": 0.114,\n      \"3M\": 0.0929,\n      \"YTD\": 0.3724,\n      \"1Y\": 0.3626,\n      \"5Y\": 1.5014\n     },\n     \"score\": 51.2,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Restaurants\",\n     \"n\": 6,\n     \"ret\": {\n      \"1D\": -0.0007,\n      \"1W\": 0.001,\n      \"1M\": 0.1121,\n      \"3M\": 0.0298,\n      \"YTD\": 0.0567,\n      \"1Y\": 0.0713,\n      \"5Y\": 0.1714\n     },\n     \"score\": 44.8,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"REIT - Retail\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": -0.0027,\n      \"1W\": 0.0099,\n      \"1M\": 0.1071,\n      \"3M\": 0.0207,\n      \"YTD\": 0.2178,\n      \"1Y\": 0.2311,\n      \"5Y\": 0.4509\n     },\n     \"score\": 47.0,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Building Materials\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": -0.0053,\n      \"1W\": -0.0119,\n      \"1M\": 0.1036,\n      \"3M\": -0.0233,\n      \"YTD\": -0.1626,\n      \"1Y\": -0.133,\n      \"5Y\": 0.7385\n     },\n     \"score\": 47.4,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Drug Manufacturers - General\",\n     \"n\": 9,\n     \"ret\": {\n      \"1D\": 0.0074,\n      \"1W\": 0.0341,\n      \"1M\": 0.0974,\n      \"3M\": 0.158,\n      \"YTD\": 0.3669,\n      \"1Y\": 0.4339,\n      \"5Y\": 2.4677\n     },\n     \"score\": 47.3,\n     \"labels\": {\n      \"BUY\": 1,\n      \"WATCH\": 1,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Discount Stores\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": 0.0129,\n      \"1W\": 0.0298,\n      \"1M\": 0.0971,\n      \"3M\": 0.1317,\n      \"YTD\": 0.2188,\n      \"1Y\": 0.2668,\n      \"5Y\": 1.4397\n     },\n     \"score\": 50.4,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Airlines\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": -0.0084,\n      \"1W\": -0.0127,\n      \"1M\": 0.0959,\n      \"3M\": -0.0311,\n      \"YTD\": 0.1398,\n      \"1Y\": 0.3199,\n      \"5Y\": 0.8298\n     },\n     \"score\": 50.9,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Financial Data & Stock Exchanges\",\n     \"n\": 9,\n     \"ret\": {\n      \"1D\": 0.0056,\n      \"1W\": 0.021,\n      \"1M\": 0.0954,\n      \"3M\": 0.1429,\n      \"YTD\": 0.0829,\n      \"1Y\": 0.1061,\n      \"5Y\": 0.4356\n     },\n     \"score\": 47.2,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 2,\n      \"SELL\": 1\n     }\n    },\n    {\n     \"name\": \"Asset Management\",\n     \"n\": 13,\n     \"ret\": {\n      \"1D\": 0.009,\n      \"1W\": 0.0293,\n      \"1M\": 0.0946,\n      \"3M\": -0.0445,\n      \"YTD\": 0.0281,\n      \"1Y\": 0.0606,\n      \"5Y\": 0.4695\n     },\n     \"score\": 50.3,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Medical Distribution\",\n     \"n\": 4,\n     \"ret\": {\n      \"1D\": 0.0213,\n      \"1W\": 0.0469,\n      \"1M\": 0.0883,\n      \"3M\": 0.2176,\n      \"YTD\": 0.2787,\n      \"1Y\": 0.2485,\n      \"5Y\": 3.7111\n     },\n     \"score\": 45.3,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Resorts & Casinos\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": 0.0226,\n      \"1W\": 0.0069,\n      \"1M\": 0.086,\n      \"3M\": -0.144,\n      \"YTD\": -0.2919,\n      \"1Y\": -0.2877,\n      \"5Y\": -0.0748\n     },\n     \"score\": 43.3,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 2,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Specialty Business Services\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": 0.0039,\n      \"1W\": 0.002,\n      \"1M\": 0.0859,\n      \"3M\": 0.0957,\n      \"YTD\": 0.1298,\n      \"1Y\": 0.1351,\n      \"5Y\": 0.6343\n     },\n     \"score\": 47.2,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Beverages - Non-Alcoholic\",\n     \"n\": 4,\n     \"ret\": {\n      \"1D\": 0.0201,\n      \"1W\": 0.0298,\n      \"1M\": 0.0854,\n      \"3M\": 0.1148,\n      \"YTD\": 0.308,\n      \"1Y\": 0.3126,\n      \"5Y\": 0.7087\n     },\n     \"score\": 48.3,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Household & Personal Products\",\n     \"n\": 6,\n     \"ret\": {\n      \"1D\": 0.0128,\n      \"1W\": 0.0266,\n      \"1M\": 0.0851,\n      \"3M\": 0.1695,\n      \"YTD\": 0.2138,\n      \"1Y\": 0.1961,\n      \"5Y\": 0.2301\n     },\n     \"score\": 44.9,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Integrated Freight & Logistics\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": 0.0141,\n      \"1W\": 0.0496,\n      \"1M\": 0.0851,\n      \"3M\": 0.0185,\n      \"YTD\": 0.2518,\n      \"1Y\": 0.3414,\n      \"5Y\": 0.2746\n     },\n     \"score\": 55.0,\n     \"labels\": {\n      \"BUY\": 1,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Insurance - Property & Casualty\",\n     \"n\": 8,\n     \"ret\": {\n      \"1D\": 0.0039,\n      \"1W\": 0.0319,\n      \"1M\": 0.0828,\n      \"3M\": 0.1091,\n      \"YTD\": 0.2175,\n      \"1Y\": 0.2462,\n      \"5Y\": 1.4218\n     },\n     \"score\": 51.1,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Utilities - Regulated Electric\",\n     \"n\": 23,\n     \"ret\": {\n      \"1D\": 0.0069,\n      \"1W\": 0.011,\n      \"1M\": 0.0749,\n      \"3M\": 0.0153,\n      \"YTD\": 0.1178,\n      \"1Y\": 0.0662,\n      \"5Y\": 0.5206\n     },\n     \"score\": 42.7,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 3,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Medical Devices\",\n     \"n\": 10,\n     \"ret\": {\n      \"1D\": 0.0101,\n      \"1W\": 0.0022,\n      \"1M\": 0.0727,\n      \"3M\": 0.0311,\n      \"YTD\": -0.0464,\n      \"1Y\": -0.053,\n      \"5Y\": -0.0159\n     },\n     \"score\": 49.7,\n     \"labels\": {\n      \"BUY\": 1,\n      \"WATCH\": 2,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Auto Manufacturers\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": -0.017,\n      \"1W\": 0.0819,\n      \"1M\": 0.0717,\n      \"3M\": 0.1361,\n      \"YTD\": -0.1213,\n      \"1Y\": -0.08,\n      \"5Y\": -0.02\n     },\n     \"score\": 38.6,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 3,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Biotechnology\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": -0.0106,\n      \"1W\": -0.0199,\n      \"1M\": 0.0676,\n      \"3M\": 0.6825,\n      \"YTD\": 1.8023,\n      \"1Y\": 2.0554,\n      \"5Y\": 0.8605\n     },\n     \"score\": 50.5,\n     \"labels\": {\n      \"BUY\": 2,\n      \"WATCH\": 1,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Information Technology Services\",\n     \"n\": 9,\n     \"ret\": {\n      \"1D\": 0.0063,\n      \"1W\": 0.0004,\n      \"1M\": 0.0669,\n      \"3M\": 0.2021,\n      \"YTD\": -0.1135,\n      \"1Y\": -0.1081,\n      \"5Y\": 0.5745\n     },\n     \"score\": 52.6,\n     \"labels\": {\n      \"BUY\": 2,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"REIT - Industrial\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": 0.0002,\n      \"1W\": 0.0029,\n      \"1M\": 0.0666,\n      \"3M\": -0.0194,\n      \"YTD\": 0.1479,\n      \"1Y\": 0.1473,\n      \"5Y\": 0.0896\n     },\n     \"score\": 48.6,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Specialty Retail\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": 0.0089,\n      \"1W\": 0.0212,\n      \"1M\": 0.0662,\n      \"3M\": 0.1019,\n      \"YTD\": 0.2565,\n      \"1Y\": 0.2263,\n      \"5Y\": 1.1015\n     },\n     \"score\": 50.1,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 2,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Banks - Regional\",\n     \"n\": 9,\n     \"ret\": {\n      \"1D\": 0.0082,\n      \"1W\": 0.0258,\n      \"1M\": 0.0644,\n      \"3M\": -0.0702,\n      \"YTD\": 0.1228,\n      \"1Y\": 0.2447,\n      \"5Y\": 0.3289\n     },\n     \"score\": 57.3,\n     \"labels\": {\n      \"BUY\": 1,\n      \"WATCH\": 1,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Packaged Foods\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": 0.0198,\n      \"1W\": 0.0005,\n      \"1M\": 0.0634,\n      \"3M\": -0.0108,\n      \"YTD\": 0.0083,\n      \"1Y\": -0.0034,\n      \"5Y\": -0.1802\n     },\n     \"score\": 46.9,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 2,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Residential Construction\",\n     \"n\": 4,\n     \"ret\": {\n      \"1D\": 0.0044,\n      \"1W\": -0.0491,\n      \"1M\": 0.0614,\n      \"3M\": -0.0252,\n      \"YTD\": -0.0345,\n      \"1Y\": -0.0744,\n      \"5Y\": 0.6603\n     },\n     \"score\": 48.3,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Specialty Chemicals\",\n     \"n\": 9,\n     \"ret\": {\n      \"1D\": 0.0053,\n      \"1W\": 0.0229,\n      \"1M\": 0.0602,\n      \"3M\": 0.0742,\n      \"YTD\": 0.2223,\n      \"1Y\": 0.2139,\n      \"5Y\": 0.3828\n     },\n     \"score\": 46.1,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 4,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Telecom Services\",\n     \"n\": 6,\n     \"ret\": {\n      \"1D\": 0.0015,\n      \"1W\": 0.0364,\n      \"1M\": 0.0596,\n      \"3M\": -0.0382,\n      \"YTD\": -0.0164,\n      \"1Y\": -0.0018,\n      \"5Y\": 0.3526\n     },\n     \"score\": 48.6,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 2,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"REIT - Specialty\",\n     \"n\": 7,\n     \"ret\": {\n      \"1D\": -0.004,\n      \"1W\": 0.0302,\n      \"1M\": 0.0559,\n      \"3M\": 0.016,\n      \"YTD\": 0.2166,\n      \"1Y\": 0.1537,\n      \"5Y\": 0.2631\n     },\n     \"score\": 43.8,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 2,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Credit Services\",\n     \"n\": 6,\n     \"ret\": {\n      \"1D\": 0.0121,\n      \"1W\": 0.0057,\n      \"1M\": 0.0558,\n      \"3M\": 0.1273,\n      \"YTD\": 0.1258,\n      \"1Y\": 0.1532,\n      \"5Y\": 0.9022\n     },\n     \"score\": 50.6,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 2,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Medical Instruments & Supplies\",\n     \"n\": 8,\n     \"ret\": {\n      \"1D\": 0.0081,\n      \"1W\": 0.0016,\n      \"1M\": 0.0554,\n      \"3M\": 0.1228,\n      \"YTD\": 0.0418,\n      \"1Y\": 0.0506,\n      \"5Y\": 0.0874\n     },\n     \"score\": 49.7,\n     \"labels\": {\n      \"BUY\": 1,\n      \"WATCH\": 1,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Aerospace & Defense\",\n     \"n\": 12,\n     \"ret\": {\n      \"1D\": 0.0001,\n      \"1W\": 0.0339,\n      \"1M\": 0.051,\n      \"3M\": -0.1051,\n      \"YTD\": 0.0402,\n      \"1Y\": 0.0652,\n      \"5Y\": 2.0055\n     },\n     \"score\": 51.4,\n     \"labels\": {\n      \"BUY\": 1,\n      \"WATCH\": 2,\n      \"AVOID\": 1,\n      \"SELL\": 1\n     }\n    },\n    {\n     \"name\": \"Insurance - Life\",\n     \"n\": 4,\n     \"ret\": {\n      \"1D\": 0.0082,\n      \"1W\": 0.0356,\n      \"1M\": 0.0503,\n      \"3M\": 0.0389,\n      \"YTD\": 0.2222,\n      \"1Y\": 0.2209,\n      \"5Y\": 0.9853\n     },\n     \"score\": 52.1,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Medical Care Facilities\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": -0.0023,\n      \"1W\": -0.0015,\n      \"1M\": 0.0502,\n      \"3M\": 0.2047,\n      \"YTD\": 0.0987,\n      \"1Y\": 0.0731,\n      \"5Y\": 1.0029\n     },\n     \"score\": 49.1,\n     \"labels\": {\n      \"BUY\": 1,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Travel Services\",\n     \"n\": 6,\n     \"ret\": {\n      \"1D\": 0.0053,\n      \"1W\": -0.0109,\n      \"1M\": 0.0483,\n      \"3M\": -0.046,\n      \"YTD\": 0.0573,\n      \"1Y\": 0.1444,\n      \"5Y\": 0.7322\n     },\n     \"score\": 52.2,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"REIT - Healthcare Facilities\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": -0.0031,\n      \"1W\": 0.0007,\n      \"1M\": 0.0471,\n      \"3M\": 0.0271,\n      \"YTD\": 0.3025,\n      \"1Y\": 0.2679,\n      \"5Y\": 1.8597\n     },\n     \"score\": 43.0,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Railroads\",\n     \"n\": 4,\n     \"ret\": {\n      \"1D\": -0.0082,\n      \"1W\": 0.0443,\n      \"1M\": 0.0449,\n      \"3M\": 0.0062,\n      \"YTD\": 0.3339,\n      \"1Y\": 0.3729,\n      \"5Y\": 0.6596\n     },\n     \"score\": 50.5,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Internet Retail\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": -0.0028,\n      \"1W\": 0.0259,\n      \"1M\": 0.0417,\n      \"3M\": 0.0183,\n      \"YTD\": 0.1497,\n      \"1Y\": 0.0919,\n      \"5Y\": 0.5034\n     },\n     \"score\": 49.7,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Packaging & Containers\",\n     \"n\": 6,\n     \"ret\": {\n      \"1D\": 0.0029,\n      \"1W\": -0.0095,\n      \"1M\": 0.0396,\n      \"3M\": -0.0283,\n      \"YTD\": 0.1199,\n      \"1Y\": 0.1904,\n      \"5Y\": 0.1374\n     },\n     \"score\": 45.6,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 4,\n      \"SELL\": 1\n     }\n    },\n    {\n     \"name\": \"REIT - Residential\",\n     \"n\": 6,\n     \"ret\": {\n      \"1D\": 0.0066,\n      \"1W\": -0.0103,\n      \"1M\": 0.0327,\n      \"3M\": -0.0241,\n      \"YTD\": 0.0255,\n      \"1Y\": 0.0695,\n      \"5Y\": -0.1369\n     },\n     \"score\": 42.6,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 1\n     }\n    },\n    {\n     \"name\": \"Diagnostics & Research\",\n     \"n\": 12,\n     \"ret\": {\n      \"1D\": -0.0006,\n      \"1W\": 0.0069,\n      \"1M\": 0.0287,\n      \"3M\": 0.174,\n      \"YTD\": 0.2194,\n      \"1Y\": 0.2127,\n      \"5Y\": 0.1347\n     },\n     \"score\": 46.2,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 4,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Auto Parts\",\n     \"n\": 4,\n     \"ret\": {\n      \"1D\": 0.0045,\n      \"1W\": 0.0168,\n      \"1M\": 0.0271,\n      \"3M\": 0.0196,\n      \"YTD\": -0.0302,\n      \"1Y\": -0.1048,\n      \"5Y\": 0.8104\n     },\n     \"score\": 44.6,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Banks - Diversified\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": 0.0075,\n      \"1W\": 0.034,\n      \"1M\": 0.0259,\n      \"3M\": -0.0721,\n      \"YTD\": 0.0575,\n      \"1Y\": 0.0938,\n      \"5Y\": 1.0853\n     },\n     \"score\": 45.7,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 3,\n      \"SELL\": 1\n     }\n    },\n    {\n     \"name\": \"Oil & Gas Equipment & Services\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": 0.0169,\n      \"1W\": 0.0406,\n      \"1M\": 0.0111,\n      \"3M\": -0.097,\n      \"YTD\": 0.2547,\n      \"1Y\": 0.3017,\n      \"5Y\": 0.8459\n     },\n     \"score\": 57.7,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Oil & Gas Midstream\",\n     \"n\": 4,\n     \"ret\": {\n      \"1D\": 0.0006,\n      \"1W\": 0.0804,\n      \"1M\": 0.0078,\n      \"3M\": -0.0101,\n      \"YTD\": 0.3115,\n      \"1Y\": 0.3662,\n      \"5Y\": 2.2742\n     },\n     \"score\": 53.7,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Capital Markets\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": 0.004,\n      \"1W\": 0.0452,\n      \"1M\": -0.0027,\n      \"3M\": -0.1348,\n      \"YTD\": 0.0558,\n      \"1Y\": 0.062,\n      \"5Y\": 1.4857\n     },\n     \"score\": 46.6,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 1\n     }\n    },\n    {\n     \"name\": \"Oil & Gas E&P\",\n     \"n\": 9,\n     \"ret\": {\n      \"1D\": 0.0141,\n      \"1W\": 0.0594,\n      \"1M\": -0.0112,\n      \"3M\": 0.0374,\n      \"YTD\": 0.4124,\n      \"1Y\": 0.4295,\n      \"5Y\": 1.0555\n     },\n     \"score\": 64.2,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Entertainment\",\n     \"n\": 7,\n     \"ret\": {\n      \"1D\": 0.0001,\n      \"1W\": -0.0014,\n      \"1M\": -0.0231,\n      \"3M\": -0.0452,\n      \"YTD\": -0.135,\n      \"1Y\": -0.1857,\n      \"5Y\": 0.0544\n     },\n     \"score\": 48.5,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 2,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Utilities - Independent Power Producers\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": -0.009,\n      \"1W\": 0.1032,\n      \"1M\": -0.0328,\n      \"3M\": -0.0442,\n      \"YTD\": -0.2168,\n      \"1Y\": -0.243,\n      \"5Y\": 4.8169\n     },\n     \"score\": 54.6,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Software - Application\",\n     \"n\": 15,\n     \"ret\": {\n      \"1D\": 0.0054,\n      \"1W\": 0.0131,\n      \"1M\": -0.0413,\n      \"3M\": 0.025,\n      \"YTD\": -0.1008,\n      \"1Y\": -0.1344,\n      \"5Y\": 0.0242\n     },\n     \"score\": 53.5,\n     \"labels\": {\n      \"BUY\": 2,\n      \"WATCH\": 2,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Specialty Industrial Machinery\",\n     \"n\": 17,\n     \"ret\": {\n      \"1D\": -0.0065,\n      \"1W\": 0.0329,\n      \"1M\": -0.0413,\n      \"3M\": -0.1181,\n      \"YTD\": 0.1348,\n      \"1Y\": 0.1608,\n      \"5Y\": 0.8889\n     },\n     \"score\": 54.8,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 2,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Building Products & Equipment\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": -0.0128,\n      \"1W\": 0.0353,\n      \"1M\": -0.0421,\n      \"3M\": -0.0953,\n      \"YTD\": 0.1067,\n      \"1Y\": 0.0581,\n      \"5Y\": 0.932\n     },\n     \"score\": 53.2,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 2,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Scientific & Technical Instruments\",\n     \"n\": 6,\n     \"ret\": {\n      \"1D\": -0.0212,\n      \"1W\": 0.0582,\n      \"1M\": -0.0426,\n      \"3M\": -0.1345,\n      \"YTD\": 0.2971,\n      \"1Y\": 0.3884,\n      \"5Y\": 1.0089\n     },\n     \"score\": 53.9,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 2,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Apparel Retail\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": -0.0143,\n      \"1W\": -0.0037,\n      \"1M\": -0.0433,\n      \"3M\": -0.0757,\n      \"YTD\": -0.0044,\n      \"1Y\": 0.0703,\n      \"5Y\": 0.9443\n     },\n     \"score\": 49.5,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Farm Products\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": 0.0149,\n      \"1W\": 0.0221,\n      \"1M\": -0.0446,\n      \"3M\": -0.0702,\n      \"YTD\": 0.1866,\n      \"1Y\": 0.195,\n      \"5Y\": 0.1627\n     },\n     \"score\": 47.4,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Software - Infrastructure\",\n     \"n\": 17,\n     \"ret\": {\n      \"1D\": -0.0023,\n      \"1W\": 0.006,\n      \"1M\": -0.0527,\n      \"3M\": 0.0485,\n      \"YTD\": 0.1388,\n      \"1Y\": 0.0722,\n      \"5Y\": 1.1119\n     },\n     \"score\": 50.3,\n     \"labels\": {\n      \"BUY\": 1,\n      \"WATCH\": 4,\n      \"AVOID\": 4,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Electronic Components\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": -0.0239,\n      \"1W\": 0.0578,\n      \"1M\": -0.0821,\n      \"3M\": -0.17,\n      \"YTD\": 0.171,\n      \"1Y\": 0.1318,\n      \"5Y\": 2.5708\n     },\n     \"score\": 57.5,\n     \"labels\": {\n      \"BUY\": 1,\n      \"WATCH\": 2,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Farm & Heavy Construction Machinery\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": -0.0069,\n      \"1W\": 0.0463,\n      \"1M\": -0.0889,\n      \"3M\": -0.1458,\n      \"YTD\": 0.1911,\n      \"1Y\": 0.19,\n      \"5Y\": 1.6497\n     },\n     \"score\": 49.9,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 2,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Engineering & Construction\",\n     \"n\": 4,\n     \"ret\": {\n      \"1D\": -0.0077,\n      \"1W\": 0.0988,\n      \"1M\": -0.091,\n      \"3M\": -0.2024,\n      \"YTD\": 0.2963,\n      \"1Y\": 0.2147,\n      \"5Y\": 5.1426\n     },\n     \"score\": 57.4,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 2,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Electrical Equipment & Parts\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": -0.0359,\n      \"1W\": 0.0934,\n      \"1M\": -0.1054,\n      \"3M\": -0.2339,\n      \"YTD\": 0.5569,\n      \"1Y\": 0.2643,\n      \"5Y\": 5.1235\n     },\n     \"score\": 52.0,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Communication Equipment\",\n     \"n\": 6,\n     \"ret\": {\n      \"1D\": -0.0466,\n      \"1W\": 0.0424,\n      \"1M\": -0.1149,\n      \"3M\": -0.1404,\n      \"YTD\": 0.3879,\n      \"1Y\": 0.4905,\n      \"5Y\": 1.6526\n     },\n     \"score\": 54.0,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 1,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Oil & Gas Refining & Marketing\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": 0.0082,\n      \"1W\": 0.0961,\n      \"1M\": -0.1203,\n      \"3M\": 0.1216,\n      \"YTD\": 1.3547,\n      \"1Y\": 1.1025,\n      \"5Y\": 4.6493\n     },\n     \"score\": 67.8,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 3,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Internet Content & Information\",\n     \"n\": 3,\n     \"ret\": {\n      \"1D\": 0.0022,\n      \"1W\": 0.0426,\n      \"1M\": -0.1464,\n      \"3M\": -0.0575,\n      \"YTD\": -0.0464,\n      \"1Y\": 0.0394,\n      \"5Y\": 0.9727\n     },\n     \"score\": 56.0,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 1,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Semiconductors\",\n     \"n\": 14,\n     \"ret\": {\n      \"1D\": -0.0339,\n      \"1W\": 0.0217,\n      \"1M\": -0.1496,\n      \"3M\": -0.1804,\n      \"YTD\": 0.3521,\n      \"1Y\": 0.3401,\n      \"5Y\": 4.5487\n     },\n     \"score\": 55.5,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 2,\n      \"SELL\": 1\n     }\n    },\n    {\n     \"name\": \"Semiconductor Equipment & Materials\",\n     \"n\": 5,\n     \"ret\": {\n      \"1D\": -0.032,\n      \"1W\": 0.1133,\n      \"1M\": -0.1541,\n      \"3M\": -0.3094,\n      \"YTD\": 0.3536,\n      \"1Y\": 0.4448,\n      \"5Y\": 2.2803\n     },\n     \"score\": 59.5,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 0,\n      \"AVOID\": 0,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Computer Hardware\",\n     \"n\": 8,\n     \"ret\": {\n      \"1D\": -0.0482,\n      \"1W\": 0.1013,\n      \"1M\": -0.1648,\n      \"3M\": -0.2702,\n      \"YTD\": 1.1897,\n      \"1Y\": 1.0011,\n      \"5Y\": 5.11\n     },\n     \"score\": 58.5,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 3,\n      \"AVOID\": 2,\n      \"SELL\": 0\n     }\n    },\n    {\n     \"name\": \"Healthcare Plans\",\n     \"n\": 6,\n     \"ret\": {\n      \"1D\": 0.004,\n      \"1W\": 0.033,\n      \"1M\": 0.0,\n      \"3M\": 0.0513,\n      \"YTD\": 0.2848,\n      \"1Y\": 0.3051,\n      \"5Y\": 0.0774\n     },\n     \"score\": 48.2,\n     \"labels\": {\n      \"BUY\": 0,\n      \"WATCH\": 2,\n      \"AVOID\": 2,\n      \"SELL\": 0\n     }\n    }\n   ]\n  },\n  \"index_level\": 754.37,\n  \"timings\": {\n   \"index list\": 0.1,\n   \"prices\": 55.3,\n   \"fundamentals\": 13.7,\n   \"company news\": 3486.5,\n   \"financial health\": 0.0,\n   \"model\": 3.9,\n   \"news scoring\": 0.1,\n   \"sector & politics\": 234.4,\n   \"scoring & labels\": 0.6\n  },\n  \"downloaded\": 500,\n  \"missing_prices\": [\n   \"FDXF\",\n   \"HONA\",\n   \"VYLR\"\n  ],\n  \"macro\": {\n   \"method\": \"wordlist\",\n   \"sectors\": {\n    \"Energy\": {\n     \"score\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"Basic Materials\": {\n     \"score\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"Financial Services\": {\n     \"score\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"Technology\": {\n     \"score\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"Healthcare\": {\n     \"score\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"Industrials\": {\n     \"score\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"Consumer Cyclical\": {\n     \"score\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"Consumer Defensive\": {\n     \"score\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"Utilities\": {\n     \"score\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"Real Estate\": {\n     \"score\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"Communication Services\": {\n     \"score\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    }\n   },\n   \"themes\": {\n    \"war\": {\n     \"label\": \"War / geopolitical conflict\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"ceasefire\": {\n     \"label\": \"Ceasefire / peace deal\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"china_tensions\": {\n     \"label\": \"US\\u2013China / Taiwan tensions\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"critical_minerals\": {\n     \"label\": \"Critical minerals / rare-earth deals\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"sanctions\": {\n     \"label\": \"New sanctions on major producers\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"oil_supply_down\": {\n     \"label\": \"Oil supply disruption / OPEC cuts\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"oil_supply_up\": {\n     \"label\": \"More oil supply (new reserves, OPEC hikes, Venezuela/Iran barrels)\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"drilling_policy\": {\n     \"label\": \"Pro-drilling / LNG approvals policy\",\n     \"heat\": 0.18,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"climate_policy\": {\n     \"label\": \"Climate & clean-energy policy\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"tariffs\": {\n     \"label\": \"New tariffs / trade war\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"trade_deal\": {\n     \"label\": \"Trade deals / tariff relief\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"chip_controls\": {\n     \"label\": \"Chip export controls / tech restrictions\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"shipping\": {\n     \"label\": \"Shipping chokepoints / freight disruption\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"rates_down\": {\n     \"label\": \"Interest-rate cuts\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"rates_up\": {\n     \"label\": \"Interest-rate hikes / sticky inflation\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"recession\": {\n     \"label\": \"Recession / slowdown fears\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"stimulus\": {\n     \"label\": \"Government spending / infrastructure / stimulus\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"china\": {\n     \"label\": \"China stimulus / demand\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"ai_capex\": {\n     \"label\": \"AI / data-centre spending boom\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"defense_spending\": {\n     \"label\": \"Defence spending increases\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"drug_pricing\": {\n     \"label\": \"Drug-pricing / pharma policy\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"bank_regulation\": {\n     \"label\": \"Bank regulation / levies\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"deregulation\": {\n     \"label\": \"Deregulation (finance / energy / mining)\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"antitrust\": {\n     \"label\": \"Antitrust action on Big Tech\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"housing_policy\": {\n     \"label\": \"Housing & property policy\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"gold_haven\": {\n     \"label\": \"Safe-haven / central-bank gold buying\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"election\": {\n     \"label\": \"Elections / political uncertainty / shutdown\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"pandemic\": {\n     \"label\": \"Disease outbreak / pandemic\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"disasters\": {\n     \"label\": \"Natural disasters / extreme weather\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    },\n    \"food_ag\": {\n     \"label\": \"Farm & food shocks (drought, crop prices)\",\n     \"heat\": 0.0,\n     \"n\": 0,\n     \"why\": null,\n     \"headlines\": []\n    }\n   },\n   \"events\": []\n  },\n  \"requested\": {},\n  \"label_counts\": {\n   \"HOLD\": 335,\n   \"AVOID\": 84,\n   \"WATCH\": 52,\n   \"BUY\": 19,\n   \"SELL\": 7,\n   \"SHORT BUY\": 16,\n   \"LONG BUY\": 11\n  }\n }\n}"
+  ],
+  "markets": {
+   "US": {
+    "error": null,
+    "downloaded": 500,
+    "screened": 500,
+    "news_coverage": 0.0,
+    "ai_scoring": "failed",
+    "news_method": "cached",
+    "price_date": "2026-11-13",
+    "ic_mean": -0.015,
+    "model_used": false,
+    "timings": {
+     "index list": 0.1,
+     "prices": 55.3,
+     "fundamentals": 13.7,
+     "company news": 3486.5,
+     "financial health": 0.0,
+     "model": 3.9,
+     "news scoring": 0.1,
+     "sector & politics": 234.4,
+     "scoring & labels": 0.6
+    },
+    "missing_prices": [
+     "FDXF",
+     "HONA",
+     "VYLR"
+    ],
+    "labels": {
+     "HOLD": 335,
+     "AVOID": 84,
+     "WATCH": 52,
+     "BUY": 19,
+     "SELL": 7,
+     "SHORT BUY": 16,
+     "LONG BUY": 11
+    },
+    "ai_events": 0
+   }
+  },
+  "checks": {
+   "US": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "503 tickers from live",
+     "hint": ""
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "500/503 stocks downloaded, 0 batch errors, 3 retries; last date 2026-11-13",
+     "hint": ""
+    },
+    {
+     "stage": "Price check",
+     "status": "OK",
+     "msg": "Massive on 2026-11-13: 500/500 agree with Yahoo, 0 corrected, 0 filled",
+     "hint": ""
+    },
+    {
+     "stage": "Index",
+     "status": "OK",
+     "msg": "used SPY",
+     "hint": ""
+    },
+    {
+     "stage": "Fundamentals",
+     "status": "OK",
+     "msg": "500 companies; ",
+     "hint": ""
+    },
+    {
+     "stage": "Company news",
+     "status": "FAIL",
+     "msg": "coverage 0%; Yahoo items 0, Google items 0, Google requests 1000 (1000 failed); dropped: 0 off-topic, 0 junk sites, 0 law-firm ads, 0 over promo cap",
+     "hint": "Google News may be blocking requests \u2014 data.py _google_news; errors listed below."
+    },
+    {
+     "stage": "Financial health",
+     "status": "OK",
+     "msg": "0 refreshed, 500 from cache, 0 errors, 494 with an F-score",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "INFO",
+     "msg": "122128 training rows; backtest IC -0.015",
+     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "FAIL",
+     "msg": "2 calls, 2 failed, 0 in / 0 out tokens, \u2248 US$0.000; headlines scored 0, reused from earlier days 0",
+     "hint": "Check API credit and key in console.anthropic.com; errors listed below."
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "WARN",
+     "msg": "0 headlines from 45 searches (45 failed); 0 AI events",
+     "hint": "Google News searches failing \u2014 macro.py _fetch_all."
+    }
+   ]
+  },
+  "errors": {
+   "US": {
+    "news.errors": [
+     "Google News: HTTP Error 503: Service Unavailable"
+    ],
+    "macro.errors": [
+     "Google News: HTTP Error 503: Service Unavailable"
+    ],
+    "claude.errors": [
+     "sector/theme scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Bi",
+     "event analyst: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing t"
+    ]
+   }
+  },
+  "diag": {
+   "general": {
+    "tracked": {
+     "count": 0
+    }
+   },
+   "US": {
+    "universe": {
+     "source": "live",
+     "count": 503
+    },
+    "prices": {
+     "requested": 503,
+     "retries": 3,
+     "missing": [
+      "FDXF",
+      "HONA",
+      "VYLR"
+     ],
+     "received": 500,
+     "last_date": "2026-11-13",
+     "first_date": "2020-11-16",
+     "stale": []
+    },
+    "index": {
+     "used": "SPY",
+     "preferred": "SPY"
+    },
+    "fundamentals": {
+     "count": 500,
+     "missing_marketCap": 0.0,
+     "missing_trailingPE": 0.05,
+     "missing_profitMargins": 0.0,
+     "missing_revenueGrowth": 0.0,
+     "missing_returnOnEquity": 0.06,
+     "missing_debtToEquity": 0.06,
+     "filled_from_statements": {
+      "returnOnEquity": 4,
+      "debtToEquity": 23,
+      "freeCashflow": 32,
+      "revenueGrowth": 1,
+      "profitMargins": 1,
+      "dividendYield": 1,
+      "payoutRatio": 1
+     }
+    },
+    "news": {
+     "google_requests": 1000,
+     "google_failures": 1000,
+     "errors": [
+      "Google News: HTTP Error 503: Service Unavailable"
+     ],
+     "stocks": 500,
+     "with_news": 0,
+     "kept": 0,
+     "no_news_sample": [
+      "MMM",
+      "AOS",
+      "ABT",
+      "ABBV",
+      "ACN",
+      "ADBE",
+      "AMD",
+      "AES",
+      "AFL",
+      "A",
+      "APD",
+      "ABNB",
+      "AKAM",
+      "ALB",
+      "ARE"
+     ]
+    },
+    "health": {
+     "refreshed": 0,
+     "cached": 500,
+     "with_fscore": 494
+    },
+    "pricecheck": {
+     "source": "Massive",
+     "date": "2026-11-13",
+     "checked": 500,
+     "agree": 500,
+     "corrected": 0,
+     "filled": 0
+    },
+    "model": {
+     "train_rows": 122128,
+     "dates": 1254
+    },
+    "screen": {
+     "total": 500,
+     "no_dollar_vol": 0,
+     "too_illiquid": 0,
+     "no_price": 0,
+     "price_below_1": 0,
+     "too_small": 0,
+     "passed": 500
+    },
+    "macro": {
+     "requests": 45,
+     "failures": 45,
+     "errors": [
+      "Google News: HTTP Error 503: Service Unavailable"
+     ],
+     "ai_events": 0,
+     "method": "wordlist"
+    },
+    "claude": {
+     "calls": 2,
+     "failures": 2,
+     "errors": [
+      "sector/theme scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Bi",
+      "event analyst: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing t"
+     ]
+    },
+    "halal": {
+     "halal": 238,
+     "not_halal": 216,
+     "doubtful": 43
+    },
+    "dividends": {
+     "payers": 398,
+     "high": 46,
+     "growers": 221,
+     "at_risk": 11
+    }
+   }
+  }
+ },
+ {
   "started": "2026-11-14T09:20:15+00:00",
   "finished": "2026-11-14T09:22:16+00:00",
   "minutes": 2.0,
@@ -16427,520 +16688,6 @@
      "high": 44,
      "growers": 221,
      "at_risk": 13
-    }
-   }
-  }
- },
- {
-  "started": "2026-11-05T10:43:13+00:00",
-  "finished": "2026-11-05T10:47:37+00:00",
-  "minutes": 4.4,
-  "trigger": "workflow_dispatch",
-  "commit": "0d76d26",
-  "status": "warnings",
-  "fatal": null,
-  "warnings": [
-   "10:44:16 WARNING no price data for: FDXF, HONA, Q, VYLR",
-   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:58 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "10:45:59 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request"
-  ],
-  "markets": {
-   "US": {
-    "error": null,
-    "downloaded": 499,
-    "screened": 499,
-    "news_coverage": 1.0,
-    "ai_scoring": "on",
-    "news_method": "claude",
-    "price_date": "2026-11-04",
-    "ic_mean": 0.015,
-    "model_used": false,
-    "timings": {
-     "index list": 0.3,
-     "prices": 62.3,
-     "fundamentals": 18.7,
-     "company news": 38.4,
-     "financial health": 39.3,
-     "model": 4.9,
-     "news scoring": 4.6,
-     "sector & politics": 4.1,
-     "scoring & labels": 0.9
-    },
-    "missing_prices": [
-     "FDXF",
-     "HONA",
-     "Q",
-     "VYLR"
-    ],
-    "labels": {
-     "HOLD": 349,
-     "AVOID": 88,
-     "WATCH": 40,
-     "BUY": 17,
-     "SELL": 2,
-     "SHORT BUY": 16,
-     "LONG BUY": 13
-    },
-    "ai_events": 0
-   },
-   "ASX": {
-    "error": null,
-    "downloaded": 195,
-    "screened": 152,
-    "news_coverage": 0.99,
-    "ai_scoring": "on",
-    "news_method": "claude",
-    "price_date": "2026-11-05",
-    "ic_mean": -0.056,
-    "model_used": false,
-    "timings": {
-     "index list": 0.2,
-     "prices": 48.8,
-     "fundamentals": 12.5,
-     "company news": 13.3,
-     "financial health": 0.0,
-     "model": 2.0,
-     "news scoring": 1.0,
-     "sector & politics": 4.8,
-     "scoring & labels": 0.3
-    },
-    "missing_prices": [
-     "ASK.AX",
-     "IFL.AX",
-     "NSR.AX",
-     "QUB.AX",
-     "XYX.AX"
-    ],
-    "labels": {
-     "HOLD": 94,
-     "AVOID": 36,
-     "BUY": 12,
-     "WATCH": 9,
-     "SELL": 1,
-     "SHORT BUY": 5,
-     "LONG BUY": 4
-    },
-    "ai_events": 0
-   }
-  },
-  "checks": {
-   "US": [
-    {
-     "stage": "Stock list",
-     "status": "OK",
-     "msg": "503 tickers from live",
-     "hint": ""
-    },
-    {
-     "stage": "Prices",
-     "status": "OK",
-     "msg": "499/503 stocks downloaded, 0 batch errors, 3 retries; last date 2026-11-04",
-     "hint": ""
-    },
-    {
-     "stage": "Price check",
-     "status": "OK",
-     "msg": "Massive on 2026-11-04: 499/499 agree with Yahoo, 0 corrected, 0 filled",
-     "hint": ""
-    },
-    {
-     "stage": "Index",
-     "status": "OK",
-     "msg": "used SPY",
-     "hint": ""
-    },
-    {
-     "stage": "Fundamentals",
-     "status": "OK",
-     "msg": "499 companies; ",
-     "hint": ""
-    },
-    {
-     "stage": "Company news",
-     "status": "OK",
-     "msg": "coverage 100%; Yahoo items 0, Google items 59885, Google requests 998 (0 failed); dropped: 9246 off-topic, 4563 junk sites, 34 law-firm ads, 3750 over promo cap",
-     "hint": ""
-    },
-    {
-     "stage": "Financial health",
-     "status": "OK",
-     "msg": "150 refreshed, 299 from cache, 0 errors, 495 with an F-score",
-     "hint": ""
-    },
-    {
-     "stage": "Price model",
-     "status": "INFO",
-     "msg": "122108 training rows; backtest IC 0.015",
-     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
-    },
-    {
-     "stage": "AI (Claude)",
-     "status": "FAIL",
-     "msg": "126 calls, 126 failed, 0 in / 0 out tokens, \u2248 US$0.000; headlines scored 4,921, reused from earlier days 2,173",
-     "hint": "Check API credit and key in console.anthropic.com; errors listed below."
-    },
-    {
-     "stage": "Sector & politics",
-     "status": "OK",
-     "msg": "4323 headlines from 45 searches (0 failed); 0 AI events",
-     "hint": ""
-    }
-   ],
-   "ASX": [
-    {
-     "stage": "Stock list",
-     "status": "OK",
-     "msg": "200 tickers from live",
-     "hint": ""
-    },
-    {
-     "stage": "Prices",
-     "status": "OK",
-     "msg": "195/200 stocks downloaded, 0 batch errors, 3 retries; last date 2026-11-05",
-     "hint": ""
-    },
-    {
-     "stage": "Index",
-     "status": "OK",
-     "msg": "used ^AXJO",
-     "hint": ""
-    },
-    {
-     "stage": "Fundamentals",
-     "status": "OK",
-     "msg": "195 companies; trailingPE missing 11%",
-     "hint": ""
-    },
-    {
-     "stage": "Company news",
-     "status": "OK",
-     "msg": "coverage 99%; Yahoo items 0, Google items 16638, Google requests 390 (0 failed); dropped: 2001 off-topic, 159 junk sites, 1 law-firm ads, 2416 over promo cap",
-     "hint": ""
-    },
-    {
-     "stage": "Financial health",
-     "status": "OK",
-     "msg": "0 refreshed, 195 from cache, 0 errors, 174 with an F-score",
-     "hint": ""
-    },
-    {
-     "stage": "Price model",
-     "status": "INFO",
-     "msg": "46494 training rows; backtest IC -0.056",
-     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
-    },
-    {
-     "stage": "AI (Claude)",
-     "status": "FAIL",
-     "msg": "24 calls, 24 failed, 0 in / 0 out tokens, \u2248 US$0.000; headlines scored 853, reused from earlier days 416",
-     "hint": "Check API credit and key in console.anthropic.com; errors listed below."
-    },
-    {
-     "stage": "Sector & politics",
-     "status": "OK",
-     "msg": "4201 headlines from 47 searches (0 failed); 0 AI events",
-     "hint": ""
-    }
-   ]
-  },
-  "errors": {
-   "US": {
-    "claude.errors": [
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
-    ]
-   },
-   "ASX": {
-    "claude.errors": [
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
-    ]
-   }
-  },
-  "diag": {
-   "general": {
-    "tracked": {
-     "count": 0
-    },
-    "claude": {
-     "headline_cache_size": 42371
-    }
-   },
-   "US": {
-    "universe": {
-     "source": "live",
-     "count": 503
-    },
-    "prices": {
-     "requested": 503,
-     "retries": 3,
-     "missing": [
-      "FDXF",
-      "HONA",
-      "Q",
-      "VYLR"
-     ],
-     "received": 499,
-     "last_date": "2026-11-04",
-     "first_date": "2020-11-05",
-     "stale": []
-    },
-    "index": {
-     "used": "SPY",
-     "preferred": "SPY"
-    },
-    "fundamentals": {
-     "count": 499,
-     "missing_marketCap": 0.0,
-     "missing_trailingPE": 0.05,
-     "missing_profitMargins": 0.0,
-     "missing_revenueGrowth": 0.0,
-     "missing_returnOnEquity": 0.06,
-     "missing_debtToEquity": 0.06,
-     "filled_from_statements": {
-      "returnOnEquity": 17,
-      "debtToEquity": 23,
-      "priceToBook": 1,
-      "freeCashflow": 53,
-      "revenueGrowth": 1,
-      "profitMargins": 1,
-      "dividendYield": 1,
-      "payoutRatio": 1
-     }
-    },
-    "news": {
-     "google_requests": 998,
-     "google_items": 59885,
-     "dropped_promo_cap": 3750,
-     "dropped_lowq": 4563,
-     "dropped_irrelevant": 9246,
-     "dropped_lawfirm_ads": 34,
-     "stocks": 499,
-     "with_news": 498,
-     "kept": 7094,
-     "no_news_sample": [
-      "T"
-     ]
-    },
-    "health": {
-     "deferred": 50,
-     "errors": 0,
-     "refreshed": 150,
-     "cached": 299,
-     "with_fscore": 495
-    },
-    "pricecheck": {
-     "source": "Massive",
-     "date": "2026-11-04",
-     "checked": 499,
-     "agree": 499,
-     "corrected": 0,
-     "filled": 0
-    },
-    "model": {
-     "train_rows": 122108,
-     "dates": 1254
-    },
-    "claude": {
-     "headlines_from_cache": 2173,
-     "headlines_sent": 4921,
-     "calls": 126,
-     "failures": 126,
-     "errors": [
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
-     ]
-    },
-    "screen": {
-     "total": 499,
-     "no_dollar_vol": 0,
-     "too_illiquid": 0,
-     "no_price": 0,
-     "price_below_1": 0,
-     "too_small": 0,
-     "passed": 499
-    },
-    "macro": {
-     "requests": 45,
-     "headlines": 4323,
-     "ai_events": 0,
-     "method": "wordlist"
-    },
-    "halal": {
-     "halal": 240,
-     "not_halal": 211,
-     "doubtful": 45
-    },
-    "dividends": {
-     "payers": 397,
-     "high": 44,
-     "growers": 221,
-     "at_risk": 13
-    }
-   },
-   "ASX": {
-    "universe": {
-     "source": "live",
-     "count": 200
-    },
-    "prices": {
-     "requested": 200,
-     "retries": 3,
-     "missing": [
-      "ASK.AX",
-      "IFL.AX",
-      "NSR.AX",
-      "QUB.AX",
-      "XYX.AX"
-     ],
-     "received": 195,
-     "last_date": "2026-11-05",
-     "first_date": "2020-11-05",
-     "stale": []
-    },
-    "index": {
-     "used": "^AXJO",
-     "preferred": "^AXJO"
-    },
-    "fundamentals": {
-     "count": 195,
-     "missing_marketCap": 0.06,
-     "missing_trailingPE": 0.11,
-     "missing_profitMargins": 0.0,
-     "missing_revenueGrowth": 0.01,
-     "missing_returnOnEquity": 0.02,
-     "missing_debtToEquity": 0.04,
-     "filled_from_statements": {
-      "returnOnEquity": 5,
-      "debtToEquity": 9,
-      "priceToBook": 2,
-      "freeCashflow": 12,
-      "revenueGrowth": 16,
-      "profitMargins": 2,
-      "dividendYield": 2,
-      "payoutRatio": 1
-     }
-    },
-    "news": {
-     "google_requests": 390,
-     "google_items": 16638,
-     "dropped_irrelevant": 2001,
-     "dropped_promo_cap": 2416,
-     "dropped_lowq": 159,
-     "dropped_lawfirm_ads": 1,
-     "stocks": 195,
-     "with_news": 193,
-     "kept": 1269,
-     "no_news_sample": [
-      "ANZ.AX",
-      "DOW.AX"
-     ]
-    },
-    "health": {
-     "refreshed": 0,
-     "cached": 195,
-     "with_fscore": 174
-    },
-    "model": {
-     "train_rows": 46494,
-     "dates": 1267
-    },
-    "claude": {
-     "headlines_from_cache": 416,
-     "headlines_sent": 853,
-     "calls": 24,
-     "failures": 24,
-     "errors": [
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
-     ]
-    },
-    "screen": {
-     "total": 192,
-     "no_dollar_vol": 0,
-     "too_illiquid": 33,
-     "no_price": 0,
-     "price_below_1": 7,
-     "too_small": 3,
-     "passed": 152
-    },
-    "macro": {
-     "requests": 47,
-     "headlines": 4201,
-     "ai_events": 0,
-     "method": "wordlist"
-    },
-    "halal": {
-     "not_halal": 72,
-     "halal": 68,
-     "doubtful": 12
-    },
-    "dividends": {
-     "payers": 128,
-     "high": 24,
-     "growers": 23,
-     "at_risk": 12
     }
    }
   }

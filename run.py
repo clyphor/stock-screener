@@ -23,7 +23,7 @@ import assets
 
 LIST_COLS = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers", "macro", "macro_raw",
              "mcap", "news_sent", "events", "value", "quality", "growth", "health", "f_score", "flags", "red_flags",
-             "hz_short", "hz_long", "halal", "div_yield", "div_tags", "weakening", "requested",
+             "hz_short", "hz_long", "halal", "div_yield", "div_tags", "momentum_tag", "val_tag", "val_up", "weakening", "requested",
              "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons", "signal"]
 import stability
 import tracked
@@ -422,6 +422,60 @@ def dividend_info(df, fund):
              at_risk=sum("Dividend at risk" in v for v in out_tags.values()))
 
 
+def momentum_tags(df):
+    """Overbought / Oversold from RSI, confirmed by how stretched the price is from its 50-day average."""
+    rsi, d50 = df["rsi_14"], df["dist_ma50"]
+    tag = pd.Series(None, index=df.index, dtype=object)
+    tag[(rsi >= 70) & (d50 >= 0.05)] = "Overbought"
+    tag[(rsi <= 30) & (d50 <= -0.05)] = "Oversold"
+    df["momentum_tag"] = tag
+
+
+def valuation_info(df, fund):
+    """The screener's own fair-value estimate — NOT Morningstar's. A blend of:
+       • analysts' average price target (when 3+ analysts cover it), and
+       • what the price would be at its sector's typical P/E (forward if available, else trailing).
+    Undervalued = estimate ≥20% above the price; Overvalued = ≥15% below; else Fairly valued."""
+    g = lambda c: pd.to_numeric(fund[c], errors="coerce").reindex(df.index) if c in fund else pd.Series(np.nan, index=df.index)
+    price = pd.to_numeric(df["price"], errors="coerce")
+    tgt, n_an = g("targetMeanPrice"), g("numberOfAnalystOpinions")
+    lo, hi = g("targetLowPrice"), g("targetHighPrice")
+    fpe, tpe = g("forwardPE"), g("trailingPE")
+    pe = fpe.where((fpe > 0) & (fpe < 200), tpe.where((tpe > 0) & (tpe < 200)))
+    sec_pe = pe.groupby(df["sector"]).transform(lambda s: s.median() if s.notna().sum() >= 5 else np.nan)
+    by_pe = (price * (sec_pe / pe).clip(0.5, 2.0)).where(pe.notna() & sec_pe.notna())
+    by_an = tgt.where((n_an.fillna(0) >= 3) | (n_an.isna() & tgt.notna()))
+    by_an = by_an.where((by_an / price).between(0.3, 3))   # ignore stale / wrong-currency targets
+    out, tags = {}, {}
+    for t in df.index:
+        parts = []
+        if pd.notna(by_an.get(t)):
+            parts.append(("Analysts' average target", float(by_an[t]), 0.5,
+                          f"{int(n_an[t])} analysts" if pd.notna(n_an.get(t)) else None))
+        if pd.notna(by_pe.get(t)):
+            parts.append(("At its sector's typical P/E", float(by_pe[t]), 0.5,
+                          f"P/E {pe[t]:.1f} vs sector {sec_pe[t]:.1f}"))
+        if not parts or not price.get(t) or price[t] <= 0:
+            out[t], tags[t] = None, None
+            continue
+        w = sum(p[2] for p in parts)
+        fair = sum(p[1] * p[2] for p in parts) / w
+        up = fair / price[t] - 1
+        tag = "Undervalued" if up >= 0.20 else "Overvalued" if up <= -0.15 else "Fairly valued"
+        spread = (max(p[1] for p in parts) / min(p[1] for p in parts) - 1) if len(parts) > 1 else None
+        out[t] = {"fair": _px(fair), "upside": round(up, 3), "tag": tag,
+                  "confidence": "low" if len(parts) == 1 or (spread or 0) > 0.6 else "medium",
+                  "parts": [{"label": l, "value": _px(v), "note": nt} for l, v, _, nt in parts],
+                  "range": [_px(lo.get(t)), _px(hi.get(t))] if pd.notna(lo.get(t)) and pd.notna(hi.get(t)) else None}
+        tags[t] = tag
+    df["val_tag"] = pd.Series(tags)
+    df["val_up"] = pd.Series({t: (v or {}).get("upside") for t, v in out.items()})
+    df["val_info"] = pd.Series(out)
+    diag.put("valuation", estimated=sum(1 for v in out.values() if v),
+             undervalued=sum(1 for v in tags.values() if v == "Undervalued"),
+             overvalued=sum(1 for v in tags.values() if v == "Overvalued"))
+
+
 def _fill_from_statements(fund, health, close):
     """Fill fundamentals Yahoo's summary lacks (most PSX stocks) from the financial statements."""
     if health is None or not len(health):
@@ -748,6 +802,11 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
     df["halal_info"] = pd.Series(hres)
     diag.put("halal", **{k.lower().replace(" ", "_"): int(v) for k, v in df["halal"].value_counts().items()})
     dividend_info(df, fund)
+    momentum_tags(df)
+    if not asset:
+        valuation_info(df, fund)
+    else:
+        df["val_tag"], df["val_up"], df["val_info"] = None, np.nan, None
     if asset:
         checks, schecks = asset_checks(df, model_ok)
         reds = asset_red_flags(df)
@@ -1006,6 +1065,8 @@ def write_details(df, ex, market, outdir, only=None):
             "label_history": stability.history(market, t),
             "halal": dict(r["halal_info"], purification=halal.purification(r["halal_info"].get("ratios"))),
             "dividend": r.get("div_info"),
+            "valuation": r.get("val_info") if isinstance(r.get("val_info"), dict) else None,
+            "momentum": r.get("momentum_tag") if isinstance(r.get("momentum_tag"), str) else None,
             "hz": {"short": r["hz_short"], "medium": r["signal"] if r["signal"] in ("BUY", "WATCH") else "", "long": r["hz_long"]},
             "short_checks": [{"label": SHORT_LABELS[c], "pass": bool(ex["hshort"].at[t, c])} for c in ex["hshort"].columns],
             "long_checks": [{"label": (ASSET_LONG_LABELS if assets.is_asset(market) else LONG_LABELS)[c], "pass": bool(ex["hlong"].at[t, c])} for c in ex["hlong"].columns],
@@ -1256,6 +1317,9 @@ def list_row(t, r):
              "wk": bool(r.get("weakening")),
              "hl": r["halal"],
              "dv": r["div_tags"] if isinstance(r.get("div_tags"), list) else [],
+             "mo": r.get("momentum_tag") if isinstance(r.get("momentum_tag"), str) else None,
+             "va": r.get("val_tag") if isinstance(r.get("val_tag"), str) else None,
+             "vu": _num(r.get("val_up"), 3),
              "dy": _num(r.get("div_yield"), 2),
              "hz": [r["hz_short"] or "", r["signal"] if r["signal"] in ("BUY", "WATCH") else "", r["hz_long"] or ""],
              "red": r["red_flags"] if isinstance(r["red_flags"], list) else [],

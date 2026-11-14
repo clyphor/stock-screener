@@ -31,6 +31,7 @@ PROVIDERS = [
 _dead = {}      # provider -> reason, for this run
 _model_ok = {}  # provider -> model that worked
 _fails = {}     # consecutive non-fatal failures per provider
+_spent = set()  # (provider, model) used up for the day — free quotas are per model, so try the next one
 
 
 def _configured():
@@ -138,7 +139,9 @@ def ask(prompt, max_tokens=4000, where="claude", timeout=180):
     last = None
     for p in _configured():
         name = p[0]
-        models = [_model_ok[name]] if name in _model_ok else list(p[4])
+        models = [m for m in ([_model_ok[name]] if name in _model_ok else []) + list(p[4])
+                  if (name, m) not in _spent]
+        models = list(dict.fromkeys(models))
         too_big = False
         for model in models:
             for attempt in range(3):
@@ -167,6 +170,13 @@ def ask(prompt, max_tokens=4000, where="claude", timeout=180):
                     if e.code == 413 or "request too large" in body.lower() or "context_length" in body.lower():
                         too_big = True           # this prompt is over the provider's size limit — next provider
                         diag.sample("claude", "errors", f"{where}: too large for {name} — passed to the next provider")
+                        break
+                    if e.code == 429 and _fatal(e.code, body):   # this model's daily quota is used up
+                        _spent.add((name, model))
+                        _model_ok.pop(name, None)
+                        diag.sample("claude", "errors", f"{where}: {name} {model} used up for today — trying its next model")
+                        if all((name, m) in _spent for m in p[4]):
+                            _dead[name] = "daily quota used up on all models"
                         break
                     if _fatal(e.code, body):
                         _dead[name] = f"{e.code}: {body[:120]}"

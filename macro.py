@@ -304,7 +304,7 @@ def _heat(market, counts):
 
 
 def _claude(market, heads):
-    key = os.environ.get("ANTHROPIC_API_KEY")
+    key = claude_api.available()
     if not key:
         return None
     blocks = []
@@ -341,7 +341,7 @@ BROAD = {
 def _claude_events(market, heads, broad, universe):
     """Open-ended: Claude reads today's top business/political news and names specific events and
     which industries/stocks they move. Catches things no fixed theme list anticipates."""
-    key = os.environ.get("ANTHROPIC_API_KEY")
+    key = claude_api.available()
     if not key:
         return []
     lines = [h["title"] for h in broad][:160]
@@ -428,7 +428,7 @@ def macro_context(market, demo=False, universe=None):
             if k:
                 themes[k].update(heat=round(float(np.clip(v.get("heat", 0), 0, 1)), 2), why=v.get("why"))
     events = []
-    if universe and not demo and os.environ.get("ANTHROPIC_API_KEY"):
+    if universe and not demo and claude_api.available():
         with ThreadPoolExecutor(4) as ex:
             broad = [h for hs in ex.map(lambda q: _google_news(q, market, "macro"),
                                     {**BROAD, **assets.BROAD}.get(market, [])) for h in hs]

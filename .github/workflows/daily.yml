@@ -19,12 +19,13 @@ on:
         type: boolean
         default: false
       staging_ai:
-        description: "Test run only: also use Claude AI scoring (costs API credit). Off = free test without AI."
+        description: "Test run only: also use AI scoring (Claude costs credit; the free providers don't). Off = test without AI."
         type: boolean
         default: false
 
 permissions:
   contents: write
+  models: read      # free AI through GitHub Models (used when Claude has no credit)
 
 concurrency:
   group: screener
@@ -72,6 +73,10 @@ jobs:
         env:
           # optional: either secret name works
           ANTHROPIC_API_KEY: ${{ (inputs.staging != true || inputs.staging_ai == true) && (secrets.ANTHROPIC_API_KEY || secrets.CLAUDE_API_KEY) || '' }}
+          # free AI fall-backs, tried in this order after Claude (see claude_api.py)
+          GEMINI_API_KEY: ${{ (inputs.staging != true || inputs.staging_ai == true) && secrets.GEMINI_API_KEY || '' }}
+          GITHUB_TOKEN: ${{ (inputs.staging != true || inputs.staging_ai == true) && secrets.GITHUB_TOKEN || '' }}
+          GROQ_API_KEY: ${{ (inputs.staging != true || inputs.staging_ai == true) && secrets.GROQ_API_KEY || '' }}
           # optional, free: second US price source (massive.com) to verify Yahoo's closes
           MASSIVE_API_KEY: ${{ secrets.MASSIVE_API_KEY }}
         run: python run.py --markets "${{ steps.which.outputs.markets }}"

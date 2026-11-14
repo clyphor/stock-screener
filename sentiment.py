@@ -105,7 +105,7 @@ def save_headline_cache(keep_days=14):
 def claude_scores(items):
     """items: list of (ticker, title). Returns list of (score, events), or None.
     Headlines Claude already scored on an earlier day are reused from the cache (no cost)."""
-    key = os.environ.get("ANTHROPIC_API_KEY")
+    key = claude_api.available()
     if not key or not items:
         return None
     hc, today = _hc(), datetime.now(timezone.utc).date().toordinal()
@@ -134,7 +134,7 @@ def claude_scores(items):
 
 
 def _claude_scores_uncached(items):
-    key = os.environ.get("ANTHROPIC_API_KEY")
+    key = claude_api.available()
     chunks = [items[i:i + 40] for i in range(0, len(items), 40)]
 
     def one(c):  # a failed batch falls back to the rules for just those headlines

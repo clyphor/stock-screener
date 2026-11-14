@@ -291,7 +291,9 @@ def _google_news(query, market="ASX", stage="news"):
             break
         except Exception as e:
             err = e
-            time.sleep(2 * (attempt + 1))
+            # 429/503 = Google is throttling us: back off much longer than for a one-off glitch
+            throttled = getattr(e, "code", None) in (429, 503)
+            time.sleep((15, 45, 0)[attempt] if throttled else 2 * (attempt + 1))
     else:
         diag.inc(stage, "google_failures" if stage == "news" else "failures")
         diag.sample(stage, "errors", f"Google News: {err}")

@@ -116,6 +116,10 @@ def checks(market, stats):
             f"Google requests {reqs} ({fails} failed); dropped: {n.get('dropped_irrelevant', 0)} off-topic, "
             f"{n.get('dropped_lowq', 0)} junk sites, {n.get('dropped_lawfirm_ads', 0)} law-firm ads, {n.get('dropped_promo_cap', 0)} over promo cap",
             "" if st == "OK" else "Google News may be blocking requests — data.py _google_news; errors listed below.")
+        if n.get("reused_previous") is not None:
+            add("Company news", "WARN", f"{round(n.get('failed_share', 0) * 100)}% of news searches failed — reused the "
+                f"last good headlines (under 10 days old) for {n['reused_previous']} stocks, so red flags don't wrongly clear",
+                "Google News was throttling; it usually recovers by the next run.")
 
     h = d.get("health", {})
     if h:
@@ -135,10 +139,12 @@ def checks(market, stats):
     if c:
         calls, fails = c.get("calls", 0), c.get("failures", 0)
         st = "OK" if calls and not fails else "WARN" if calls > fails else "FAIL"
-        add("AI (Claude)", st, f"{calls} calls, {fails} failed, {c.get('input_tokens', 0):,} in / {c.get('output_tokens', 0):,} out tokens, "
+        by = ", ".join(f"{k[3:].replace('_', ' ').title().replace('Github', 'GitHub')} {v}" for k, v in c.items()
+                       if k.startswith("by_"))
+        add("AI (Claude)", st, (f"answered by: {by}; " if by else "") + f"{calls} calls, {fails} failed, {c.get('input_tokens', 0):,} in / {c.get('output_tokens', 0):,} out tokens, "
             f"≈ US${c.get('cost_usd', 0):.3f}; headlines scored {c.get('headlines_sent', 0):,}, "
             f"reused from earlier days {c.get('headlines_from_cache', 0):,}",
-            "" if st == "OK" else "Check API credit and key in console.anthropic.com; errors listed below.")
+            "" if st == "OK" else "A provider ran out of credit / hit its daily limit and the next one took over — errors listed below.")
     elif stats.get("ai_scoring") == "off":
         add("AI (Claude)", "OK", "off — no API key", "")
 
@@ -160,15 +166,16 @@ def errors(market):
 PRICE_IN, PRICE_OUT = 0.10, 0.50   # Claude Haiku 5.5, US$ per million tokens
 
 
-def claude_ok(resp, market=None):
+def claude_ok(resp, market=None, paid=True):
     u = resp.get("usage", {}) or {}
     i, o = u.get("input_tokens", 0), u.get("output_tokens", 0)
     inc("claude", "calls", market=market)
     inc("claude", "input_tokens", i, market=market)
     inc("claude", "output_tokens", o, market=market)
-    with _lock:
-        b = _bucket("claude", market)
-        b["cost_usd"] = round(b.get("cost_usd", 0) + i / 1e6 * PRICE_IN + o / 1e6 * PRICE_OUT, 5)
+    if paid:   # free providers cost nothing
+        with _lock:
+            b = _bucket("claude", market)
+            b["cost_usd"] = round(b.get("cost_usd", 0) + i / 1e6 * PRICE_IN + o / 1e6 * PRICE_OUT, 5)
 
 
 def claude_fail(err, where, market=None):

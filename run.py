@@ -255,6 +255,38 @@ def asset_flags(df, reds):
     return pd.Series(out)
 
 
+def _news_fallback(name, news):
+    """If the news searches largely failed (Google throttling), reuse each stock's headlines from the last
+    good run (still under 10 days old) — otherwise red flags like a scandal would wrongly 'clear'.
+    The latest good headlines are saved for next time."""
+    path = os.path.join("cache", name, "news_raw.json")
+    d = diag.D.get(name, {}).get("news", {})
+    req = d.get("google_requests", 0) + d.get("requests", 0)
+    fail = d.get("google_failures", 0) + d.get("failures", 0)
+    broken = req >= 10 and fail / req > 0.3
+    try:
+        prev = json.load(open(path))
+    except Exception:
+        prev = {}
+    if broken and prev:
+        cut = (datetime.now(timezone.utc) - pd.Timedelta(days=10)).strftime("%Y-%m-%d")
+        n = 0
+        for t, items in news.items():
+            if not items and prev.get(t):
+                news[t] = [h for h in prev[t] if str(h.get("date", "")) >= cut]
+                n += bool(news[t])
+        print(f"WARNING [{name}] {fail}/{req} news searches failed — reused earlier headlines for {n} stocks")
+        diag.put("news", reused_previous=n, failed_share=round(fail / req, 2))
+    if not broken:   # only remember a good run's headlines
+        try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            keep = {t: v for t, v in news.items() if v}
+            json.dump({**prev, **keep}, open(path, "w"), default=str)
+        except Exception as e:
+            print("WARNING could not save headlines for next time:", e)
+    return news
+
+
 def _completed_bars(name, close, volume):
     """Commodities: keep bars up to the latest 5pm New York settlement. Crypto: drop today's (UTC) candle."""
     from zoneinfo import ZoneInfo
@@ -568,6 +600,7 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
         else:
             news = get_news(list(close.columns), names.to_dict(), name)
             prescored = None
+        news = _news_fallback(name, news)
         tm.lap("company news")
         from data import get_health
         health = pd.DataFrame(index=pd.Index(close.columns, name="ticker")) if asset else \
@@ -740,7 +773,7 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
         df["weakening"] = False
     stats.update(news_method=nf.attrs.get("method"), screened=int(ok.sum()),
                  news_coverage=round(float((df["news_count"].fillna(0) > 0).mean()), 2),
-                 ai_scoring=("off" if not os.environ.get("ANTHROPIC_API_KEY")
+                 ai_scoring=("off" if not __import__("claude_api").available()
                              else "on" if "claude" in (nf.attrs.get("method"), ctx.get("method")) or ctx.get("events")
                              else "failed"),
                  currency=cfg.get("currency", "USD" if name == "US" else "AUD"), index_name=cfg["index"],

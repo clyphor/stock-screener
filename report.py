@@ -966,6 +966,21 @@ function horizonSection(d){
     ${why(`<p>Different investors care about different things. <b>Short term</b> looks for momentum and a fresh reason for the price to move (news, events, rising volume) and ignores valuation. <b>Medium term</b> is the main balanced score. <b>Long term</b> cares about the quality and financial strength of the business and whether it's reasonably priced, and mostly ignores short-term news.</p>
       <p>${hz.long==="BUY"&&hz.short!=="BUY"?"This looks like a solid long-term holding even if the short-term setup isn't there.":hz.short==="BUY"&&hz.long!=="BUY"?"This is a short-term momentum idea — the business itself doesn't pass the long-term quality tests, so it's not one to hold for years without a reason.":hz.short==="BUY"&&hz.long==="BUY"?"Rare: it passes both the short-term and long-term tests.":"It doesn't fully pass the short- or long-term tests right now; WATCH means one check short."}</p>`)}</div>`;
 }
+/* Finnhub: how many analysts rate it strong buy … strong sell, this month vs 3 months ago */
+function analystTrend(d){
+  const t = d.analyst_trend; if (!t || !t.length) return "";
+  const cur = t[0], old = t[t.length-1];
+  const tot = x => (x.strongBuy||0)+(x.buy||0)+(x.hold||0)+(x.sell||0)+(x.strongSell||0);
+  const bull = x => tot(x) ? ((x.strongBuy||0)+(x.buy||0))/tot(x) : null;
+  const seg = [["strongBuy","Strong buy","#1e9e5a"],["buy","Buy","#7cc49a"],["hold","Hold","#c9c9c9"],["sell","Sell","#e8a0a0"],["strongSell","Strong sell","#c0392b"]];
+  const n = tot(cur), b0 = bull(cur), b1 = bull(old);
+  const ch = b0!=null && b1!=null && t.length>1 ? b0-b1 : null;
+  return `<div style="margin-top:12px"><div class="fl" style="font-size:13px;font-weight:600">Analyst ratings (${n} analysts, ${esc((cur.period||"").slice(0,7))})</div>
+    <div style="display:flex;height:14px;border-radius:7px;overflow:hidden;margin:6px 0">${seg.map(([k,l,c])=>cur[k]?`<div title="${l} ${cur[k]}" style="flex:${cur[k]};background:${c}"></div>`:"").join("")}</div>
+    <div class="mute" style="font-size:12px">${seg.filter(([k])=>cur[k]).map(([k,l])=>`${l} ${cur[k]}`).join(" · ")}</div>
+    ${ch!=null?`<div style="font-size:13px;margin-top:4px">${Math.round(b0*100)}% buy-rated${Math.abs(ch)>=0.01?` — <b class="${ch>0?"good":"bad"}">${ch>0?"up":"down"} ${Math.abs(Math.round(ch*100))} points</b> since ${esc((old.period||"").slice(0,7))}`:" — unchanged in 3 months"}</div>`:""}
+    <div class="mute" style="font-size:11px;margin-top:2px">Source: Finnhub</div></div>`;
+}
 function valuationSection(d){
   const v = d.valuation, c = CUR(d.market);
   const mo = d.momentum ? `<div class="chk" style="margin-top:8px"><b class="${d.momentum==="Oversold"?"":"no"}">${d.momentum==="Oversold"?"↓":"↑"}</b><span><b>${d.momentum}</b> — ${d.momentum==="Oversold"?"the price has fallen fast (RSI under 30, well below its 50-day average). Often bounces, but can keep falling if the bad news continues.":"the price has risen fast (RSI over 70, well above its 50-day average). Often pauses or pulls back before going higher."}</span></div>` : "";
@@ -976,12 +991,14 @@ function valuationSection(d){
       <div class="kv"><small>Verdict</small><b class="${cls}">${v.tag}</b></div>
       <div class="kv"><small>Estimated fair price</small><b>${c} ${v.fair}${alsoMain(v.fair, c)}</b></div>
       <div class="kv"><small>vs today's price</small><b class="${cls}">${v.upside>=0?"+":""}${Math.round(v.upside*100)}%</b></div>
-      <div class="kv"><small>Confidence</small><b>${v.confidence==="low"?"Low":"Medium"}</b></div>
+      <div class="kv"><small>Confidence</small><b>${v.confidence==="low"?"Low":v.confidence==="high"?"High":"Medium"}</b></div>
     </div>
     <table class="ft" style="margin-top:8px">${v.parts.map(p=>`<tr><td>${esc(p.label)}${p.note?`<div class="mute" style="font-size:12px">${esc(p.note)}</div>`:""}</td><td style="text-align:right"><b>${c} ${p.value}</b></td></tr>`).join("")}
       ${v.range?`<tr><td class="mute">Analysts' range (low – high)</td><td style="text-align:right" class="mute">${c} ${v.range[0]} – ${v.range[1]}</td></tr>`:""}</table>
+    ${v.fmp_rating?`<div class="mute" style="margin-top:6px">Financial Modeling Prep rating: <b style="color:var(--ink)">${esc(v.fmp_rating)}</b>${v.fmp_score?` (${v.fmp_score}/5)`:""} — a score from its financial ratios.</div>`:""}
+    ${analystTrend(d)}
     ${mo}
-    ${why(`<p>This is the screener's <b>own rough estimate</b>, not Morningstar's. It averages two simple views: where professional analysts think the price is heading (their average 12-month target), and what the share would be worth if it traded at the <b>typical P/E of its sector</b>.</p>
+    ${why(`<p>This is the screener's <b>own rough estimate</b>, not Morningstar's. It averages up to three views (a discounted-cash-flow value from Financial Modeling Prep is added for top US picks): where professional analysts think the price is heading (their average 12-month target), and what the share would be worth if it traded at the <b>typical P/E of its sector</b>.</p>
       <p><b>Undervalued</b> = the estimate is 20%+ above today's price; <b>Overvalued</b> = 15%+ below; otherwise <b>Fairly valued</b>. Confidence is low when only one view is available or the two disagree a lot.</p>
       <p>Cheap can stay cheap: a low price often reflects a real problem (like a CEO exit or falling profits). Use this with the rest of the page — trend, news and financial health — not on its own.</p>`)}</div>`;
 }

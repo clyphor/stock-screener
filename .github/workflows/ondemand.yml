@@ -52,6 +52,9 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          # optional free data: analyst trends + backup news (Finnhub), DCF value + rating (Financial Modeling Prep)
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
         run: |
           mkdir -p docs
           curl -sf "https://clyphor.github.io/stock-screener/extras.json?t=$(date +%s)" -o docs/extras.json || true

@@ -277,6 +277,15 @@ def _news_fallback(name, news):
                 n += bool(news[t])
         print(f"WARNING [{name}] {fail}/{req} news searches failed — reused earlier headlines for {n} stocks")
         diag.put("news", reused_previous=n, failed_share=round(fail / req, 2))
+    if broken and name == "US" and os.environ.get("FINNHUB_API_KEY"):   # second backup: Finnhub company news
+        import thirdparty
+        empty = [t for t, v in news.items() if not v][:300]
+        got = 0
+        for t in empty:
+            news[t] = thirdparty.finnhub_news(t)
+            got += bool(news[t])
+        print(f"[{name}] Finnhub news filled {got}/{len(empty)} stocks")
+        diag.put("news", finnhub_filled=got)
     if not broken:   # only remember a good run's headlines
         try:
             os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -431,7 +440,7 @@ def momentum_tags(df):
     df["momentum_tag"] = tag
 
 
-def valuation_info(df, fund):
+def valuation_info(df, fund, fmp=None):
     """The screener's own fair-value estimate — NOT Morningstar's. A blend of:
        • analysts' average price target (when 3+ analysts cover it), and
        • what the price would be at its sector's typical P/E (forward if available, else trailing).
@@ -455,6 +464,10 @@ def valuation_info(df, fund):
         if pd.notna(by_pe.get(t)):
             parts.append(("At its sector's typical P/E", float(by_pe[t]), 0.5,
                           f"P/E {pe[t]:.1f} vs sector {sec_pe[t]:.1f}"))
+        dcf = (fmp or {}).get(t, {}).get("dcf")
+        if dcf and price.get(t) and 0.2 <= dcf / price[t] <= 5:   # ignore wild DCF outputs
+            parts.append(("Discounted cash flow (Financial Modeling Prep)", float(dcf), 0.5,
+                          f"as of {(fmp[t].get('dcf_date') or '')[:10]}".strip()))
         if not parts or not price.get(t) or price[t] <= 0:
             out[t], tags[t] = None, None
             continue
@@ -463,8 +476,10 @@ def valuation_info(df, fund):
         up = fair / price[t] - 1
         tag = "Undervalued" if up >= 0.20 else "Overvalued" if up <= -0.15 else "Fairly valued"
         spread = (max(p[1] for p in parts) / min(p[1] for p in parts) - 1) if len(parts) > 1 else None
+        fr = (fmp or {}).get(t, {})
         out[t] = {"fair": _px(fair), "upside": round(up, 3), "tag": tag,
-                  "confidence": "low" if len(parts) == 1 or (spread or 0) > 0.6 else "medium",
+                  "fmp_rating": fr.get("rating"), "fmp_score": fr.get("score"),
+                  "confidence": "low" if len(parts) == 1 or (spread or 0) > 0.6 else "high" if len(parts) >= 3 and (spread or 0) < 0.35 else "medium",
                   "parts": [{"label": l, "value": _px(v), "note": nt} for l, v, _, nt in parts],
                   "range": [_px(lo.get(t)), _px(hi.get(t))] if pd.notna(lo.get(t)) and pd.notna(hi.get(t)) else None}
         tags[t] = tag
@@ -804,7 +819,14 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
     dividend_info(df, fund)
     momentum_tags(df)
     if not asset:
-        valuation_info(df, fund)
+        recs, fmp = {}, {}
+        if name == "US" and not demo:   # both free plans cover US listings
+            import thirdparty
+            recs = thirdparty.finnhub_recs(list(df.index))
+            pick = list(df.sort_values("score", ascending=False).index[:60])   # top picks first (free: 250 calls/day)
+            fmp = thirdparty.fmp_values(pick)
+        df["analyst_trend"] = pd.Series({t: recs.get(t) for t in df.index}, dtype=object)
+        valuation_info(df, fund, fmp)
     else:
         df["val_tag"], df["val_up"], df["val_info"] = None, np.nan, None
     if asset:
@@ -1066,6 +1088,7 @@ def write_details(df, ex, market, outdir, only=None):
             "halal": dict(r["halal_info"], purification=halal.purification(r["halal_info"].get("ratios"))),
             "dividend": r.get("div_info"),
             "valuation": r.get("val_info") if isinstance(r.get("val_info"), dict) else None,
+            "analyst_trend": r.get("analyst_trend") if isinstance(r.get("analyst_trend"), list) else None,
             "momentum": r.get("momentum_tag") if isinstance(r.get("momentum_tag"), str) else None,
             "hz": {"short": r["hz_short"], "medium": r["signal"] if r["signal"] in ("BUY", "WATCH") else "", "long": r["hz_long"]},
             "short_checks": [{"label": SHORT_LABELS[c], "pass": bool(ex["hshort"].at[t, c])} for c in ex["hshort"].columns],

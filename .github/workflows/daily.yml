@@ -82,6 +82,9 @@ jobs:
           GITHUB_TOKEN: ${{ (inputs.staging != true || inputs.staging_ai == true) && secrets.GITHUB_TOKEN || '' }}
           GROQ_API_KEY: ${{ (inputs.staging != true || inputs.staging_ai == true) && secrets.GROQ_API_KEY || '' }}
           AI_ONLY: ${{ inputs.staging == true && inputs.ai_only || '' }}
+          # optional free data: analyst trends + backup news (Finnhub), DCF value + rating (Financial Modeling Prep)
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
           # optional, free: second US price source (massive.com) to verify Yahoo's closes
           MASSIVE_API_KEY: ${{ secrets.MASSIVE_API_KEY }}
         run: python run.py --markets "${{ steps.which.outputs.markets }}"

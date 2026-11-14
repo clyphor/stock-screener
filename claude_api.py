@@ -23,7 +23,8 @@ PROVIDERS = [
     ("Gemini", "GEMINI_API_KEY", "openai", "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
      ["gemini-flash-latest", "gemini-2.5-flash", "gemini-flash-lite-latest"]),
     ("GitHub Models", "GITHUB_TOKEN", "openai", "https://models.github.ai/inference/chat/completions",
-     ["openai/gpt-4.1-mini", "openai/gpt-4o-mini"]),
+     ["openai/gpt-4.1-mini", "openai/gpt-4o-mini",
+      "https://models.inference.ai.azure.com/chat/completions|gpt-4o-mini"]),   # older endpoint, same free quota
     ("Groq", "GROQ_API_KEY", "openai", "https://api.groq.com/openai/v1/chat/completions",
      ["openai/gpt-oss-120b", "llama-3.3-70b-versatile"]),
 ]
@@ -51,8 +52,19 @@ def _fatal(code, body):
         or (code == 429 and any(w in b for w in ("per day", "daily", "quota", "exhausted", "insufficient")))
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """A redirected POST silently becomes a GET (and returns a status page) — fail loudly instead."""
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        raise RuntimeError(f"redirected ({code}) to {newurl}")
+
+
+_opener = urllib.request.build_opener(_NoRedirect)
+
+
 def _call(p, model, prompt, max_tokens, timeout):
     name, env, kind, url, _ = p
+    if "|" in model:   # "url|model": this model lives at another address
+        url, model = model.split("|", 1)
     key = os.environ[env]
     if kind == "anthropic":
         body = {"model": model, "max_tokens": max_tokens, "messages": [{"role": "user", "content": prompt}]}
@@ -64,7 +76,7 @@ def _call(p, model, prompt, max_tokens, timeout):
     if name == "GitHub Models":
         headers.update({"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"})
     req = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers)
-    with urllib.request.urlopen(req, timeout=timeout) as r:
+    with _opener.open(req, timeout=timeout) as r:
         raw, status, ctype = r.read(), r.status, r.headers.get("Content-Type", "")
     try:
         resp = json.loads(raw)

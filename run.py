@@ -859,7 +859,7 @@ def track_record(market, df, close, idx):
     recent = set()
     if len(past):
         past["days"] = [int((close.index > pd.Timestamp(d)).sum()) for d in past["date"]]
-        past["ret"] = [last_px.get(t, np.nan) / p - 1 for t, p in zip(past["ticker"], past["price"])]
+        past["ret"] = [last_px.get(t, np.nan) / p - 1 if p and p > 0 else np.nan for t, p in zip(past["ticker"], past["price"])]
         past["excess"] = past["ret"] - (last_idx / past["index_price"] - 1)
         mature = past[(past["days"] >= 5) & past["excess"].notna()]
         for lab in TRACKED:
@@ -1180,6 +1180,15 @@ def _main(a, stats):
             payload["markets"][name] = prev.get("markets", {}).get(name, [])
             payload["stats"][name] = prev.get("stats", {}).get(name, {})
             payload["updated"][name] = (prev.get("updated") or {}).get(name, prev.get("generated"))
+    if a.demo:   # fixed made-up rates offline
+        days = pd.bdate_range(end=pd.Timestamp.today(), periods=300)
+        demo_r = {"USD": 1, "AUD": 1.52, "PKR": 281.0, "EUR": 0.92, "GBP": 0.78}
+        with open("docs/fx.json", "w") as f:
+            json.dump({"updated": days[-1].strftime("%Y-%m-%d"), "dates": [d.strftime("%Y-%m-%d") for d in days],
+                       "rates": {c: [v * (1 + 0.0002 * i) for i in range(len(days))] for c, v in demo_r.items()}}, f)
+    else:
+        import fx
+        fx.update()
     _after_rows(payload, stats, a, prev_extras=_load_json("docs/extras.json") if partial else None)
 
 

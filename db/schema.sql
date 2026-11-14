@@ -41,3 +41,14 @@ create policy "own watchlists" on public.watchlists
 drop policy if exists "own paper trades" on public.paper_trades;
 create policy "own paper trades" on public.paper_trades
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+-- Each user's main currency (prices and paper profits are also shown converted into it)
+create table if not exists public.user_settings (
+  user_id       uuid primary key default auth.uid() references auth.users(id) on delete cascade,
+  main_currency text not null default 'AUD' check (main_currency ~ '^[A-Z]{3}$'),
+  updated_at    timestamptz not null default now()
+);
+alter table public.user_settings enable row level security;
+drop policy if exists "own settings" on public.user_settings;
+create policy "own settings" on public.user_settings
+  for all to authenticated using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));

@@ -127,7 +127,7 @@ td:first-child,th:first-child{text-align:left}th{color:var(--mute);font-weight:5
 svg text{fill:var(--mute);font-size:10px}
 #tip{font-size:13px;min-height:18px;color:var(--mute)}
 </style></head><body>
-<header><h1>Stock Screener</h1><div class="sub" id="gen"></div></header>
+<header><h1>Stock Screener</h1><div class="sub" id="gen"></div><div class="sub" id="curbar" style="margin-top:4px"></div></header>
 <div class="tabs" id="tabs"></div>
 <div class="subtabs" id="subtabs"></div>
 <div class="clock" id="clock"></div>
@@ -223,11 +223,12 @@ function card(r, i, extra=""){
   return `<div class="card ${mainLabel(r)}" onclick="openStock('${r.ticker}')">${extra}<div class="top"><div style="min-width:0"><span class="rank">${MINE(M)||r.extra?MNAME(r.market)+" ":""}#${(r.rank||i+1)}</span><span class="tk">${tk(r.ticker)}</span>${badge(mainLabel(r))}
    <div class="nm">${esc(r.name)} · ${esc(r.sector)}</div></div><div class="sc">${r.score}</div></div>
    <div class="bars">${Object.entries(r.parts).map(([k,v])=>`<div class="bar"><small>${L[k]}</small><i><span style="width:${v}%"></span></i></div>`).join("")}</div>
-   <div class="meta">${CUR(r.market||M)} ${r.price??"–"} · 3m ${r.ret3m??"–"}%${ASSET(r.market||M)?(r.mcap?` · mkt cap ${fmtCap(r.mcap)}`:""):` · P/E ${r.pe??"–"}`}</div>
+   <div class="meta">${CUR(r.market||M)} ${r.price??"–"}${alsoMain(r.price, CUR(r.market||M))} · 3m ${r.ret3m??"–"}%${ASSET(r.market||M)?(r.mcap?` · mkt cap ${fmtCap(r.mcap)}`:""):` · P/E ${r.pe??"–"}`}</div>
    <div class="chips">${subTags(r)}${r.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div></div>`;
 }
 function render(){
   try{ updGen(); }catch(e){}
+  try{ $("curbar").innerHTML = curPicker() + (FX?` <span class="mute">· rates ${FX.updated}</span>`:""); }catch(e){}
   if (STOCKS.includes(M)) LASTSTOCK = M;
   [...$("tabs").children].forEach(b=>b.classList.toggle("on", b.dataset.k===TOP(M)));
   $("subtabs").style.display = STOCKS.includes(M) ? "" : "none";
@@ -308,6 +309,30 @@ function store(key, def){ return {
   get(){ if(!this.v){ try{ this.v = JSON.parse(localStorage.getItem(key)) || def(); }catch(e){ this.v = def(); } } return this.v; },
   save(){ try{ localStorage.setItem(key, JSON.stringify(this.v)); }catch(e){ alert("Couldn't save on this device (private browsing?)"); } } }; }
 const WL = store("watchlists", ()=>({lists:{"My watchlist":[]}, cur:"My watchlist"}));
+
+/* ---- main currency: prices and paper profits are also shown converted into it ----
+   fx.json = daily rates (units per 1 USD), so trades convert at the rate of the day bought / sold */
+let FX = null, MAINCUR = (()=>{ try{ return localStorage.getItem("maincur") || "AUD"; }catch(e){ return "AUD"; } })();
+fetch("fx.json?v="+encodeURIComponent(D.generated)).then(r=>r.ok?r.json():null).then(j=>{ if(j&&j.dates){ FX=j; render(); } }).catch(()=>{});
+function fxAt(c, date){            // units of currency c per USD on (or before) date; latest when no date
+  if (c==="USD") return 1; if (!FX || !FX.rates[c]) return null;
+  const a = FX.rates[c], ds = FX.dates; let i = ds.length-1;
+  if (date) { let lo=0, hi=ds.length-1; i=-1; while(lo<=hi){ const m=(lo+hi)>>1; if(ds[m]<=date){ i=m; lo=m+1; } else hi=m-1; } if(i<0) i=0; }
+  for (let k=i; k>=0; k--) if (a[k]!=null) return a[k];
+  return null;
+}
+function conv(v, from, to=MAINCUR, date){ if (v==null || from===to) return v; const a=fxAt(from,date), b=fxAt(to,date); return a&&b ? v/a*b : null; }
+const money = (v, c, dp) => v==null ? "–" : `${c} ${Math.abs(v).toLocaleString(undefined,{maximumFractionDigits: dp ?? (Math.abs(v)>=100?0:Math.abs(v)>=1?2:6)})}`;
+const pm = (v, c) => v==null ? "–" : `${v>=0?"+":"−"}${money(v,c)}`;
+/* "≈ AUD 279" next to a price in another currency */
+function alsoMain(v, c){ if (v==null || !c || c===MAINCUR) return ""; const x = conv(v, c); return x==null ? "" : ` <span class="mute">≈ ${money(x, MAINCUR)}</span>`; }
+const CURS = ["AUD","USD","PKR","EUR","GBP","CAD","NZD","INR","AED","SAR","SGD","JPY","CNY","HKD","MYR"];
+function setMainCur(c){
+  MAINCUR = c; try{ localStorage.setItem("maincur", c); }catch(e){}
+  if (DBSTATE==="ready") dbRun(()=>SB.from("user_settings").upsert({main_currency:c, updated_at:new Date().toISOString()}, {onConflict:"user_id"}));
+  render();
+}
+const curPicker = () => `<label class="mute" style="font-size:13px">Main currency <select onchange="setMainCur(this.value)" style="padding:4px 6px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink)">${CURS.map(c=>`<option ${c===MAINCUR?"selected":""}>${c}</option>`).join("")}</select></label>`;
 const PT = store("paper_trades", ()=>[]);
 
 /* ---- account database (Supabase). Local storage is only a cache until you sign in. ---- */
@@ -361,6 +386,9 @@ async function dbLoad(){
     if (!WL.v.lists[cur]) WL.v.cur = Object.keys(WL.v.lists)[0];
     PT.v = t.data.map(fromRow);
     WL.save(); PT.save();
+    try { const s = await SB.from("user_settings").select("main_currency").maybeSingle();
+          if (s.data?.main_currency) { MAINCUR = s.data.main_currency; localStorage.setItem("maincur", MAINCUR); }
+          else if (!s.error) SB.from("user_settings").upsert({main_currency:MAINCUR}, {onConflict:"user_id"}); } catch(e){}
     DBSTATE = "ready"; TRACKED = null;
   } catch(e) { console.error(e); DBSTATE = "error"; DBERR = e.message || String(e); }
   render();
@@ -431,7 +459,8 @@ function paperBuy(t){
   const r = ALL[t]; if(!r) return alert("No current price for this stock.");
   const cur = CUR(r.market)+" ";
   modal(`<h3 style="margin:0 0 4px">Paper buy ${tk(t)}</h3><div class="mute">Pretend purchase at the latest close: <b>${cur}${r.price}</b>. Label today: ${badge(r.signal||"HOLD")} score ${r.score}.</div>
-    <label class="mute" style="display:block;margin-top:10px">Amount to invest (${CUR(r.market)})</label><input id="amt" inputmode="decimal" value="${r.market==="PSX"?100000:1000}">
+    <label class="mute" style="display:block;margin-top:10px">Amount to invest (${CUR(r.market)})</label><input id="amt" inputmode="decimal" value="${r.market==="PSX"?100000:1000}" oninput="$('amtm').textContent=(v=>v==null?'':'≈ '+money(v,MAINCUR))(conv(Number(this.value)||0,'${CUR(r.market)}'))">
+    <div class="mute" id="amtm" style="margin-top:-4px">${CUR(r.market)!==MAINCUR&&conv(r.market==="PSX"?100000:1000, CUR(r.market))!=null?"≈ "+money(conv(r.market==="PSX"?100000:1000, CUR(r.market)), MAINCUR):""}</div>
     <label class="mute">Note (optional)</label><input id="nt" placeholder="Why I'm buying">
     <div class="btnrow"><button class="sbtn pri" onclick="doPaperBuy('${t}')">Buy (paper)</button><button class="sbtn" onclick="closeModal()">Cancel</button></div>`);
 }
@@ -454,7 +483,12 @@ function tradeStats(x){
   const px = x.status==="closed" ? x.exit_price : r?.price, ix = x.status==="closed" ? x.exit_idx : s.index_level;
   const ret = px && x.price ? px/x.price-1 : null, iret = ix && x.idx ? ix/x.idx-1 : null;
   const days = Math.max(0, Math.round((new Date((x.status==="closed"?x.exit_date:s.price_date)||Date.now()) - new Date(x.date))/864e5));
-  return {px, ret, vs: ret!=null&&iret!=null ? ret-iret : null, iret, days, now: r};
+  // In the main currency: cost at the buy-day rate, value at the sell-day (or latest) rate — so it
+  // includes the currency move, which is what you'd really make or lose in your own money
+  const c = x.currency||CUR(x.market), endD = x.status==="closed" ? x.exit_date : null;
+  const cost = conv(x.amount, c, MAINCUR, x.date), val = ret!=null ? conv(x.amount*(1+ret), c, MAINCUR, endD) : null;
+  const main = cost!=null && val!=null ? {cost, pnl: val-cost, ret: val/cost-1} : null;
+  return {px, ret, vs: ret!=null&&iret!=null ? ret-iret : null, iret, days, now: r, main};
 }
 function exportData(){
   const blob = new Blob([JSON.stringify({watchlists:WL.get(), paper:PT.get()}, null, 1)], {type:"application/json"});
@@ -511,17 +545,24 @@ function renderMine(){
       <div class="kv"><small>Average return</small><b class="${avg(done.map(z=>z.ret))>=0?"good":"bad"}">${fp(avg(done.map(z=>z.ret)))}</b></div>
       <div class="kv"><small>Average vs index</small><b class="${avg(done.map(z=>z.vs).filter(v=>v!=null))>=0?"good":"bad"}">${fp(avg(done.map(z=>z.vs).filter(v=>v!=null)))}</b></div>
       <div class="kv"><small>Beat the index</small><b>${wins} of ${done.length} (${Math.round(wins/done.length*100)}%)</b></div>
-      <div class="kv"><small>Total P&amp;L</small><b>${(()=>{ const byCur={}; done.forEach(z=>{ const c=CUR(z.x.market)+" "; byCur[c]=(byCur[c]||0)+z.x.amount*z.ret; }); return Object.entries(byCur).map(([c,v])=>`${v>=0?"+":"−"}${c}${Math.abs(v).toFixed(0)}`).join(" · "); })()}</b></div></div>
+      <div class="kv"><small>Total P&amp;L by currency</small><b>${(()=>{ const byCur={}; done.forEach(z=>{ const c=z.x.currency||CUR(z.x.market); byCur[c]=(byCur[c]||0)+z.x.amount*z.ret; }); return Object.entries(byCur).map(([c,v])=>`<span class="${v>=0?"good":"bad"}">${pm(v,c)}</span>`).join("<br>"); })()}</b></div>
+      ${(()=>{ const m = done.map(z=>z.main), ok = m.every(v=>v); if (!m.length) return "";
+        if (!ok) return `<div class="kv"><small>Total in ${MAINCUR}</small><b class="mute">rates loading…</b></div>`;
+        const pnl = m.reduce((p,c)=>p+c.pnl,0), cost = m.reduce((p,c)=>p+c.cost,0);
+        return `<div class="kv"><small>Total in ${MAINCUR} (all trades)</small><b class="${pnl>=0?"good":"bad"}">${pm(pnl,MAINCUR)} <span style="font-weight:500">(${fp(cost?pnl/cost:null)})</span></b></div>`; })()}
+      </div>
+      <div class="mute" style="margin-top:8px">Converted at the exchange rate of the day each trade was bought and sold (or today's for open trades), so the ${MAINCUR} figures include currency moves. Change the main currency at the top of the page.</div>
       <div class="mute" style="margin-top:8px">By label when bought: ${Object.entries(byLab).map(([l,a])=>`${l} ${fp(avg(a.map(z=>z.vs).filter(v=>v!=null)))} vs index (${a.length})`).join(" · ")}</div>`:`<div class="mute" style="margin-top:8px">No paper trades yet. Open a stock and tap “Paper buy” to test a signal.</div>`}
     ${backup}</div>`;
   $("count").textContent = active||q ? `${trades.length} of ${all.length} trades match` : "";
   const cur = m => CUR(m)+" ";
-  $("list").innerHTML = S.map(({x,px,ret,vs,iret,days,now})=>`<div class="trade">
+  $("list").innerHTML = S.map(({x,px,ret,vs,iret,days,now,main})=>`<div class="trade">
     <div class="row"><div><span class="tk" onclick="openStock('${x.ticker}')" style="cursor:pointer">${tk(x.ticker)}</span> <span class="mute">${x.market}</span> ${x.status==="closed"?'<span class="sig HOLD">CLOSED</span>':""}</div>
       <div class="big2 ${ret>=0?"good":"bad"}">${fp(ret)}</div></div>
     <div class="mute">${esc(now?.name||"")}</div>
     <div style="font-size:13px;margin-top:6px">Bought ${x.date} at ${cur(x.market)}${x.price} as ${badge(x.label==="SELL"?"AVOID":x.label==="HOLD"?"":(x.hz||[]).includes("BUY")?"BUY":x.label)} ${subTags({hz:x.hz})} (score ${x.score}) · ${x.status==="closed"?`sold ${x.exit_date} at ${cur(x.market)}${x.exit_price}`:`now ${cur(x.market)}${px??"–"} ${now?badge(mainLabel(now)):""}`}</div>
-    <div style="font-size:13px;margin-top:4px">Index ${fp(iret)} over the same ${days} days → <b class="${vs>=0?"good":"bad"}">${fp(vs)} vs index</b> · ${cur(x.market)}${x.amount} invested → ${ret!=null?`${ret>=0?"+":"−"}${cur(x.market)}${Math.abs(x.amount*ret).toFixed(0)}`:"–"}</div>
+    <div style="font-size:13px;margin-top:4px">Index ${fp(iret)} over the same ${days} days → <b class="${vs>=0?"good":"bad"}">${fp(vs)} vs index</b> · ${cur(x.market)}${x.amount} invested → ${ret!=null?`<b class="${ret>=0?"good":"bad"}">${pm(x.amount*ret, x.currency||CUR(x.market))}</b>`:"–"}</div>
+    ${main&&(x.currency||CUR(x.market))!==MAINCUR?`<div style="font-size:13px;margin-top:2px">In ${MAINCUR}: ${money(main.cost,MAINCUR)} → <b class="${main.pnl>=0?"good":"bad"}">${pm(main.pnl,MAINCUR)} (${fp(main.ret)})</b> <span class="mute">${Math.abs(main.ret-ret)>=0.001?`· currency move ${fp((1+main.ret)/(1+ret)-1)}`:""}</span></div>`:""}
     ${x.note?`<div class="mute" style="margin-top:4px">“${esc(x.note)}”</div>`:""}
     <div class="btnrow">${x.status==="open"?`<button class="sbtn" onclick="paperSell(${x.id})">Close (sell)</button>`:""}<button class="sbtn" onclick="openStock('${x.ticker}')">Details</button><button class="sbtn neg" onclick="paperDel(${x.id})">Delete</button></div></div>`).join("");
 }
@@ -813,7 +854,7 @@ async function openStock(t, push=true){
   sh.innerHTML = `<div class="shead"><button class="back" onclick="history.back()">‹ Back</button><b>${tk(d.ticker)}</b>${badge(mainLabel(dRow(d)))}</div>
   <div class="sec"><div class="hero"><div style="min-width:0"><div class="tk" style="font-size:20px">${esc(d.name)}</div>
     <div class="mute">${esc(d.sector)}${d.industry?" · "+esc(d.industry):""}</div>
-    <div style="margin-top:8px">Price <b>${CUR(d.market)} ${d.price??"–"}</b>${d.mcap||!ASSET(d.market)?` · Market cap <b>${CUR(d.market)} ${fmtCap(d.mcap)}</b>`:""}</div>
+    <div style="margin-top:8px">Price <b>${CUR(d.market)} ${d.price??"–"}</b>${alsoMain(d.price, CUR(d.market))}${d.mcap||!ASSET(d.market)?` · Market cap <b>${CUR(d.market)} ${fmtCap(d.mcap)}</b>`:""}</div>
     ${d.market==="COM"?`<div class="mute" style="margin-top:4px">${/=F$/.test(d.ticker)?"Front-month futures price (USD).":"Tracked through an ETF (USD)."}</div>`:""}</div>
     <div style="text-align:right"><div class="big">${d.score}</div><div class="mute">#${d.rank} of ${d.of}</div></div></div>
     <div class="chips" style="margin-top:8px">${subTags(dRow(d))}${d.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div>

@@ -61,9 +61,15 @@ def _call(p, model, prompt, max_tokens, timeout):
         body = {"model": model, "max_tokens": max_tokens, "temperature": 0.2,
                 "messages": [{"role": "user", "content": prompt}]}
         headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
+    if name == "GitHub Models":
+        headers.update({"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"})
     req = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers)
     with urllib.request.urlopen(req, timeout=timeout) as r:
-        resp = json.loads(r.read())
+        raw, status, ctype = r.read(), r.status, r.headers.get("Content-Type", "")
+    try:
+        resp = json.loads(raw)
+    except ValueError:
+        raise RuntimeError(f"non-JSON reply (HTTP {status}, {ctype}, {len(raw)} bytes): {raw[:200]!r}")
     if kind == "anthropic":
         text = "".join(b.get("text", "") for b in resp.get("content", []) if b.get("type") == "text")
         u = resp.get("usage", {}) or {}

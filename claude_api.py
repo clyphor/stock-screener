@@ -34,7 +34,9 @@ _fails = {}     # consecutive non-fatal failures per provider
 
 
 def _configured():
-    return [p for p in PROVIDERS if os.environ.get(p[1]) and p[0] not in _dead]
+    only = os.environ.get("AI_ONLY", "").strip().lower()   # testing: use just one provider
+    return [p for p in PROVIDERS if os.environ.get(p[1]) and p[0] not in _dead
+            and (not only or p[0].lower().startswith(only))]
 
 
 def available():

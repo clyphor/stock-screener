@@ -70,16 +70,20 @@ CRYPTO_FALLBACK = ["BTC", "ETH", "XRP", "BNB", "SOL", "DOGE", "TRX", "ADA", "HYP
                    "ONDO", "TAO", "POL", "ARB", "KAS", "ATOM", "ALGO", "RENDER", "FIL", "VET", "OP", "ENA", "SEI",
                    "INJ", "IMX", "STX", "GRT", "BONK", "WIF", "TIA", "FET", "JUP", "MKR", "QNT"]
 # Rough groups, for "peers" and the macro map
-_GROUPS = {
-    "Store of value": {"BTC", "BCH", "LTC", "XMR", "KAS", "ETC", "ZEC", "DASH", "BSV"},
-    "Smart-contract platforms": {"ETH", "SOL", "BNB", "ADA", "AVAX", "TRX", "DOT", "NEAR", "APT", "SUI", "TON", "ICP",
-                                 "ATOM", "ALGO", "HBAR", "SEI", "INJ", "TIA", "EGLD", "XTZ", "FTM", "S", "HYPE", "VET", "EOS"},
+_GROUPS = {   # checked in this order — a coin goes in the first group that lists it
+    "Bitcoin & store of value": {"BTC", "BCH", "LTC", "BSV", "ETC", "KAS"},
+    "Privacy coins": {"XMR", "ZEC", "DASH"},
+    "Exchange tokens": {"BNB", "OKB", "LEO", "BGB", "WBT", "CRO", "HTX", "GT", "KCS", "MX", "HT", "BTW"},
+    "Smart-contract platforms": {"ETH", "SOL", "ADA", "AVAX", "TRX", "DOT", "NEAR", "APT", "SUI", "TON", "ICP",
+                                 "ATOM", "ALGO", "HBAR", "SEI", "INJ", "TIA", "EGLD", "XTZ", "FTM", "S", "VET", "EOS"},
     "Layer-2 / scaling": {"POL", "MATIC", "ARB", "OP", "IMX", "STX", "MNT", "STRK", "ZK"},
-    "Payments": {"XRP", "XLM", "CRO", "BCH", "LTC", "XDC"},
-    "DeFi": {"UNI", "AAVE", "MKR", "LINK", "ONDO", "JUP", "ENA", "LDO", "CRV", "COMP", "SNX", "PENDLE", "RUNE", "CAKE",
-             "DYDX", "GMX", "SKY", "QNT", "GRT"},
-    "AI & data": {"TAO", "FET", "RENDER", "GRT", "FIL", "AR", "VIRTUAL", "WLD", "AKT"},
-    "Meme coins": {"DOGE", "SHIB", "PEPE", "BONK", "WIF", "FLOKI", "TRUMP", "PENGU", "SPX", "FARTCOIN", "BRETT", "POPCAT"},
+    "Payments": {"XRP", "XLM", "XDC"},
+    "DeFi": {"UNI", "AAVE", "MKR", "JUP", "ENA", "LDO", "CRV", "COMP", "SNX", "PENDLE", "RUNE", "CAKE", "DYDX", "GMX",
+             "SKY", "HYPE", "JST", "MORPHO", "ASTER", "RAY"},
+    "Oracles & infrastructure": {"LINK", "QNT", "GRT", "PYTH", "W"},
+    "Real-world assets": {"ONDO", "PLUME", "OM", "CC", "FIGR_HELOC", "USYC", "EURSAFO"},
+    "AI & data": {"TAO", "FET", "RENDER", "FIL", "AR", "VIRTUAL", "WLD", "AKT"},
+    "Meme coins": {"DOGE", "SHIB", "PEPE", "BONK", "WIF", "FLOKI", "TRUMP", "PENGU", "SPX", "FARTCOIN", "BRETT", "POPCAT", "PUMP"},
 }
 _LENDING = {"AAVE", "COMP", "MKR", "SKY", "ENA", "PENDLE", "CRV", "SNX", "JST", "MORPHO", "LQTY", "XVS", "CAKE", "GMX", "DYDX"}
 
@@ -336,8 +340,8 @@ def extra_themes(T):
             {"Crypto": -0.45}, ["CRYPTO"]),
         "crypto_hack": T("Hacks / exchange failures",
             '(crypto OR exchange OR DeFi OR bridge) (hack OR hacked OR exploit OR "funds stolen" OR insolvency OR "halts withdrawals")',
-            {"Crypto": -0.4, "ind:DeFi": -0.2}, ["CRYPTO"]),
+            {"Crypto": -0.4, "ind:DeFi": -0.2, "ind:Exchange tokens": -0.2}, ["CRYPTO"]),
         "crypto_corporate": T("Companies / institutions buying crypto",
             '("bitcoin treasury" OR "buys bitcoin" OR "adds bitcoin" OR "institutional adoption" OR "bank to offer crypto")',
-            {"Crypto": 0.35, "ind:Store of value": 0.15}, ["CRYPTO"]),
+            {"Crypto": 0.35, "ind:Bitcoin & store of value": 0.15}, ["CRYPTO"]),
     }

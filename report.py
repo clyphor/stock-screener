@@ -180,7 +180,7 @@ svg text{fill:var(--mute);font-size:10px}
 <div id="fpanel"></div>
 <div class="count" id="count"></div>
 <div id="list"></div><button class="more" id="more"></button>
-<details class="box" id="logbox"><summary>Run log <span id="logsum"></span></summary><div id="runlog" style="margin-top:8px"></div></details>
+<details class="box" id="logbox" style="display:none"><summary>Run log <span id="logsum"></span></summary><div id="runlog" style="margin-top:8px"></div></details>
 <footer><p>Ranks stocks, commodities and crypto by blending a price-trend model, fundamentals vs sector peers, analysts' views, news sentiment and macro/political themes. Scores are relative rankings, not price targets.</p>
 <p><b>Important:</b> the signals (BUY, WATCH, AVOID, HOLD, SELL), scores, valuation estimates and tags are <b>general information produced automatically by a computer model</b> from public data — not financial, investment, tax or legal advice, and not a recommendation to buy or sell anything. They don't consider your objectives, finances or needs. Data can be delayed, incomplete or wrong, and past performance doesn't predict future results. Do your own research and consider speaking to a licensed financial adviser before investing. You are responsible for your own decisions.</p><p>Halal tags are a simple automated guide, not a religious ruling. Data: Yahoo Finance, Google News, the Pakistan Stock Exchange, Massive, CoinGecko and others.</p></footer>
 <div id="sheet"></div>
@@ -283,6 +283,7 @@ const GATED = !!D.gated;
 let FULL = !GATED;
 const SLIM = JSON.parse(JSON.stringify(D.markets));   // what visitors get — restored on sign-out
 function relock(){
+  ADMIN = false; if (!PUBLICLOG) LOG = null; try { renderLog(); } catch(e){}
   if (!GATED) return;
   FULL = false;
   Object.keys(D.markets).forEach(m => { D.markets[m] = JSON.parse(JSON.stringify(SLIM[m] || [])); });
@@ -551,7 +552,7 @@ async function dbLoad(){
           if (s.data?.main_currency) { MAINCUR = s.data.main_currency; localStorage.setItem("maincur", MAINCUR); }
           else if (!s.error) SB.from("user_settings").upsert({main_currency:MAINCUR}, {onConflict:"user_id"}); } catch(e){}
     DBSTATE = "ready"; TRACKED = null;
-    applyPrefs(); loadMembers();
+    applyPrefs(); loadMembers(); loadAdmin();
     if (!PREF.onboarded) setTimeout(()=>openSetup(true), 300);
   } catch(e) { console.error(e); DBSTATE = "error"; DBERR = e.message || String(e); }
   render();
@@ -882,9 +883,22 @@ function renderRequested(backup){
 
 /* ---------------- run log ---------------- */
 let LOG = null;
-fetch("runlog.json").then(r=>r.ok?r.json():[]).then(j=>{ LOG=j; renderLog(); }).catch(()=>{ LOG=[]; });
+// Run logs are admin-only once members-only is on: the public file just says {"private": true}
+let ADMIN = false, PUBLICLOG = false;
+fetch("runlog.json").then(r=>r.ok?r.json():[]).then(j=>{ if (Array.isArray(j)) { LOG=j; PUBLICLOG=true; } renderLog(); }).catch(()=>{});
+async function loadAdmin(){
+  ADMIN = false;
+  if (!SB || !USER) return renderLog();
+  try {
+    const a = await SB.from("admins").select("user_id").maybeSingle();
+    if (a.data) { ADMIN = true; const f = await SB.from("private_files").select("body").eq("path","runlog.json").maybeSingle(); if (Array.isArray(f.data?.body)) LOG = f.data.body; }
+  } catch(e){}
+  renderLog();
+}
 function renderLog(){
-  if (!LOG) return;
+  const show = !!LOG && (PUBLICLOG || ADMIN);
+  try { $("logbox").style.display = show ? "" : "none"; } catch(e){}
+  if (!show) return;
   if (!LOG.length){ $("logsum").textContent=""; $("runlog").innerHTML='<div class="mute">No runs logged yet.</div>'; return; }
   const l0 = LOG[0];
   $("logsum").innerHTML = `· last run <b class="st-${l0.status}">${l0.status.toUpperCase()}</b>`;
@@ -900,7 +914,7 @@ function renderLog(){
     </div>`).join("")}
     ${(l.warnings||[]).length?`<details><summary class="mute" style="font-size:12px">All warnings (${l.warnings.length})</summary><div class="mute" style="font-size:11.5px;white-space:pre-wrap">${l.warnings.map(esc).join("\n")}</div></details>`:""}
   </details>`).join("")
-    + `<div class="mute" style="margin-top:6px;font-size:12px">Full text logs: repo → results/logs. ✓ ok · ⚠ warning · ✗ failed. Each warning says where to look.</div>`;
+    + `<div class="mute" style="margin-top:6px;font-size:12px">${ADMIN?"Only you can see this log (admin). Full text logs are saved in the database (private_files).":"Full text logs: repo → results/logs."} ✓ ok · ⚠ warning · ✗ failed. Each warning says where to look.</div>`;
 }
 
 /* ---------------- market overview ---------------- */

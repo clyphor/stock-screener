@@ -1260,21 +1260,36 @@ def write_log(started, stats, fatal=None):
         entry["markets"][m]["missing_prices"] = (v.get("missing_prices") or [])[:25]
         entry["markets"][m]["labels"] = v.get("label_counts")
         entry["markets"][m]["ai_events"] = len((v.get("macro") or {}).get("events", []))
+    import gate
+    private = gate.enabled()   # run logs are for the admin only: kept in the database, not in the public repo/page
     log = []
-    if os.path.exists(LOG_JSON):
+    prev = gate.private_get("runlog_full.json") if private else None
+    if isinstance(prev, list):
+        log = prev
+    elif os.path.exists(LOG_JSON):
         try:
             log = json.load(open(LOG_JSON))
         except Exception:
             log = []
     log = ([entry] + log)[:60]
-    json.dump(log, open(LOG_JSON, "w"), indent=1, default=str)
-    name = finished.strftime("results/logs/%Y-%m-%d_%H%M.txt")
-    open(name, "w").write("\n".join(_LINES))
-    for old in sorted(glob.glob("results/logs/*.txt"))[:-30]:
-        os.remove(old)
-    os.makedirs("docs", exist_ok=True)
     slim = [{k: v for k, v in e.items() if k != "diag"} for e in log[:20]]
-    json.dump(slim, open("docs/runlog.json", "w"), default=str)
+    os.makedirs("docs", exist_ok=True)
+    text_name = finished.strftime("%Y-%m-%d_%H%M")
+    if private and gate.private("runlog_full.json", log) and gate.private("runlog.json", slim):
+        gate.private(f"logs/{text_name}.txt", {"text": "\n".join(_LINES)[-400000:]})
+        json.dump({"private": True}, open("docs/runlog.json", "w"))
+        # remove the public copies from the repo (the workflow commits the results folder)
+        if os.path.exists(LOG_JSON):
+            os.remove(LOG_JSON)
+        for old in glob.glob("results/logs/*.txt"):
+            os.remove(old)
+    else:
+        json.dump(log, open(LOG_JSON, "w"), indent=1, default=str)
+        os.makedirs("results/logs", exist_ok=True)
+        open(f"results/logs/{text_name}.txt", "w").write("\n".join(_LINES))
+        for old in sorted(glob.glob("results/logs/*.txt"))[:-30]:
+            os.remove(old)
+        json.dump(slim, open("docs/runlog.json", "w"), default=str)
     for m, cs in entry["checks"].items():
         for c in cs:
             print(f"CHECK [{m}] {c['status']:4} {c['stage']}: {c['msg']}" + (f"  → {c['hint']}" if c['hint'] else ""))

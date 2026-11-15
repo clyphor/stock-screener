@@ -80,6 +80,33 @@ def slim(payload):
     return out
 
 
+def private(path, body):
+    """Save something only the admin can read (private_files table). True if it worked."""
+    if not enabled():
+        return False
+    try:
+        from datetime import datetime, timezone
+        _upsert("private_files", [{"path": path, "body": body, "updated_at": datetime.now(timezone.utc).isoformat()}], "path", batch=1)
+        return True
+    except Exception as e:
+        print("WARNING could not save", path, "privately:", e)
+        return False
+
+
+def private_get(path):
+    """Read back a private file (None if missing or unavailable)."""
+    if not enabled():
+        return None
+    try:
+        url = f"{config.SUPABASE_URL}/rest/v1/private_files?path=eq.{urllib.request.quote(path)}&select=body"
+        h = {k: v for k, v in _headers().items() if k != "Prefer"}
+        rows = json.loads(urllib.request.urlopen(urllib.request.Request(url, headers=h), timeout=30).read())
+        return rows[0]["body"] if rows else None
+    except Exception as e:
+        print("WARNING could not read", path, "from the database:", e)
+        return None
+
+
 def publish_extras(items):
     """items: [{ticker, market, status, msg, row, detail}] — on-demand results, visible only to who asked."""
     if not enabled() or not items:

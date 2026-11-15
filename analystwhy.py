@@ -116,8 +116,9 @@ def headlines(news):
     return [h for h in (news or []) if ANALYST_RX.search(h.get("title") or "")][:8]
 
 
-def _key(items):
-    return hashlib.sha1("|".join(sorted(h.get("title", "")[:80] for h in items)).encode()).hexdigest()[:12]
+def _key(it):
+    parts = sorted(h.get("title", "")[:80] for h in it["headlines"]) + [f"{a.get('date')}{a.get('firm')}" for a in it.get("changes", [])[:5]]
+    return hashlib.sha1("|".join(parts).encode()).hexdigest()[:12]
 
 
 def summaries(items):
@@ -128,10 +129,10 @@ def summaries(items):
     cache = c.setdefault("why", {})
     out, todo = {}, []
     for t, it in items.items():
-        k = _key(it["headlines"])
+        k = _key(it)
         if cache.get(t, {}).get("key") == k:
             out[t] = cache[t]["why"]
-        elif len(it["headlines"]) >= 1:
+        elif it["headlines"] or it.get("changes"):
             todo.append(t)
     todo = todo[:MAX_AI]
     if todo and claude_api.available():
@@ -142,13 +143,18 @@ def summaries(items):
                 it = items[t]
                 ch = "; ".join(f"{a['date']} {a['firm']}: {a['from'] or '-'} -> {a['to']}" + (f", target {a['prior'] or '?'} -> {a['pt']}" if a.get("pt") else "")
                                for a in it.get("changes", [])[:5])
-                hl = "\n".join(f"  - {h.get('date', '')} {h.get('title', '')} ({h.get('publisher') or ''})" for h in it["headlines"])
-                blocks.append(f"[{t}] {it['name']} — consensus: {it.get('rating') or 'n/a'}\n  rating changes: {ch or 'none listed'}\n{hl}")
+                hl = "\n".join(f"  - {h.get('date', '')} {h.get('title', '')}" for h in it["headlines"]) or "  - (none)"
+                cx = "\n".join(f"  - {h.get('date', '')} {h.get('title', '')}" for h in it.get("context", [])[:6]) or "  - (none)"
+                blocks.append(f"[{t}] {it['name']} — consensus: {it.get('rating') or 'n/a'}\n  rating changes: {ch or 'none listed'}\n"
+                              f"  analyst headlines:\n{hl}\n  other recent company news:\n{cx}")
             prompt = (
-                "You summarise why stock market analysts rate companies the way they do, using ONLY the headlines and "
-                "rating changes given. For each stock give up to 3 short reasons analysts are positive (\"bull\") and up "
-                "to 2 main worries (\"bear\"), each under 15 words, plain English, no hype. Don't invent facts, numbers or "
-                "firms that aren't in the text; if the text gives no reason, return an empty list.\n"
+                "You explain why stock market analysts rate companies the way they do, using ONLY the rating changes and "
+                "headlines given. For each stock give up to 3 reasons analysts are positive (\"bull\") and up to 2 main "
+                "worries (\"bear\"). Each reason must be about the BUSINESS — demand, products, growth, margins, costs, "
+                "competition, debt, management, regulation, valuation — written as a plain-English phrase under 15 words. "
+                "Do NOT list the rating action itself (\"analyst raised target\", \"upgraded to buy\", \"featured in a list\") "
+                "as a reason. Don't invent facts, numbers or firms that aren't in the text. If the text gives no business "
+                "reason, return an empty list — empty is better than vague.\n"
                 'Reply with JSON only: {"TICKER": {"bull": ["..."], "bear": ["..."]}, ...}\n\n' + "\n\n".join(blocks))
             try:
                 res = claude_api.ask_json(prompt, 3000, "analyst reasons", "object")
@@ -161,7 +167,7 @@ def summaries(items):
                        "bear": [str(x)[:140] for x in (r.get("bear") or [])][:2],
                        "by": by,
                        "date": _now().strftime("%Y-%m-%d")}
-                cache[t] = {"key": _key(items[t]["headlines"]), "why": why}
+                cache[t] = {"key": _key(items[t]), "why": why}
                 out[t] = why
     _save(c)
     diag.put("analyst_why", summarised=len(out))
@@ -172,7 +178,9 @@ def build(df, fund, headlines_map):
     """Adds df["an_why"] = {"changes", "headlines", "bull", "bear", "by"} for stocks analysts cover."""
     n = df["analyst_n"] if "analyst_n" in df else None
     covered = [t for t in df.index if n is not None and n.get(t) == n.get(t) and (n.get(t) or 0) >= 3]
-    covered.sort(key=lambda t: -float(df.at[t, "score"]))
+    # biggest, most-followed companies first (the free Yahoo budget is spread over several runs)
+    mc = df["mcap"] if "mcap" in df else df["score"]
+    covered.sort(key=lambda t: -(float(mc.get(t)) if mc.get(t) == mc.get(t) and mc.get(t) is not None else 0))
     try:
         ch = actions(covered)
     except Exception as e:
@@ -180,12 +188,14 @@ def build(df, fund, headlines_map):
         ch = {}
     items = {}
     for t in covered:
-        hl = headlines(headlines_map.get(t, []))
+        allnews = headlines_map.get(t, [])
+        hl = headlines(allnews)
         rating = fund.at[t, "recommendationKey"] if "recommendationKey" in fund and t in fund.index else None
         items[t] = {"name": df.at[t, "name"] if "name" in df else t, "rating": rating if isinstance(rating, str) else None,
-                    "headlines": hl, "changes": ch.get(t, [])}
+                    "headlines": hl, "changes": ch.get(t, []),
+                    "context": [h for h in allnews if h not in hl][:6]}
     try:
-        why = summaries({t: v for t, v in items.items() if v["headlines"]})
+        why = summaries({t: v for t, v in items.items() if v["headlines"] or v["changes"]})
     except Exception as e:
         print("WARNING analyst summaries unavailable:", e)
         why = {}

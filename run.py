@@ -925,6 +925,13 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
         "themes": {k: {kk: v[kk] for kk in ("label", "heat", "n", "why", "headlines")} for k, v in ctx["themes"].items()},
         "events": ctx.get("events", []),
     }
+    if not asset and not demo:   # why analysts rate it the way they do (rating changes, headlines, AI summary)
+        try:
+            import analystwhy
+            analystwhy.build(df, fund, nf.attrs.get("headlines", {}))
+        except Exception as e:
+            print("WARNING analyst reasons skipped:", e)
+            df["an_why"] = None
     if not demo and not extras_only:  # cache for on-demand runs later today
         scored = nf.attrs.get("headlines", {})
         tracked.save_cache(name, fund, {t: scored.get(t, []) for t in close.columns}, ctx,
@@ -973,8 +980,6 @@ def performance(df, close, idx, fund):
         ind = pd.Series(None, index=df.index, dtype=object)   # groups only (no industries)
     for kind, key in (("sectors", df["sector"]), ("industries", ind)):
         for g, members in df.groupby(key):
-            if kind == "industries" and len(members) < 3:
-                continue
             m = members.index
             row = {"name": str(g), "n": int(len(m)), "ret": {},
                    "score": round(float(members["score"].mean()), 1),
@@ -987,6 +992,8 @@ def performance(df, close, idx, fund):
                 rr = r.reindex(m)
                 ok = rr.notna()
                 row["ret"][lab] = clean((rr[ok] * w[m][ok]).sum() / w[m][ok].sum()) if ok.sum() else None
+            if kind == "industries":
+                row["sector"] = str(members["sector"].mode().iloc[0]) if len(members) else None
             res[kind].append(row)
     # (a return of exactly 0 is a real value — only a missing one goes to the bottom)
     res["sectors"].sort(key=lambda x: -(x["ret"]["1M"] if x["ret"]["1M"] is not None else -9))
@@ -1142,8 +1149,11 @@ def write_details(df, ex, market, outdir, only=None):
             "analysts": {"score": _p100(r.get("analyst")) if pd.notna(r.get("analyst")) else None,
                          "mean": _num(r.get("analyst_mean"), 2), "n": _num(r.get("analyst_n"), 0),
                          "rating": fund.at[t, "recommendationKey"] if "recommendationKey" in fund and isinstance(fund.at[t, "recommendationKey"], str) else None,
-                         "target": _num(fund.at[t, "targetMeanPrice"], 2) if "targetMeanPrice" in fund else None},
+                         "target": _num(fund.at[t, "targetMeanPrice"], 2) if "targetMeanPrice" in fund else None,
+                         "low": _num(fund.at[t, "targetLowPrice"], 2) if "targetLowPrice" in fund else None,
+                         "high": _num(fund.at[t, "targetHighPrice"], 2) if "targetHighPrice" in fund else None},
             "analyst_trend": r.get("analyst_trend") if isinstance(r.get("analyst_trend"), list) else None,
+            "analyst_why": r.get("an_why") if isinstance(r.get("an_why"), dict) else None,
             "momentum": r.get("momentum_tag") if isinstance(r.get("momentum_tag"), str) else None,
             "hz": {"short": r["hz_short"], "medium": r["signal"] if r["signal"] in ("BUY", "WATCH") else "AVOID" if r["signal"] in ("AVOID", "SELL") else "", "long": r["hz_long"]},
             "short_checks": [{"label": SHORT_LABELS[c], "pass": bool(ex["hshort"].at[t, c])} for c in ex["hshort"].columns],

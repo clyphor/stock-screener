@@ -31,6 +31,7 @@ PROVIDERS = [
 _dead = {}      # provider -> reason, for this run
 _model_ok = {}  # provider -> model that worked
 _fails = {}     # consecutive non-fatal failures per provider
+LAST = None     # "Provider (model)" that answered the latest request
 _spent = set()  # (provider, model) used up for the day — free quotas are per model, so try the next one
 
 
@@ -151,6 +152,8 @@ def ask(prompt, max_tokens=4000, where="claude", timeout=180):
                     if not text:
                         raise RuntimeError("empty reply")
                     _model_ok[name] = model
+                    global LAST
+                    LAST = f"{name} ({model.split('/')[-1]})"
                     _fails[name] = 0
                     diag.claude_ok({"usage": {"input_tokens": i, "output_tokens": o}}, paid=(name == "Claude"))
                     diag.inc("claude", "by_" + name.lower().replace(" ", "_"))

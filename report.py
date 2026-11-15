@@ -113,8 +113,11 @@ details.why ul{margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.55}
 .heat td{padding:6px 3px;text-align:center;border-radius:5px;border:0}
 .heatwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
 .heat td,.heat th{min-width:46px}
-.heat td:first-child,.heat th:first-child{position:sticky;left:0;z-index:1;background:var(--card);min-width:96px;max-width:96px}
-.heat td:first-child{text-align:left;padding-left:4px;font-size:12px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.heat .car{display:inline-block;width:14px;color:var(--mute)}
+.heat .indrow td{font-size:11px;padding:4px 3px}.heat .indrow td:first-child{padding-left:18px;color:var(--mute);cursor:default}
+.heat .secrow.open td:first-child{color:var(--acc)}
+.heat td:first-child,.heat th:first-child{position:sticky;left:0;z-index:1;background:var(--card);min-width:112px;max-width:112px}
+.heat td:first-child{text-align:left;padding-left:4px;font-size:12px;cursor:pointer;line-height:1.25;overflow-wrap:anywhere}
 .mine-head{margin:10px 16px 0;padding:12px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
 .btnrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .sbtn{padding:7px 11px;border-radius:9px;border:1px solid var(--line);background:var(--bg);font-size:13px;font-weight:600}
@@ -910,17 +913,25 @@ function renderOverview(s){
   const idxName = {US:"S&P 500 (SPY)", ASX:"ASX 200", PSX:"KSE-100 (built from members)",
     COM:"Commodities basket (equal weight)", CRYPTO:"Top-50 crypto basket (equal weight)"}[M] || "Index";
   $("ovsum").innerHTML = `· today <b style="color:${(p.index["1D"]||0)>=0?"var(--acc)":"var(--neg)"}">${fp(p.index["1D"])}</b> · 1Y ${fp(p.index["1Y"])}`;
-  const sec = p.sectors, ind = p.industries;
-  const r1 = r => r.ret["1M"] ?? null, ranked = ind.filter(r=>r1(r)!=null).sort((a,b)=>r1(b)-r1(a));
+  const sec = p.sectors, ind = p.industries || [];
+  const bySec = ind.some(r=>r.sector);   // newer runs say which sector each industry belongs to
+  const q = v => esc(v).replace(/'/g,"\\'");
+  const cells = r => PER.map(k=>`<td style="background:${heatBg(r.ret[k],k)}">${fp(r.ret[k])}</td>`).join("");
+  const kids = name => ind.filter(r=>r.sector===name).sort((a,b)=>(b.ret["1M"]??-9)-(a.ret["1M"]??-9));
+  const r1 = r => r.ret["1M"] ?? null, ranked = ind.filter(r=>r1(r)!=null && r.n>=3).sort((a,b)=>r1(b)-r1(a));
   const best = ranked.slice(0,5), worst = ranked.slice(-5).reverse();
   $("ov").innerHTML = `<div class="mute">${idxName} · returns in ${CUR(M)}</div>
     <div class="perf">${PER.map(k=>`<div style="background:${heatBg(p.index[k],k)}"><small>${k}</small><b>${fp(p.index[k])}</b></div>`).join("")}</div>
-    <div class="mute" style="margin:4px 0">${M==="COM"?"Groups (equal weight)":M==="CRYPTO"?"Groups (weighted by market cap)":"Sectors (weighted by company size)"} — tap one to filter:</div>
+    <div class="mute" style="margin:4px 0">${M==="COM"?"Groups (equal weight)":M==="CRYPTO"?"Groups (weighted by market cap)":"Sectors (weighted by company size)"} — ${bySec?"tap one to see its industries":"tap one to filter"}:</div>
     <div class="heatwrap"><table class="heat"><tr><th></th>${PER.map(k=>`<th>${k}</th>`).join("")}</tr>
-    ${sec.map(r=>`<tr><td onclick="sectorFilter('${esc(r.name).replace(/'/g,"\\'")}')"><b style="font-weight:600">${esc(r.name)}</b> <span class="mute">${r.n}</span></td>${PER.map(k=>`<td style="background:${heatBg(r.ret[k],k)}">${fp(r.ret[k])}</td>`).join("")}</tr>`).join("")}</table></div>
-    <div class="mute" style="font-size:11px;margin-top:2px">Swipe the table sideways for 1Y and 5Y.</div>
-    ${ind.length?`<div style="margin-top:10px"><div><div class="mute" style="margin-bottom:4px">Best industries (1M)</div>${best.map(r=>`<div style="font-size:13px;display:flex;justify-content:space-between;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.name)}</span><b class="good">${fp(r.ret["1M"])}</b></div>`).join("")}</div>
-      <div style="margin-top:10px"><div class="mute" style="margin-bottom:4px">Worst industries (1M)</div>${worst.map(r=>`<div style="font-size:13px;display:flex;justify-content:space-between;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.name)}</span><b class="bad">${fp(r.ret["1M"])}</b></div>`).join("")}</div></div><div class="mute" style="font-size:11px;margin-top:6px">Sectors (table above) are the 11 broad groups. Industries are the smaller groups inside them — e.g. Semiconductors and Computer Hardware sit inside Technology — ranked by their 1-month return (industries with 3+ companies). A sector can be up overall while one of its industries is down.</div>`:""}
+    ${sec.map(r=>{ const ks = bySec ? kids(r.name) : [], open = OPENSEC.has(M+"|"+r.name);
+      const head = `<tr class="secrow${open?" open":""}"><td onclick="${ks.length?`toggleSec('${q(r.name)}')`:`sectorFilter('${q(r.name)}')`}">${ks.length?`<span class="car">${open?"▾":"▸"}</span>`:""}<b style="font-weight:600">${esc(r.name)}</b> <span class="mute">${r.n}</span></td>${cells(r)}</tr>`;
+      if (!open || !ks.length) return head;
+      return head + ks.map(x=>`<tr class="indrow"><td><span>${esc(x.name)}</span> <span class="mute">${x.n}</span></td>${cells(x)}</tr>`).join("")
+        + `<tr class="indrow"><td colspan="${PER.length+1}" style="text-align:left"><a href="#" onclick="sectorFilter('${q(r.name)}');return false" style="color:var(--acc);font-size:12px">Show the ${r.n} ${M==="COM"||M==="CRYPTO"?"assets":"stocks"} in ${esc(r.name)} ›</a></td></tr>`; }).join("")}</table></div>
+    <div class="mute" style="font-size:11px;margin-top:2px">Swipe the table sideways for 1Y and 5Y.${bySec?" Industries are the smaller groups inside each sector — e.g. Semiconductors sits inside Technology. A sector can be up overall while one of its industries is down.":""}</div>
+    ${!bySec && ind.length?`<div style="margin-top:10px"><div><div class="mute" style="margin-bottom:4px">Best industries (1M)</div>${best.map(r=>`<div style="font-size:13px;display:flex;justify-content:space-between;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.name)}</span><b class="good">${fp(r.ret["1M"])}</b></div>`).join("")}</div>
+      <div style="margin-top:10px"><div class="mute" style="margin-bottom:4px">Worst industries (1M)</div>${worst.map(r=>`<div style="font-size:13px;display:flex;justify-content:space-between;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.name)}</span><b class="bad">${fp(r.ret["1M"])}</b></div>`).join("")}</div></div>`:""}
     ${why(xOverviewMarket(p, idxName))}`;
 }
 function xOverviewMarket(p, idxName){
@@ -932,6 +943,8 @@ function xOverviewMarket(p, idxName){
     ${buyHeavy&&(buyHeavy.labels.BUY+buyHeavy.labels.WATCH)>0?`<p>The sector with the most BUY/WATCH labels right now is <b>${esc(buyHeavy.name)}</b> (${buyHeavy.labels.BUY} buy, ${buyHeavy.labels.WATCH} watch).</p>`:""}
     <p class="mute">Green = up, red = down; stronger colour = bigger move for that time frame. Sector returns are weighted by company size, like an index.</p>`;
 }
+const OPENSEC = new Set();
+function toggleSec(name){ const k = M+"|"+name; OPENSEC.has(k) ? OPENSEC.delete(k) : OPENSEC.add(k); renderOverview(D.stats[M]||{}); }
 function sectorFilter(sec){ resetF(); getF().sec=[sec]; saveF(); render(); window.scrollTo({top:$("count").offsetTop-60,behavior:"smooth"}); }
 
 /* ---------------- filters ---------------- */
@@ -1221,6 +1234,7 @@ async function openStock(t, push=true){
   ${ASSET(d.market)?"":healthSection(d)}
 
   ${ASSET(d.market)?"":valuationSection(d)}
+  ${ASSET(d.market)?"":analystWhy(d)}
 
   ${ASSET(d.market)?"":dividendSection(d)}
 
@@ -1301,6 +1315,45 @@ function analystTrend(d){
     <div class="mute" style="font-size:12px">${seg.filter(([k])=>cur[k]).map(([k,l])=>`${l} ${cur[k]}`).join(" · ")}</div>
     ${ch!=null?`<div style="font-size:13px;margin-top:4px">${Math.round(b0*100)}% buy-rated${Math.abs(ch)>=0.01?` — <b class="${ch>0?"good":"bad"}">${ch>0?"up":"down"} ${Math.abs(Math.round(ch*100))} points</b> since ${esc((old.period||"").slice(0,7))}`:" — unchanged in 3 months"}</div>`:""}
     <div class="mute" style="font-size:11px;margin-top:2px">Source: Finnhub</div></div>`;
+}
+/* Why analysts rate it the way they do: rating changes (Yahoo), analyst headlines, AI summary, target range */
+function analystWhy(d){
+  const w = d.analyst_why || {}, a = d.analysts || {}, c = CUR(d.market);
+  const lab = analystLabel({am:a.mean, anr:a.n});
+  if (!lab && !(w.changes||[]).length && !(w.headlines||[]).length) return "";
+  const word = {BUY:"BUY", WATCH:"WATCH", HOLDA:"HOLD", AVOID:"AVOID"}[lab] || "the way they do";
+  const cls = lab==="BUY" ? "good" : lab==="AVOID" ? "bad" : "";
+  const price = d.price;
+  // target range bar: low — average — high, with today's price marked
+  let range = "";
+  if (a.low!=null && a.high!=null && a.high>a.low && price){
+    const lo = Math.min(a.low, price), hi = Math.max(a.high, price), pos = v => ((v-lo)/(hi-lo)*100).toFixed(1);
+    const up = a.target!=null ? a.target/price-1 : null;
+    range = `<div style="margin-top:10px"><div class="fl" style="font-size:13px;font-weight:600">Price targets vs today</div>
+      <div style="position:relative;height:30px;margin:8px 4px 2px">
+        <div style="position:absolute;top:12px;left:${pos(a.low)}%;right:${(100-pos(a.high))}%;height:6px;border-radius:3px;background:var(--line)"></div>
+        ${a.target!=null?`<div title="Average target" style="position:absolute;top:8px;left:calc(${pos(a.target)}% - 2px);width:4px;height:14px;border-radius:2px;background:var(--acc)"></div>`:""}
+        <div title="Today" style="position:absolute;top:6px;left:calc(${pos(price)}% - 7px);width:14px;height:14px;border-radius:50%;background:var(--ink);border:2px solid var(--card)"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px" class="mute"><span>Low ${c} ${a.low}</span><span>High ${c} ${a.high}</span></div>
+      <div style="font-size:13px;margin-top:4px">Today <b>${c} ${price}</b> · average target <b style="color:var(--acc)">${c} ${a.target??"–"}</b>${up!=null?` (<b class="${up>=0?"good":"bad"}">${up>=0?"+":""}${Math.round(up*100)}%</b>)`:""}${a.n?` · ${a.n} analysts`:""}</div></div>`;
+  }
+  const grade = x => esc(x||"–");
+  const act = x => ({up:"Upgrade", down:"Downgrade", init:"New coverage", main:"Kept", reit:"Reiterated"})[x.action] || (x.action ? esc(x.action) : "");
+  const changes = (w.changes||[]).length ? `<div style="margin-top:12px"><div class="fl" style="font-size:13px;font-weight:600">Recent rating changes</div>
+    <table class="ft" style="margin-top:4px">${w.changes.slice(0,6).map(x=>`<tr><td><b>${esc(x.firm)}</b><div class="mute" style="font-size:12px">${esc(x.date)} · ${act(x)}</div></td>
+      <td style="text-align:right"><span class="${x.action==="up"?"good":x.action==="down"?"bad":""}">${x.from&&x.from!==x.to?grade(x.from)+" → ":""}${grade(x.to)}</span>
+      ${x.pt?`<div class="mute" style="font-size:12px">target ${x.prior&&x.prior!==x.pt?c+" "+x.prior+" → ":""}${c} ${x.pt}</div>`:""}</td></tr>`).join("")}</table></div>` : "";
+  const li = (arr, icon, k) => arr.map(t=>`<div class="chk"><b class="${k}">${icon}</b><span>${esc(t)}</span></div>`).join("");
+  const reasons = (w.bull||[]).length || (w.bear||[]).length ? `<div style="margin-top:12px">
+      ${(w.bull||[]).length?`<div class="fl" style="font-size:13px;font-weight:600">What they like</div>${li(w.bull,"+","ok")}`:""}
+      ${(w.bear||[]).length?`<div class="fl" style="font-size:13px;font-weight:600;margin-top:8px">What worries them</div>${li(w.bear,"−","no")}`:""}
+      <div class="mute" style="font-size:11px;margin-top:4px">Summarised by AI${w.by?` (${esc(w.by)})`:""} from the headlines below${w.as_of?`, ${esc(w.as_of)}`:""} — not from the analysts' own reports.</div></div>` : "";
+  const news = (w.headlines||[]).length ? `<div style="margin-top:12px"><div class="fl" style="font-size:13px;font-weight:600">Analyst headlines</div>
+    ${w.headlines.map(h=>`<div class="news"><a href="${esc(h.link||"#")}" target="_blank" rel="noopener">${esc(h.title)}</a><div class="mute">${esc(h.publisher||"")} · ${esc(h.date||"")}</div></div>`).join("")}</div>` : "";
+  const none = !changes && !reasons && !news ? `<div class="mute" style="margin-top:8px;font-size:13px">No recent rating changes or analyst headlines — the consensus hasn't moved lately.</div>` : "";
+  return `<div class="sec"><h3>Why analysts rate it <span class="${cls}">${word}</span></h3>
+    <div class="mute" style="font-size:12px">Analysts' full research reports are paid and private, so this pieces it together from public rating changes and news.</div>
+    ${reasons}${range}${changes}${news}${none}</div>`;
 }
 function valuationSection(d){
   const v = d.valuation, c = CUR(d.market);

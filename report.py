@@ -185,7 +185,7 @@ svg text{fill:var(--mute);font-size:10px}
 const D = __DATA__;
 const BAD = ["Negative news","Sector headwind","Overbought (RSI)","Macro headwind",__BAD_EVENTS__];
 const L = {ml:"Model",fundamental:"Fundam.",news:"News",peers:"Peers",macro:"Macro"};
-let M = Object.keys(D.markets)[0], showAll = false;
+let M = (() => { try { const t = localStorage.getItem("tab"); if (t && (D.markets[t] || t==="Lists" || t==="Paper")) return t; } catch(e){} return Object.keys(D.markets)[0]; })(), showAll = false;
 const $ = id => document.getElementById(id);
 const tk = t => t.replace(".AX","").replace(".KA","").replace("=F","").replace(/(\d{3,})?-USD$/,"");
 const CUR = m => (D.stats[m]||{}).currency || {US:"USD",ASX:"AUD",PSX:"PKR",COM:"USD",CRYPTO:"USD"}[m] || "";
@@ -278,6 +278,15 @@ async function requestAnalysis(q, m){
 /* ---- members-only analysis: visitors without an account see ticker, name and score only ---- */
 const GATED = !!D.gated;
 let FULL = !GATED;
+const SLIM = JSON.parse(JSON.stringify(D.markets));   // what visitors get — restored on sign-out
+function relock(){
+  if (!GATED) return;
+  FULL = false;
+  Object.keys(D.markets).forEach(m => { D.markets[m] = JSON.parse(JSON.stringify(SLIM[m] || [])); });
+  try { EXTRAS = {items:{}, rows:{}}; } catch(e){}
+  try { $("sheet").classList.remove("open"); document.body.style.overflow = ""; } catch(e){}
+  rebuildAll();
+}
 const locked = () => GATED && !FULL;
 function rebuildAll(){ Object.keys(ALL).forEach(k=>delete ALL[k]); MARKETS.forEach(m => (D.markets[m]||[]).forEach((r,i)=>{ ALL[r.ticker] = Object.assign({market:m, rank:i+1}, r); })); mergeExtras(); }
 async function loadMembers(){
@@ -304,12 +313,13 @@ function signupPitch(t){
 }
 function showSignup(t){ if (DBSTATE==="signedout") return openAuth("up", t); modal(signupPitch(t) + `<div class="btnrow" style="margin-top:8px"><button class="sbtn" onclick="closeModal()">Not now</button></div>`); }
 function lockedCard(r, i){
-  return `<div class="card locked" onclick="showSignup('${r.ticker}')"><div class="top"><div style="min-width:0"><span class="rank">#${r.rank||i+1}</span><span class="tk">${tk(r.ticker)}</span>
+  return `<div class="card locked" onclick="${USER && DBSTATE==="ready" ? "" : `showSignup('${r.ticker}')`}"><div class="top"><div style="min-width:0"><span class="rank">#${r.rank||i+1}</span><span class="tk">${tk(r.ticker)}</span>
      <div class="nm">${esc(r.name||"")}${r.sector?" · "+esc(r.sector):""}</div></div><div class="sc">${r.score??"–"}</div></div>
    <div class="lk"><div class="hzrow"><span class="hzb"><i>Short</i>BUY</span><span class="hzb"><i>Medium</i>WATCH</span><span class="hzb"><i>Long</i>BUY</span></div>
      <div class="bars">${["Model","Fundam.","News","Peers","Macro"].map(l=>`<div class="bar"><small>${l}</small><i><span style="width:60%"></span></i></div>`).join("")}</div>
      <div class="meta">USD 000.00 · 3m 00% · P/E 00</div><div class="chips"><span class="chip">Undervalued</span><span class="chip">Analysts 00/100</span><span class="chip">Dividend</span></div></div>
-   <button class="lockcta" onclick="event.stopPropagation();showSignup('${r.ticker}')">🔒 Sign up free to see signals &amp; full analysis</button></div>`;
+   ${USER && DBSTATE==="ready" ? `<button class="lockcta" onclick="event.stopPropagation()" style="opacity:.8">⏳ Full analysis arrives with this market's next update</button>`
+     : `<button class="lockcta" onclick="event.stopPropagation();showSignup('${r.ticker}')">🔒 Sign up free to see signals &amp; full analysis</button>`}</div>`;
 }
 
 /* ---- your preferences (chosen at sign-up, editable any time) ---- */
@@ -373,6 +383,7 @@ function render(){
   try{ $("curbar").innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center">${curPicker()}${tfPicker()}</div>` + (FX?`<div class="mute" style="font-size:12px">rates ${FX.updated}</div>`:""); }catch(e){}
   try{ $("fbar").style.display = locked() && !MINE(M) ? "none" : ""; }catch(e){}
   if (STOCKS.includes(M)) LASTSTOCK = M;
+  try { localStorage.setItem("tab", M); } catch(e){}
   [...$("tabs").children].forEach(b=>b.classList.toggle("on", b.dataset.k===TOP(M)));
   $("subtabs").style.display = STOCKS.includes(M) ? "" : "none";
   [...$("subtabs").children].forEach(b=>b.classList.toggle("on", b.dataset.k===M));
@@ -507,7 +518,7 @@ const fromRow = r => ({id:Number(r.id), ticker:r.ticker, market:r.market, curren
   exit_idx:r.exit_idx!=null?Number(r.exit_idx):null, exit_label:r.exit_label});
 async function dbLoad(){
   if (!SB) return;
-  if (!USER){ DBSTATE = "signedout"; render(); return; }
+  if (!USER){ DBSTATE = "signedout"; relock(); render(); return; }
   DBSTATE = "loading"; render();
   try {
     const [w, t] = await Promise.all([SB.from("watchlists").select("*"), SB.from("paper_trades").select("*").order("id",{ascending:false})]);
@@ -573,7 +584,7 @@ async function verifyCode(email){
   if (error) return alert("That code didn't work: " + error.message);
   USER = data.user; dbLoad();
 }
-async function signOut(){ closeMenu(); closeModal(); await SB.auth.signOut(); USER=null; WL.v=null; PT.v=null; try{localStorage.removeItem("watchlists");localStorage.removeItem("paper_trades");}catch(e){} DBSTATE="signedout"; render(); }
+async function signOut(){ closeMenu(); closeModal(); await SB.auth.signOut(); USER=null; WL.v=null; PT.v=null; try{localStorage.removeItem("watchlists");localStorage.removeItem("paper_trades");}catch(e){} DBSTATE="signedout"; relock(); render(); }
 function accountBox(){
   if (DBSTATE==="off") return `<div class="mute" style="margin-top:8px;font-size:12px">Database not connected yet — saved on this device for now, and moved to your account automatically once sign-in is set up.</div>`;
   if (DBSTATE==="signedout") return `<div id="acct" style="margin-top:10px">${DBERR?`<div class="bad" style="font-size:13px;margin-bottom:6px">${esc(DBERR)}</div>`:""}
@@ -696,7 +707,7 @@ async function changeEmail(){
 async function signOutAll(){
   if (!confirm("Sign out of every device?")) return;
   closeModal(); await SB.auth.signOut({scope:"global"});
-  USER=null; WL.v=null; PT.v=null; try{localStorage.removeItem("watchlists");localStorage.removeItem("paper_trades");}catch(e){} DBSTATE="signedout"; render();
+  USER=null; WL.v=null; PT.v=null; try{localStorage.removeItem("watchlists");localStorage.removeItem("paper_trades");}catch(e){} DBSTATE="signedout"; relock(); render();
 }
 
 function addToList(t){

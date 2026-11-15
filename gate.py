@@ -49,8 +49,10 @@ def publish(payload, run_markets):
     if not enabled():
         return False
     try:
-        rows = [{"path": f"rows/{m}.json", "market": m, "body": payload["markets"].get(m, [])} for m in run_markets
-                if payload["markets"].get(m) and "parts" in (payload["markets"][m][0] or {})]
+        # every market that has full rows in this payload (the ones just run, plus any carried over from a page
+        # that was still public) — markets carried over from an already-members-only page are slim and skipped
+        rows = [{"path": f"rows/{m}.json", "market": m, "body": body} for m, body in payload["markets"].items()
+                if body and "parts" in (body[0] or {})]
         files = []
         for f in glob.glob("docs/stocks/*.json"):
             name = os.path.basename(f)

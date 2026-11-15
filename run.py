@@ -666,6 +666,9 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
             if k in fund})
         if "sector" in uni:
             fund["sector"] = fund["sector"].fillna(uni["sector"].reindex(fund.index))
+        if "sector" in fund and not asset:
+            # index lists (Wikipedia) use the official GICS names; Yahoo uses its own — one name per sector
+            fund["sector"] = fund["sector"].replace(GICS_TO_YAHOO)
         if name == "PSX" and "psx_sector" in fund:  # sector from the exchange's own company page
             from universe import psx_sector
             mapped = fund["psx_sector"].map(lambda x: psx_sector(x) if isinstance(x, str) else (None, None))
@@ -933,6 +936,11 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
     return df, stats, extras_out
 
 
+GICS_TO_YAHOO = {"Financials": "Financial Services", "Information Technology": "Technology", "Health Care": "Healthcare",
+                 "Consumer Staples": "Consumer Defensive", "Consumer Discretionary": "Consumer Cyclical",
+                 "Materials": "Basic Materials", "Telecommunication Services": "Communication Services"}
+
+
 # ---------------------------------------------------------------- market & sector performance
 PERIODS = [("1D", 1), ("1W", 5), ("1M", 21), ("3M", 63), ("YTD", None), ("1Y", 252), ("5Y", 1260)]
 
@@ -980,8 +988,9 @@ def performance(df, close, idx, fund):
                 ok = rr.notna()
                 row["ret"][lab] = clean((rr[ok] * w[m][ok]).sum() / w[m][ok].sum()) if ok.sum() else None
             res[kind].append(row)
-    res["sectors"].sort(key=lambda x: -(x["ret"]["1M"] or -9))
-    res["industries"].sort(key=lambda x: -(x["ret"]["1M"] or -9))
+    # (a return of exactly 0 is a real value — only a missing one goes to the bottom)
+    res["sectors"].sort(key=lambda x: -(x["ret"]["1M"] if x["ret"]["1M"] is not None else -9))
+    res["industries"].sort(key=lambda x: -(x["ret"]["1M"] if x["ret"]["1M"] is not None else -9))
     return res
 
 

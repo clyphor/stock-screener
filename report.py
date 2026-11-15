@@ -911,7 +911,8 @@ function renderOverview(s){
     COM:"Commodities basket (equal weight)", CRYPTO:"Top-50 crypto basket (equal weight)"}[M] || "Index";
   $("ovsum").innerHTML = `· today <b style="color:${(p.index["1D"]||0)>=0?"var(--acc)":"var(--neg)"}">${fp(p.index["1D"])}</b> · 1Y ${fp(p.index["1Y"])}`;
   const sec = p.sectors, ind = p.industries;
-  const best = ind.slice(0,5), worst = ind.slice(-5).reverse();
+  const r1 = r => r.ret["1M"] ?? null, ranked = ind.filter(r=>r1(r)!=null).sort((a,b)=>r1(b)-r1(a));
+  const best = ranked.slice(0,5), worst = ranked.slice(-5).reverse();
   $("ov").innerHTML = `<div class="mute">${idxName} · returns in ${CUR(M)}</div>
     <div class="perf">${PER.map(k=>`<div style="background:${heatBg(p.index[k],k)}"><small>${k}</small><b>${fp(p.index[k])}</b></div>`).join("")}</div>
     <div class="mute" style="margin:4px 0">${M==="COM"?"Groups (equal weight)":M==="CRYPTO"?"Groups (weighted by market cap)":"Sectors (weighted by company size)"} — tap one to filter:</div>
@@ -919,7 +920,7 @@ function renderOverview(s){
     ${sec.map(r=>`<tr><td onclick="sectorFilter('${esc(r.name).replace(/'/g,"\\'")}')"><b style="font-weight:600">${esc(r.name)}</b> <span class="mute">${r.n}</span></td>${PER.map(k=>`<td style="background:${heatBg(r.ret[k],k)}">${fp(r.ret[k])}</td>`).join("")}</tr>`).join("")}</table></div>
     <div class="mute" style="font-size:11px;margin-top:2px">Swipe the table sideways for 1Y and 5Y.</div>
     ${ind.length?`<div style="margin-top:10px"><div><div class="mute" style="margin-bottom:4px">Best industries (1M)</div>${best.map(r=>`<div style="font-size:13px;display:flex;justify-content:space-between;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.name)}</span><b class="good">${fp(r.ret["1M"])}</b></div>`).join("")}</div>
-      <div style="margin-top:10px"><div class="mute" style="margin-bottom:4px">Worst industries (1M)</div>${worst.map(r=>`<div style="font-size:13px;display:flex;justify-content:space-between;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.name)}</span><b class="bad">${fp(r.ret["1M"])}</b></div>`).join("")}</div></div>`:""}
+      <div style="margin-top:10px"><div class="mute" style="margin-bottom:4px">Worst industries (1M)</div>${worst.map(r=>`<div style="font-size:13px;display:flex;justify-content:space-between;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.name)}</span><b class="bad">${fp(r.ret["1M"])}</b></div>`).join("")}</div></div><div class="mute" style="font-size:11px;margin-top:6px">Sectors (table above) are the 11 broad groups. Industries are the smaller groups inside them — e.g. Semiconductors and Computer Hardware sit inside Technology — ranked by their 1-month return (industries with 3+ companies). A sector can be up overall while one of its industries is down.</div>`:""}
     ${why(xOverviewMarket(p, idxName))}`;
 }
 function xOverviewMarket(p, idxName){

@@ -559,6 +559,7 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
     tm = Timer()
     kmi = None
     missing = []
+    _wrong, screen_why, uni = [], {}, None
     if demo:
         from demo_data import fake_market
         close, volume, idx, fund, news = fake_market(cfg["tickers"], cfg["index"])
@@ -781,6 +782,10 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
     ok = (df["dollar_vol"] >= cfg["min_dollar_vol"]) & (price >= (0 if asset else 1)) & ~(mcap < cfg["min_mcap"])
     req = df.index.isin(list(extras)) & price.notna() & df["dollar_vol"].notna()
     below = req & ~ok
+    for t in df.index[~ok]:   # why each one was left out (shown on the page)
+        screen_why[t] = ("price under 1" if price.get(t) == price.get(t) and price.get(t) < 1 else
+                         "company too small" if mcap.get(t) == mcap.get(t) and mcap.get(t) < cfg["min_mcap"] else
+                         "too little trading" if df.at[t, "dollar_vol"] == df.at[t, "dollar_vol"] else "no recent price")
     ok = ok | req          # stocks you asked for are always analysed, even if small or thinly traded
     diag.put("screen", total=int(len(df)), no_dollar_vol=int(df["dollar_vol"].isna().sum()),
              too_illiquid=int((df["dollar_vol"] < cfg["min_dollar_vol"]).sum()), no_price=int(price.isna().sum()),
@@ -897,6 +902,20 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
         stability.apply(name, df, str(close.index[-1].date()), config.SCORING_VERSION)
     else:
         df["weakening"] = False
+    if uni is not None and not extras_only:
+        wrong = {w.split(" ")[0] for w in _wrong}
+        nm = uni["name"] if "name" in uni else pd.Series(dtype=object)
+        left = []
+        for t in dict.fromkeys(uni.index):
+            if t in df.index:
+                continue
+            why = ("wrong coin on Yahoo (its price didn't match CoinGecko)" if t in wrong else
+                   "no price data from Yahoo this run" if t in missing else
+                   screen_why.get(t) or "not enough price history to score yet")
+            n_ = nm.get(t) if hasattr(nm, "get") else None
+            left.append({"t": str(t), "name": n_ if isinstance(n_, str) else None, "why": why})
+        stats["universe"] = int(len(dict.fromkeys(uni.index)))
+        stats["left_out"] = left[:80]
     stats.update(news_method=nf.attrs.get("method"), screened=int(ok.sum()),
                  news_coverage=round(float((df["news_count"].fillna(0) > 0).mean()), 2),
                  ai_used={k[5:]: v for k, v in diag.D.get(name, {}).get("claude", {}).items() if k.startswith("used_")},

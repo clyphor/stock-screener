@@ -920,7 +920,13 @@ function renderOverview(s){
   const kids = name => ind.filter(r=>r.sector===name).sort((a,b)=>(b.ret["1M"]??-9)-(a.ret["1M"]??-9));
   const r1 = r => r.ret["1M"] ?? null, ranked = ind.filter(r=>r1(r)!=null && r.n>=3).sort((a,b)=>r1(b)-r1(a));
   const best = ranked.slice(0,5), worst = ranked.slice(-5).reverse();
+  const st = D.stats[M] || {}, lo = st.left_out || [], shown = (D.markets[M]||[]).length;
+  const cover = st.universe ? `<details class="why" style="margin:2px 0 6px"><summary>Covering <b>${shown}</b> of ${st.universe} ${M==="COM"?"commodities":M==="CRYPTO"?"coins":"tickers"}${lo.length?` — ${lo.length} left out`:""}</summary>
+      ${M==="CRYPTO"?`<div class="mute" style="font-size:12px">The list is CoinGecko's top 50 by size, minus stablecoins and wrapped tokens.</div>`:M==="US"?`<div class="mute" style="font-size:12px">The S&amp;P 500 has a few more tickers than companies (e.g. Alphabet GOOG and GOOGL).</div>`:""}
+      ${lo.length?`<table class="ft" style="margin-top:4px">${lo.map(x=>`<tr><td><b>${esc(tk(x.t))}</b>${x.name?` <span class="mute">${esc(x.name)}</span>`:""}</td><td style="text-align:right;font-size:12px" class="mute">${esc(x.why)}</td></tr>`).join("")}</table>
+        <div class="mute" style="font-size:11px;margin-top:4px">Usually temporary — they come back once the data source has them. Any ticker can still be requested from the search box.</div>`:`<div class="mute" style="font-size:12px">Nothing left out this run.</div>`}</details>` : "";
   $("ov").innerHTML = `<div class="mute">${idxName} · returns in ${CUR(M)}</div>
+    ${cover}
     <div class="perf">${PER.map(k=>`<div style="background:${heatBg(p.index[k],k)}"><small>${k}</small><b>${fp(p.index[k])}</b></div>`).join("")}</div>
     <div class="mute" style="margin:4px 0">${M==="COM"?"Groups (equal weight)":M==="CRYPTO"?"Groups (weighted by market cap)":"Sectors (weighted by company size)"} — ${bySec?"tap one to see its industries":"tap one to filter"}:</div>
     <div class="heatwrap"><table class="heat"><tr><th></th>${PER.map(k=>`<th>${k}</th>`).join("")}</tr>

@@ -78,7 +78,7 @@ ASSET_WEIGHTS_NO_MODEL = {"ml": 0.15, "news": 0.35, "peers": 0.15, "macro": 0.35
 
 # Bump this whenever the scoring/label rules change, so label changes caused by a rules update are
 # recorded as "rules updated" rather than looking like the market moved.
-SCORING_VERSION = 7
+SCORING_VERSION = 8   # 8: 12-month long-term view, analyst score in fundamentals
 
 TOP_N = 20                # how many picks to show per market
 

@@ -23,7 +23,7 @@ import assets
 
 LIST_COLS = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers", "macro", "macro_raw",
              "mcap", "news_sent", "events", "value", "quality", "growth", "health", "f_score", "flags", "red_flags",
-             "hz_short", "hz_long", "halal", "div_yield", "div_tags", "momentum_tag", "val_tag", "val_up", "weakening", "requested",
+             "hz_short", "hz_long", "halal", "div_yield", "div_tags", "momentum_tag", "val_tag", "val_up", "analyst", "weakening", "requested",
              "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons", "signal"]
 import stability
 import tracked
@@ -141,15 +141,19 @@ SHORT_LABELS = {
     "no_red": "No red flags",
 }
 LONG_LABELS = {
-    "fundamentals": "Top 30% fundamentals",
-    "health": "Strong financial health (F-score 7+)",
-    "not_distressed": "No bankruptcy risk (Altman Z safe or n/a)",
-    "fair_value": "Not expensive vs its sector",
-    "quality": "Top 30% quality (profitability, low debt)",
-    "above_200d": "Above its 200-day average (long-term uptrend)",
-    "no_headwind": "No structural sector/political headwind",
-    "no_red": "No red flags",
+    "business": "Strong business — top 40% fundamentals",
+    "quality": "Top 40% quality (profitability, low debt)",
+    "health": "Healthy finances (F-score 6+ or n/a)",
+    "not_distressed": "No bankruptcy risk (Altman Z 1.8+ or n/a)",
+    "valuation": "Sensible price (not overvalued)",
+    "analysts": "Analysts mostly positive (or not covered)",
+    "no_severe": "No serious threat to the business (distress, dilution, debt trouble, failed trial…)",
 }
+# Red flags that threaten the business itself (block long-term too); others (scandal, CEO exit, guidance cut)
+# are usually temporary for a strong company — they block the short/medium BUY but not the 12-month view.
+SEVERE_FLAGS = {"Financial distress risk", "Profit doesn't cover interest", "Heavy share dilution"} | {
+    __import__("events").LABEL[k] for k in ("bankruptcy", "debt", "trial_fail", "rejection", "capital_raise", "dividend_cut")
+    if k in __import__("events").LABEL}
 
 
 def horizon_checks(df, model_ok, reds):
@@ -164,16 +168,21 @@ def horizon_checks(df, model_ok, reds):
         "interest": (df["vol_spike"] >= 1.2) | (df["rel_str_63_r"] >= 0.7),
         "no_red": reds.map(len) == 0,
     })
+    # Long term = owning it for 12 months or more: is it a strong, healthy business at a sensible price that
+    # analysts back? Short-lived bad news and the price trend matter far less over that time — only serious
+    # threats to the business itself (bankruptcy risk, heavy dilution, failed trials, debt trouble…) block it.
     f = df["f_score"]
+    severe = reds.map(lambda x: any(s in SEVERE_FLAGS for s in x))
+    va = df["val_tag"] if "val_tag" in df else pd.Series(None, index=df.index)
+    an = df["analyst"] if "analyst" in df else pd.Series(np.nan, index=df.index)
     long = pd.DataFrame({
-        "fundamentals": df["fundamental"].rank(pct=True) >= 0.7,
-        "health": f >= 7,
-        "not_distressed": df["altman_z"].isna() | (df["altman_z"] >= 3),
-        "fair_value": df["value"] >= 0.5,
-        "quality": df["quality"].rank(pct=True) >= 0.7,
-        "above_200d": df["dist_ma200"] > 0,
-        "no_headwind": (df["macro_raw"] >= -0.1) | (df["macro_raw"].rank(pct=True) >= 0.3),
-        "no_red": reds.map(len) == 0,
+        "business": df["fundamental"].rank(pct=True) >= 0.6,
+        "quality": df["quality"].rank(pct=True) >= 0.6,
+        "health": f.isna() | (f >= 6),
+        "not_distressed": df["altman_z"].isna() | (df["altman_z"] >= 1.8),
+        "valuation": (va != "Overvalued") & ((df["value"] >= 0.4) | (va == "Undervalued")),
+        "analysts": an.isna() | (an >= 0.55),
+        "no_severe": ~severe,
     })
     return short, long
 
@@ -429,6 +438,22 @@ def dividend_info(df, fund):
     diag.put("dividends", payers=int((yld > 0).sum()), high=sum("High dividend" in v for v in out_tags.values()),
              growers=sum("Dividend grower" in v for v in out_tags.values()),
              at_risk=sum("Dividend at risk" in v for v in out_tags.values()))
+
+
+def analyst_score(df, fund):
+    """0–1: what analysts think. 60% their consensus rating (1 = strong buy … 5 = sell), 40% the gap to their
+    average price target. Only when 3+ analysts cover the stock; otherwise NaN (not counted)."""
+    g = lambda c: pd.to_numeric(fund[c], errors="coerce").reindex(df.index) if c in fund else pd.Series(np.nan, index=df.index)
+    mean, n, tgt = g("recommendationMean"), g("numberOfAnalystOpinions"), g("targetMeanPrice")
+    price = pd.to_numeric(df["price"], errors="coerce")
+    rating = ((5 - mean) / 4).clip(0, 1)
+    up = ((tgt / price - 1).clip(-0.3, 0.6) + 0.3) / 0.9
+    up = up.where((tgt / price).between(0.3, 3))
+    s = (0.6 * rating + 0.4 * up.fillna(rating)).where(rating.notna(), up)
+    s = s.where(n.isna() | (n >= 3))
+    df["analyst"] = s
+    df["analyst_n"] = n
+    df["analyst_mean"] = mean
 
 
 def momentum_tags(df):
@@ -723,6 +748,12 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
         kind = "commodity" if name == "COM" else "cryptocurrency"
         sentiment.TAG_NAMES.update({t: f"{fund.at[t, 'shortName']} ({kind})" for t in fund.index})
     nf = news_features(news, fund["sector"], prescored=prescored if not demo else None)
+    if not asset and "fundamental" in fs:   # analysts' view counts for 15% of the fundamentals part
+        _tmp = pd.DataFrame({"price": close.ffill().iloc[-1].reindex(fs.index)})
+        analyst_score(_tmp, fund)
+        a_rank = _tmp["analyst"].rank(pct=True)
+        fs["fundamental"] = (0.85 * fs["fundamental"] + 0.15 * a_rank).where(a_rank.notna(), fs["fundamental"])
+        fs["analyst"], fs["analyst_n"], fs["analyst_mean"] = _tmp["analyst"], _tmp["analyst_n"], _tmp["analyst_mean"]
     tm.lap("news scoring")
 
     hcols = [c for c in ("f_score", "f_tests", "altman_z", "interest_cover", "cash_conversion", "dilution", "margin_trend",
@@ -846,7 +877,7 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
         hs, hl = horizon_checks(df, model_ok, reds)
     blocked = df["signal"].isin(["SELL", "AVOID"])
     df["hz_short"] = horizon_label(hs, blocked)
-    df["hz_long"] = horizon_label(hl, blocked)
+    df["hz_long"] = horizon_label(hl, df["signal"].eq("SELL") & ~hl.all(axis=1) if not asset else blocked)
     # Labels with memory: no flip-flopping on re-runs or one noisy day (see stability.py)
     if not demo and not extras_only:
         stability.apply(name, df, str(close.index[-1].date()), config.SCORING_VERSION)
@@ -1088,6 +1119,10 @@ def write_details(df, ex, market, outdir, only=None):
             "halal": dict(r["halal_info"], purification=halal.purification(r["halal_info"].get("ratios"))),
             "dividend": r.get("div_info"),
             "valuation": r.get("val_info") if isinstance(r.get("val_info"), dict) else None,
+            "analysts": {"score": _p100(r.get("analyst")) if pd.notna(r.get("analyst")) else None,
+                         "mean": _num(r.get("analyst_mean"), 2), "n": _num(r.get("analyst_n"), 0),
+                         "rating": fund.at[t, "recommendationKey"] if "recommendationKey" in fund and isinstance(fund.at[t, "recommendationKey"], str) else None,
+                         "target": _num(fund.at[t, "targetMeanPrice"], 2) if "targetMeanPrice" in fund else None},
             "analyst_trend": r.get("analyst_trend") if isinstance(r.get("analyst_trend"), list) else None,
             "momentum": r.get("momentum_tag") if isinstance(r.get("momentum_tag"), str) else None,
             "hz": {"short": r["hz_short"], "medium": r["signal"] if r["signal"] in ("BUY", "WATCH") else "", "long": r["hz_long"]},
@@ -1341,6 +1376,7 @@ def list_row(t, r):
              "hl": r["halal"],
              "dv": r["div_tags"] if isinstance(r.get("div_tags"), list) else [],
              "mo": r.get("momentum_tag") if isinstance(r.get("momentum_tag"), str) else None,
+             "an": _p100(r.get("analyst")) if pd.notna(r.get("analyst")) else None,
              "va": r.get("val_tag") if isinstance(r.get("val_tag"), str) else None,
              "vu": _num(r.get("val_up"), 3),
              "dy": _num(r.get("div_yield"), 2),

@@ -21,7 +21,7 @@ FUND_FIELDS = [
     "debtToEquity", "returnOnEquity", "freeCashflow", "dividendYield",
     "payoutRatio", "exDividendDate", "dividendRate", "fiveYearAvgDividendYield",
     "fiftyTwoWeekHigh", "fiftyTwoWeekLow", "recommendationKey", "targetMeanPrice",
-    "targetLowPrice", "targetHighPrice", "numberOfAnalystOpinions",
+    "targetLowPrice", "targetHighPrice", "numberOfAnalystOpinions", "recommendationMean",
 ]
 
 

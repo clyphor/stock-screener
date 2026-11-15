@@ -41,7 +41,7 @@ table.ft{width:100%;border-collapse:collapse;font-size:14px}table.ft td{padding:
 .sig{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:6px;margin-left:8px;vertical-align:3px}
 .sig.BUY{background:var(--acc);color:#fff}.sig.WATCH{border:1px solid var(--acc);color:var(--acc)}
 .sig.HOLD{border:1px solid var(--line);color:var(--mute);font-weight:600}
-.sig.AVOID{border:1px solid var(--ma50);color:var(--ma50)}.sig.SELL{background:var(--neg);color:#fff}
+.sig.AVOID{border:1px solid var(--ma50);color:var(--ma50)}.sig.LONGBUY{background:#e7f4ec;color:#1e7a4a;border:1px solid #1e9e5a}.sig.SELL{background:var(--neg);color:#fff}
 .sig.HALAL{border:1px solid #3a9d6b;color:#3a9d6b}.sig.HDOUBT{border:1px dashed var(--mute);color:var(--mute);font-weight:600}
 .sig.flag{border:1px dashed var(--mute);color:var(--ink);font-weight:600}
 .card.SELL{border:2px solid var(--neg)}
@@ -166,13 +166,15 @@ function updGen(){
   $("gen").textContent = (mk ? `${MNAME(mk)} updated ${fmt(u[mk]||D.generated)}` : "Updated " + fmt(D.generated)) + (D.demo ? " · DEMO DATA" : "");
 }
 
-function badge(sg){ return sg ? `<span class="sig ${sg}">${sg}</span>` : ""; }
+function badge(sg){ return sg ? `<span class="sig ${sg}">${sg==="LONGBUY"?"LONG-TERM BUY":sg}</span>` : ""; }
 /* Stocks you hold in Paper (open trades) */
 function owned(t){ return PT.get().some(x=>x.ticker===t && x.status==="open"); }
 /* Main label: BUY / WATCH / AVOID — or HOLD / SELL if you already own it in Paper */
 function mainLabel(r){
   const sg = r.signal||"HOLD", hz = r.hz||["","",""], bad = sg==="SELL"||sg==="AVOID";
-  if (owned(r.ticker)) return bad ? "SELL" : "HOLD";
+  /* Long-term (12 months+) BUY wins over a short-term AVOID caused by temporary bad news */
+  if (owned(r.ticker)) return bad && hz[2]!=="BUY" ? "SELL" : "HOLD";
+  if (bad && hz[2]==="BUY") return "LONGBUY";
   if (bad) return "AVOID";
   if (hz.includes("BUY")) return "BUY";
   if (hz.includes("WATCH") || sg==="WATCH") return "WATCH";
@@ -186,6 +188,8 @@ function subTags(r){
   if (r.hl==="HALAL") out.push(`<span class="chip halal-chip">Halal</span>`);
   if (r.va==="Undervalued") out.push(`<span class="chip good">Undervalued${r.vu!=null?` +${Math.round(r.vu*100)}%`:""}</span>`);
   if (r.va==="Overvalued") out.push(`<span class="chip bad">Overvalued${r.vu!=null?` ${Math.round(r.vu*100)}%`:""}</span>`);
+  if (r.an!=null) out.push(`<span class="chip ${r.an>=70?"good":r.an<=35?"bad":""}">Analysts ${r.an}/100</span>`);
+  if (mainLabel(r)==="LONGBUY") out.push(`<span class="chip warn">Short-term: avoid (fresh bad news)</span>`);
   if (r.mo) out.push(`<span class="chip ${r.mo==="Oversold"?"warn":"bad"}">${r.mo}</span>`);
   (r.dv||[]).forEach(t=>out.push(t==="Dividend at risk" ? `<span class="chip bad">${t}</span>` : `<span class="chip div-chip">${t}${t!=="Dividend grower"&&r.dy!=null?` ${r.dy.toFixed(1)}%`:""}</span>`));
   if (r.wk || r.weakening) out.push(`<span class="chip bad">Weakening</span>`);
@@ -195,7 +199,8 @@ function subTags(r){
 const LABEL_INFO = {
   BUY:"passes every buy check for at least one time horizon (see the tags)", WATCH:"one check short of a buy",
   "":"no strong reason to buy or avoid right now", HOLD:"you hold this in Paper and there's no reason to sell",
-  AVOID:"recent red flag or weak on every front — don't buy now", SELL:"you hold this in Paper and it now has a red flag or fails on every front — consider selling"};
+  AVOID:"recent red flag or weak on every front — don't buy now",
+  LONGBUY:"a strong business at a sensible price for holding 12 months or more — but fresh bad news or a falling price makes the short term risky. Consider buying gradually rather than all at once", SELL:"you hold this in Paper and it now has a red flag or fails on every front — consider selling"};
 function normTicker(q, m){
   let t = q.trim().toUpperCase().replace(/^(ASX|NYSE|NASDAQ|PSX|KSE):/, "").replace(/\s+/g, "");
   if (m==="ASX") return t.replace(/\.AX$/,"") + ".AX";
@@ -752,7 +757,7 @@ function drawPanel(){
              : [["",'Any'],["5e10",">PKR 50B"],["2e11",">PKR 200B"],["5e11",">PKR 500B"],["-5e10","<PKR 50B"]];
   $("fpanel").innerHTML = `
    ${MINE(M)?`<div class="fg"><span class="fl">Market</span>${pills("mk",MARKETS.map(m=>[m,MNAME(m)]),F.mk||[])}</div>`:""}
-   <div class="fg"><span class="fl">Signal</span>${pills("sig",[["BUY","BUY"],["WATCH","WATCH"],["AVOID","AVOID"],["NONE","No label"],["HOLD","HOLD (in Paper)"],["SELL","SELL (in Paper)"]],F.sig)}
+   <div class="fg"><span class="fl">Signal</span>${pills("sig",[["BUY","BUY"],["LONGBUY","LONG-TERM BUY"],["WATCH","WATCH"],["AVOID","AVOID"],["NONE","No label"],["HOLD","HOLD (in Paper)"],["SELL","SELL (in Paper)"]],F.sig)}
      <div class="mute" style="margin-top:4px">Tap several to combine, e.g. BUY + WATCH.</div></div>
    <div class="fg"><span class="fl">Time horizon</span>${pills("hz",[["S","Short-term BUY"],["M","Medium-term BUY"],["L","Long-term BUY"],["SW","Short WATCH"],["LW","Long WATCH"]],F.hz||[])}</div>
    <div class="fg"><span class="fl">Shariah (halal)</span>${one("hal",[["","Any"],["HALAL","Halal only"],["OK","Halal + doubtful"],["NOT HALAL","Not halal"]],F.hal||"")}</div>
@@ -966,6 +971,18 @@ function horizonSection(d){
     ${why(`<p>Different investors care about different things. <b>Short term</b> looks for momentum and a fresh reason for the price to move (news, events, rising volume) and ignores valuation. <b>Medium term</b> is the main balanced score. <b>Long term</b> cares about the quality and financial strength of the business and whether it's reasonably priced, and mostly ignores short-term news.</p>
       <p>${hz.long==="BUY"&&hz.short!=="BUY"?"This looks like a solid long-term holding even if the short-term setup isn't there.":hz.short==="BUY"&&hz.long!=="BUY"?"This is a short-term momentum idea — the business itself doesn't pass the long-term quality tests, so it's not one to hold for years without a reason.":hz.short==="BUY"&&hz.long==="BUY"?"Rare: it passes both the short-term and long-term tests.":"It doesn't fully pass the short- or long-term tests right now; WATCH means one check short."}</p>`)}</div>`;
 }
+function analystBlock(d){
+  const a = d.analysts; if (!a || (a.score==null && !a.rating)) return "";
+  const nice = {strong_buy:"Strong buy", buy:"Buy", hold:"Hold", underperform:"Underperform", sell:"Sell", none:"–"};
+  return `<div style="margin-top:12px"><div class="fl" style="font-size:13px;font-weight:600">What analysts say</div>
+    <div class="grid" style="margin-top:6px">
+      <div class="kv"><small>Consensus</small><b>${esc(nice[a.rating]||a.rating||"–")}${a.mean?` <span class="mute" style="font-weight:500">(${a.mean} on 1–5)</span>`:""}</b></div>
+      <div class="kv"><small>Analysts</small><b>${a.n??"–"}</b></div>
+      <div class="kv"><small>Average target</small><b>${a.target!=null?CUR(d.market)+" "+a.target:"–"}</b></div>
+      <div class="kv"><small>Screener's analyst score</small><b class="${a.score>=70?"good":a.score<=35?"bad":""}">${a.score??"–"}/100</b></div>
+    </div>
+    <div class="mute" style="font-size:12px;margin-top:4px">Analyst score = 60% their consensus rating (1 = strong buy, 5 = sell) + 40% the gap to their average target. It makes up 15% of the Fundamentals part, and the long-term label needs it to be 55+.</div></div>`;
+}
 /* Finnhub: how many analysts rate it strong buy … strong sell, this month vs 3 months ago */
 function analystTrend(d){
   const t = d.analyst_trend; if (!t || !t.length) return "";
@@ -996,6 +1013,7 @@ function valuationSection(d){
     <table class="ft" style="margin-top:8px">${v.parts.map(p=>`<tr><td>${esc(p.label)}${p.note?`<div class="mute" style="font-size:12px">${esc(p.note)}</div>`:""}</td><td style="text-align:right"><b>${c} ${p.value}</b></td></tr>`).join("")}
       ${v.range?`<tr><td class="mute">Analysts' range (low – high)</td><td style="text-align:right" class="mute">${c} ${v.range[0]} – ${v.range[1]}</td></tr>`:""}</table>
     ${v.fmp_rating?`<div class="mute" style="margin-top:6px">Financial Modeling Prep rating: <b style="color:var(--ink)">${esc(v.fmp_rating)}</b>${v.fmp_score?` (${v.fmp_score}/5)`:""} — a score from its financial ratios.</div>`:""}
+    ${analystBlock(d)}
     ${analystTrend(d)}
     ${mo}
     ${why(`<p>This is the screener's <b>own rough estimate</b>, not Morningstar's. It averages up to three views (a discounted-cash-flow value from Financial Modeling Prep is added for top US picks): where professional analysts think the price is heading (their average 12-month target), and what the share would be worth if it traded at the <b>typical P/E of its sector</b>.</p>

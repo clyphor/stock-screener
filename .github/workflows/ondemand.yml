@@ -55,6 +55,8 @@ jobs:
           # optional free data: analyst trends + backup news (Finnhub), DCF value + rating (Financial Modeling Prep)
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
           FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+          # members-only analysis: full results go to the database, the public page shows scores only
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
           mkdir -p docs
           curl -sf "https://clyphor.github.io/stock-screener/extras.json?t=$(date +%s)" -o docs/extras.json || true

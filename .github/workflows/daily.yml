@@ -85,6 +85,8 @@ jobs:
           # optional free data: analyst trends + backup news (Finnhub), DCF value + rating (Financial Modeling Prep)
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
           FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+          # members-only analysis: full results go to the database, the public page shows scores only
+          SUPABASE_SERVICE_KEY: ${{ inputs.staging != true && secrets.SUPABASE_SERVICE_KEY || '' }}
           # optional, free: second US price source (massive.com) to verify Yahoo's closes
           MASSIVE_API_KEY: ${{ secrets.MASSIVE_API_KEY }}
         run: python run.py --markets "${{ steps.which.outputs.markets }}"

@@ -58,3 +58,15 @@ alter table public.user_settings add column if not exists main_timeframe text no
 -- Needs a Vault secret named 'github_dispatch_token' (fine-grained GitHub token, this repo only, Actions: read & write).
 -- Functions/jobs: public.trigger_screener(workflow, markets, staging); cron jobs screener-us/asx/psx/com/crypto/ondemand
 -- (times in UTC, same as config.SCHEDULE). Check deliveries with: select * from public.scheduler_log;
+
+-- ---- Members-only analysis (written by the daily runs with the service key; read by signed-in users) ----
+create table if not exists public.analysis_files (path text primary key, market text, body jsonb not null, updated_at timestamptz not null default now());
+alter table public.analysis_files enable row level security;
+create policy "members read" on public.analysis_files for select to authenticated using (true);
+create table if not exists public.extra_results (ticker text primary key, market text not null, status text not null default 'ok', msg text, row jsonb, detail jsonb, updated_at timestamptz not null default now());
+alter table public.extra_results enable row level security;
+create policy "own requests" on public.extra_results for select to authenticated
+  using (exists (select 1 from public.tracked_stocks t where t.user_id = (select auth.uid()) and t.ticker = extra_results.ticker));
+alter table public.user_settings add column if not exists markets text[] not null default '{US,ASX,PSX}',
+  add column if not exists categories text[] not null default '{stocks,commodities,crypto}',
+  add column if not exists labels text[] not null default '{}', add column if not exists onboarded boolean not null default false;

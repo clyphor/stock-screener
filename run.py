@@ -1446,6 +1446,18 @@ def _main_extras(a, stats):
             for t in mine:
                 ex["items"][t] = {"status": "waiting", "market": name, "msg": str(e)[:200]}
     ex["generated_extras"] = datetime.now(timezone.utc).isoformat(timespec="minutes")
+    import gate
+    if gate.enabled():   # only the people who asked can see these results
+        done = [t for t in want if t in ex["items"]]
+        ok = gate.publish_extras([{"ticker": t, "market": ex["items"][t]["market"], "status": ex["items"][t]["status"],
+                                   "msg": ex["items"][t].get("msg"), "row": ex["rows"].get(t),
+                                   "detail": _load_json(f"docs/stocks/{t}.json")} for t in done])
+        if ok:
+            for t in done:
+                ex["rows"].pop(t, None)
+                if os.path.exists(f"docs/stocks/{t}.json"):
+                    os.remove(f"docs/stocks/{t}.json")
+            ex["gated"] = True
     with open(path, "w") as f:
         json.dump(ex, f, default=str)
     print(json.dumps(stats, indent=1, default=str))
@@ -1459,9 +1471,12 @@ def _load_json(path):
 
 
 def _after_rows(payload, stats, a, prev_extras=None):
+    import gate
+    gated = (not a.demo) and gate.publish(payload, [m for m in stats if m in config.MARKETS])
+    pub = gate.slim(payload) if gated else payload   # visitors without an account: ticker, name, score
     with open("docs/data.json", "w") as f:
-        json.dump(payload, f, separators=(",", ":"), default=str)
-    write_page(payload, "docs/index.html")
+        json.dump(pub, f, separators=(",", ":"), default=str)
+    write_page(pub, "docs/index.html")
     # Status of every requested stock (the page shows "ready" / "not found")
     ex_items = {}
     for name in config.MARKETS:
@@ -1481,8 +1496,18 @@ def _after_rows(payload, stats, a, prev_extras=None):
         for t, r in (prev_extras.get("rows") or {}).items():
             if r.get("market") not in ran and t not in rows:
                 rows[t] = r
+    if gated:   # requested stocks: only the people who asked can see them
+        items = []
+        for t, it in ex_items.items():
+            det = _load_json(f"docs/stocks/{t}.json")
+            items.append({"ticker": t, "market": it["market"], "status": it["status"], "msg": it.get("msg"),
+                          "row": rows.get(t), "detail": det})
+        gate.publish_extras(items)
+        rows = {}
+        for f in glob.glob("docs/stocks/*.json"):   # stock pages are in the database now, not public
+            os.remove(f)
     with open("docs/extras.json", "w") as f:
-        json.dump({"generated": payload["generated"], "items": ex_items, "rows": rows}, f, default=str)
+        json.dump({"generated": payload["generated"], "items": ex_items, "rows": rows, "gated": gated}, f, default=str)
     print(json.dumps(stats, indent=1, default=str))
 
 

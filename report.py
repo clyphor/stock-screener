@@ -16,6 +16,11 @@ header{padding:20px 16px 8px}h1{font-size:22px;margin:0}.sub{color:var(--mute);f
 .tabs button{flex:1 1 auto;padding:10px 6px;font-size:13px;min-width:0;white-space:nowrap}
 .disc{margin:8px 16px 0;padding:10px 12px;border:1px solid #e0c36a;background:#fff8e1;color:#5b4a14;border-radius:12px;font-size:12.5px;line-height:1.45}
 .disc button{margin-top:8px;padding:6px 12px;border-radius:8px;border:1px solid #c9a227;background:#fff;font-weight:600;color:#5b4a14}
+.locked .lk{filter:blur(5px);user-select:none;pointer-events:none;opacity:.7}
+.lockcta{display:block;width:100%;margin-top:10px;padding:10px;border-radius:10px;border:1px solid var(--acc);background:var(--acc);color:#fff;font-weight:700;font-size:14px}
+.chip.mylab{background:#fff3c4;color:#6b5200;border:1px solid #e0c36a}
+.setup label.ck{display:inline-flex;align-items:center;gap:6px;margin:4px 10px 4px 0;font-size:14px}
+.setup h4{margin:14px 0 4px;font-size:14px}
 .signote{font-size:11.5px;color:var(--mute);margin-top:6px}
 .subtabs{display:flex;gap:6px;padding:0 16px 8px;position:sticky;top:57px;background:var(--bg);z-index:2}
 .subtabs button{flex:1;padding:7px;border:1px solid var(--line);background:var(--card);border-radius:20px;font-weight:600;font-size:13px}
@@ -157,7 +162,7 @@ svg text{fill:var(--mute);font-size:10px}
 <details class="box" id="macrobox"><summary><b style="color:var(--ink)">Market &amp; politics today</b> <span id="macrosum"></span></summary><div id="macro" style="margin-top:8px"></div></details>
 <details class="box" id="statsbox"><summary>How reliable is this? (labels, scorecard, backtest)</summary><div id="stats" style="margin-top:8px"></div></details>
 <div id="mine"></div>
-<div class="fbar"><button id="fbtn">Filters</button><label class="sortwrap"><span>Sort</span><select id="sortsel" onchange="(F=>{F.sort=this.value;saveF();render()})(getF())"></select></label><button id="freset" style="display:none">Clear</button></div>
+<div class="fbar" id="fbar"><button id="fbtn">Filters</button><label class="sortwrap"><span>Sort</span><select id="sortsel" onchange="(F=>{F.sort=this.value;saveF();render()})(getF())"></select></label><button id="freset" style="display:none">Clear</button></div>
 <div id="fpanel"></div>
 <div class="count" id="count"></div>
 <div id="list"></div><button class="more" id="more"></button>
@@ -259,19 +264,102 @@ async function requestAnalysis(q, m){
   alert(`${tk(t)} requested. It's usually ready in about 15–20 minutes — find it in Lists → Requested, or search for it again.`);
   pollExtras(); render();
 }
+/* ---- members-only analysis: visitors without an account see ticker, name and score only ---- */
+const GATED = !!D.gated;
+let FULL = !GATED;
+const locked = () => GATED && !FULL;
+function rebuildAll(){ Object.keys(ALL).forEach(k=>delete ALL[k]); MARKETS.forEach(m => (D.markets[m]||[]).forEach((r,i)=>{ ALL[r.ticker] = Object.assign({market:m, rank:i+1}, r); })); mergeExtras(); }
+async function loadMembers(){
+  if (!GATED || !SB || !USER) return;
+  const { data, error } = await SB.from("analysis_files").select("path,body").like("path", "rows/%");
+  if (!error && data) data.forEach(x=>{ const m = x.path.slice(5, -5); if (Array.isArray(x.body) && x.body.length) D.markets[m] = x.body; });
+  FULL = true; await loadMyExtras(); rebuildAll(); render();
+}
+async function loadMyExtras(){
+  if (!SB || !USER) return;
+  const r = await SB.from("extra_results").select("ticker,market,status,msg,row");
+  if (r.error || !r.data) return;
+  EXTRAS = {items: Object.fromEntries(r.data.map(x=>[x.ticker, {status:x.status, market:x.market, msg:x.msg}])),
+            rows: Object.fromEntries(r.data.filter(x=>x.row).map(x=>[x.ticker, Object.assign({market:x.market}, x.row)]))};
+  mergeExtras();
+}
+function signupPitch(t){
+  return `<h3 style="margin:0 0 6px">${t?`See the full analysis of ${esc(tk(t))}`:"Free account"}</h3>
+    <div style="font-size:14px">Sign up free to unlock:</div>
+    <ul style="margin:6px 0 10px 18px;padding:0;font-size:14px;line-height:1.5">
+      <li>Short, medium, long-term and analysts' signals</li><li>Valuation estimate, financial health, dividends, halal screen</li>
+      <li>News, charts, sector &amp; political factors</li><li>Watchlists, paper trading and your own extra tickers</li></ul>
+    ${accountBox()}`;
+}
+function showSignup(t){ modal(signupPitch(t) + `<div class="btnrow" style="margin-top:8px"><button class="sbtn" onclick="closeModal()">Not now</button></div>`); }
+function lockedCard(r, i){
+  return `<div class="card locked" onclick="showSignup('${r.ticker}')"><div class="top"><div style="min-width:0"><span class="rank">#${r.rank||i+1}</span><span class="tk">${tk(r.ticker)}</span>
+     <div class="nm">${esc(r.name||"")}${r.sector?" · "+esc(r.sector):""}</div></div><div class="sc">${r.score??"–"}</div></div>
+   <div class="lk"><div class="hzrow"><span class="hzb"><i>Short</i>BUY</span><span class="hzb"><i>Medium</i>WATCH</span><span class="hzb"><i>Long</i>BUY</span></div>
+     <div class="bars">${["Model","Fundam.","News","Peers","Macro"].map(l=>`<div class="bar"><small>${l}</small><i><span style="width:60%"></span></i></div>`).join("")}</div>
+     <div class="meta">USD 000.00 · 3m 00% · P/E 00</div><div class="chips"><span class="chip">Undervalued</span><span class="chip">Analysts 00/100</span><span class="chip">Dividend</span></div></div>
+   <button class="lockcta" onclick="event.stopPropagation();showSignup('${r.ticker}')">🔒 Sign up free to see signals &amp; full analysis</button></div>`;
+}
+
+/* ---- your preferences (chosen at sign-up, editable any time) ---- */
+const LABEL_OPTS = [["halal","Halal"],["dividend","Dividend stocks"],["highdiv","High dividend"],["divgrow","Dividend grower"],
+  ["under","Undervalued"],["oversold","Oversold"],["overbought","Overbought"],["anbuy","Analysts BUY"],
+  ["sbuy","Short-term BUY"],["mbuy","Medium-term BUY"],["lbuy","Long-term BUY"],["rebound","Rebound setup"]];
+let PREF = (()=>{ try{ return JSON.parse(localStorage.getItem("prefs")||"null") || null; }catch(e){ return null; } })()
+  || {markets:["US","ASX","PSX"], categories:["stocks","commodities","crypto"], labels:[], onboarded:false};
+function hasLabel(r, k){
+  const dv = r.dv||[], h = hzOf(r);
+  return {halal:r.hl==="HALAL", dividend:dv.includes("Dividend")||dv.includes("High dividend"), highdiv:dv.includes("High dividend"),
+    divgrow:dv.includes("Dividend grower"), under:r.va==="Undervalued", oversold:r.mo==="Oversold", overbought:r.mo==="Overbought",
+    anbuy:analystLabel(r)==="BUY", sbuy:h[0]==="BUY", mbuy:h[1]==="BUY", lbuy:h[2]==="BUY", rebound:(r.flags||[]).includes("REBOUND")}[k] || false;
+}
+function myLabelChips(r){ return (PREF.labels||[]).filter(k=>hasLabel(r,k)).map(k=>`<span class="chip mylab">★ ${LABEL_OPTS.find(x=>x[0]===k)[1]}</span>`).join(""); }
+function openSetup(first){
+  const ck = (name, v, l, on) => `<label class="ck"><input type="checkbox" name="${name}" value="${v}" ${on?"checked":""}> ${l}</label>`;
+  modal(`<div class="setup"><h3 style="margin:0 0 4px">${first?"Welcome! Set up your dashboard":"Your preferences"}</h3>
+    <div class="mute" style="font-size:13px">Choose what you want to see. You can change this any time (⚙ at the top).</div>
+    <h4>Categories</h4>${[["stocks","Stocks"],["commodities","Commodities"],["crypto","Crypto"]].map(([v,l])=>ck("cat",v,l,PREF.categories.includes(v))).join("")}
+    <h4>Stock markets</h4>${STOCKS.map(m=>ck("mkt",m,{US:"US (S&P 500)",ASX:"Australia (ASX 200)",PSX:"Pakistan (KSE-100)"}[m]||m,PREF.markets.includes(m))).join("")}
+    <h4>Labels I care about</h4><div class="mute" style="font-size:12px">Highlighted with ★ on every card, and one tap filters to them.</div>
+    ${LABEL_OPTS.map(([v,l])=>ck("lab",v,l,(PREF.labels||[]).includes(v))).join("")}
+    <h4>Display</h4><div style="display:flex;flex-direction:column;gap:6px">${curPicker()}${tfPicker()}</div>
+    <div class="btnrow" style="margin-top:12px"><button class="sbtn pri" onclick="savePrefs()">Save</button>${first?"":`<button class="sbtn" onclick="closeModal()">Cancel</button>`}</div></div>`);
+}
+async function savePrefs(){
+  const get = n => [...document.querySelectorAll(`.setup input[name=${n}]:checked`)].map(x=>x.value);
+  const categories = get("cat"), markets = get("mkt"), labels = get("lab");
+  if (!categories.length) return alert("Pick at least one category.");
+  if (categories.includes("stocks") && !markets.length) return alert("Pick at least one stock market.");
+  PREF = {categories, markets, labels, onboarded:true};
+  try{ localStorage.setItem("prefs", JSON.stringify(PREF)); }catch(e){}
+  if (DBSTATE==="ready") dbRun(()=>SB.from("user_settings").upsert({...PREF, main_currency:MAINCUR, main_timeframe:TFKEY[MAINTF], updated_at:new Date().toISOString()}, {onConflict:"user_id"}));
+  closeModal(); applyPrefs(); render();
+}
+function applyPrefs(){
+  const showStocks = PREF.categories.includes("stocks"), vis = {Stocks:showStocks, COM:PREF.categories.includes("commodities"), CRYPTO:PREF.categories.includes("crypto"), Lists:true, Paper:true};
+  [...$("tabs").children].forEach(b=>b.style.display = vis[b.dataset.k]===false ? "none" : "");
+  [...$("subtabs").children].forEach(b=>b.style.display = PREF.markets.includes(b.dataset.k) ? "" : "none");
+  const okStock = STOCKS.filter(m=>PREF.markets.includes(m));
+  if (okStock.length && !okStock.includes(LASTSTOCK)) LASTSTOCK = okStock[0];
+  const visible = m => STOCKS.includes(m) ? showStocks && PREF.markets.includes(m) : MINE(m) || vis[m] !== false;
+  if (!visible(M)) M = showStocks && okStock.length ? okStock[0] : (vis.COM ? "COM" : vis.CRYPTO ? "CRYPTO" : "Lists");
+}
+
 let POLL = null;
 function pollExtras(){ if (POLL) return; POLL = setInterval(()=>{ loadExtras(); if (!(TRACKED||[]).some(x=>!ALL[x.ticker] && !((EXTRAS.items||{})[x.ticker]||{}).status)) { clearInterval(POLL); POLL=null; } }, 60000); }
 function card(r, i, extra=""){
+  if (!r.parts) return lockedCard(r, i);
   return `<div class="card ${mainLabel(r)}" onclick="openStock('${r.ticker}')">${extra}<div class="top"><div style="min-width:0"><span class="rank">${MINE(M)||r.extra?MNAME(r.market)+" ":""}#${(r.rank||i+1)}</span><span class="tk">${tk(r.ticker)}</span>
    <div class="nm">${esc(r.name)} · ${esc(r.sector)}</div></div><div class="sc">${r.score}</div></div>
    ${hzBadges(r)}
    <div class="bars">${Object.entries(r.parts).map(([k,v])=>`<div class="bar"><small>${L[k]}</small><i><span style="width:${v}%"></span></i></div>`).join("")}</div>
    <div class="meta">${CUR(r.market||M)} ${r.price??"–"}${alsoMain(r.price, CUR(r.market||M))} · 3m ${r.ret3m??"–"}%${ASSET(r.market||M)?(r.mcap?` · mkt cap ${fmtCap(r.mcap)}`:""):` · P/E ${r.pe??"–"}`}</div>
-   <div class="chips">${subTags(r)}${r.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div></div>`;
+   <div class="chips">${myLabelChips(r)}${subTags(r)}${r.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div></div>`;
 }
 function render(){
   try{ updGen(); }catch(e){}
-  try{ $("curbar").innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center">${curPicker()}${tfPicker()}</div>` + (FX?`<div class="mute" style="font-size:12px">rates ${FX.updated}</div>`:""); }catch(e){}
+  try{ $("curbar").innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center">${curPicker()}${tfPicker()}${DBSTATE==="ready"?`<a href="#" onclick="openSetup(false);return false" style="color:var(--acc);font-size:13px">⚙ Preferences</a>`:GATED&&!USER?`<a href="#" onclick="showSignup();return false" style="color:var(--acc);font-size:13px;font-weight:600">Sign up / sign in</a>`:""}</div>` + (FX?`<div class="mute" style="font-size:12px">rates ${FX.updated}</div>`:""); }catch(e){}
+  try{ $("fbar").style.display = locked() && !MINE(M) ? "none" : ""; }catch(e){}
   if (STOCKS.includes(M)) LASTSTOCK = M;
   [...$("tabs").children].forEach(b=>b.classList.toggle("on", b.dataset.k===TOP(M)));
   $("subtabs").style.display = STOCKS.includes(M) ? "" : "none";
@@ -331,7 +419,7 @@ function render(){
   if (q) shown = shown.filter(([r])=>r.ticker.toLowerCase().startsWith(q) || (r.name||"").toLowerCase().includes(q));
   const active = activeCount(F);
   shown = shown.filter(([r])=>passes(r,F));
-  const key = SORTS[F.sort] ? F.sort : "score";
+  const key = SORTS[F.sort] && !locked() ? F.sort : "score";
   if (key !== "score") shown.sort((a,b)=>SORTS[key].f(a[0],b[0]));
   const total = shown.length;
   if (!q && !active && !showAll) shown = shown.slice(0, D.top_n);
@@ -429,11 +517,14 @@ async function dbLoad(){
     if (!WL.v.lists[cur]) WL.v.cur = Object.keys(WL.v.lists)[0];
     PT.v = t.data.map(fromRow);
     WL.save(); PT.save();
-    try { const s = await SB.from("user_settings").select("main_currency,main_timeframe").maybeSingle();
+    try { const s = await SB.from("user_settings").select("main_currency,main_timeframe,markets,categories,labels,onboarded").maybeSingle();
+          if (s.data) { PREF = {markets:s.data.markets||PREF.markets, categories:s.data.categories||PREF.categories, labels:s.data.labels||[], onboarded:!!s.data.onboarded}; localStorage.setItem("prefs", JSON.stringify(PREF)); }
           if (s.data?.main_timeframe) { MAINTF = Math.max(0, TFKEY.indexOf(s.data.main_timeframe)); localStorage.setItem("maintf", MAINTF); }
           if (s.data?.main_currency) { MAINCUR = s.data.main_currency; localStorage.setItem("maincur", MAINCUR); }
           else if (!s.error) SB.from("user_settings").upsert({main_currency:MAINCUR}, {onConflict:"user_id"}); } catch(e){}
     DBSTATE = "ready"; TRACKED = null;
+    applyPrefs(); loadMembers();
+    if (!PREF.onboarded) setTimeout(()=>openSetup(true), 300);
   } catch(e) { console.error(e); DBSTATE = "error"; DBERR = e.message || String(e); }
   render();
 }
@@ -550,7 +641,7 @@ function renderMine(){
   let rows = rowsFor(M);
   if (q) rows = rows.filter(r=>r.ticker.toLowerCase().startsWith(q) || (r.name||"").toLowerCase().includes(q));
   const active = activeCount(F);
-  const key = SORTS[F.sort] ? F.sort : "score";
+  const key = SORTS[F.sort] && !locked() ? F.sort : "score";
   $("fbtn").textContent = active ? `Filters (${active})` : "Filters"; $("fbtn").classList.toggle("on", !!active);
   $("freset").style.display = active ? "block" : "none"; fillSort(key);
   $("more").style.display = "none";
@@ -732,11 +823,13 @@ function getF(){ if(!FS[M]){ try{ FS[M] = Object.assign(DEF(), JSON.parse(localS
 function saveF(){ try{ localStorage.setItem("f_"+M, JSON.stringify(FS[M])); }catch(e){} }
 const num = v => v===""||v==null ? null : Number(v);
 function activeCount(F){ let n=0;
-  if(F.sig.length) n++; if((F.flg||[]).length) n++; if((F.hz||[]).length) n++; if(F.hal) n++; if(F.div) n++; if(F.val) n++; if(F.mo) n++; if(F.dymin!==""||F.dymax!=="") n++; if((F.mk||[]).length) n++; if(F.sec.length) n++; if(F.smin!==""||F.smax!=="") n++;
+  if(F.sig.length) n++; if(F.mylab) n++; if((F.flg||[]).length) n++; if((F.hz||[]).length) n++; if(F.hal) n++; if(F.div) n++; if(F.val) n++; if(F.mo) n++; if(F.dymin!==""||F.dymax!=="") n++; if((F.mk||[]).length) n++; if(F.sec.length) n++; if(F.smin!==""||F.smax!=="") n++;
   n += Object.values(F.parts).filter(v=>v>0).length; n += Object.values(F.vqmin).filter(v=>v>0).length;
   if(F.pemin!==""||F.pemax!=="") n++; if(F.rmin!==""||F.rmax!=="") n++; if(F.rsimin!==""||F.rsimax!=="") n++;
   if(F.cap) n++; if(F.news) n++; if(F.macro) n++; n += F.good.length?1:0; n += F.bad.length?1:0; n += F.tags.length?1:0; return n; }
 function passes(r, F){
+  if (!r.parts) return true;   // locked rows (not signed in): no filtering
+  if (F.mylab && (PREF.labels||[]).length && !(PREF.labels||[]).some(k=>hasLabel(r,k))) return false;
   if ((F.mk||[]).length && !F.mk.includes(r.market)) return false;
   if (F.hal==="HALAL" && r.hl!=="HALAL") return false;
   if (F.hal==="OK" && !(r.hl==="HALAL"||r.hl==="DOUBTFUL")) return false;
@@ -797,6 +890,7 @@ function drawPanel(){
              : [["",'Any'],["5e10",">PKR 50B"],["2e11",">PKR 200B"],["5e11",">PKR 500B"],["-5e10","<PKR 50B"]];
   $("fpanel").innerHTML = `
    ${MINE(M)?`<div class="fg"><span class="fl">Market</span>${pills("mk",MARKETS.map(m=>[m,MNAME(m)]),F.mk||[])}</div>`:""}
+   ${(PREF.labels||[]).length?`<div class="fg"><span class="fl">★ My labels</span>${one("mylab",[["","All stocks"],["1","Only ones with my labels"]],F.mylab||"")}</div>`:""}
    <div class="fg"><span class="fl">Signal</span>${one("sigtf",[["","My main ("+TF[MAINTF]+")"],["0","Short"],["1","Medium"],["2","Long"],["3","Analysts"]],F.sigtf??"")}<div style="margin-top:6px"></div>${pills("sig",[["BUY","BUY"],["WATCH","WATCH"],["AVOID","AVOID"],["NONE","No label"],["HOLD","HOLD (in Paper)"],["SELL","SELL (in Paper)"]],F.sig)}
      <div class="mute" style="margin-top:4px">Tap several to combine, e.g. BUY + WATCH.</div></div>
    <div class="fg"><span class="fl">Time horizon</span>${pills("hz",[["S","Short-term BUY"],["M","Medium-term BUY"],["L","Long-term BUY"],["SW","Short WATCH"],["LW","Long WATCH"]],F.hz||[])}</div>
@@ -879,6 +973,7 @@ const go = m => { M=m; showAll=false; $("q").value=""; $("fpanel").classList.rem
   const b=document.createElement("button"); b.textContent=l; b.dataset.k=k;
   b.onclick=()=>go(k==="Stocks" ? LASTSTOCK : k); $("tabs").appendChild(b); });
 STOCKS.forEach(m=>{ const b=document.createElement("button"); b.textContent=m; b.dataset.k=m; b.onclick=()=>go(m); $("subtabs").appendChild(b); });
+try{ applyPrefs(); }catch(e){}
 const MINE = v => v==="Lists" || v==="Paper";
 /* every stock from every market, keyed by ticker, with its market and rank */
 const ALL = {};
@@ -889,6 +984,7 @@ function mergeExtras(){
   Object.entries(EXTRAS.rows||{}).forEach(([t,r])=>{ if (!ALL[t] || ALL[t].extra) ALL[t] = Object.assign({extra:true}, r); });
 }
 async function loadExtras(){
+  if (GATED) { if (USER) { await loadMyExtras(); render(); } return; }
   try { const r = await fetch("extras.json?t="+Date.now()); if (r.ok) { EXTRAS = await r.json(); mergeExtras(); render(); } } catch(e){}
 }
 function rowsFor(view){
@@ -901,7 +997,18 @@ function rowsFor(view){
 }
 
 const cache = {};
-async function getJSON(u){ if(!cache[u]){ const r = await fetch(u); if(!r.ok) throw new Error(r.status); cache[u] = await r.json(); } return cache[u]; }
+async function getJSON(u){
+  if (cache[u]) return cache[u];
+  if (GATED && u.startsWith("stocks/")) {   // members-only: stock pages come from the database
+    if (!SB || !USER) throw new Error("signin");
+    let { data } = await SB.from("analysis_files").select("body").eq("path", u).maybeSingle();
+    let body = data?.body;
+    if (!body && !u.includes("/_")) { const t = u.slice(7, -5); const r = await SB.from("extra_results").select("detail").eq("ticker", t).maybeSingle(); body = r.data?.detail; }
+    if (!body) throw new Error("404");
+    return cache[u] = body;
+  }
+  const r = await fetch(u); if(!r.ok) throw new Error(r.status); return cache[u] = await r.json();
+}
 function fmtCap(v){ if(v==null) return "–"; const a=Math.abs(v); return a>=1e12?(v/1e12).toFixed(2)+"T":a>=1e9?(v/1e9).toFixed(1)+"B":(v/1e6).toFixed(0)+"M"; }
 function fmtF(v, kind){
   if (v==null) return "–";
@@ -919,7 +1026,9 @@ async function openStock(t, push=true){
   if (push) history.pushState({t}, "", "#"+t);
   let d, base;
   try { d = await getJSON(`stocks/${t}.json`); base = await getJSON(`stocks/_${d.market}.json`); }
-  catch(e){ sh.innerHTML = sh.innerHTML.replace("Loading…","Details not available for this stock yet."); return; }
+  catch(e){
+    if (e.message==="signin") { sh.innerHTML = `<div class="shead"><button class="back" onclick="history.back()">‹ Back</button><b>${tk(t)}</b></div><div class="sec">${signupPitch(t)}</div>`; return; }
+    sh.innerHTML = sh.innerHTML.replace("Loading…","Details not available for this stock yet."); return; }
   const up = d.analyst.target && d.price ? d.analyst.target/d.price-1 : null;
   sh.innerHTML = `<div class="shead"><button class="back" onclick="history.back()">‹ Back</button><b>${tk(d.ticker)}</b>${badge(mainLabel(dRow(d)))}<span class="mute" style="font-size:12px;margin-left:4px">${TF[MAINTF].toLowerCase()} term</span></div>
   <div class="sec"><div class="hero"><div style="min-width:0"><div class="tk" style="font-size:20px">${esc(d.name)}</div>

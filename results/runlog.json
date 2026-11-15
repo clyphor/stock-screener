@@ -1,5 +1,182 @@
 [
  {
+  "started": "2026-11-15T05:40:22+00:00",
+  "finished": "2026-11-15T05:41:07+00:00",
+  "minutes": 0.7,
+  "trigger": "workflow_dispatch",
+  "commit": "60bd286",
+  "status": "warnings",
+  "fatal": null,
+  "warnings": [
+   "05:40:33 AI: Claude unavailable for this run (400) \u2014 trying the next provider. {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Bi"
+  ],
+  "markets": {
+   "COM": {
+    "error": null,
+    "downloaded": 21,
+    "screened": 21,
+    "news_coverage": 1.0,
+    "ai_scoring": "on",
+    "news_method": "claude",
+    "price_date": "2026-11-13",
+    "ic_mean": -0.02,
+    "model_used": false,
+    "timings": {
+     "index list": 0.0,
+     "prices": 7.2,
+     "fundamentals": 0.0,
+     "company news": 2.7,
+     "financial health": 0.0,
+     "model": 0.3,
+     "news scoring": 14.4,
+     "sector & politics": 15.0,
+     "scoring & labels": 0.1
+    },
+    "missing_prices": [],
+    "labels": {
+     "HOLD": 13,
+     "WATCH": 7,
+     "AVOID": 1,
+     "SHORT BUY": 0,
+     "LONG BUY": 6
+    },
+    "ai_events": 9
+   }
+  },
+  "checks": {
+   "COM": [
+    {
+     "stage": "Stock list",
+     "status": "OK",
+     "msg": "21 tickers from built-in list",
+     "hint": "Index list download failed (Wikipedia / PSX site) \u2014 see universe.py; using the saved list."
+    },
+    {
+     "stage": "Prices",
+     "status": "OK",
+     "msg": "21/21 stocks downloaded, 0 batch errors, 1 retries; last date 2026-11-13",
+     "hint": ""
+    },
+    {
+     "stage": "Company news",
+     "status": "OK",
+     "msg": "coverage 100%; Yahoo items 0, Google items 3394, Google requests 42 (0 failed); dropped: 904 off-topic, 5 junk sites, 0 law-firm ads, 0 over promo cap",
+     "hint": ""
+    },
+    {
+     "stage": "Price model",
+     "status": "INFO",
+     "msg": "5202 training rows; backtest IC -0.02",
+     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
+    },
+    {
+     "stage": "AI (Claude)",
+     "status": "WARN",
+     "msg": "answered by: Gemini (gemini-flash-lite-latest) \u00d73; 3 calls, 1 failed, 18,193 in / 2,440 out tokens, \u2248 US$0.000; headlines scored 10, reused from earlier days 304",
+     "hint": "A provider ran out of credit / hit its daily limit and the next one took over \u2014 errors listed below."
+    },
+    {
+     "stage": "Sector & politics",
+     "status": "OK",
+     "msg": "3118 headlines from 34 searches (0 failed); 9 AI events",
+     "hint": ""
+    }
+   ]
+  },
+  "errors": {
+   "COM": {
+    "claude.errors": [
+     "headline scoring: Claude stopped \u2014 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Bi",
+     "headline scoring: Gemini gemini-flash-latest used up for today \u2014 trying its next model"
+    ]
+   }
+  },
+  "diag": {
+   "general": {
+    "tracked": {
+     "count": 0
+    },
+    "fx": {
+     "updated": "2026-11-15",
+     "currencies": 15
+    },
+    "members": {
+     "uploaded": 23
+    },
+    "claude": {
+     "headline_cache_size": 18146
+    }
+   },
+   "COM": {
+    "universe": {
+     "source": "built-in list",
+     "count": 21
+    },
+    "prices": {
+     "requested": 21,
+     "retries": 1,
+     "received": 21,
+     "last_date": "2026-11-13",
+     "first_date": "2020-11-16",
+     "stale": []
+    },
+    "news": {
+     "google_requests": 42,
+     "google_items": 3394,
+     "dropped_irrelevant": 904,
+     "dropped_lowq": 5,
+     "coverage": 1.0,
+     "items": 314
+    },
+    "model": {
+     "train_rows": 5202,
+     "dates": 1257
+    },
+    "claude": {
+     "headlines_from_cache": 304,
+     "headlines_sent": 10,
+     "errors": [
+      "headline scoring: Claude stopped \u2014 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Bi",
+      "headline scoring: Gemini gemini-flash-latest used up for today \u2014 trying its next model"
+     ],
+     "failures": 1,
+     "calls": 3,
+     "input_tokens": 18193,
+     "output_tokens": 2440,
+     "by_gemini": 3,
+     "used_Gemini (gemini-flash-lite-latest)": 3,
+     "headline_batches": 1,
+     "headline_batches_ok": 1
+    },
+    "screen": {
+     "total": 21,
+     "no_dollar_vol": 0,
+     "too_illiquid": 0,
+     "no_price": 0,
+     "price_below_1": 0,
+     "too_small": 0,
+     "passed": 21
+    },
+    "macro": {
+     "requests": 34,
+     "headlines": 3118,
+     "ai_events": 9,
+     "method": "claude"
+    },
+    "halal": {
+     "doubtful": 17,
+     "halal": 4
+    },
+    "dividends": {
+     "payers": 0,
+     "high": 0,
+     "growers": 0,
+     "at_risk": 0
+    }
+   }
+  }
+ },
+ {
   "started": "2026-11-15T05:32:29+00:00",
   "finished": "2026-11-15T05:33:24+00:00",
   "minutes": 0.9,
@@ -17455,283 +17632,6 @@
     "macro": {
      "requests": 44,
      "headlines": 4252,
-     "ai_events": 0,
-     "method": "wordlist"
-    },
-    "dividends": {
-     "payers": 45,
-     "high": 6,
-     "growers": 3,
-     "at_risk": 5
-    }
-   }
-  }
- },
- {
-  "started": "2026-11-06T18:24:51+00:00",
-  "finished": "2026-11-06T18:26:27+00:00",
-  "minutes": 1.6,
-  "trigger": "workflow_dispatch",
-  "commit": "4841d03",
-  "status": "warnings",
-  "fatal": null,
-  "warnings": [
-   "18:25:37 WARNING no price data for: AHCL.KA, BML.KA, ENGROH.KA, GAL.KA, HUBC.KA, TPLRF1.KA",
-   "18:25:37 WARNING [PSX] latest day(s) ['2026-11-06'] had prices for too few stocks \u2014 using 2026-11-05",
-   "18:26:09 WARNING [PSX] sector not found on 11 company pages \u2014 using index list sector",
-   "18:26:21 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "18:26:21 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "18:26:21 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "18:26:21 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "18:26:21 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "18:26:21 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "18:26:21 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "18:26:21 WARNING Claude batch failed, using rules for it: HTTP Error 400: Bad Request",
-   "18:26:25 WARNING Claude macro scoring failed, using word list: HTTP Error 400: Bad Request",
-   "18:26:26 WARNING Claude event analyst failed: HTTP Error 400: Bad Request"
-  ],
-  "markets": {
-   "PSX": {
-    "error": null,
-    "downloaded": 94,
-    "screened": 58,
-    "news_coverage": 0.93,
-    "ai_scoring": "on",
-    "news_method": "claude",
-    "price_date": "2026-11-06",
-    "ic_mean": -0.099,
-    "model_used": false,
-    "timings": {
-     "index list": 3.1,
-     "prices": 42.1,
-     "fundamentals": 32.4,
-     "company news": 7.6,
-     "financial health": 3.1,
-     "model": 1.0,
-     "news scoring": 0.6,
-     "sector & politics": 4.7,
-     "scoring & labels": 0.2
-    },
-    "missing_prices": [
-     "AHCL.KA",
-     "BML.KA",
-     "ENGROH.KA",
-     "GAL.KA",
-     "HUBC.KA",
-     "TPLRF1.KA"
-    ],
-    "labels": {
-     "HOLD": 40,
-     "WATCH": 7,
-     "AVOID": 4,
-     "SELL": 4,
-     "BUY": 3,
-     "SHORT BUY": 0,
-     "LONG BUY": 1
-    },
-    "ai_events": 0
-   }
-  },
-  "checks": {
-   "PSX": [
-    {
-     "stage": "Stock list",
-     "status": "OK",
-     "msg": "100 tickers from live",
-     "hint": ""
-    },
-    {
-     "stage": "Prices",
-     "status": "OK",
-     "msg": "94/100 stocks downloaded, 0 batch errors, 3 retries; last date 2026-11-06",
-     "hint": ""
-    },
-    {
-     "stage": "Price check",
-     "status": "WARN",
-     "msg": "Yahoo was missing 2026-11-06 \u2014 added from PSX exchange (94 stocks)",
-     "hint": "Normal now and then (Yahoo lags after the close). Nothing to do."
-    },
-    {
-     "stage": "Fundamentals",
-     "status": "OK",
-     "msg": "94 companies; debtToEquity missing 15%, returnOnEquity missing 12%",
-     "hint": ""
-    },
-    {
-     "stage": "Company news",
-     "status": "OK",
-     "msg": "coverage 93%; Yahoo items 0, Google items 6966, Google requests 188 (0 failed); dropped: 1974 off-topic, 61 junk sites, 1 law-firm ads, 43 over promo cap",
-     "hint": ""
-    },
-    {
-     "stage": "Financial health",
-     "status": "OK",
-     "msg": "0 refreshed, 94 from cache, 0 errors, 66 with an F-score",
-     "hint": ""
-    },
-    {
-     "stage": "Price model",
-     "status": "INFO",
-     "msg": "11834 training rows; backtest IC -0.099",
-     "hint": "Model isn't predictive in this market right now, so it's down-weighted automatically."
-    },
-    {
-     "stage": "AI (Claude)",
-     "status": "FAIL",
-     "msg": "10 calls, 10 failed, 0 in / 0 out tokens, \u2248 US$0.000; headlines scored 292, reused from earlier days 164",
-     "hint": "Check API credit and key in console.anthropic.com; errors listed below."
-    },
-    {
-     "stage": "Sector & politics",
-     "status": "OK",
-     "msg": "4251 headlines from 44 searches (0 failed); 0 AI events",
-     "hint": ""
-    }
-   ]
-  },
-  "errors": {
-   "PSX": {
-    "claude.errors": [
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-     "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
-    ]
-   }
-  },
-  "diag": {
-   "general": {
-    "tracked": {
-     "count": 0
-    },
-    "claude": {
-     "headline_cache_size": 38867
-    }
-   },
-   "PSX": {
-    "universe": {
-     "source": "live",
-     "count": 100
-    },
-    "prices": {
-     "requested": 100,
-     "retries": 3,
-     "missing": [
-      "AHCL.KA",
-      "BML.KA",
-      "ENGROH.KA",
-      "GAL.KA",
-      "HUBC.KA",
-      "TPLRF1.KA"
-     ],
-     "received": 94,
-     "last_date": "2026-11-06",
-     "first_date": "2020-11-06",
-     "stale": [],
-     "incomplete_days_dropped": [
-      "2026-11-06"
-     ]
-    },
-    "fundamentals": {
-     "count": 94,
-     "missing_marketCap": 0.0,
-     "missing_trailingPE": 0.04,
-     "missing_profitMargins": 0.02,
-     "missing_revenueGrowth": 0.06,
-     "missing_returnOnEquity": 0.12,
-     "missing_debtToEquity": 0.15,
-     "psx_sector_missing": 11,
-     "filled_from_statements": {
-      "returnOnEquity": 83,
-      "debtToEquity": 80,
-      "priceToBook": 84,
-      "freeCashflow": 84,
-      "revenueGrowth": 18,
-      "profitMargins": 2,
-      "dividendYield": 93,
-      "payoutRatio": 79
-     }
-    },
-    "news": {
-     "google_requests": 188,
-     "google_items": 6966,
-     "dropped_irrelevant": 1974,
-     "dropped_lowq": 61,
-     "dropped_promo_cap": 43,
-     "dropped_lawfirm_ads": 1,
-     "stocks": 94,
-     "with_news": 80,
-     "kept": 456,
-     "no_news_sample": [
-      "BAHL.KA",
-      "BWCL.KA",
-      "DCR.KA",
-      "FFL.KA",
-      "FHAM.KA",
-      "GADT.KA",
-      "GLAXO.KA",
-      "HBL.KA",
-      "HGFA.KA",
-      "HINOON.KA",
-      "JDWS.KA",
-      "KOHC.KA",
-      "NESTLE.KA",
-      "UPFL.KA"
-     ]
-    },
-    "health": {
-     "refreshed": 0,
-     "cached": 94,
-     "with_fscore": 66
-    },
-    "halal": {
-     "kmi_source": "live",
-     "kmi_count": 313,
-     "halal": 39,
-     "not_halal": 19
-    },
-    "pricecheck": {
-     "source": "PSX exchange",
-     "added_day": "2026-11-06",
-     "added_stocks": 94
-    },
-    "model": {
-     "train_rows": 11834,
-     "dates": 786
-    },
-    "claude": {
-     "headlines_from_cache": 164,
-     "headlines_sent": 292,
-     "calls": 10,
-     "failures": 10,
-     "errors": [
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin",
-      "headline scoring: HTTP Error 400: Bad Request {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billin"
-     ]
-    },
-    "screen": {
-     "total": 93,
-     "no_dollar_vol": 0,
-     "too_illiquid": 35,
-     "no_price": 0,
-     "price_below_1": 0,
-     "too_small": 5,
-     "passed": 58
-    },
-    "macro": {
-     "requests": 44,
-     "headlines": 4251,
      "ai_events": 0,
      "method": "wordlist"
     },

@@ -234,15 +234,15 @@ function setMainTF(i){
 const tfPicker = () => `<label class="mute" style="font-size:13px">Main time frame <select onchange="setMainTF(this.value)" style="padding:4px 6px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink)">${TF.map((n,i)=>`<option value="${i}" ${i===MAINTF?"selected":""}>${i===3?"Analysts' consensus (12-month view)":n+(i===0?" (days–weeks)":i===1?" (1–6 months)":" (12 months+)")}</option>`).join("")}</select></label>`;
 /* Sub-labels shown with the other tags */
 function subTags(r){
-  const out = [];
-  if (r.hl==="HALAL") out.push(`<span class="chip halal-chip">Halal</span>`);
-  if (r.va==="Undervalued") out.push(`<span class="chip good">Undervalued${r.vu!=null?` +${Math.round(r.vu*100)}%`:""}</span>`);
+  const out = [], my = k => (PREF.labels||[]).includes(k), st = (...ks) => ks.some(my) ? " mylab" : "", sx = (...ks) => ks.some(my) ? "★ " : "";
+  if (r.hl==="HALAL") out.push(`<span class="chip halal-chip${st("halal")}">${sx("halal")}Halal</span>`);
+  if (r.va==="Undervalued") out.push(`<span class="chip good${st("under")}">${sx("under")}Undervalued${r.vu!=null?` +${Math.round(r.vu*100)}%`:""}</span>`);
   if (r.va==="Overvalued") out.push(`<span class="chip bad">Overvalued${r.vu!=null?` ${Math.round(r.vu*100)}%`:""}</span>`);
   if (r.an!=null) out.push(`<span class="chip ${r.an>=70?"good":r.an<=35?"bad":""}">Analysts ${r.an}/100</span>`);
-  if (r.mo) out.push(`<span class="chip ${r.mo==="Oversold"?"warn":"bad"}">${r.mo}</span>`);
-  (r.dv||[]).forEach(t=>out.push(t==="Dividend at risk" ? `<span class="chip bad">${t}</span>` : `<span class="chip div-chip">${t}${t!=="Dividend grower"&&r.dy!=null?` ${r.dy.toFixed(1)}%`:""}</span>`));
+  if (r.mo) { const k = r.mo==="Oversold" ? "oversold" : "overbought"; out.push(`<span class="chip ${r.mo==="Oversold"?"warn":"bad"}${st(k)}">${sx(k)}${r.mo}</span>`); }
+  (r.dv||[]).forEach(t=>out.push(t==="Dividend at risk" ? `<span class="chip bad">${t}</span>` : `<span class="chip div-chip${st(...DVK[t]||[])}">${sx(...DVK[t]||[])}${t}${t!=="Dividend grower"&&r.dy!=null?` ${r.dy.toFixed(1)}%`:""}</span>`));
   if (r.wk || r.weakening) out.push(`<span class="chip bad">Weakening</span>`);
-  (r.flags||[]).forEach(f=>out.push(`<span class="chip">${f==="REBOUND"?"Rebound candidate":"Take profit?"}</span>`));
+  (r.flags||[]).forEach(f=>out.push(f==="REBOUND" ? `<span class="chip${st("rebound")}">${sx("rebound")}Rebound candidate</span>` : `<span class="chip">Take profit?</span>`));
   return out.join("");
 }
 const LABEL_INFO = {
@@ -334,7 +334,9 @@ function hasLabel(r, k){
     divgrow:dv.includes("Dividend grower"), under:r.va==="Undervalued", oversold:r.mo==="Oversold", overbought:r.mo==="Overbought",
     anbuy:analystLabel(r)==="BUY", sbuy:h[0]==="BUY", mbuy:h[1]==="BUY", lbuy:h[2]==="BUY", rebound:(r.flags||[]).includes("REBOUND")}[k] || false;
 }
-function myLabelChips(r){ return (PREF.labels||[]).filter(k=>hasLabel(r,k)).map(k=>`<span class="chip mylab">★ ${LABEL_OPTS.find(x=>x[0]===k)[1]}</span>`).join(""); }
+const DVK = {"Dividend":["dividend"], "High dividend":["dividend","highdiv"], "Dividend grower":["divgrow"]};
+const CHIP_LABELS = ["halal","under","oversold","overbought","dividend","highdiv","divgrow","rebound"];   // already shown as a chip (starred there)
+function myLabelChips(r){ return (PREF.labels||[]).filter(k=>!CHIP_LABELS.includes(k) && hasLabel(r,k)).map(k=>`<span class="chip mylab">★ ${LABEL_OPTS.find(x=>x[0]===k)[1]}</span>`).join(""); }
 function openSetup(first){
   const ck = (name, v, l, on) => `<label class="ck"><input type="checkbox" name="${name}" value="${v}" ${on?"checked":""}> ${l}</label>`;
   modal(`<div class="setup"><h3 style="margin:0 0 4px">${first?"Welcome! Set up your dashboard":"Your preferences"}</h3>
@@ -934,9 +936,14 @@ function sectorFilter(sec){ resetF(); getF().sec=[sec]; saveF(); render(); windo
 /* ---------------- filters ---------------- */
 const PARTS = [["ml","Price model"],["fundamental","Fundamentals"],["news","Company news"],["peers","Competitors' news"],["macro","Sector & politics"]];
 const LORDER = {BUY:0, WATCH:2, HOLD:3, "":4, AVOID:6, SELL:7};
+const WORDER = {WATCH:0, BUY:1, HOLD:2, "":3, AVOID:6, SELL:7};
 const SORTS = {
   score:{l:"Score (high→low)", f:(a,b)=>b.score-a.score},
-  label:{l:"Label (BUY first)", f:(a,b)=>(LORDER[mainLabel(a)]??5)-(LORDER[mainLabel(b)]??5) || b.score-a.score},
+  label:{l:"Main time frame: BUY first", f:(a,b)=>(LORDER[mainLabel(a)]??5)-(LORDER[mainLabel(b)]??5) || b.score-a.score},
+  ...Object.fromEntries([["s","Short-term",0],["m","Medium-term",1],["l","Long-term",2],["a","Analysts",3]].flatMap(([k,n,i])=>[
+    [k+"_buy", {l:`${n}: BUY first`, f:(a,b)=>(LORDER[tfLabel(a,i)]??5)-(LORDER[tfLabel(b,i)]??5) || b.score-a.score}],
+    [k+"_watch", {l:`${n}: WATCH first`, f:(a,b)=>(WORDER[tfLabel(a,i)]??5)-(WORDER[tfLabel(b,i)]??5) || b.score-a.score}],
+    [k+"_avoid", {l:`${n}: AVOID / SELL first`, f:(a,b)=>(LORDER[tfLabel(b,i)]??5)-(LORDER[tfLabel(a,i)]??5) || a.score-b.score}]])),
   an:{l:"Analyst score", f:(a,b)=>(b.an??-1)-(a.an??-1)},
   ml:{l:"Price model", f:(a,b)=>b.parts.ml-a.parts.ml},
   fundamental:{l:"Fundamentals", f:(a,b)=>b.parts.fundamental-a.parts.fundamental},
@@ -1049,7 +1056,7 @@ function drawPanel(){
    <div class="fg"><span class="fl">RSI (14 day)</span>${rng("rsimin","rsimax","min","max e.g. 70")}<div class="mute" style="margin-top:4px">Under 30 = oversold, over 70 = overbought.</div></div>
    ${MINE(M)||M==="COM"?"":`<div class="fg"><span class="fl">Market cap</span>${one("cap",caps,F.cap)}</div>`}
    ${tags.length?`<div class="fg"><span class="fl">Must have all of these tags</span>${pills("tags",tags.map(x=>[x,x]),F.tags)}</div>`:""}
-   <div class="fg"><label>Sort by</label><select onchange="setF('sort',this.value)">${Object.entries(SORTS).filter(([k])=>!(A&&["fundamental","pe_lo","dy","vu","an"].includes(k))&&!(M==="COM"&&k==="mcap")).map(([k,v])=>`<option value="${k}" ${F.sort===k?"selected":""}>${v.l}</option>`).join("")}</select></div>
+   <div class="fg"><label>Sort by</label><select onchange="setF('sort',this.value)">${Object.entries(SORTS).filter(([k])=>!(A&&["fundamental","pe_lo","dy","vu","an","a_buy","a_watch","a_avoid"].includes(k))&&!(M==="COM"&&k==="mcap")).map(([k,v])=>`<option value="${k}" ${F.sort===k?"selected":""}>${v.l}</option>`).join("")}</select></div>
    <div class="fact"><button onclick="resetF()">Clear all</button><button class="pri" onclick="$('fpanel').classList.remove('open');window.scrollTo({top:$('count').offsetTop-60,behavior:'smooth'})">Show ${rowsFor(M).filter(r=>passes(r,F)).length} ${MINE(M)?"":NOUN(M)}</button></div>`;
 }
 function tog(g,v){ const F=getF(); const a=F[g]; const i=a.indexOf(v); i>=0?a.splice(i,1):a.push(v); saveF(); render(); }
@@ -1063,7 +1070,7 @@ $("freset").onclick = resetF;
 /* Sort dropdown: options that make sense for the open tab */
 function fillSort(key){
   const A = ASSET(M) && !MINE(M);
-  const ks = Object.keys(SORTS).filter(k=>!(A&&["fundamental","pe_lo","dy","vu","an"].includes(k)) && !(M==="COM"&&k==="mcap"));
+  const ks = Object.keys(SORTS).filter(k=>!(A&&["fundamental","pe_lo","dy","vu","an","a_buy","a_watch","a_avoid"].includes(k)) && !(M==="COM"&&k==="mcap"));
   $("sortsel").innerHTML = ks.map(k=>`<option value="${k}" ${k===key?"selected":""}>${SORTS[k].l}</option>`).join("");
 }
 

@@ -1,13 +1,8 @@
 name: Daily screener
 
 on:
-  schedule:
-    # Each market runs after its own close, once every data source has the day (times in UTC):
-    - cron: "30 5 * * 2-6"    # US  — 4:30pm Sydney (AEDT) / 1:30am New York, Tue-Sat
-    - cron: "15 8 * * 1-5"    # ASX — 7:15pm Sydney (AEDT), ~3h after the close
-    - cron: "45 12 * * 1-5"   # PSX — 5:45pm Karachi, ~2h after the close
-    - cron: "15 23 * * 1-5"   # Commodities — after the 5pm New York futures settlement
-    - cron: "40 0 * * *"      # Crypto — after the 00:00 UTC daily close, every day
+  # Runs are started on time by the Supabase scheduler (db/schema.sql), at each market's own time —
+  # GitHub's own schedules were often hours late.
   workflow_dispatch:   # lets you press "Run workflow" from the GitHub app/website
     inputs:
       markets:

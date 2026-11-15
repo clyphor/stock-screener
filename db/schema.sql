@@ -53,3 +53,8 @@ drop policy if exists "own settings" on public.user_settings;
 create policy "own settings" on public.user_settings
   for all to authenticated using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
 alter table public.user_settings add column if not exists main_timeframe text not null default 'medium' check (main_timeframe in ('short','medium','long'));
+
+-- ---- On-time scheduler (applied via Supabase): pg_cron starts each GitHub run at its exact time ----
+-- Needs a Vault secret named 'github_dispatch_token' (fine-grained GitHub token, this repo only, Actions: read & write).
+-- Functions/jobs: public.trigger_screener(workflow, markets, staging); cron jobs screener-us/asx/psx/com/crypto/ondemand
+-- (times in UTC, same as config.SCHEDULE). Check deliveries with: select * from public.scheduler_log;

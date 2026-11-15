@@ -35,6 +35,9 @@ concurrency:
   group: screener
   cancel-in-progress: false
 
+env:
+  PYTHONUNBUFFERED: "1"   # print progress as it happens, so a stuck run shows where it stopped
+
 jobs:
   run:
     runs-on: ubuntu-latest

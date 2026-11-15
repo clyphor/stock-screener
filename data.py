@@ -277,6 +277,22 @@ LOCALE = {"US": ("en-US", "US"), "ASX": ("en-AU", "AU"), "PSX": ("en-PK", "PK"),
           "CRYPTO": ("en-US", "US")}
 
 
+_GN = {"streak": 0, "told": False}
+
+
+def _gn_blocked():
+    """Google keeps refusing (8+ throttled searches in a row): stop waiting on it for the rest of the run —
+    otherwise hundreds of searches x a minute of back-off each would run for hours. The run then falls back
+    to the saved news and Finnhub."""
+    if _GN["streak"] >= 8:
+        if not _GN["told"]:
+            _GN["told"] = True
+            print("WARNING Google News is blocking this run — skipping the waits and using saved news instead")
+            diag.sample("news", "errors", "Google News blocked the run (8+ throttled in a row) — waits skipped")
+        return True
+    return False
+
+
 def _google_news(query, market="ASX", stage="news"):
     """Google News RSS search: free, current, covers US, ASX and Pakistan."""
     hl, gl = LOCALE.get(market, ("en-AU", "AU"))
@@ -286,15 +302,20 @@ def _google_news(query, market="ASX", stage="news"):
     out = []
     diag.inc(stage, "google_requests" if stage == "news" else "requests")
     err = None
-    for attempt in range(3):
+    tries = 1 if _gn_blocked() else 3
+    for attempt in range(tries):
         try:
             root = ET.fromstring(urllib.request.urlopen(req, timeout=20).read())
+            _GN["streak"] = 0
             break
         except Exception as e:
             err = e
             # 429/503 = Google is throttling us: back off much longer than for a one-off glitch
             throttled = getattr(e, "code", None) in (429, 503)
-            time.sleep((15, 45, 0)[attempt] if throttled else 2 * (attempt + 1))
+            if throttled:
+                _GN["streak"] += 1
+            if attempt < tries - 1 and not _gn_blocked():
+                time.sleep((15, 45, 0)[attempt] if throttled else 2 * (attempt + 1))
     else:
         diag.inc(stage, "google_failures" if stage == "news" else "failures")
         diag.sample(stage, "errors", f"Google News: {err}")

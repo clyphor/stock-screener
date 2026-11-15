@@ -14,6 +14,9 @@ header{padding:20px 16px 8px}h1{font-size:22px;margin:0}.sub{color:var(--mute);f
 .tabs button{flex:1;padding:10px;border:1px solid var(--line);background:var(--card);border-radius:10px;font-weight:600}
 .tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
 .tabs button{flex:1 1 auto;padding:10px 6px;font-size:13px;min-width:0;white-space:nowrap}
+.disc{margin:8px 16px 0;padding:10px 12px;border:1px solid #e0c36a;background:#fff8e1;color:#5b4a14;border-radius:12px;font-size:12.5px;line-height:1.45}
+.disc button{margin-top:8px;padding:6px 12px;border-radius:8px;border:1px solid #c9a227;background:#fff;font-weight:600;color:#5b4a14}
+.signote{font-size:11.5px;color:var(--mute);margin-top:6px}
 .subtabs{display:flex;gap:6px;padding:0 16px 8px;position:sticky;top:57px;background:var(--bg);z-index:2}
 .subtabs button{flex:1;padding:7px;border:1px solid var(--line);background:var(--card);border-radius:20px;font-weight:600;font-size:13px}
 .subtabs button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -143,6 +146,7 @@ svg text{fill:var(--mute);font-size:10px}
 #tip{font-size:13px;min-height:18px;color:var(--mute)}
 </style></head><body>
 <header><h1>Stock Screener</h1><div class="sub" id="gen"></div><div class="sub" id="curbar" style="margin-top:4px"></div></header>
+<div class="disc" id="disc" style="display:none"><div><b>Important:</b> the signals (BUY, WATCH, AVOID, HOLD, SELL), scores, valuation estimates and tags are <b>general information produced automatically by a computer model</b> from public data — not financial, investment, tax or legal advice, and not a recommendation to buy or sell anything. They don't consider your objectives, finances or needs. Data can be delayed, incomplete or wrong, and past performance doesn't predict future results. Do your own research and consider speaking to a licensed financial adviser before investing. You are responsible for your own decisions.</div><button onclick="ackDisc()">I understand</button></div>
 <div class="tabs" id="tabs"></div>
 <div class="subtabs" id="subtabs"></div>
 <div class="clock" id="clock"></div>
@@ -157,7 +161,8 @@ svg text{fill:var(--mute);font-size:10px}
 <div class="count" id="count"></div>
 <div id="list"></div><button class="more" id="more"></button>
 <details class="box" id="logbox"><summary>Run log <span id="logsum"></span></summary><div id="runlog" style="margin-top:8px"></div></details>
-<footer>Ranks stocks by blending a price-trend model, fundamentals vs sector peers, and news sentiment for the company and its competitors. Scores are relative rankings, not price targets. Not financial advice — paper-trade first.</footer>
+<footer><p>Ranks stocks, commodities and crypto by blending a price-trend model, fundamentals vs sector peers, analysts' views, news sentiment and macro/political themes. Scores are relative rankings, not price targets.</p>
+<p><b>Important:</b> the signals (BUY, WATCH, AVOID, HOLD, SELL), scores, valuation estimates and tags are <b>general information produced automatically by a computer model</b> from public data — not financial, investment, tax or legal advice, and not a recommendation to buy or sell anything. They don't consider your objectives, finances or needs. Data can be delayed, incomplete or wrong, and past performance doesn't predict future results. Do your own research and consider speaking to a licensed financial adviser before investing. You are responsible for your own decisions.</p><p>Halal tags are a simple automated guide, not a religious ruling. Data: Yahoo Finance, Google News, the Pakistan Stock Exchange, Massive, CoinGecko and others.</p></footer>
 <div id="sheet"></div>
 <script>
 const D = __DATA__;
@@ -850,6 +855,9 @@ setInterval(clockTick, 30000);
 
 $("more").onclick = ()=>{ showAll=!showAll; render(); };
 $("q").oninput = render;
+/* Disclaimer: shown until the visitor taps "I understand" (remembered on this device) */
+function ackDisc(){ try{ localStorage.setItem("disc_ok", "1"); }catch(e){} $("disc").style.display = "none"; }
+try{ if (localStorage.getItem("disc_ok") !== "1") $("disc").style.display = ""; }catch(e){ $("disc").style.display = ""; }
 const MARKETS = Object.keys(D.markets);
 /* Top tabs: Stocks (with US / ASX / PSX inside) | Commodities | Crypto | Lists | Paper */
 const STOCKS = MARKETS.filter(m=>!ASSET(m));
@@ -913,6 +921,7 @@ async function openStock(t, push=true){
     ${why(xOverview(d), "In plain English")}</div>
 
   <div class="sec"><h3>Signals</h3>${hzBadges(dRow(d))}
+    <div class="signote">Automated signals from a computer model — general information, not financial advice. See the note at the bottom.</div>
     <div class="mute" style="font-size:13px;margin:4px 0 10px">Your main time frame (<b>${TF[MAINTF]}</b>, outlined) is <b>${mainLabel(dRow(d))||"no signal"}</b>${mainLabel(dRow(d))?": "+LABEL_INFO[mainLabel(dRow(d))]:""}. Change it at the top of the page.</div>
     ${(d.red_flags||[]).length?`<div style="margin-bottom:8px"><b style="color:var(--neg)">Red flags:</b> ${d.red_flags.map(esc).join(", ")}</div>`:""}
     <div class="fl" style="font-size:13px;font-weight:600;margin:4px 0">Medium-term buy checks (${d.checks.filter(c=>c.pass||c.skipped).length}/${d.checks.length})</div>
@@ -974,7 +983,7 @@ async function openStock(t, push=true){
     ${d.peers.length ? d.peers.map(p=>`<div class="peer" onclick="openStock('${p.ticker}')"><span><b>${tk(p.ticker)}</b>${p.signal?`<span class="sig ${p.signal}">${p.signal}</span>`:""}<div class="mute">${esc(p.name)}</div></span>
       <span style="text-align:right"><b>${p.score}</b><div class="mute">3m ${pct(p.ret3m,0)}${ASSET(d.market)?"":` · P/E ${p.pe??"–"}`} · news <span style="color:${sentColor(p.news)}">${p.news??0}</span></div></span></div>`).join("") : `<div class="mute">No peers in the screened list.</div>`}
     ${why(xPeers(d))}</div>
-  <footer>Not financial advice. Data from Yahoo Finance; may be delayed or incomplete.</footer>`;
+  <footer><b>Important:</b> the signals (BUY, WATCH, AVOID, HOLD, SELL), scores, valuation estimates and tags are <b>general information produced automatically by a computer model</b> from public data — not financial, investment, tax or legal advice, and not a recommendation to buy or sell anything. They don't consider your objectives, finances or needs. Data can be delayed, incomplete or wrong, and past performance doesn't predict future results. Do your own research and consider speaking to a licensed financial adviser before investing. You are responsible for your own decisions.</footer>`;
   drawChart(d, base, 252);
 }
 

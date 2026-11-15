@@ -46,14 +46,15 @@ table.ft{width:100%;border-collapse:collapse;font-size:14px}table.ft td{padding:
 .sig.HOLD{border:1px solid var(--line);color:var(--mute);font-weight:600}
 .sig.AVOID{border:1px solid var(--ma50);color:var(--ma50)}
 .hzrow{display:flex;gap:4px;margin:6px 0 2px;flex-wrap:wrap}
-.hzb{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;letter-spacing:.03em;padding:3px 7px;border-radius:6px;border:1px solid var(--line);color:var(--mute);background:var(--card)}
+.hzb{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:700;letter-spacing:.02em;padding:3px 5px;white-space:nowrap;border-radius:6px;border:1px solid var(--line);color:var(--mute);background:var(--card)}
 .hzb i{font-style:normal;font-weight:500;color:var(--mute)}
 .hzb.BUY{background:var(--acc);border-color:var(--acc);color:#fff}.hzb.BUY i{color:#e6f3ec}
 .hzb.WATCH{border-color:var(--acc);color:var(--acc)}
 .hzb.HOLD{border-color:#6b7a99;color:#4a5878}
 .hzb.AVOID{border-color:var(--ma50);color:var(--ma50)}
 .hzb.SELL{background:var(--neg);border-color:var(--neg);color:#fff}.hzb.SELL i{color:#fde}
-.hzb.main{box-shadow:0 0 0 2px var(--ink) inset}.sig.SELL{background:var(--neg);color:#fff}
+.hzb.main{box-shadow:0 0 0 2px var(--ink) inset}
+.hzb.an{border-style:dashed}.hzb.an.BUY{border-style:solid;background:#2f6f9f;border-color:#2f6f9f}.hzb.an.WATCH{border-color:#2f6f9f;color:#2f6f9f}.sig.SELL{background:var(--neg);color:#fff}
 .sig.HALAL{border:1px solid #3a9d6b;color:#3a9d6b}.sig.HDOUBT{border:1px dashed var(--mute);color:var(--mute);font-weight:600}
 .sig.flag{border:1px dashed var(--mute);color:var(--ink);font-weight:600}
 .card.SELL{border:2px solid var(--neg)}
@@ -190,21 +191,31 @@ function badge(sg){ return sg ? `<span class="sig ${sg}">${sg}</span>` : ""; }
 function owned(t){ return PT.get().some(x=>x.ticker===t && x.status==="open"); }
 /* Three signals per stock: Short (days–weeks) · Medium (1–6 months) · Long (12 months+).
    Each is BUY / WATCH / AVOID / blank — shown as HOLD / HOLD / SELL / HOLD if you already own it in Paper. */
-const TF = ["Short","Medium","Long"], TFKEY = ["short","medium","long"];
-let MAINTF = (()=>{ try{ const v = Number(localStorage.getItem("maintf")); return [0,1,2].includes(v) && localStorage.getItem("maintf")!==null ? v : 1; }catch(e){ return 1; } })();
+const TF = ["Short","Medium","Long","Analysts"], TFKEY = ["short","medium","long","analysts"];
+let MAINTF = (()=>{ try{ const v = Number(localStorage.getItem("maintf")); return [0,1,2,3].includes(v) && localStorage.getItem("maintf")!==null ? v : 1; }catch(e){ return 1; } })();
+/* Analysts' consensus as a 4th signal (stocks with 3+ analysts): average rating 1 = strong buy … 5 = sell */
+function analystLabel(r){
+  if (r.am==null || (r.anr!=null && r.anr<3)) return "";
+  return r.am<=2.0 ? "BUY" : r.am<=2.6 ? "WATCH" : r.am<=3.4 ? "HOLDA" : "AVOID";
+}
 function hzOf(r){ const h = (r.hz||["","",""]).slice(); if (!h[1] && (r.signal==="AVOID"||r.signal==="SELL")) h[1]="AVOID"; if (!h[1] && r.signal==="WATCH") h[1]="WATCH"; return h; }
-function tfLabel(r, i, own){ const v = hzOf(r)[i]||""; if (own ?? owned(r.ticker)) return v==="AVOID" ? "SELL" : "HOLD"; return v; }
+function tfLabel(r, i, own){
+  const v = i===3 ? analystLabel(r) : (hzOf(r)[i]||"");
+  if (own ?? owned(r.ticker)) return v==="AVOID" ? "SELL" : "HOLD";
+  return v==="HOLDA" ? "HOLD" : v;
+}
 /* the label for your main time frame — used for the card outline, filters, sorting and Paper warnings */
 function mainLabel(r){ return tfLabel(r, MAINTF); }
 function hzBadges(r, own){
-  return `<div class="hzrow">${TF.map((n,i)=>{ const v = tfLabel(r,i,own); return `<span class="hzb ${v} ${i===MAINTF?"main":""}"><i>${n}</i>${v||"—"}</span>`; }).join("")}</div>`;
+  return `<div class="hzrow">${TF.map((n,i)=>{ if (i===3 && analystLabel(r)==="") return "";
+    const v = tfLabel(r,i,own); return `<span class="hzb ${v} ${i===3?"an":""} ${i===MAINTF?"main":""}" ${i===3&&r.am!=null?`title="average rating ${r.am} of ${r.anr??"?"} analysts (1 = strong buy, 5 = sell)"`:""}><i>${n}</i>${v||"—"}</span>`; }).join("")}</div>`;
 }
 function setMainTF(i){
   MAINTF = Number(i); try{ localStorage.setItem("maintf", MAINTF); }catch(e){}
   if (DBSTATE==="ready") dbRun(()=>SB.from("user_settings").upsert({main_timeframe:TFKEY[MAINTF], updated_at:new Date().toISOString()}, {onConflict:"user_id"}));
   render();
 }
-const tfPicker = () => `<label class="mute" style="font-size:13px">Main time frame <select onchange="setMainTF(this.value)" style="padding:4px 6px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink)">${TF.map((n,i)=>`<option value="${i}" ${i===MAINTF?"selected":""}>${n}${i===0?" (days–weeks)":i===1?" (1–6 months)":" (12 months+)"}</option>`).join("")}</select></label>`;
+const tfPicker = () => `<label class="mute" style="font-size:13px">Main time frame <select onchange="setMainTF(this.value)" style="padding:4px 6px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink)">${TF.map((n,i)=>`<option value="${i}" ${i===MAINTF?"selected":""}>${i===3?"Analysts' consensus (12-month view)":n+(i===0?" (days–weeks)":i===1?" (1–6 months)":" (12 months+)")}</option>`).join("")}</select></label>`;
 /* Sub-labels shown with the other tags */
 function subTags(r){
   const out = [];
@@ -786,7 +797,7 @@ function drawPanel(){
              : [["",'Any'],["5e10",">PKR 50B"],["2e11",">PKR 200B"],["5e11",">PKR 500B"],["-5e10","<PKR 50B"]];
   $("fpanel").innerHTML = `
    ${MINE(M)?`<div class="fg"><span class="fl">Market</span>${pills("mk",MARKETS.map(m=>[m,MNAME(m)]),F.mk||[])}</div>`:""}
-   <div class="fg"><span class="fl">Signal</span>${one("sigtf",[["","My main ("+TF[MAINTF]+")"],["0","Short"],["1","Medium"],["2","Long"]],F.sigtf??"")}<div style="margin-top:6px"></div>${pills("sig",[["BUY","BUY"],["WATCH","WATCH"],["AVOID","AVOID"],["NONE","No label"],["HOLD","HOLD (in Paper)"],["SELL","SELL (in Paper)"]],F.sig)}
+   <div class="fg"><span class="fl">Signal</span>${one("sigtf",[["","My main ("+TF[MAINTF]+")"],["0","Short"],["1","Medium"],["2","Long"],["3","Analysts"]],F.sigtf??"")}<div style="margin-top:6px"></div>${pills("sig",[["BUY","BUY"],["WATCH","WATCH"],["AVOID","AVOID"],["NONE","No label"],["HOLD","HOLD (in Paper)"],["SELL","SELL (in Paper)"]],F.sig)}
      <div class="mute" style="margin-top:4px">Tap several to combine, e.g. BUY + WATCH.</div></div>
    <div class="fg"><span class="fl">Time horizon</span>${pills("hz",[["S","Short-term BUY"],["M","Medium-term BUY"],["L","Long-term BUY"],["SW","Short WATCH"],["LW","Long WATCH"]],F.hz||[])}</div>
    <div class="fg"><span class="fl">Shariah (halal)</span>${one("hal",[["","Any"],["HALAL","Halal only"],["OK","Halal + doubtful"],["NOT HALAL","Not halal"]],F.hal||"")}</div>
@@ -988,7 +999,7 @@ async function openStock(t, push=true){
 }
 
 /* the list-row shape of a stock, for label logic on the detail page */
-function dRow(d){ return ALL[d.ticker] || {ticker:d.ticker, signal:d.signal, hz:[d.hz?.short||"", d.hz?.medium||"", d.hz?.long||""], hl:d.halal?.status, flags:d.flags}; }
+function dRow(d){ return ALL[d.ticker] || {ticker:d.ticker, signal:d.signal, hz:[d.hz?.short||"", d.hz?.medium||"", d.hz?.long||""], hl:d.halal?.status, flags:d.flags, am:d.analysts?.mean, anr:d.analysts?.n}; }
 function historySection(d){
   const h = d.label_history||[];
   const now = d.weakening ? `<div class="chk"><b class="no">!</b><span>Failed its checks today for the first time. The label stays until tomorrow's run — it only changes if it fails again.</span></div>` : "";
@@ -1000,11 +1011,13 @@ function historySection(d){
 }
 function horizonSection(d){
   if (!d.short_checks) return "";
-  const hz = d.hz||{};
+  const hz = d.hz||{}, ar = dRow(d), al = tfLabel(ar, 3, false);
   const lab = v => v ? `<span class="sig ${v}">${v}</span>` : '<span class="sig HOLD">—</span>';
   const list = cs => cs.map(c=>`<div class="chk"><b class="${c.pass?"ok":"no"}">${c.pass?"✓":"✗"}</b><span>${c.label}</span></div>`).join("");
   return `<div class="sec"><h3>By time horizon</h3>
-    <div class="grid"><div class="kv"><small>Short term (days–weeks)</small>${lab(hz.short)}</div><div class="kv"><small>Medium term (1–6 months)</small>${lab(hz.medium)}</div><div class="kv"><small>Long term (12 months+)</small>${lab(hz.long)}</div></div>
+    <div class="grid"><div class="kv"><small>Short term (days–weeks)</small>${lab(hz.short)}</div><div class="kv"><small>Medium term (1–6 months)</small>${lab(hz.medium)}</div><div class="kv"><small>Long term (12 months+)</small>${lab(hz.long)}</div>
+      <div class="kv"><small>Analysts' consensus</small>${al?lab(al):'<span class="mute">not enough coverage</span>'}${ar.am!=null?`<div class="mute" style="font-size:11px">avg ${ar.am} · ${ar.anr??"?"} analysts</div>`:""}</div></div>
+    <div class="mute" style="font-size:12px;margin-top:6px"><b>Analysts' consensus</b> = professional analysts' average rating (1 = strong buy … 5 = sell, needs 3+ analysts): BUY up to 2.0, WATCH up to 2.6 ("moderate buy"), HOLD up to 3.4, AVOID above that. It's their view, not the screener's.</div>
     <div class="mute" style="font-size:12px;margin-top:6px"><b>AVOID</b> — short: fresh red flag, falling below its 50-day average, or overheated (RSI 78+) · medium: red flag or weak on every front · long: a serious threat to the business, a weak business, or clearly overvalued.</div>
     <div class="fl" style="font-size:13px;font-weight:600;margin:10px 0 4px">Short-term checks (${d.short_checks.filter(c=>c.pass).length}/${d.short_checks.length})</div>${list(d.short_checks)}
     <div class="fl" style="font-size:13px;font-weight:600;margin:10px 0 4px">Long-term checks (${d.long_checks.filter(c=>c.pass).length}/${d.long_checks.length})</div>${list(d.long_checks)}

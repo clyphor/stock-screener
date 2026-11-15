@@ -23,7 +23,7 @@ import assets
 
 LIST_COLS = ["market", "name", "sector", "price", "score", "ml", "fundamental", "news", "peers", "macro", "macro_raw",
              "mcap", "news_sent", "events", "value", "quality", "growth", "health", "f_score", "flags", "red_flags",
-             "hz_short", "hz_long", "halal", "div_yield", "div_tags", "momentum_tag", "val_tag", "val_up", "analyst", "weakening", "requested",
+             "hz_short", "hz_long", "halal", "div_yield", "div_tags", "momentum_tag", "val_tag", "val_up", "analyst", "analyst_mean", "analyst_n", "weakening", "requested",
              "fwd_pe", "ret_63", "rsi_14", "news_count", "reasons", "signal"]
 import stability
 import tracked
@@ -1388,6 +1388,7 @@ def list_row(t, r):
              "dv": r["div_tags"] if isinstance(r.get("div_tags"), list) else [],
              "mo": r.get("momentum_tag") if isinstance(r.get("momentum_tag"), str) else None,
              "an": _p100(r.get("analyst")) if pd.notna(r.get("analyst")) else None,
+             "am": _num(r.get("analyst_mean"), 2), "anr": _num(r.get("analyst_n"), 0),
              "va": r.get("val_tag") if isinstance(r.get("val_tag"), str) else None,
              "vu": _num(r.get("val_up"), 3),
              "dy": _num(r.get("div_yield"), 2),

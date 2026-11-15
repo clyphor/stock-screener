@@ -59,6 +59,9 @@ details.why ul{margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.55}
 .fbar{display:flex;gap:8px;margin:10px 16px 0}
 .fbar button{padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-weight:600;font-size:14px}
 .fbar button.on{border-color:var(--acc);color:var(--acc)}
+.sortwrap{flex:1;min-width:0;display:flex;align-items:center;gap:6px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:14px;font-weight:600}
+.sortwrap span{color:var(--mute);font-weight:500}
+.sortwrap select{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-weight:600;padding:9px 0;text-overflow:ellipsis}
 #fpanel{display:none;margin:10px 16px;padding:14px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
 #fpanel.open{display:block}
 .fg{margin-bottom:14px}.fg>label,.fg>.fl{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
@@ -73,13 +76,13 @@ details.why ul{margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.55}
 .fact{display:flex;gap:8px;position:sticky;bottom:0;background:var(--card);padding-top:8px}
 .fact button{flex:1;padding:11px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-weight:600}
 .fact button.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
-.perf{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:6px 0 10px}
-.perf div{text-align:center;padding:6px 2px;border-radius:8px;background:var(--bg)}
-.perf small{display:block;font-size:11px;color:var(--mute)}.perf b{font-size:13px}
+.perf{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;margin:6px 0 10px}
+.perf div{text-align:center;padding:6px 1px;border-radius:8px;background:var(--bg);min-width:0;overflow:hidden}
+.perf small{display:block;font-size:11px;color:var(--mute)}.perf b{font-size:clamp(10px,3.2vw,13px);white-space:nowrap;letter-spacing:-.02em}
 .heat{width:100%;border-collapse:separate;border-spacing:2px;font-size:12px}
 .heat th{font-weight:500;color:var(--mute);font-size:11px;padding:2px;text-align:center}
 .heat td{padding:6px 3px;text-align:center;border-radius:5px;border:0}
-.heatwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
+.heatwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
 .heat td,.heat th{min-width:46px}
 .heat td:first-child,.heat th:first-child{position:sticky;left:0;z-index:1;background:var(--card);min-width:96px;max-width:96px}
 .heat td:first-child{text-align:left;padding-left:4px;font-size:12px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -105,14 +108,16 @@ footer{padding:16px 16px 40px;color:var(--mute);font-size:12px}
 .sec{margin:12px 16px;padding:14px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
 .sec h3{margin:0 0 10px;font-size:15px}
 .hero{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.big{font-size:34px;font-weight:700;color:var(--acc);line-height:1}
+.hero>div:first-child{flex:1 1 auto;min-width:0}.hero>div:last-child{flex:0 0 auto;white-space:nowrap}
+.big{font-size:clamp(26px,8vw,34px);font-weight:700;color:var(--acc);line-height:1}
+.sec,.card,.trade,.box{overflow-wrap:anywhere;min-width:0}
 .chk{display:flex;gap:10px;align-items:flex-start;padding:5px 0;font-size:14px}
 .chk b{width:20px;flex:none;text-align:center}.ok{color:var(--acc)}.no{color:var(--neg)}.skip{color:var(--mute)}
 .prow{display:grid;grid-template-columns:1fr 46px;gap:4px 10px;align-items:center;margin:6px 0;font-size:14px}
 .prow i{grid-column:1/-1;display:block;height:8px;border-radius:4px;background:var(--line)}
 .prow i span{display:block;height:100%;border-radius:4px;background:var(--acc)}
 .prow .v{text-align:right;font-weight:600}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .kv{padding:8px 10px;border-radius:10px;background:var(--bg)}.kv small{display:block;color:var(--mute);font-size:12px}.kv b{font-size:15px}
 table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;border-bottom:1px solid var(--line);text-align:right}
 td:first-child,th:first-child{text-align:left}th{color:var(--mute);font-weight:500;font-size:12px}
@@ -138,7 +143,7 @@ svg text{fill:var(--mute);font-size:10px}
 <details class="box" id="macrobox"><summary><b style="color:var(--ink)">Market &amp; politics today</b> <span id="macrosum"></span></summary><div id="macro" style="margin-top:8px"></div></details>
 <details class="box" id="statsbox"><summary>How reliable is this? (labels, scorecard, backtest)</summary><div id="stats" style="margin-top:8px"></div></details>
 <div id="mine"></div>
-<div class="fbar"><button id="fbtn">Filters</button><button id="sortbtn" style="flex:1;text-align:left"></button><button id="freset" style="display:none">Clear</button></div>
+<div class="fbar"><button id="fbtn">Filters</button><label class="sortwrap"><span>Sort</span><select id="sortsel" onchange="(F=>{F.sort=this.value;saveF();render()})(getF())"></select></label><button id="freset" style="display:none">Clear</button></div>
 <div id="fpanel"></div>
 <div class="count" id="count"></div>
 <div id="list"></div><button class="more" id="more"></button>
@@ -308,7 +313,7 @@ function render(){
   $("fbtn").textContent = active ? `Filters (${active})` : "Filters";
   $("fbtn").classList.toggle("on", !!active);
   $("freset").style.display = active ? "block" : "none";
-  $("sortbtn").textContent = "Sort: " + SORTS[key].l;
+  fillSort(key);
   if ($("fpanel").classList.contains("open")) drawPanel();
   clockTick();
 }
@@ -517,7 +522,7 @@ function renderMine(){
   const active = activeCount(F);
   const key = SORTS[F.sort] ? F.sort : "score";
   $("fbtn").textContent = active ? `Filters (${active})` : "Filters"; $("fbtn").classList.toggle("on", !!active);
-  $("freset").style.display = active ? "block" : "none"; $("sortbtn").textContent = "Sort: " + SORTS[key].l;
+  $("freset").style.display = active ? "block" : "none"; fillSort(key);
   $("more").style.display = "none";
   if ($("fpanel").classList.contains("open")) drawPanel();
   if (M==="Lists" && getF().req){ return renderRequested(backup); }
@@ -671,8 +676,11 @@ function sectorFilter(sec){ resetF(); getF().sec=[sec]; saveF(); render(); windo
 
 /* ---------------- filters ---------------- */
 const PARTS = [["ml","Price model"],["fundamental","Fundamentals"],["news","Company news"],["peers","Competitors' news"],["macro","Sector & politics"]];
+const LORDER = {BUY:0, LONGBUY:1, WATCH:2, HOLD:3, "":4, AVOID:6, SELL:7};
 const SORTS = {
   score:{l:"Score (high→low)", f:(a,b)=>b.score-a.score},
+  label:{l:"Label (BUY first)", f:(a,b)=>(LORDER[mainLabel(a)]??5)-(LORDER[mainLabel(b)]??5) || b.score-a.score},
+  an:{l:"Analyst score", f:(a,b)=>(b.an??-1)-(a.an??-1)},
   ml:{l:"Price model", f:(a,b)=>b.parts.ml-a.parts.ml},
   fundamental:{l:"Fundamentals", f:(a,b)=>b.parts.fundamental-a.parts.fundamental},
   news:{l:"Company news", f:(a,b)=>(b.ns??-9)-(a.ns??-9)},
@@ -781,7 +789,7 @@ function drawPanel(){
    <div class="fg"><span class="fl">RSI (14 day)</span>${rng("rsimin","rsimax","min","max e.g. 70")}<div class="mute" style="margin-top:4px">Under 30 = oversold, over 70 = overbought.</div></div>
    ${MINE(M)||M==="COM"?"":`<div class="fg"><span class="fl">Market cap</span>${one("cap",caps,F.cap)}</div>`}
    ${tags.length?`<div class="fg"><span class="fl">Must have all of these tags</span>${pills("tags",tags.map(x=>[x,x]),F.tags)}</div>`:""}
-   <div class="fg"><label>Sort by</label><select onchange="setF('sort',this.value)">${Object.entries(SORTS).filter(([k])=>!(A&&["fundamental","pe_lo","dy","vu"].includes(k))&&!(M==="COM"&&k==="mcap")).map(([k,v])=>`<option value="${k}" ${F.sort===k?"selected":""}>${v.l}</option>`).join("")}</select></div>
+   <div class="fg"><label>Sort by</label><select onchange="setF('sort',this.value)">${Object.entries(SORTS).filter(([k])=>!(A&&["fundamental","pe_lo","dy","vu","an"].includes(k))&&!(M==="COM"&&k==="mcap")).map(([k,v])=>`<option value="${k}" ${F.sort===k?"selected":""}>${v.l}</option>`).join("")}</select></div>
    <div class="fact"><button onclick="resetF()">Clear all</button><button class="pri" onclick="$('fpanel').classList.remove('open');window.scrollTo({top:$('count').offsetTop-60,behavior:'smooth'})">Show ${rowsFor(M).filter(r=>passes(r,F)).length} ${MINE(M)?"":NOUN(M)}</button></div>`;
 }
 function tog(g,v){ const F=getF(); const a=F[g]; const i=a.indexOf(v); i>=0?a.splice(i,1):a.push(v); saveF(); render(); }
@@ -792,7 +800,12 @@ function quickSig(sg){ resetF(); getF().sig=[sg]; saveF(); render(); window.scro
 function resetF(){ FS[M]=DEF(); saveF(); render(); }
 $("fbtn").onclick = ()=>{ $("fpanel").classList.toggle("open"); render(); };
 $("freset").onclick = resetF;
-$("sortbtn").onclick = ()=>{ const ks=Object.keys(SORTS), F=getF(); F.sort = ks[(ks.indexOf(F.sort)+1)%ks.length]; saveF(); render(); };
+/* Sort dropdown: options that make sense for the open tab */
+function fillSort(key){
+  const A = ASSET(M) && !MINE(M);
+  const ks = Object.keys(SORTS).filter(k=>!(A&&["fundamental","pe_lo","dy","vu","an"].includes(k)) && !(M==="COM"&&k==="mcap"));
+  $("sortsel").innerHTML = ks.map(k=>`<option value="${k}" ${k===key?"selected":""}>${SORTS[k].l}</option>`).join("");
+}
 
 /* ---------------- market clock ---------------- */
 const MK = {

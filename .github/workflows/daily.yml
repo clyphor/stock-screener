@@ -87,7 +87,13 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ inputs.staging != true && secrets.SUPABASE_SERVICE_KEY || '' }}
           # optional, free: second US price source (massive.com) to verify Yahoo's closes
           MASSIVE_API_KEY: ${{ secrets.MASSIVE_API_KEY }}
-        run: python run.py --markets "${{ steps.which.outputs.markets }}"
+        # output goes to a private log (the repo is public — anyone can read the Actions tab)
+        run: python privlog.py python run.py --markets "${{ steps.which.outputs.markets }}"
+      - name: Save the run output privately (admin only)
+        if: always() && inputs.staging != true
+        env:
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python privlog.py --upload daily || true
       - name: Publish the web page (replaced each day, no history kept)
         if: steps.screener.outcome == 'success' && inputs.staging != true
         uses: peaceiris/actions-gh-pages@v4

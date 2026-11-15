@@ -62,7 +62,12 @@ jobs:
         run: |
           mkdir -p docs
           curl -sf "https://clyphor.github.io/stock-screener/extras.json?t=$(date +%s)" -o docs/extras.json || true
-          python run.py --extras "${{ steps.pending.outputs.tickers }}"
+          python privlog.py python run.py --extras "${{ steps.pending.outputs.tickers }}"
+      - name: Save the run output privately (admin only)
+        if: always() && steps.pending.outputs.tickers != ''
+        env:
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python privlog.py --upload ondemand || true
       - name: Publish results (adds files; the rest of the page is untouched)
         if: steps.pending.outputs.tickers != ''
         uses: peaceiris/actions-gh-pages@v4

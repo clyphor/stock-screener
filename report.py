@@ -886,6 +886,15 @@ let LOG = null;
 // Run logs are admin-only once members-only is on: the public file just says {"private": true}
 let ADMIN = false, PUBLICLOG = false;
 fetch("runlog.json").then(r=>r.ok?r.json():[]).then(j=>{ if (Array.isArray(j)) { LOG=j; PUBLICLOG=true; } renderLog(); }).catch(()=>{});
+async function viewRaw(kind){
+  if (!ADMIN) return;
+  const f = await SB.from("private_files").select("body,updated_at").eq("path", `raw/latest_${kind}.txt`).maybeSingle();
+  const t = f.data?.body?.text;
+  modal(`<h3 style="margin:0 0 6px">Full output — ${kind==="daily"?"latest run":"latest requested-tickers run"}</h3>
+    <div class="mute" style="font-size:12px">${f.data ? esc(new Date(f.data.updated_at).toLocaleString()) : "Nothing saved yet — appears after the next run."}</div>
+    ${t?`<pre style="white-space:pre-wrap;font-size:11px;max-height:60vh;overflow:auto;background:var(--bg);padding:8px;border-radius:8px">${esc(t.slice(-60000))}</pre>`:""}
+    <div class="btnrow" style="margin-top:8px"><button class="sbtn" onclick="closeModal()">Close</button></div>`);
+}
 async function loadAdmin(){
   ADMIN = false;
   if (!SB || !USER) return renderLog();
@@ -914,7 +923,7 @@ function renderLog(){
     </div>`).join("")}
     ${(l.warnings||[]).length?`<details><summary class="mute" style="font-size:12px">All warnings (${l.warnings.length})</summary><div class="mute" style="font-size:11.5px;white-space:pre-wrap">${l.warnings.map(esc).join("\n")}</div></details>`:""}
   </details>`).join("")
-    + `<div class="mute" style="margin-top:6px;font-size:12px">${ADMIN?"Only you can see this log (admin). Full text logs are saved in the database (private_files).":"Full text logs: repo → results/logs."} ✓ ok · ⚠ warning · ✗ failed. Each warning says where to look.</div>`;
+    + `<div class="mute" style="margin-top:6px;font-size:12px">${ADMIN?`Only you can see this log (admin). <a href="#" onclick="viewRaw('daily');return false" style="color:var(--acc)">Full output of the latest run</a> · <a href="#" onclick="viewRaw('ondemand');return false" style="color:var(--acc)">latest requested-tickers run</a>`:"Full text logs: repo → results/logs."} ✓ ok · ⚠ warning · ✗ failed. Each warning says where to look.</div>`;
 }
 
 /* ---------------- market overview ---------------- */

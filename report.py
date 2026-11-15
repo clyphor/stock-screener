@@ -9,7 +9,18 @@ PAGE = r"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 @media (prefers-color-scheme:dark){:root{--bg:#141413;--card:#1e1e1c;--ink:#ecebe6;--mute:#9a988f;--line:#2e2d2a;--acc:#6fbf93;--neg:#e08a74;--chip:#24302a;--ma50:#e0a75c;--ma200:#8fa0e0;--idx:#77756e}}
 *{box-sizing:border-box;min-width:0}html,body{overflow-x:hidden;margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,system-ui,Segoe UI,sans-serif;-webkit-text-size-adjust:100%}
 button{font:inherit;color:inherit}
-header{padding:20px 16px 8px}h1{font-size:22px;margin:0}.sub{color:var(--mute);font-size:13px;margin-top:4px}
+header{padding:20px 16px 8px;position:relative}.hrow{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ubtn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;padding:0;font-weight:700;font-size:16px}
+.ubtn.in{background:var(--acc);color:#fff;border-color:var(--acc)}.ubtn svg{width:20px;height:20px}
+.umenu{position:absolute;right:16px;top:62px;z-index:30;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.18);min-width:220px;max-width:calc(100vw - 32px);overflow:hidden}
+.umenu .uhead{padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px;color:var(--mute);overflow-wrap:anywhere}.umenu .uhead b{display:block;color:var(--ink);font-size:14px}
+.umenu button{display:flex;gap:10px;align-items:center;width:100%;text-align:left;padding:12px 14px;border:0;background:none;color:var(--ink);font-size:15px;cursor:pointer}
+.umenu button:hover{background:var(--bg)}.umenu button.dang{color:var(--neg);border-top:1px solid var(--line)}
+.authtabs{display:flex;gap:6px;margin:4px 0 10px}.authtabs button{flex:1;padding:9px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:14px}
+.authtabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.fin{width:100%;padding:10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;margin:6px 0;box-sizing:border-box}
+.krow{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}.krow span:first-child{flex:none}.krow span:last-child{text-align:right;overflow-wrap:anywhere;min-width:0}
+h1{font-size:22px;margin:0}.sub{color:var(--mute);font-size:13px;margin-top:4px}
 .tabs{display:flex;gap:8px;padding:8px 16px;position:sticky;top:0;background:var(--bg);z-index:2}
 .tabs button{flex:1;padding:10px;border:1px solid var(--line);background:var(--card);border-radius:10px;font-weight:600}
 .tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
@@ -151,7 +162,7 @@ td:first-child,th:first-child{text-align:left}th{color:var(--mute);font-weight:5
 svg text{fill:var(--mute);font-size:10px}
 #tip{font-size:13px;min-height:18px;color:var(--mute)}
 </style></head><body>
-<header><h1>Stock Screener</h1><div class="sub" id="gen"></div><div class="sub" id="curbar" style="margin-top:4px"></div></header>
+<header><div class="hrow"><h1>Stock Screener</h1><button class="ubtn" id="ubtn" aria-label="Account" onclick="toggleUserMenu(event)"></button></div><div class="umenu" id="umenu" style="display:none"></div><div class="sub" id="gen"></div><div class="sub" id="curbar" style="margin-top:4px"></div></header>
 <div class="disc" id="disc" style="display:none"><div><b>Important:</b> the signals (BUY, WATCH, AVOID, HOLD, SELL), scores, valuation estimates and tags are <b>general information produced automatically by a computer model</b> from public data — not financial, investment, tax or legal advice, and not a recommendation to buy or sell anything. They don't consider your objectives, finances or needs. Data can be delayed, incomplete or wrong, and past performance doesn't predict future results. Do your own research and consider speaking to a licensed financial adviser before investing. You are responsible for your own decisions.</div><button onclick="ackDisc()">I understand</button></div>
 <div class="tabs" id="tabs"></div>
 <div class="subtabs" id="subtabs"></div>
@@ -291,7 +302,7 @@ function signupPitch(t){
       <li>News, charts, sector &amp; political factors</li><li>Watchlists, paper trading and your own extra tickers</li></ul>
     ${accountBox()}`;
 }
-function showSignup(t){ modal(signupPitch(t) + `<div class="btnrow" style="margin-top:8px"><button class="sbtn" onclick="closeModal()">Not now</button></div>`); }
+function showSignup(t){ if (DBSTATE==="signedout") return openAuth("up", t); modal(signupPitch(t) + `<div class="btnrow" style="margin-top:8px"><button class="sbtn" onclick="closeModal()">Not now</button></div>`); }
 function lockedCard(r, i){
   return `<div class="card locked" onclick="showSignup('${r.ticker}')"><div class="top"><div style="min-width:0"><span class="rank">#${r.rank||i+1}</span><span class="tk">${tk(r.ticker)}</span>
      <div class="nm">${esc(r.name||"")}${r.sector?" · "+esc(r.sector):""}</div></div><div class="sc">${r.score??"–"}</div></div>
@@ -358,7 +369,8 @@ function card(r, i, extra=""){
 }
 function render(){
   try{ updGen(); }catch(e){}
-  try{ $("curbar").innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center">${curPicker()}${tfPicker()}${DBSTATE==="ready"?`<a href="#" onclick="openSetup(false);return false" style="color:var(--acc);font-size:13px">⚙ Preferences</a>`:GATED&&!USER?`<a href="#" onclick="showSignup();return false" style="color:var(--acc);font-size:13px;font-weight:600">Sign up / sign in</a>`:""}</div>` + (FX?`<div class="mute" style="font-size:12px">rates ${FX.updated}</div>`:""); }catch(e){}
+  try{ userButton(); }catch(e){}
+  try{ $("curbar").innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center">${curPicker()}${tfPicker()}</div>` + (FX?`<div class="mute" style="font-size:12px">rates ${FX.updated}</div>`:""); }catch(e){}
   try{ $("fbar").style.display = locked() && !MINE(M) ? "none" : ""; }catch(e){}
   if (STOCKS.includes(M)) LASTSTOCK = M;
   [...$("tabs").children].forEach(b=>b.classList.toggle("on", b.dataset.k===TOP(M)));
@@ -534,18 +546,19 @@ const dbList = n => dbRun(()=>SB.from("watchlists").upsert({name:n, tickers:WL.g
 const dbListDel = n => dbRun(()=>SB.from("watchlists").delete().eq("name", n));
 const dbTrade = x => dbRun(()=>SB.from("paper_trades").upsert(toRow(x), {onConflict:"id"}));
 const dbTradeDel = id => dbRun(()=>SB.from("paper_trades").delete().eq("id", id));
+const fld = id => document.querySelector(".modal #"+id) || $(id);
 async function signIn(){
-  const email = ($("em")?.value||"").trim(); if(!email) return;
+  const email = (fld("em")?.value||"").trim(); if(!email) return alert("Enter your email first.");
   const { error } = await SB.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin + location.pathname}});
   if (error) return alert("Sign-in failed: " + error.message);
-  $("acct").innerHTML = `<div>Check <b>${esc(email)}</b> and tap the link <b>once</b>. If your email app opens it in its own browser, long-press the link and choose “Open in Safari/Chrome” instead, so you're signed in where you use this page.</div>`;
+  (fld("acct")||{}).innerHTML = `<div>Check <b>${esc(email)}</b> and tap the link <b>once</b>. If your email app opens it in its own browser, long-press the link and choose “Open in Safari/Chrome” instead, so you're signed in where you use this page.</div>`;
 }
 async function signInPw(){
-  const email = ($("em")?.value||"").trim(), password = $("pw")?.value||"";
+  const email = (fld("em")?.value||"").trim(), password = fld("pw")?.value||"";
   if (!email || !password) return alert("Enter your email and password.");
   const { data, error } = await SB.auth.signInWithPassword({email, password});
   if (error) return alert(error.message.includes("Invalid") ? "Wrong email or password. If you haven't set a password yet, use the email link first." : "Sign-in failed: " + error.message);
-  USER = data.user; dbLoad();
+  USER = data.user; closeModal(); dbLoad();
 }
 async function setPassword(){
   const pw = prompt("Choose a password (at least 8 characters):"); if (!pw) return;
@@ -560,7 +573,7 @@ async function verifyCode(email){
   if (error) return alert("That code didn't work: " + error.message);
   USER = data.user; dbLoad();
 }
-async function signOut(){ await SB.auth.signOut(); USER=null; WL.v=null; PT.v=null; try{localStorage.removeItem("watchlists");localStorage.removeItem("paper_trades");}catch(e){} DBSTATE="signedout"; render(); }
+async function signOut(){ closeMenu(); closeModal(); await SB.auth.signOut(); USER=null; WL.v=null; PT.v=null; try{localStorage.removeItem("watchlists");localStorage.removeItem("paper_trades");}catch(e){} DBSTATE="signedout"; render(); }
 function accountBox(){
   if (DBSTATE==="off") return `<div class="mute" style="margin-top:8px;font-size:12px">Database not connected yet — saved on this device for now, and moved to your account automatically once sign-in is set up.</div>`;
   if (DBSTATE==="signedout") return `<div id="acct" style="margin-top:10px">${DBERR?`<div class="bad" style="font-size:13px;margin-bottom:6px">${esc(DBERR)}</div>`:""}
@@ -575,6 +588,116 @@ function accountBox(){
 }
 function modal(html){ const m=document.createElement("div"); m.className="modal"; m.innerHTML=`<div class="mbox">${html}</div>`; m.onclick=e=>{ if(e.target===m) m.remove(); }; document.body.appendChild(m); return m; }
 function closeModal(){ document.querySelectorAll(".modal").forEach(m=>m.remove()); }
+
+// ---------- account menu (top-right icon)
+const ICON_USER = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>`;
+const uname = () => (USER?.user_metadata?.name || "").trim();
+function userButton(){
+  const b = $("ubtn"); if (!b) return;
+  const signed = !!USER && DBSTATE!=="signedout";
+  b.className = "ubtn" + (signed ? " in" : "");
+  b.innerHTML = signed ? esc((uname() || USER.email || "?")[0].toUpperCase()) : ICON_USER;
+  b.title = signed ? (USER.email||"Account") : "Sign in or create an account";
+}
+function closeMenu(){ const m=$("umenu"); if (m) m.style.display="none"; }
+function toggleUserMenu(ev){
+  ev && ev.stopPropagation();
+  const m = $("umenu"); if (m.style.display==="block") return closeMenu();
+  const signed = !!USER && DBSTATE!=="signedout";
+  if (DBSTATE==="off") m.innerHTML = `<div class="uhead">Accounts aren't switched on yet — your lists and trades are saved on this device.</div>`;
+  else if (!signed) m.innerHTML = `<div class="uhead"><b>Welcome</b>Sign up free to see every signal and save your lists on all your devices.</div>
+      <button onclick="openAuth('in')">🔑 Sign in</button><button onclick="openAuth('up')">✨ Create free account</button>`;
+  else m.innerHTML = `<div class="uhead"><b>${esc(uname()||"My account")}</b>${esc(USER.email||"")}</div>
+      <button onclick="openProfile()">👤 Profile</button><button onclick="openSecurity()">🔒 Security</button>
+      <button onclick="closeMenu();openSetup(false)">⚙ Preferences</button><button class="dang" onclick="signOut()">↪ Sign out</button>`;
+  m.style.display = "block";
+}
+document.addEventListener("click", e => { const m=$("umenu"); if (m && m.style.display==="block" && !m.contains(e.target)) closeMenu(); });
+
+function openAuth(mode, t){
+  closeMenu(); closeModal();
+  if (DBSTATE==="error") return modal(accountBox());
+  const up = mode==="up";
+  const m = modal(`${up ? signupPitch(t).replace(accountBox(), "") : `<h3 style="margin:0 0 6px">Sign in</h3>`}
+    <div class="authtabs"><button class="${up?"":"on"}" onclick="openAuth('in','${t||""}')">Sign in</button><button class="${up?"on":""}" onclick="openAuth('up','${t||""}')">Create account</button></div>
+    <div id="acct">
+      <input id="em" class="fin" type="email" autocomplete="email" placeholder="your@email.com">
+      <input id="pw" class="fin" type="password" autocomplete="${up?"new-password":"current-password"}" placeholder="${up?"Choose a password (8+ characters)":"Password"}">
+      <div class="btnrow">${up ? `<button class="sbtn pri" onclick="signUp()">Create free account</button>` : `<button class="sbtn pri" onclick="signInPw()">Sign in</button>`}
+        <button class="sbtn" onclick="signIn()">Email me a sign-in link</button></div>
+      <div class="mute" style="margin-top:8px;font-size:12px">${up ? "Free. We'll email you once to confirm it's you." : "Forgot your password? Use the email link, then set a new one under Security."}</div>
+    </div>
+    <div class="btnrow" style="margin-top:10px"><button class="sbtn" onclick="closeModal()">Not now</button></div>`);
+  setTimeout(()=>m.querySelector("#em")?.focus(), 50);
+}
+async function signUp(){
+  const email = (fld("em")?.value||"").trim(), password = fld("pw")?.value||"";
+  if (!email) return alert("Enter your email.");
+  if (password.length < 8) return alert("Please choose a password of at least 8 characters.");
+  const { data, error } = await SB.auth.signUp({email, password, options:{emailRedirectTo: location.origin + location.pathname}});
+  if (error) return alert(/registered|exists/i.test(error.message) ? "That email already has an account — tap “Sign in” instead." : "Couldn't create the account: " + error.message);
+  if (data.session){ USER = data.user; closeModal(); return dbLoad(); }
+  (fld("acct")||{}).innerHTML = `<div>Almost done — check <b>${esc(email)}</b> and tap the confirmation link <b>once</b> (open it in Safari/Chrome, not inside your email app). Then sign in with your password.</div>`;
+}
+function openProfile(){
+  closeMenu();
+  const since = USER.created_at ? new Date(USER.created_at).toLocaleDateString() : "–";
+  const mk = PREF.markets?.length ? PREF.markets.join(", ") : "All";
+  const cat = PREF.categories?.length ? PREF.categories.map(c=>({stocks:"Stocks",commodities:"Commodities",crypto:"Crypto"})[c]||c).join(", ") : "All";
+  modal(`<h3 style="margin:0 0 10px">Profile</h3>
+    <label class="mute" style="font-size:13px">Name</label>
+    <input id="pname" class="fin" value="${esc(uname())}" placeholder="Your name (optional)">
+    <div class="krow"><span class="mute">Email</span><span>${esc(USER.email||"")}</span></div>
+    <div class="krow"><span class="mute">Member since</span><span>${since}</span></div>
+    <div class="krow"><span class="mute">Plan</span><span>Free</span></div>
+    <div class="krow"><span class="mute">Main currency</span><span>${esc(MAINCUR)}</span></div>
+    <div class="krow"><span class="mute">Markets</span><span>${esc(mk)}</span></div>
+    <div class="krow"><span class="mute">Categories</span><span>${esc(cat)}</span></div>
+    <div class="krow"><span class="mute">Labels I follow</span><span>${PREF.labels?.length ? PREF.labels.length : "None"}</span></div>
+    <div class="btnrow" style="margin-top:12px"><button class="sbtn pri" onclick="saveProfile()">Save</button><button class="sbtn" onclick="closeModal();openSetup(false)">Edit preferences</button><button class="sbtn" onclick="closeModal()">Close</button></div>`);
+}
+async function saveProfile(){
+  const name = (fld("pname")?.value||"").trim().slice(0,60);
+  const { data, error } = await SB.auth.updateUser({data:{name}});
+  if (error) return alert("Couldn't save: " + error.message);
+  USER = data.user; closeModal(); render();
+}
+function openSecurity(){
+  closeMenu();
+  modal(`<h3 style="margin:0 0 10px">Security</h3>
+    <div style="font-weight:600;font-size:14px">Password</div>
+    <input id="np1" class="fin" type="password" autocomplete="new-password" placeholder="New password (8+ characters)">
+    <input id="np2" class="fin" type="password" autocomplete="new-password" placeholder="Repeat new password">
+    <div class="btnrow"><button class="sbtn pri" onclick="changePw()">Update password</button></div>
+    <div style="font-weight:600;font-size:14px;margin-top:16px">Email</div>
+    <input id="nem" class="fin" type="email" autocomplete="email" value="${esc(USER.email||"")}">
+    <div class="btnrow"><button class="sbtn" onclick="changeEmail()">Change email</button></div>
+    <div style="font-weight:600;font-size:14px;margin-top:16px">Devices</div>
+    <div class="mute" style="font-size:13px">Lost a phone or used a shared computer? Sign out everywhere, including this device.</div>
+    <div class="btnrow"><button class="sbtn" onclick="signOutAll()">Sign out of all devices</button></div>
+    <div class="mute" style="font-size:12px;margin-top:12px">Last sign-in: ${USER.last_sign_in_at ? new Date(USER.last_sign_in_at).toLocaleString() : "–"}</div>
+    <div class="btnrow" style="margin-top:12px"><button class="sbtn" onclick="closeModal()">Close</button></div>`);
+}
+async function changePw(){
+  const a = fld("np1")?.value||"", b = fld("np2")?.value||"";
+  if (a.length < 8) return alert("Please use at least 8 characters.");
+  if (a !== b) return alert("The two passwords don't match.");
+  const { error } = await SB.auth.updateUser({password:a});
+  if (error) return alert("Couldn't update the password: " + error.message);
+  alert("Password updated."); closeModal();
+}
+async function changeEmail(){
+  const e = (fld("nem")?.value||"").trim();
+  if (!e || e === USER.email) return;
+  const { error } = await SB.auth.updateUser({email:e}, {emailRedirectTo: location.origin + location.pathname});
+  if (error) return alert("Couldn't change the email: " + error.message);
+  alert("Check both your old and new inbox and tap the confirmation links to finish the change.");
+}
+async function signOutAll(){
+  if (!confirm("Sign out of every device?")) return;
+  closeModal(); await SB.auth.signOut({scope:"global"});
+  USER=null; WL.v=null; PT.v=null; try{localStorage.removeItem("watchlists");localStorage.removeItem("paper_trades");}catch(e){} DBSTATE="signedout"; render();
+}
 
 function addToList(t){
   const w = WL.get(); const names = Object.keys(w.lists);

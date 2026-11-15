@@ -1272,7 +1272,7 @@ def write_log(started, stats, fatal=None):
         except Exception:
             log = []
     log = ([entry] + log)[:60]
-    slim = [{k: v for k, v in e.items() if k != "diag"} for e in log[:20]]
+    slim = [{k: v for k, v in e.items() if k not in ("diag", "errors")} for e in log[:12]]
     os.makedirs("docs", exist_ok=True)
     text_name = finished.strftime("%Y-%m-%d_%H%M")
     if private and gate.private("runlog_full.json", log) and gate.private("runlog.json", slim):

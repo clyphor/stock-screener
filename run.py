@@ -875,9 +875,20 @@ def run_market(name, cfg, demo, extras=(), extras_only=None):
         df["red_flags"] = reds
         df["flags"] = extra_flags(df, reds)
         hs, hl = horizon_checks(df, model_ok, reds)
-    blocked = df["signal"].isin(["SELL", "AVOID"])
-    df["hz_short"] = horizon_label(hs, blocked)
-    df["hz_long"] = horizon_label(hl, df["signal"].eq("SELL") & ~hl.all(axis=1) if not asset else blocked)
+    # Three signals per stock — short (days–weeks), medium (1–6 months, the main checks), long (12 months+):
+    # each BUY / WATCH / AVOID / blank on its own terms.
+    nobody = pd.Series(False, index=df.index)
+    df["hz_short"] = horizon_label(hs, nobody)
+    df["hz_long"] = horizon_label(hl, nobody)
+    has_red = reds.map(len) > 0
+    short_avoid = has_red | ((df["dist_ma50"] < 0) & (df["ret_21_r"] <= 0.25)) | (df["rsi_14"] > 78)
+    if asset:
+        long_avoid = has_red | ((df["dist_ma200"] < 0) & (df["mom_12_1"].rank(pct=True) <= 0.25))
+    else:
+        severe = reds.map(lambda x: any(s in SEVERE_FLAGS for s in x))
+        long_avoid = severe | (df["fundamental"].rank(pct=True) <= 0.25) | (pd.to_numeric(df.get("val_up"), errors="coerce") <= -0.35)
+    df.loc[short_avoid, "hz_short"] = "AVOID"
+    df.loc[long_avoid & (df["hz_long"] != "BUY"), "hz_long"] = "AVOID"
     # Labels with memory: no flip-flopping on re-runs or one noisy day (see stability.py)
     if not demo and not extras_only:
         stability.apply(name, df, str(close.index[-1].date()), config.SCORING_VERSION)
@@ -1125,7 +1136,7 @@ def write_details(df, ex, market, outdir, only=None):
                          "target": _num(fund.at[t, "targetMeanPrice"], 2) if "targetMeanPrice" in fund else None},
             "analyst_trend": r.get("analyst_trend") if isinstance(r.get("analyst_trend"), list) else None,
             "momentum": r.get("momentum_tag") if isinstance(r.get("momentum_tag"), str) else None,
-            "hz": {"short": r["hz_short"], "medium": r["signal"] if r["signal"] in ("BUY", "WATCH") else "", "long": r["hz_long"]},
+            "hz": {"short": r["hz_short"], "medium": r["signal"] if r["signal"] in ("BUY", "WATCH") else "AVOID" if r["signal"] in ("AVOID", "SELL") else "", "long": r["hz_long"]},
             "short_checks": [{"label": SHORT_LABELS[c], "pass": bool(ex["hshort"].at[t, c])} for c in ex["hshort"].columns],
             "long_checks": [{"label": (ASSET_LONG_LABELS if assets.is_asset(market) else LONG_LABELS)[c], "pass": bool(ex["hlong"].at[t, c])} for c in ex["hlong"].columns],
             "rsi": _num(r["rsi_14"], 1), "ret3m_raw": _num(r["ret_63"]),
@@ -1380,7 +1391,7 @@ def list_row(t, r):
              "va": r.get("val_tag") if isinstance(r.get("val_tag"), str) else None,
              "vu": _num(r.get("val_up"), 3),
              "dy": _num(r.get("div_yield"), 2),
-             "hz": [r["hz_short"] or "", r["signal"] if r["signal"] in ("BUY", "WATCH") else "", r["hz_long"] or ""],
+             "hz": [r["hz_short"] or "", r["signal"] if r["signal"] in ("BUY", "WATCH") else "AVOID" if r["signal"] in ("AVOID", "SELL") else "", r["hz_long"] or ""],
              "red": r["red_flags"] if isinstance(r["red_flags"], list) else [],
              "parts": {k: _p100(r[k], f"{t} {k}") for k in
                        (config.ASSET_WEIGHTS if assets.is_asset(r.get("market")) else config.WEIGHTS)},

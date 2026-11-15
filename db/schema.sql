@@ -52,3 +52,4 @@ alter table public.user_settings enable row level security;
 drop policy if exists "own settings" on public.user_settings;
 create policy "own settings" on public.user_settings
   for all to authenticated using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
+alter table public.user_settings add column if not exists main_timeframe text not null default 'medium' check (main_timeframe in ('short','medium','long'));

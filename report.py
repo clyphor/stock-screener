@@ -41,7 +41,16 @@ table.ft{width:100%;border-collapse:collapse;font-size:14px}table.ft td{padding:
 .sig{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:6px;margin-left:8px;vertical-align:3px}
 .sig.BUY{background:var(--acc);color:#fff}.sig.WATCH{border:1px solid var(--acc);color:var(--acc)}
 .sig.HOLD{border:1px solid var(--line);color:var(--mute);font-weight:600}
-.sig.AVOID{border:1px solid var(--ma50);color:var(--ma50)}.sig.LONGBUY{background:#e7f4ec;color:#1e7a4a;border:1px solid #1e9e5a}.sig.SELL{background:var(--neg);color:#fff}
+.sig.AVOID{border:1px solid var(--ma50);color:var(--ma50)}
+.hzrow{display:flex;gap:4px;margin:6px 0 2px;flex-wrap:wrap}
+.hzb{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;letter-spacing:.03em;padding:3px 7px;border-radius:6px;border:1px solid var(--line);color:var(--mute);background:var(--card)}
+.hzb i{font-style:normal;font-weight:500;color:var(--mute)}
+.hzb.BUY{background:var(--acc);border-color:var(--acc);color:#fff}.hzb.BUY i{color:#e6f3ec}
+.hzb.WATCH{border-color:var(--acc);color:var(--acc)}
+.hzb.HOLD{border-color:#6b7a99;color:#4a5878}
+.hzb.AVOID{border-color:var(--ma50);color:var(--ma50)}
+.hzb.SELL{background:var(--neg);border-color:var(--neg);color:#fff}.hzb.SELL i{color:#fde}
+.hzb.main{box-shadow:0 0 0 2px var(--ink) inset}.sig.SELL{background:var(--neg);color:#fff}
 .sig.HALAL{border:1px solid #3a9d6b;color:#3a9d6b}.sig.HDOUBT{border:1px dashed var(--mute);color:var(--mute);font-weight:600}
 .sig.flag{border:1px dashed var(--mute);color:var(--ink);font-weight:600}
 .card.SELL{border:2px solid var(--neg)}
@@ -171,30 +180,33 @@ function updGen(){
   $("gen").textContent = (mk ? `${MNAME(mk)} updated ${fmt(u[mk]||D.generated)}` : "Updated " + fmt(D.generated)) + (D.demo ? " · DEMO DATA" : "");
 }
 
-function badge(sg){ return sg ? `<span class="sig ${sg}">${sg==="LONGBUY"?"LONG-TERM BUY":sg}</span>` : ""; }
+function badge(sg){ return sg ? `<span class="sig ${sg}">${sg}</span>` : ""; }
 /* Stocks you hold in Paper (open trades) */
 function owned(t){ return PT.get().some(x=>x.ticker===t && x.status==="open"); }
-/* Main label: BUY / WATCH / AVOID — or HOLD / SELL if you already own it in Paper */
-function mainLabel(r){
-  const sg = r.signal||"HOLD", hz = r.hz||["","",""], bad = sg==="SELL"||sg==="AVOID";
-  /* Long-term (12 months+) BUY wins over a short-term AVOID caused by temporary bad news */
-  if (owned(r.ticker)) return bad && hz[2]!=="BUY" ? "SELL" : "HOLD";
-  if (bad && hz[2]==="BUY") return "LONGBUY";
-  if (bad) return "AVOID";
-  if (hz.includes("BUY")) return "BUY";
-  if (hz.includes("WATCH") || sg==="WATCH") return "WATCH";
-  return "";
+/* Three signals per stock: Short (days–weeks) · Medium (1–6 months) · Long (12 months+).
+   Each is BUY / WATCH / AVOID / blank — shown as HOLD / HOLD / SELL / HOLD if you already own it in Paper. */
+const TF = ["Short","Medium","Long"], TFKEY = ["short","medium","long"];
+let MAINTF = (()=>{ try{ const v = Number(localStorage.getItem("maintf")); return [0,1,2].includes(v) && localStorage.getItem("maintf")!==null ? v : 1; }catch(e){ return 1; } })();
+function hzOf(r){ const h = (r.hz||["","",""]).slice(); if (!h[1] && (r.signal==="AVOID"||r.signal==="SELL")) h[1]="AVOID"; if (!h[1] && r.signal==="WATCH") h[1]="WATCH"; return h; }
+function tfLabel(r, i, own){ const v = hzOf(r)[i]||""; if (own ?? owned(r.ticker)) return v==="AVOID" ? "SELL" : "HOLD"; return v; }
+/* the label for your main time frame — used for the card outline, filters, sorting and Paper warnings */
+function mainLabel(r){ return tfLabel(r, MAINTF); }
+function hzBadges(r, own){
+  return `<div class="hzrow">${TF.map((n,i)=>{ const v = tfLabel(r,i,own); return `<span class="hzb ${v} ${i===MAINTF?"main":""}"><i>${n}</i>${v||"—"}</span>`; }).join("")}</div>`;
 }
+function setMainTF(i){
+  MAINTF = Number(i); try{ localStorage.setItem("maintf", MAINTF); }catch(e){}
+  if (DBSTATE==="ready") dbRun(()=>SB.from("user_settings").upsert({main_timeframe:TFKEY[MAINTF], updated_at:new Date().toISOString()}, {onConflict:"user_id"}));
+  render();
+}
+const tfPicker = () => `<label class="mute" style="font-size:13px">Main time frame <select onchange="setMainTF(this.value)" style="padding:4px 6px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink)">${TF.map((n,i)=>`<option value="${i}" ${i===MAINTF?"selected":""}>${n}${i===0?" (days–weeks)":i===1?" (1–6 months)":" (12 months+)"}</option>`).join("")}</select></label>`;
 /* Sub-labels shown with the other tags */
 function subTags(r){
-  const hz = r.hz||["","",""], names = ["Short-term","Medium-term","Long-term"], out = [];
-  hz.forEach((v,i)=>{ if(v==="BUY") out.push(`<span class="chip good-chip">${names[i]} buy</span>`); });
-  hz.forEach((v,i)=>{ if(v==="WATCH") out.push(`<span class="chip">${names[i]} watch</span>`); });
+  const out = [];
   if (r.hl==="HALAL") out.push(`<span class="chip halal-chip">Halal</span>`);
   if (r.va==="Undervalued") out.push(`<span class="chip good">Undervalued${r.vu!=null?` +${Math.round(r.vu*100)}%`:""}</span>`);
   if (r.va==="Overvalued") out.push(`<span class="chip bad">Overvalued${r.vu!=null?` ${Math.round(r.vu*100)}%`:""}</span>`);
   if (r.an!=null) out.push(`<span class="chip ${r.an>=70?"good":r.an<=35?"bad":""}">Analysts ${r.an}/100</span>`);
-  if (mainLabel(r)==="LONGBUY") out.push(`<span class="chip warn">Short-term: avoid (fresh bad news)</span>`);
   if (r.mo) out.push(`<span class="chip ${r.mo==="Oversold"?"warn":"bad"}">${r.mo}</span>`);
   (r.dv||[]).forEach(t=>out.push(t==="Dividend at risk" ? `<span class="chip bad">${t}</span>` : `<span class="chip div-chip">${t}${t!=="Dividend grower"&&r.dy!=null?` ${r.dy.toFixed(1)}%`:""}</span>`));
   if (r.wk || r.weakening) out.push(`<span class="chip bad">Weakening</span>`);
@@ -202,10 +214,10 @@ function subTags(r){
   return out.join("");
 }
 const LABEL_INFO = {
-  BUY:"passes every buy check for at least one time horizon (see the tags)", WATCH:"one check short of a buy",
+  BUY:"passes every buy check for this time frame", WATCH:"one check short of a buy",
   "":"no strong reason to buy or avoid right now", HOLD:"you hold this in Paper and there's no reason to sell",
-  AVOID:"recent red flag or weak on every front — don't buy now",
-  LONGBUY:"a strong business at a sensible price for holding 12 months or more — but fresh bad news or a falling price makes the short term risky. Consider buying gradually rather than all at once", SELL:"you hold this in Paper and it now has a red flag or fails on every front — consider selling"};
+  AVOID:"don't buy for this time frame right now (see why under Signals / By time horizon)",
+  SELL:"you hold this in Paper and this time frame now says avoid — review whether your reason for owning it still holds"};
 function normTicker(q, m){
   let t = q.trim().toUpperCase().replace(/^(ASX|NYSE|NASDAQ|PSX|KSE):/, "").replace(/\s+/g, "");
   if (m==="ASX") return t.replace(/\.AX$/,"") + ".AX";
@@ -234,15 +246,16 @@ async function requestAnalysis(q, m){
 let POLL = null;
 function pollExtras(){ if (POLL) return; POLL = setInterval(()=>{ loadExtras(); if (!(TRACKED||[]).some(x=>!ALL[x.ticker] && !((EXTRAS.items||{})[x.ticker]||{}).status)) { clearInterval(POLL); POLL=null; } }, 60000); }
 function card(r, i, extra=""){
-  return `<div class="card ${mainLabel(r)}" onclick="openStock('${r.ticker}')">${extra}<div class="top"><div style="min-width:0"><span class="rank">${MINE(M)||r.extra?MNAME(r.market)+" ":""}#${(r.rank||i+1)}</span><span class="tk">${tk(r.ticker)}</span>${badge(mainLabel(r))}
+  return `<div class="card ${mainLabel(r)}" onclick="openStock('${r.ticker}')">${extra}<div class="top"><div style="min-width:0"><span class="rank">${MINE(M)||r.extra?MNAME(r.market)+" ":""}#${(r.rank||i+1)}</span><span class="tk">${tk(r.ticker)}</span>
    <div class="nm">${esc(r.name)} · ${esc(r.sector)}</div></div><div class="sc">${r.score}</div></div>
+   ${hzBadges(r)}
    <div class="bars">${Object.entries(r.parts).map(([k,v])=>`<div class="bar"><small>${L[k]}</small><i><span style="width:${v}%"></span></i></div>`).join("")}</div>
    <div class="meta">${CUR(r.market||M)} ${r.price??"–"}${alsoMain(r.price, CUR(r.market||M))} · 3m ${r.ret3m??"–"}%${ASSET(r.market||M)?(r.mcap?` · mkt cap ${fmtCap(r.mcap)}`:""):` · P/E ${r.pe??"–"}`}</div>
    <div class="chips">${subTags(r)}${r.reasons.map(x=>`<span class="chip ${BAD.includes(x)?"bad":""}">${x}</span>`).join("")}</div></div>`;
 }
 function render(){
   try{ updGen(); }catch(e){}
-  try{ $("curbar").innerHTML = curPicker() + (FX?` <span class="mute">· rates ${FX.updated}</span>`:""); }catch(e){}
+  try{ $("curbar").innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center">${curPicker()}${tfPicker()}</div>` + (FX?`<div class="mute" style="font-size:12px">rates ${FX.updated}</div>`:""); }catch(e){}
   if (STOCKS.includes(M)) LASTSTOCK = M;
   [...$("tabs").children].forEach(b=>b.classList.toggle("on", b.dataset.k===TOP(M)));
   $("subtabs").style.display = STOCKS.includes(M) ? "" : "none";
@@ -400,7 +413,8 @@ async function dbLoad(){
     if (!WL.v.lists[cur]) WL.v.cur = Object.keys(WL.v.lists)[0];
     PT.v = t.data.map(fromRow);
     WL.save(); PT.save();
-    try { const s = await SB.from("user_settings").select("main_currency").maybeSingle();
+    try { const s = await SB.from("user_settings").select("main_currency,main_timeframe").maybeSingle();
+          if (s.data?.main_timeframe) { MAINTF = Math.max(0, TFKEY.indexOf(s.data.main_timeframe)); localStorage.setItem("maintf", MAINTF); }
           if (s.data?.main_currency) { MAINCUR = s.data.main_currency; localStorage.setItem("maincur", MAINCUR); }
           else if (!s.error) SB.from("user_settings").upsert({main_currency:MAINCUR}, {onConflict:"user_id"}); } catch(e){}
     DBSTATE = "ready"; TRACKED = null;
@@ -582,7 +596,9 @@ function renderMine(){
     <div class="row"><div><span class="tk" onclick="openStock('${x.ticker}')" style="cursor:pointer">${tk(x.ticker)}</span> <span class="mute">${x.market}</span> ${x.status==="closed"?'<span class="sig HOLD">CLOSED</span>':""}</div>
       <div class="big2 ${ret>=0?"good":"bad"}">${fp(ret)}</div></div>
     <div class="mute">${esc(now?.name||"")}</div>
-    <div style="font-size:13px;margin-top:6px">Bought ${x.date} at ${cur(x.market)}${x.price} as ${badge(x.label==="SELL"?"AVOID":x.label==="HOLD"?"":(x.hz||[]).includes("BUY")?"BUY":x.label)} ${subTags({hz:x.hz})} (score ${x.score}) · ${x.status==="closed"?`sold ${x.exit_date} at ${cur(x.market)}${x.exit_price}`:`now ${cur(x.market)}${px??"–"} ${now?badge(mainLabel(now)):""}`}</div>
+    <div style="font-size:13px;margin-top:6px">Bought ${x.date} at ${cur(x.market)}${x.price} (score ${x.score}) · ${x.status==="closed"?`sold ${x.exit_date} at ${cur(x.market)}${x.exit_price}`:`now ${cur(x.market)}${px??"–"}`}</div>
+    <div style="font-size:12px;margin-top:4px" class="mute">When bought:</div>${hzBadges({hz:x.hz, signal:x.label, ticker:x.ticker}, false)}
+    ${x.status!=="closed"&&now?`<div style="font-size:12px;margin-top:2px" class="mute">Now (you hold it):</div>${hzBadges(now, true)}`:""}
     <div style="font-size:13px;margin-top:4px">Index ${fp(iret)} over the same ${days} days → <b class="${vs>=0?"good":"bad"}">${fp(vs)} vs index</b> · ${cur(x.market)}${x.amount} invested → ${ret!=null?`<b class="${ret>=0?"good":"bad"}">${pm(x.amount*ret, x.currency||CUR(x.market))}</b>`:"–"}</div>
     ${main&&(x.currency||CUR(x.market))!==MAINCUR?`<div style="font-size:13px;margin-top:2px">In ${MAINCUR}: ${money(main.cost,MAINCUR)} → <b class="${main.pnl>=0?"good":"bad"}">${pm(main.pnl,MAINCUR)} (${fp(main.ret)})</b> <span class="mute">${Math.abs(main.ret-ret)>=0.001?`· currency move ${fp((1+main.ret)/(1+ret)-1)}`:""}</span></div>`:""}
     ${x.note?`<div class="mute" style="margin-top:4px">“${esc(x.note)}”</div>`:""}
@@ -676,7 +692,7 @@ function sectorFilter(sec){ resetF(); getF().sec=[sec]; saveF(); render(); windo
 
 /* ---------------- filters ---------------- */
 const PARTS = [["ml","Price model"],["fundamental","Fundamentals"],["news","Company news"],["peers","Competitors' news"],["macro","Sector & politics"]];
-const LORDER = {BUY:0, LONGBUY:1, WATCH:2, HOLD:3, "":4, AVOID:6, SELL:7};
+const LORDER = {BUY:0, WATCH:2, HOLD:3, "":4, AVOID:6, SELL:7};
 const SORTS = {
   score:{l:"Score (high→low)", f:(a,b)=>b.score-a.score},
   label:{l:"Label (BUY first)", f:(a,b)=>(LORDER[mainLabel(a)]??5)-(LORDER[mainLabel(b)]??5) || b.score-a.score},
@@ -720,7 +736,7 @@ function passes(r, F){
   if (F.div==="none" && r.dy>0) return false;
   if (num(F.dymin)!=null && !(r.dy!=null && r.dy >= num(F.dymin))) return false;
   if (num(F.dymax)!=null && !(r.dy!=null && r.dy <= num(F.dymax))) return false;
-  if (F.sig.length){ const sg = mainLabel(r)||"NONE"; if(!F.sig.includes(sg)) return false; }
+  if (F.sig.length){ const sg = tfLabel(r, F.sigtf===""||F.sigtf==null ? MAINTF : Number(F.sigtf))||"NONE"; if(!F.sig.includes(sg)) return false; }
   if ((F.flg||[]).length && !F.flg.some(f=>(r.flags||[]).includes(f))) return false;
   if ((F.hz||[]).length){ const h = r.hz||["","",""]; const ok = {S:h[0]==="BUY", M:h[1]==="BUY", L:h[2]==="BUY", SW:h[0]==="WATCH", LW:h[2]==="WATCH"};
     if (!F.hz.some(k=>ok[k])) return false; }
@@ -765,7 +781,7 @@ function drawPanel(){
              : [["",'Any'],["5e10",">PKR 50B"],["2e11",">PKR 200B"],["5e11",">PKR 500B"],["-5e10","<PKR 50B"]];
   $("fpanel").innerHTML = `
    ${MINE(M)?`<div class="fg"><span class="fl">Market</span>${pills("mk",MARKETS.map(m=>[m,MNAME(m)]),F.mk||[])}</div>`:""}
-   <div class="fg"><span class="fl">Signal</span>${pills("sig",[["BUY","BUY"],["LONGBUY","LONG-TERM BUY"],["WATCH","WATCH"],["AVOID","AVOID"],["NONE","No label"],["HOLD","HOLD (in Paper)"],["SELL","SELL (in Paper)"]],F.sig)}
+   <div class="fg"><span class="fl">Signal</span>${one("sigtf",[["","My main ("+TF[MAINTF]+")"],["0","Short"],["1","Medium"],["2","Long"]],F.sigtf??"")}<div style="margin-top:6px"></div>${pills("sig",[["BUY","BUY"],["WATCH","WATCH"],["AVOID","AVOID"],["NONE","No label"],["HOLD","HOLD (in Paper)"],["SELL","SELL (in Paper)"]],F.sig)}
      <div class="mute" style="margin-top:4px">Tap several to combine, e.g. BUY + WATCH.</div></div>
    <div class="fg"><span class="fl">Time horizon</span>${pills("hz",[["S","Short-term BUY"],["M","Medium-term BUY"],["L","Long-term BUY"],["SW","Short WATCH"],["LW","Long WATCH"]],F.hz||[])}</div>
    <div class="fg"><span class="fl">Shariah (halal)</span>${one("hal",[["","Any"],["HALAL","Halal only"],["OK","Halal + doubtful"],["NOT HALAL","Not halal"]],F.hal||"")}</div>
@@ -886,7 +902,7 @@ async function openStock(t, push=true){
   try { d = await getJSON(`stocks/${t}.json`); base = await getJSON(`stocks/_${d.market}.json`); }
   catch(e){ sh.innerHTML = sh.innerHTML.replace("Loading…","Details not available for this stock yet."); return; }
   const up = d.analyst.target && d.price ? d.analyst.target/d.price-1 : null;
-  sh.innerHTML = `<div class="shead"><button class="back" onclick="history.back()">‹ Back</button><b>${tk(d.ticker)}</b>${badge(mainLabel(dRow(d)))}</div>
+  sh.innerHTML = `<div class="shead"><button class="back" onclick="history.back()">‹ Back</button><b>${tk(d.ticker)}</b>${badge(mainLabel(dRow(d)))}<span class="mute" style="font-size:12px;margin-left:4px">${TF[MAINTF].toLowerCase()} term</span></div>
   <div class="sec"><div class="hero"><div style="min-width:0"><div class="tk" style="font-size:20px">${esc(d.name)}</div>
     <div class="mute">${esc(d.sector)}${d.industry?" · "+esc(d.industry):""}</div>
     <div style="margin-top:8px">Price <b>${CUR(d.market)} ${d.price??"–"}</b>${alsoMain(d.price, CUR(d.market))}${d.mcap||!ASSET(d.market)?` · Market cap <b>${CUR(d.market)} ${fmtCap(d.mcap)}</b>`:""}</div>
@@ -896,11 +912,12 @@ async function openStock(t, push=true){
     <div class="btnrow"><button class="sbtn" onclick="addToList('${d.ticker}')">☆ Watchlist</button><button class="sbtn pri" onclick="paperBuy('${d.ticker}')">Paper buy</button></div>
     ${why(xOverview(d), "In plain English")}</div>
 
-  <div class="sec"><h3>Label: ${badge(mainLabel(dRow(d)))||'<span class="mute">none</span>'} <span class="mute" style="font-weight:400">${LABEL_INFO[mainLabel(dRow(d))]}</span></h3>
+  <div class="sec"><h3>Signals</h3>${hzBadges(dRow(d))}
+    <div class="mute" style="font-size:13px;margin:4px 0 10px">Your main time frame (<b>${TF[MAINTF]}</b>, outlined) is <b>${mainLabel(dRow(d))||"no signal"}</b>${mainLabel(dRow(d))?": "+LABEL_INFO[mainLabel(dRow(d))]:""}. Change it at the top of the page.</div>
     ${(d.red_flags||[]).length?`<div style="margin-bottom:8px"><b style="color:var(--neg)">Red flags:</b> ${d.red_flags.map(esc).join(", ")}</div>`:""}
-    <div class="fl" style="font-size:13px;font-weight:600;margin:4px 0">Buy checks (${d.checks.filter(c=>c.pass||c.skipped).length}/${d.checks.length})</div>
+    <div class="fl" style="font-size:13px;font-weight:600;margin:4px 0">Medium-term buy checks (${d.checks.filter(c=>c.pass||c.skipped).length}/${d.checks.length})</div>
     ${d.checks.map(c=>`<div class="chk"><b class="${c.skipped?"skip":c.pass?"ok":"no"}">${c.skipped?"–":c.pass?"✓":"✗"}</b><span>${c.label}${c.skipped?' <span class="mute">(not used: model failed its test in this market)</span>':""}</span></div>`).join("")}
-    ${d.sell_checks?`<div class="fl" style="font-size:13px;font-weight:600;margin:10px 0 4px">Sell warnings (${d.sell_checks.filter(c=>c.pass&&!c.skipped).length}/${d.sell_checks.filter(c=>!c.skipped).length})</div>
+    ${d.sell_checks?`<div class="fl" style="font-size:13px;font-weight:600;margin:10px 0 4px">Medium-term sell warnings (${d.sell_checks.filter(c=>c.pass&&!c.skipped).length}/${d.sell_checks.filter(c=>!c.skipped).length})</div>
     ${d.sell_checks.map(c=>`<div class="chk"><b class="${c.skipped?"skip":c.pass?"no":"ok"}">${c.skipped?"–":c.pass?"!":"·"}</b><span>${c.label}</span></div>`).join("")}`:""}
     ${why(xLabel(d), "Why this label?")}</div>
 
@@ -975,10 +992,11 @@ function historySection(d){
 function horizonSection(d){
   if (!d.short_checks) return "";
   const hz = d.hz||{};
-  const lab = v => v==="BUY" ? '<span class="sig BUY">BUY</span>' : v==="WATCH" ? '<span class="sig WATCH">WATCH</span>' : '<span class="sig HOLD">—</span>';
+  const lab = v => v ? `<span class="sig ${v}">${v}</span>` : '<span class="sig HOLD">—</span>';
   const list = cs => cs.map(c=>`<div class="chk"><b class="${c.pass?"ok":"no"}">${c.pass?"✓":"✗"}</b><span>${c.label}</span></div>`).join("");
   return `<div class="sec"><h3>By time horizon</h3>
-    <div class="grid"><div class="kv"><small>Short term (days–weeks)</small>${lab(hz.short)}</div><div class="kv"><small>Medium term (1–6 months)</small>${lab(hz.medium)}</div><div class="kv"><small>Long term (1 year+)</small>${lab(hz.long)}</div></div>
+    <div class="grid"><div class="kv"><small>Short term (days–weeks)</small>${lab(hz.short)}</div><div class="kv"><small>Medium term (1–6 months)</small>${lab(hz.medium)}</div><div class="kv"><small>Long term (12 months+)</small>${lab(hz.long)}</div></div>
+    <div class="mute" style="font-size:12px;margin-top:6px"><b>AVOID</b> — short: fresh red flag, falling below its 50-day average, or overheated (RSI 78+) · medium: red flag or weak on every front · long: a serious threat to the business, a weak business, or clearly overvalued.</div>
     <div class="fl" style="font-size:13px;font-weight:600;margin:10px 0 4px">Short-term checks (${d.short_checks.filter(c=>c.pass).length}/${d.short_checks.length})</div>${list(d.short_checks)}
     <div class="fl" style="font-size:13px;font-weight:600;margin:10px 0 4px">Long-term checks (${d.long_checks.filter(c=>c.pass).length}/${d.long_checks.length})</div>${list(d.long_checks)}
     ${why(`<p>Different investors care about different things. <b>Short term</b> looks for momentum and a fresh reason for the price to move (news, events, rising volume) and ignores valuation. <b>Medium term</b> is the main balanced score. <b>Long term</b> cares about the quality and financial strength of the business and whether it's reasonably priced, and mostly ignores short-term news.</p>

@@ -1,0 +1,4843 @@
+05:30:29 [US] universe: 503 tickers from Wikipedia
+05:30:57 retrying 4 tickers in 5s…
+05:31:02 retrying 3 tickers in 10s…
+05:31:12 retrying 3 tickers in 15s…
+05:31:27 WARNING no price data for: FDXF, HONA, VYLR
+05:32:43 [US] news: 499/500 stocks have headlines, 6433 total
+05:33:12 [US] financial health: 150 refreshed, 350 from cache
+05:33:12 fundamentals filled from statements: {'returnOnEquity': 5, 'debtToEquity': 23, 'freeCashflow': 32, 'revenueGrowth': 1, 'profitMargins': 1, 'dividendYield': 1, 'payoutRatio': 1}
+05:33:13 [US] price check vs Massive on 2026-11-27: 499 agree, 0 corrected, 1 filled
+05:33:13 [US] 500 stocks, 1506 days
+05:33:16 AI: Claude unavailable for this run (400) — trying the next provider. {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Bi
+05:33:16 AI: Claude unavailable for this run (400) — trying the next provider. {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Bi
+05:33:16 AI: Claude unavailable for this run (400) — trying the next provider. {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Bi
+05:33:16 AI: Claude unavailable for this run (400) — trying the next provider. {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Bi
+05:33:16 AI: Claude unavailable for this run (400) — trying the next provider. {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Bi
+05:33:16 AI: Claude unavailable for this run (400) — trying the next provider. {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Bi
+05:33:16 AI: Claude unavailable for this run (400) — trying the next provider. {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Bi
+05:33:16 AI: Claude unavailable for this run (400) — trying the next provider. {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Bi
+05:40:35 [US] AI analyst found 8 events
+05:40:35 [US] macro: 2501 sector/theme headlines, scored by claude
+05:42:43 exchange rates up to 2026-11-28: AUD 1.5036 PKR 276.291 per USD
+05:43:05 members-only: uploaded 1 market lists and 497 stock pages
+05:43:06 {
+ "US": {
+  "test_from": "2026-04-30",
+  "ic_mean": -0.042,
+  "ic_positive_days": 0.38,
+  "top_minus_bottom": -0.0141,
+  "top_hit_rate": 0.49,
+  "as_of": "2026-11-27",
+  "universe": 503,
+  "left_out": [
+   {
+    "t": "GOOG",
+    "name": "Alphabet Inc. (Class C)",
+    "why": "not enough price history to score yet"
+   },
+   {
+    "t": "FDXF",
+    "name": "FedEx Freight",
+    "why": "no price data from Yahoo this run"
+   },
+   {
+    "t": "FOXA",
+    "name": "Fox Corporation (Class A)",
+    "why": "not enough price history to score yet"
+   },
+   {
+    "t": "HONA",
+    "name": "Honeywell Aerospace",
+    "why": "no price data from Yahoo this run"
+   },
+   {
+    "t": "NWS",
+    "name": "News Corp (Class B)",
+    "why": "not enough price history to score yet"
+   },
+   {
+    "t": "SNDK",
+    "name": "Sandisk",
+    "why": "not enough price history to score yet"
+   },
+   {
+    "t": "VYLR",
+    "name": "Vylor",
+    "why": "no price data from Yahoo this run"
+   }
+  ],
+  "news_method": "claude",
+  "screened": 499,
+  "news_coverage": 1.0,
+  "ai_used": {
+   "Gemini (gemini-flash-lite-latest)": 45
+  },
+  "ai_scoring": "on",
+  "currency": "USD",
+  "index_name": "SPY",
+  "kind": "stock",
+  "price_date": "2026-11-27",
+  "model_used": false,
+  "weights": {
+   "ml": 0.1,
+   "fundamental": 0.45,
+   "news": 0.17,
+   "peers": 0.1,
+   "macro": 0.18
+  },
+  "track_n": 70,
+  "track": {
+   "BUY": {
+    "n": 70,
+    "avg_excess": 0.0069,
+    "win_rate": 0.63
+   },
+   "SELL": {
+    "n": 40,
+    "avg_excess": 0.042,
+    "win_rate": 0.3
+   },
+   "AVOID": {
+    "n": 549,
+    "avg_excess": 0.043,
+    "win_rate": 0.29
+   },
+   "SHORT BUY": {
+    "n": 135,
+    "avg_excess": -0.0566,
+    "win_rate": 0.61
+   },
+   "LONG BUY": {
+    "n": 82,
+    "avg_excess": -0.0137,
+    "win_rate": 0.6
+   }
+  },
+  "track_avg_excess": 0.0069,
+  "track_win_rate": 0.63,
+  "track_open": 964,
+  "perf": {
+   "index": {
+    "1D": 0.0162,
+    "1W": 0.0174,
+    "1M": -0.057,
+    "3M": -0.051,
+    "YTD": 0.0764,
+    "1Y": 0.0906,
+    "5Y": 0.6578
+   },
+   "sectors": [
+    {
+     "name": "Consumer Defensive",
+     "n": 31,
+     "ret": {
+      "1D": 0.0053,
+      "1W": 0.0341,
+      "1M": 0.0829,
+      "3M": 0.1522,
+      "YTD": 0.2463,
+      "1Y": 0.2546,
+      "5Y": 1.0456
+     },
+     "score": 54.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 4,
+      "AVOID": 11,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Real Estate",
+     "n": 30,
+     "ret": {
+      "1D": 0.0062,
+      "1W": 0.0276,
+      "1M": 0.0514,
+      "3M": 0.0067,
+      "YTD": 0.1676,
+      "1Y": 0.1483,
+      "5Y": 0.4945
+     },
+     "score": 37.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 9,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Healthcare",
+     "n": 60,
+     "ret": {
+      "1D": 0.0024,
+      "1W": 0.0377,
+      "1M": 0.0312,
+      "3M": 0.0947,
+      "YTD": 0.3231,
+      "1Y": 0.3199,
+      "5Y": 1.4657
+     },
+     "score": 51.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 9,
+      "AVOID": 15,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Utilities",
+     "n": 31,
+     "ret": {
+      "1D": 0.0025,
+      "1W": 0.0161,
+      "1M": 0.0311,
+      "3M": 0.0359,
+      "YTD": 0.0708,
+      "1Y": 0.0356,
+      "5Y": 0.7178
+     },
+     "score": 36.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 3,
+      "AVOID": 11,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Consumer Cyclical",
+     "n": 54,
+     "ret": {
+      "1D": 0.0294,
+      "1W": 0.0285,
+      "1M": 0.0287,
+      "3M": 0.0286,
+      "YTD": 0.0347,
+      "1Y": 0.0605,
+      "5Y": 0.3765
+     },
+     "score": 42.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 22,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Financial Services",
+     "n": 71,
+     "ret": {
+      "1D": 0.0118,
+      "1W": 0.0282,
+      "1M": 0.0242,
+      "3M": 0.0031,
+      "YTD": 0.0789,
+      "1Y": 0.1259,
+      "5Y": 0.9235
+     },
+     "score": 43.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 3,
+      "AVOID": 12,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Basic Materials",
+     "n": 19,
+     "ret": {
+      "1D": 0.0203,
+      "1W": 0.0511,
+      "1M": 0.0143,
+      "3M": -0.0002,
+      "YTD": 0.1833,
+      "1Y": 0.2297,
+      "5Y": 0.6573
+     },
+     "score": 52.8,
+     "labels": {
+      "BUY": 2,
+      "WATCH": 0,
+      "AVOID": 6,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Industrials",
+     "n": 74,
+     "ret": {
+      "1D": 0.0161,
+      "1W": 0.0264,
+      "1M": -0.0091,
+      "3M": -0.0418,
+      "YTD": 0.1409,
+      "1Y": 0.1668,
+      "5Y": 1.4636
+     },
+     "score": 55.2,
+     "labels": {
+      "BUY": 1,
+      "WATCH": 9,
+      "AVOID": 12,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Communication Services",
+     "n": 19,
+     "ret": {
+      "1D": 0.0158,
+      "1W": 0.03,
+      "1M": -0.0411,
+      "3M": -0.0921,
+      "YTD": -0.0929,
+      "1Y": -0.0893,
+      "5Y": 0.7765
+     },
+     "score": 52.1,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 3,
+      "AVOID": 7,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Energy",
+     "n": 21,
+     "ret": {
+      "1D": 0.0129,
+      "1W": 0.012,
+      "1M": -0.0998,
+      "3M": -0.0019,
+      "YTD": 0.4446,
+      "1Y": 0.4678,
+      "5Y": 1.887
+     },
+     "score": 65.9,
+     "labels": {
+      "BUY": 1,
+      "WATCH": 5,
+      "AVOID": 4,
+      "SELL": 0
+     }
+    },
+    {
+     "name": "Technology",
+     "n": 86,
+     "ret": {
+      "1D": 0.0224,
+      "1W": 0.0011,
+      "1M": -0.1216,
+      "3M": -0.0883,
+      "YTD": 0.1971,
+      "1Y": 0.2299,
+      "5Y": 2.1607
+     },
+     "score": 57.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 15,
+      "AVOID": 21,
+      "SELL": 0
+     }
+    }
+   ],
+   "industries": [
+    {
+     "name": "Advertising Agencies",
+     "n": 2,
+     "ret": {
+      "1D": 0.0476,
+      "1W": 0.0572,
+      "1M": 0.4797,
+      "3M": 0.2242,
+      "YTD": -0.314,
+      "1Y": -0.186,
+      "5Y": 2.6264
+     },
+     "score": 59.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Communication Services"
+    },
+    {
+     "name": "Resorts & Casinos",
+     "n": 3,
+     "ret": {
+      "1D": 0.0323,
+      "1W": 0.0572,
+      "1M": 0.1987,
+      "3M": -0.0923,
+      "YTD": -0.2654,
+      "1Y": -0.2749,
+      "5Y": 0.0505
+     },
+     "score": 36.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Auto & Truck Dealerships",
+     "n": 1,
+     "ret": {
+      "1D": 0.033,
+      "1W": 0.0306,
+      "1M": 0.1868,
+      "3M": -0.0535,
+      "YTD": -0.1697,
+      "1Y": -0.0024,
+      "5Y": 0.2141
+     },
+     "score": 44.7,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Electronic Gaming & Multimedia",
+     "n": 1,
+     "ret": {
+      "1D": 0.0127,
+      "1W": 0.1034,
+      "1M": 0.1789,
+      "3M": -0.022,
+      "YTD": -0.1008,
+      "1Y": -0.048,
+      "5Y": 0.3231
+     },
+     "score": 49.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Communication Services"
+    },
+    {
+     "name": "Pollution & Treatment Controls",
+     "n": 1,
+     "ret": {
+      "1D": -0.0011,
+      "1W": 0.0343,
+      "1M": 0.1679,
+      "3M": 0.2198,
+      "YTD": 0.2085,
+      "1Y": 0.1614,
+      "5Y": null
+     },
+     "score": 45.1,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Real Estate Services",
+     "n": 2,
+     "ret": {
+      "1D": 0.0171,
+      "1W": 0.1224,
+      "1M": 0.1658,
+      "3M": -0.0325,
+      "YTD": -0.2211,
+      "1Y": -0.2305,
+      "5Y": 0.1515
+     },
+     "score": 39.1,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Real Estate"
+    },
+    {
+     "name": "Home Improvement Retail",
+     "n": 2,
+     "ret": {
+      "1D": 0.0027,
+      "1W": 0.0766,
+      "1M": 0.1542,
+      "3M": 0.1153,
+      "YTD": 0.0556,
+      "1Y": 0.0485,
+      "5Y": 0.0244
+     },
+     "score": 45.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Personal Services",
+     "n": 1,
+     "ret": {
+      "1D": -0.0021,
+      "1W": 0.0105,
+      "1M": 0.1513,
+      "3M": 0.0602,
+      "YTD": -0.3501,
+      "1Y": -0.3628,
+      "5Y": 0.1521
+     },
+     "score": 33.7,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Luxury Goods",
+     "n": 1,
+     "ret": {
+      "1D": -0.0122,
+      "1W": 0.0351,
+      "1M": 0.1508,
+      "3M": 0.024,
+      "YTD": 0.0113,
+      "1Y": 0.2042,
+      "5Y": 2.1717
+     },
+     "score": 65.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Telecom Services",
+     "n": 6,
+     "ret": {
+      "1D": 0.0153,
+      "1W": 0.0517,
+      "1M": 0.1438,
+      "3M": -0.0496,
+      "YTD": 0.0082,
+      "1Y": 0.0311,
+      "5Y": 0.3765
+     },
+     "score": 50.2,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Communication Services"
+    },
+    {
+     "name": "Discount Stores",
+     "n": 5,
+     "ret": {
+      "1D": 0.0081,
+      "1W": 0.0476,
+      "1M": 0.1317,
+      "3M": 0.248,
+      "YTD": 0.2617,
+      "1Y": 0.3003,
+      "5Y": 1.5888
+     },
+     "score": 57.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 3,
+      "SELL": 0
+     },
+     "sector": "Consumer Defensive"
+    },
+    {
+     "name": "Insurance Brokers",
+     "n": 6,
+     "ret": {
+      "1D": 0.0049,
+      "1W": 0.0623,
+      "1M": 0.1285,
+      "3M": 0.0768,
+      "YTD": 0.1053,
+      "1Y": 0.1245,
+      "5Y": 0.4955
+     },
+     "score": 38.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Financial Services"
+    },
+    {
+     "name": "Insurance - Reinsurance",
+     "n": 1,
+     "ret": {
+      "1D": 0.0054,
+      "1W": 0.0333,
+      "1M": 0.127,
+      "3M": 0.1609,
+      "YTD": 0.3076,
+      "1Y": 0.413,
+      "5Y": 0.7491
+     },
+     "score": 36.1,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Financial Services"
+    },
+    {
+     "name": "Restaurants",
+     "n": 6,
+     "ret": {
+      "1D": 0.0018,
+      "1W": 0.0395,
+      "1M": 0.1268,
+      "3M": 0.0531,
+      "YTD": 0.0951,
+      "1Y": 0.096,
+      "5Y": 0.2353
+     },
+     "score": 39.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 3,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Medical Distribution",
+     "n": 4,
+     "ret": {
+      "1D": -0.0003,
+      "1W": 0.027,
+      "1M": 0.1196,
+      "3M": 0.1724,
+      "YTD": 0.2633,
+      "1Y": 0.1769,
+      "5Y": 3.6392
+     },
+     "score": 51.1,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Healthcare"
+    },
+    {
+     "name": "Building Materials",
+     "n": 3,
+     "ret": {
+      "1D": 0.0106,
+      "1W": 0.0781,
+      "1M": 0.112,
+      "3M": 0.0397,
+      "YTD": -0.1156,
+      "1Y": -0.0936,
+      "5Y": 0.8135
+     },
+     "score": 51.1,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Basic Materials"
+    },
+    {
+     "name": "Utilities - Regulated Water",
+     "n": 1,
+     "ret": {
+      "1D": 0.006,
+      "1W": 0.037,
+      "1M": 0.1066,
+      "3M": 0.1185,
+      "YTD": 0.2099,
+      "1Y": 0.2109,
+      "5Y": 0.0011
+     },
+     "score": 30.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Utilities"
+    },
+    {
+     "name": "Specialty Business Services",
+     "n": 3,
+     "ret": {
+      "1D": 0.0045,
+      "1W": 0.0713,
+      "1M": 0.106,
+      "3M": 0.087,
+      "YTD": 0.155,
+      "1Y": 0.1843,
+      "5Y": 0.6526
+     },
+     "score": 51.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Confectioners",
+     "n": 2,
+     "ret": {
+      "1D": -0.0001,
+      "1W": 0.0372,
+      "1M": 0.1044,
+      "3M": 0.0763,
+      "YTD": 0.2149,
+      "1Y": 0.1717,
+      "5Y": 0.2177
+     },
+     "score": 50.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Consumer Defensive"
+    },
+    {
+     "name": "REIT - Healthcare Facilities",
+     "n": 3,
+     "ret": {
+      "1D": 0.0141,
+      "1W": 0.0292,
+      "1M": 0.1029,
+      "3M": 0.0345,
+      "YTD": 0.3277,
+      "1Y": 0.2195,
+      "5Y": 1.8556
+     },
+     "score": 32.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Real Estate"
+    },
+    {
+     "name": "Beverages - Brewers",
+     "n": 1,
+     "ret": {
+      "1D": 0.0072,
+      "1W": -0.0033,
+      "1M": 0.0948,
+      "3M": 0.0873,
+      "YTD": 0.0519,
+      "1Y": 0.0979,
+      "5Y": -0.3441
+     },
+     "score": 50.6,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Consumer Defensive"
+    },
+    {
+     "name": "REIT - Retail",
+     "n": 5,
+     "ret": {
+      "1D": 0.0042,
+      "1W": 0.0425,
+      "1M": 0.0948,
+      "3M": 0.0587,
+      "YTD": 0.2356,
+      "1Y": 0.2435,
+      "5Y": 0.472
+     },
+     "score": 30.4,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Real Estate"
+    },
+    {
+     "name": "Waste Management",
+     "n": 2,
+     "ret": {
+      "1D": -0.0034,
+      "1W": 0.0304,
+      "1M": 0.0905,
+      "3M": 0.1345,
+      "YTD": 0.1684,
+      "1Y": 0.1685,
+      "5Y": 0.7712
+     },
+     "score": 36.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Biotechnology",
+     "n": 5,
+     "ret": {
+      "1D": -0.0073,
+      "1W": 0.0721,
+      "1M": 0.0857,
+      "3M": 0.23,
+      "YTD": 1.8735,
+      "1Y": 2.2549,
+      "5Y": 0.8727
+     },
+     "score": 51.2,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 2,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Healthcare"
+    },
+    {
+     "name": "Packaged Foods",
+     "n": 5,
+     "ret": {
+      "1D": -0.0091,
+      "1W": 0.0357,
+      "1M": 0.0853,
+      "3M": -0.0184,
+      "YTD": 0.0315,
+      "1Y": 0.0188,
+      "5Y": -0.1455
+     },
+     "score": 55.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 3,
+      "SELL": 0
+     },
+     "sector": "Consumer Defensive"
+    },
+    {
+     "name": "Conglomerates",
+     "n": 2,
+     "ret": {
+      "1D": 0.0106,
+      "1W": 0.0619,
+      "1M": 0.0834,
+      "3M": 0.0814,
+      "YTD": 0.1821,
+      "1Y": 0.1455,
+      "5Y": 0.3664
+     },
+     "score": 52.2,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Residential Construction",
+     "n": 4,
+     "ret": {
+      "1D": -0.002,
+      "1W": 0.0943,
+      "1M": 0.0831,
+      "3M": 0.0311,
+      "YTD": 0.0233,
+      "1Y": -0.0647,
+      "5Y": 0.6712
+     },
+     "score": 41.2,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Household & Personal Products",
+     "n": 6,
+     "ret": {
+      "1D": -0.0003,
+      "1W": 0.0357,
+      "1M": 0.0817,
+      "3M": 0.1611,
+      "YTD": 0.228,
+      "1Y": 0.2027,
+      "5Y": 0.2409
+     },
+     "score": 51.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 2,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Consumer Defensive"
+    },
+    {
+     "name": "Industrial Distribution",
+     "n": 3,
+     "ret": {
+      "1D": 0.0128,
+      "1W": 0.0246,
+      "1M": 0.0786,
+      "3M": 0.1061,
+      "YTD": 0.3404,
+      "1Y": 0.3444,
+      "5Y": 1.3406
+     },
+     "score": 45.7,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Insurance - Diversified",
+     "n": 4,
+     "ret": {
+      "1D": 0.0024,
+      "1W": 0.0165,
+      "1M": 0.0735,
+      "3M": 0.1431,
+      "YTD": 0.1463,
+      "1Y": 0.1395,
+      "5Y": 1.0785
+     },
+     "score": 44.1,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Financial Services"
+    },
+    {
+     "name": "Drug Manufacturers - Specialty & Generic",
+     "n": 2,
+     "ret": {
+      "1D": 0.0066,
+      "1W": 0.0213,
+      "1M": 0.0734,
+      "3M": 0.143,
+      "YTD": 0.0792,
+      "1Y": 0.195,
+      "5Y": -0.0045
+     },
+     "score": 50.7,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Healthcare"
+    },
+    {
+     "name": "Medical Devices",
+     "n": 10,
+     "ret": {
+      "1D": 0.0005,
+      "1W": 0.0296,
+      "1M": 0.0731,
+      "3M": 0.0295,
+      "YTD": -0.0477,
+      "1Y": -0.0827,
+      "5Y": 0.0162
+     },
+     "score": 53.1,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 2,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Healthcare"
+    },
+    {
+     "name": "Grocery Stores",
+     "n": 1,
+     "ret": {
+      "1D": -0.0067,
+      "1W": 0.0209,
+      "1M": 0.0727,
+      "3M": 0.2083,
+      "YTD": 0.1355,
+      "1Y": 0.0725,
+      "5Y": 0.8683
+     },
+     "score": 54.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Consumer Defensive"
+    },
+    {
+     "name": "Medical Care Facilities",
+     "n": 3,
+     "ret": {
+      "1D": 0.0188,
+      "1W": 0.0866,
+      "1M": 0.0696,
+      "3M": 0.1707,
+      "YTD": 0.0923,
+      "1Y": -0.0073,
+      "5Y": 1.0535
+     },
+     "score": 50.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Healthcare"
+    },
+    {
+     "name": "REIT - Diversified",
+     "n": 1,
+     "ret": {
+      "1D": 0.0,
+      "1W": 0.0384,
+      "1M": 0.068,
+      "3M": -0.0104,
+      "YTD": -0.0593,
+      "1Y": -0.065,
+      "5Y": 0.1339
+     },
+     "score": 37.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Real Estate"
+    },
+    {
+     "name": "Insurance - Property & Casualty",
+     "n": 8,
+     "ret": {
+      "1D": 0.0021,
+      "1W": 0.0325,
+      "1M": 0.067,
+      "3M": 0.1026,
+      "YTD": 0.2348,
+      "1Y": 0.2423,
+      "5Y": 1.5281
+     },
+     "score": 40.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Financial Services"
+    },
+    {
+     "name": "Consulting Services",
+     "n": 2,
+     "ret": {
+      "1D": -0.0032,
+      "1W": 0.0333,
+      "1M": 0.0659,
+      "3M": 0.0175,
+      "YTD": -0.1059,
+      "1Y": -0.0995,
+      "5Y": -0.1878
+     },
+     "score": 45.1,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Lodging",
+     "n": 2,
+     "ret": {
+      "1D": 0.0116,
+      "1W": 0.0187,
+      "1M": 0.0645,
+      "3M": 0.1789,
+      "YTD": 0.3339,
+      "1Y": 0.3545,
+      "5Y": 1.7331
+     },
+     "score": 35.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Tools & Accessories",
+     "n": 2,
+     "ret": {
+      "1D": 0.011,
+      "1W": 0.027,
+      "1M": 0.0644,
+      "3M": 0.0321,
+      "YTD": 0.2963,
+      "1Y": 0.3486,
+      "5Y": 0.3457
+     },
+     "score": 53.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Security & Protection Services",
+     "n": 1,
+     "ret": {
+      "1D": -0.0022,
+      "1W": 0.0311,
+      "1M": 0.0615,
+      "3M": 0.2221,
+      "YTD": 0.2183,
+      "1Y": 0.1679,
+      "5Y": 0.5218
+     },
+     "score": 49.6,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "REIT - Office",
+     "n": 2,
+     "ret": {
+      "1D": 0.0046,
+      "1W": 0.0343,
+      "1M": 0.0614,
+      "3M": -0.0956,
+      "YTD": -0.0375,
+      "1Y": -0.0934,
+      "5Y": -0.4713
+     },
+     "score": 37.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Real Estate"
+    },
+    {
+     "name": "Airlines",
+     "n": 3,
+     "ret": {
+      "1D": 0.0271,
+      "1W": 0.0243,
+      "1M": 0.0585,
+      "3M": 0.0633,
+      "YTD": 0.1368,
+      "1Y": 0.295,
+      "5Y": 1.0014
+     },
+     "score": 43.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Credit Services",
+     "n": 6,
+     "ret": {
+      "1D": 0.0121,
+      "1W": 0.0564,
+      "1M": 0.0578,
+      "3M": 0.0848,
+      "YTD": 0.1318,
+      "1Y": 0.184,
+      "5Y": 0.9738
+     },
+     "score": 45.7,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Financial Services"
+    },
+    {
+     "name": "Integrated Freight & Logistics",
+     "n": 5,
+     "ret": {
+      "1D": 0.0103,
+      "1W": 0.0212,
+      "1M": 0.057,
+      "3M": 0.0112,
+      "YTD": 0.2472,
+      "1Y": 0.3155,
+      "5Y": 0.2589
+     },
+     "score": 55.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "REIT - Residential",
+     "n": 6,
+     "ret": {
+      "1D": 0.0024,
+      "1W": 0.0451,
+      "1M": 0.0556,
+      "3M": -0.0138,
+      "YTD": 0.0457,
+      "1Y": 0.0688,
+      "5Y": -0.1475
+     },
+     "score": 35.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 3,
+      "SELL": 0
+     },
+     "sector": "Real Estate"
+    },
+    {
+     "name": "Beverages - Wineries & Distilleries",
+     "n": 1,
+     "ret": {
+      "1D": -0.0115,
+      "1W": -0.0279,
+      "1M": 0.0551,
+      "3M": 0.0848,
+      "YTD": 0.1535,
+      "1Y": 0.052,
+      "5Y": -0.5478
+     },
+     "score": 51.2,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Consumer Defensive"
+    },
+    {
+     "name": "Auto Parts",
+     "n": 4,
+     "ret": {
+      "1D": -0.0018,
+      "1W": 0.0357,
+      "1M": 0.0543,
+      "3M": 0.0767,
+      "YTD": 0.0076,
+      "1Y": -0.0983,
+      "5Y": 0.8596
+     },
+     "score": 38.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Entertainment",
+     "n": 7,
+     "ret": {
+      "1D": 0.0174,
+      "1W": 0.0473,
+      "1M": 0.0538,
+      "3M": -0.0629,
+      "YTD": -0.111,
+      "1Y": -0.0781,
+      "5Y": 0.1068
+     },
+     "score": 51.6,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Communication Services"
+    },
+    {
+     "name": "Specialty Chemicals",
+     "n": 9,
+     "ret": {
+      "1D": 0.0117,
+      "1W": 0.0487,
+      "1M": 0.0531,
+      "3M": 0.0644,
+      "YTD": 0.2352,
+      "1Y": 0.2396,
+      "5Y": 0.4042
+     },
+     "score": 49.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 4,
+      "SELL": 0
+     },
+     "sector": "Basic Materials"
+    },
+    {
+     "name": "Specialty Retail",
+     "n": 5,
+     "ret": {
+      "1D": 0.0069,
+      "1W": 0.0225,
+      "1M": 0.053,
+      "3M": 0.1015,
+      "YTD": 0.2022,
+      "1Y": 0.1785,
+      "5Y": 0.9722
+     },
+     "score": 43.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "REIT - Industrial",
+     "n": 3,
+     "ret": {
+      "1D": 0.0002,
+      "1W": 0.0322,
+      "1M": 0.0522,
+      "3M": -0.0017,
+      "YTD": 0.1527,
+      "1Y": 0.1435,
+      "5Y": 0.057
+     },
+     "score": 37.2,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Real Estate"
+    },
+    {
+     "name": "Beverages - Non-Alcoholic",
+     "n": 4,
+     "ret": {
+      "1D": -0.0002,
+      "1W": 0.0168,
+      "1M": 0.0518,
+      "3M": 0.0586,
+      "YTD": 0.2778,
+      "1Y": 0.2576,
+      "5Y": 0.6988
+     },
+     "score": 57.4,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Consumer Defensive"
+    },
+    {
+     "name": "Utilities - Regulated Electric",
+     "n": 23,
+     "ret": {
+      "1D": 0.0013,
+      "1W": 0.0211,
+      "1M": 0.0495,
+      "3M": 0.058,
+      "YTD": 0.1238,
+      "1Y": 0.0838,
+      "5Y": 0.529
+     },
+     "score": 35.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 8,
+      "SELL": 0
+     },
+     "sector": "Utilities"
+    },
+    {
+     "name": "Drug Manufacturers - General",
+     "n": 9,
+     "ret": {
+      "1D": 0.0013,
+      "1W": 0.042,
+      "1M": 0.047,
+      "3M": 0.1109,
+      "YTD": 0.3397,
+      "1Y": 0.3185,
+      "5Y": 2.3961
+     },
+     "score": 49.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Healthcare"
+    },
+    {
+     "name": "Consumer Electronics",
+     "n": 1,
+     "ret": {
+      "1D": 0.0083,
+      "1W": 0.0267,
+      "1M": 0.0436,
+      "3M": 0.1223,
+      "YTD": 0.3234,
+      "1Y": 0.299,
+      "5Y": 1.3268
+     },
+     "score": 39.1,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Technology"
+    },
+    {
+     "name": "Financial Data & Stock Exchanges",
+     "n": 9,
+     "ret": {
+      "1D": 0.006,
+      "1W": 0.0315,
+      "1M": 0.0433,
+      "3M": 0.0474,
+      "YTD": 0.06,
+      "1Y": 0.0926,
+      "5Y": 0.4028
+     },
+     "score": 45.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Financial Services"
+    },
+    {
+     "name": "Agricultural Inputs",
+     "n": 2,
+     "ret": {
+      "1D": 0.0217,
+      "1W": 0.04,
+      "1M": 0.0419,
+      "3M": -0.0608,
+      "YTD": 0.3877,
+      "1Y": 0.3842,
+      "5Y": 0.6
+     },
+     "score": 62.1,
+     "labels": {
+      "BUY": 1,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Basic Materials"
+    },
+    {
+     "name": "Insurance - Life",
+     "n": 4,
+     "ret": {
+      "1D": 0.0086,
+      "1W": 0.0278,
+      "1M": 0.0412,
+      "3M": 0.0548,
+      "YTD": 0.2144,
+      "1Y": 0.2425,
+      "5Y": 1.002
+     },
+     "score": 43.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Financial Services"
+    },
+    {
+     "name": "Packaging & Containers",
+     "n": 6,
+     "ret": {
+      "1D": 0.024,
+      "1W": 0.0835,
+      "1M": 0.0408,
+      "3M": -0.0052,
+      "YTD": 0.1469,
+      "1Y": 0.2031,
+      "5Y": 0.1666
+     },
+     "score": 41.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 3,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Travel Services",
+     "n": 6,
+     "ret": {
+      "1D": 0.0164,
+      "1W": 0.03,
+      "1M": 0.034,
+      "3M": -0.0687,
+      "YTD": 0.0169,
+      "1Y": 0.1311,
+      "5Y": 0.867
+     },
+     "score": 49.7,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Asset Management",
+     "n": 13,
+     "ret": {
+      "1D": 0.0197,
+      "1W": 0.0405,
+      "1M": 0.0334,
+      "3M": -0.0715,
+      "YTD": 0.0,
+      "1Y": 0.0663,
+      "5Y": 0.4472
+     },
+     "score": 46.6,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Financial Services"
+    },
+    {
+     "name": "Utilities - Regulated Gas",
+     "n": 2,
+     "ret": {
+      "1D": 0.0005,
+      "1W": 0.0252,
+      "1M": 0.032,
+      "3M": 0.078,
+      "YTD": 0.0805,
+      "1Y": 0.0454,
+      "5Y": 1.1223
+     },
+     "score": 30.4,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Utilities"
+    },
+    {
+     "name": "Aerospace & Defense",
+     "n": 12,
+     "ret": {
+      "1D": 0.0175,
+      "1W": 0.0332,
+      "1M": 0.03,
+      "3M": -0.0585,
+      "YTD": 0.0336,
+      "1Y": 0.0909,
+      "5Y": 2.119
+     },
+     "score": 66.8,
+     "labels": {
+      "BUY": 1,
+      "WATCH": 4,
+      "AVOID": 3,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Apparel Manufacturing",
+     "n": 1,
+     "ret": {
+      "1D": -0.0021,
+      "1W": 0.0608,
+      "1M": 0.0265,
+      "3M": 0.1327,
+      "YTD": 0.14,
+      "1Y": 0.1087,
+      "5Y": 2.5023
+     },
+     "score": 43.2,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Apparel Retail",
+     "n": 3,
+     "ret": {
+      "1D": -0.0088,
+      "1W": 0.0274,
+      "1M": 0.0242,
+      "3M": 0.0337,
+      "YTD": 0.0161,
+      "1Y": 0.0341,
+      "5Y": 0.9773
+     },
+     "score": 42.4,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Footwear & Accessories",
+     "n": 2,
+     "ret": {
+      "1D": 0.0177,
+      "1W": 0.0895,
+      "1M": 0.0171,
+      "3M": -0.041,
+      "YTD": -0.3577,
+      "1Y": -0.3233,
+      "5Y": -0.5966
+     },
+     "score": 43.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Trucking",
+     "n": 1,
+     "ret": {
+      "1D": 0.0077,
+      "1W": 0.0125,
+      "1M": 0.0155,
+      "3M": -0.1125,
+      "YTD": 0.1273,
+      "1Y": 0.3184,
+      "5Y": 0.0261
+     },
+     "score": 43.6,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Food Distribution",
+     "n": 1,
+     "ret": {
+      "1D": 0.0188,
+      "1W": 0.0798,
+      "1M": 0.0141,
+      "3M": 0.024,
+      "YTD": 0.1633,
+      "1Y": 0.1293,
+      "5Y": 0.2708
+     },
+     "score": 57.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Consumer Defensive"
+    },
+    {
+     "name": "Medical Instruments & Supplies",
+     "n": 8,
+     "ret": {
+      "1D": -0.0015,
+      "1W": 0.0345,
+      "1M": 0.0083,
+      "3M": 0.1071,
+      "YTD": 0.0189,
+      "1Y": 0.0035,
+      "5Y": 0.0555
+     },
+     "score": 53.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 2,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Healthcare"
+    },
+    {
+     "name": "Railroads",
+     "n": 4,
+     "ret": {
+      "1D": 0.0045,
+      "1W": 0.031,
+      "1M": -0.0014,
+      "3M": -0.0196,
+      "YTD": 0.319,
+      "1Y": 0.3486,
+      "5Y": 0.6367
+     },
+     "score": 52.4,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Internet Retail",
+     "n": 3,
+     "ret": {
+      "1D": 0.0378,
+      "1W": -0.0109,
+      "1M": -0.0027,
+      "3M": -0.0504,
+      "YTD": 0.0955,
+      "1Y": 0.105,
+      "5Y": 0.3636
+     },
+     "score": 48.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Auto Manufacturers",
+     "n": 3,
+     "ret": {
+      "1D": 0.0495,
+      "1W": 0.0681,
+      "1M": -0.007,
+      "3M": 0.1331,
+      "YTD": -0.1008,
+      "1Y": -0.0359,
+      "5Y": 0.1019
+     },
+     "score": 40.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "REIT - Hotel & Motel",
+     "n": 1,
+     "ret": {
+      "1D": 0.0076,
+      "1W": 0.0237,
+      "1M": -0.0079,
+      "3M": 0.1353,
+      "YTD": 0.4972,
+      "1Y": 0.5212,
+      "5Y": 0.8553
+     },
+     "score": 38.7,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Real Estate"
+    },
+    {
+     "name": "Information Technology Services",
+     "n": 9,
+     "ret": {
+      "1D": 0.0125,
+      "1W": 0.0999,
+      "1M": -0.0113,
+      "3M": 0.109,
+      "YTD": -0.1192,
+      "1Y": -0.1082,
+      "5Y": 0.6356
+     },
+     "score": 56.2,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Technology"
+    },
+    {
+     "name": "Diagnostics & Research",
+     "n": 12,
+     "ret": {
+      "1D": 0.0045,
+      "1W": 0.0058,
+      "1M": -0.0155,
+      "3M": 0.1051,
+      "YTD": 0.2062,
+      "1Y": 0.1507,
+      "5Y": 0.0875
+     },
+     "score": 52.2,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Healthcare"
+    },
+    {
+     "name": "Banks - Regional",
+     "n": 9,
+     "ret": {
+      "1D": 0.011,
+      "1W": 0.0292,
+      "1M": -0.0161,
+      "3M": -0.0584,
+      "YTD": 0.0833,
+      "1Y": 0.1763,
+      "5Y": 0.2952
+     },
+     "score": 45.6,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 2,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Financial Services"
+    },
+    {
+     "name": "REIT - Specialty",
+     "n": 7,
+     "ret": {
+      "1D": 0.0057,
+      "1W": -0.0067,
+      "1M": -0.0273,
+      "3M": -0.0217,
+      "YTD": 0.1441,
+      "1Y": 0.1487,
+      "5Y": 0.1718
+     },
+     "score": 45.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Real Estate"
+    },
+    {
+     "name": "Farm Products",
+     "n": 3,
+     "ret": {
+      "1D": 0.0154,
+      "1W": 0.0006,
+      "1M": -0.0301,
+      "3M": -0.0767,
+      "YTD": 0.1412,
+      "1Y": 0.1128,
+      "5Y": 0.0702
+     },
+     "score": 55.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Consumer Defensive"
+    },
+    {
+     "name": "Tobacco",
+     "n": 2,
+     "ret": {
+      "1D": 0.0156,
+      "1W": 0.0141,
+      "1M": -0.0347,
+      "3M": 0.0329,
+      "YTD": 0.2611,
+      "1Y": 0.2875,
+      "5Y": 1.5767
+     },
+     "score": 56.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Consumer Defensive"
+    },
+    {
+     "name": "Banks - Diversified",
+     "n": 5,
+     "ret": {
+      "1D": 0.0174,
+      "1W": 0.0114,
+      "1M": -0.0388,
+      "3M": -0.111,
+      "YTD": -0.0021,
+      "1Y": 0.0736,
+      "5Y": 1.0045
+     },
+     "score": 42.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Financial Services"
+    },
+    {
+     "name": "Scientific & Technical Instruments",
+     "n": 6,
+     "ret": {
+      "1D": 0.0506,
+      "1W": 0.0327,
+      "1M": -0.0472,
+      "3M": -0.0575,
+      "YTD": 0.283,
+      "1Y": 0.3855,
+      "5Y": 0.9883
+     },
+     "score": 59.4,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Technology"
+    },
+    {
+     "name": "Utilities - Diversified",
+     "n": 2,
+     "ret": {
+      "1D": -0.0003,
+      "1W": 0.0301,
+      "1M": -0.0524,
+      "3M": -0.0396,
+      "YTD": -0.0528,
+      "1Y": -0.0745,
+      "5Y": 0.3775
+     },
+     "score": 37.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Utilities"
+    },
+    {
+     "name": "Gold",
+     "n": 1,
+     "ret": {
+      "1D": 0.0535,
+      "1W": 0.071,
+      "1M": -0.0594,
+      "3M": -0.161,
+      "YTD": 0.08,
+      "1Y": 0.2537,
+      "5Y": 1.1507
+     },
+     "score": 66.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Basic Materials"
+    },
+    {
+     "name": "Specialty Industrial Machinery",
+     "n": 17,
+     "ret": {
+      "1D": 0.02,
+      "1W": 0.0088,
+      "1M": -0.0639,
+      "3M": -0.0772,
+      "YTD": 0.087,
+      "1Y": 0.1217,
+      "5Y": 0.7813
+     },
+     "score": 57.7,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Building Products & Equipment",
+     "n": 5,
+     "ret": {
+      "1D": 0.0065,
+      "1W": 0.0222,
+      "1M": -0.0693,
+      "3M": -0.0431,
+      "YTD": 0.0937,
+      "1Y": 0.0804,
+      "5Y": 0.7818
+     },
+     "score": 48.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Oil & Gas Midstream",
+     "n": 4,
+     "ret": {
+      "1D": 0.0055,
+      "1W": 0.0121,
+      "1M": -0.0694,
+      "3M": -0.0368,
+      "YTD": 0.2731,
+      "1Y": 0.3286,
+      "5Y": 2.2434
+     },
+     "score": 59.8,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Energy"
+    },
+    {
+     "name": "Engineering & Construction",
+     "n": 4,
+     "ret": {
+      "1D": 0.022,
+      "1W": -0.0083,
+      "1M": -0.0722,
+      "3M": -0.1039,
+      "YTD": 0.2585,
+      "1Y": 0.209,
+      "5Y": 5.0117
+     },
+     "score": 70.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 2,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Leisure",
+     "n": 1,
+     "ret": {
+      "1D": -0.0135,
+      "1W": -0.049,
+      "1M": -0.0753,
+      "3M": 0.1646,
+      "YTD": 0.3687,
+      "1Y": 0.376,
+      "5Y": 0.3349
+     },
+     "score": 51.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Consumer Cyclical"
+    },
+    {
+     "name": "Steel",
+     "n": 2,
+     "ret": {
+      "1D": 0.0303,
+      "1W": 0.0304,
+      "1M": -0.0753,
+      "3M": -0.0006,
+      "YTD": 0.4928,
+      "1Y": 0.5577,
+      "5Y": 1.9259
+     },
+     "score": 62.8,
+     "labels": {
+      "BUY": 1,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Basic Materials"
+    },
+    {
+     "name": "Capital Markets",
+     "n": 5,
+     "ret": {
+      "1D": 0.021,
+      "1W": -0.0099,
+      "1M": -0.0792,
+      "3M": -0.1998,
+      "YTD": -0.0247,
+      "1Y": 0.0446,
+      "5Y": 1.3382
+     },
+     "score": 44.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Financial Services"
+    },
+    {
+     "name": "Software - Application",
+     "n": 15,
+     "ret": {
+      "1D": 0.0105,
+      "1W": 0.0316,
+      "1M": -0.0849,
+      "3M": -0.1311,
+      "YTD": -0.1341,
+      "1Y": -0.1287,
+      "5Y": -0.0059
+     },
+     "score": 56.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 2,
+      "AVOID": 3,
+      "SELL": 0
+     },
+     "sector": "Technology"
+    },
+    {
+     "name": "Utilities - Independent Power Producers",
+     "n": 3,
+     "ret": {
+      "1D": 0.0129,
+      "1W": -0.0354,
+      "1M": -0.088,
+      "3M": -0.1302,
+      "YTD": -0.3083,
+      "1Y": -0.3206,
+      "5Y": 4.4523
+     },
+     "score": 49.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 3,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Utilities"
+    },
+    {
+     "name": "Software - Infrastructure",
+     "n": 17,
+     "ret": {
+      "1D": 0.0154,
+      "1W": -0.0017,
+      "1M": -0.0924,
+      "3M": -0.0548,
+      "YTD": 0.115,
+      "1Y": 0.1265,
+      "5Y": 1.2036
+     },
+     "score": 57.2,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 3,
+      "AVOID": 5,
+      "SELL": 0
+     },
+     "sector": "Technology"
+    },
+    {
+     "name": "Farm & Heavy Construction Machinery",
+     "n": 3,
+     "ret": {
+      "1D": 0.027,
+      "1W": 0.0472,
+      "1M": -0.0945,
+      "3M": -0.1546,
+      "YTD": 0.1456,
+      "1Y": 0.1265,
+      "5Y": 1.5554
+     },
+     "score": 50.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Oil & Gas Integrated",
+     "n": 2,
+     "ret": {
+      "1D": 0.0109,
+      "1W": 0.016,
+      "1M": -0.0954,
+      "3M": 0.0413,
+      "YTD": 0.3968,
+      "1Y": 0.454,
+      "5Y": 1.7006
+     },
+     "score": 63.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Energy"
+    },
+    {
+     "name": "Healthcare Plans",
+     "n": 6,
+     "ret": {
+      "1D": 0.0123,
+      "1W": 0.0412,
+      "1M": -0.0955,
+      "3M": -0.062,
+      "YTD": 0.1449,
+      "1Y": 0.1754,
+      "5Y": -0.0357
+     },
+     "score": 51.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 5,
+      "SELL": 0
+     },
+     "sector": "Healthcare"
+    },
+    {
+     "name": "Internet Content & Information",
+     "n": 3,
+     "ret": {
+      "1D": 0.0147,
+      "1W": 0.0235,
+      "1M": -0.0962,
+      "3M": -0.112,
+      "YTD": -0.0974,
+      "1Y": -0.1044,
+      "5Y": 0.8597
+     },
+     "score": 53.6,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Communication Services"
+    },
+    {
+     "name": "Oil & Gas Equipment & Services",
+     "n": 3,
+     "ret": {
+      "1D": 0.0234,
+      "1W": 0.0271,
+      "1M": -0.0962,
+      "3M": -0.1585,
+      "YTD": 0.2046,
+      "1Y": 0.2512,
+      "5Y": 0.8621
+     },
+     "score": 63.2,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Energy"
+    },
+    {
+     "name": "Oil & Gas E&P",
+     "n": 9,
+     "ret": {
+      "1D": 0.009,
+      "1W": 0.0149,
+      "1M": -0.0998,
+      "3M": -0.0146,
+      "YTD": 0.3453,
+      "1Y": 0.3872,
+      "5Y": 1.0524
+     },
+     "score": 71.7,
+     "labels": {
+      "BUY": 1,
+      "WATCH": 5,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Energy"
+    },
+    {
+     "name": "Electronic Components",
+     "n": 5,
+     "ret": {
+      "1D": 0.0342,
+      "1W": -0.0059,
+      "1M": -0.1106,
+      "3M": -0.1152,
+      "YTD": 0.1128,
+      "1Y": 0.1346,
+      "5Y": 2.2881
+     },
+     "score": 60.6,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Technology"
+    },
+    {
+     "name": "Rental & Leasing Services",
+     "n": 1,
+     "ret": {
+      "1D": 0.0262,
+      "1W": -0.0162,
+      "1M": -0.111,
+      "3M": 0.0135,
+      "YTD": 0.298,
+      "1Y": 0.2969,
+      "5Y": 1.8705
+     },
+     "score": 49.3,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Chemicals",
+     "n": 1,
+     "ret": {
+      "1D": 0.0182,
+      "1W": -0.0017,
+      "1M": -0.1151,
+      "3M": 0.0013,
+      "YTD": 0.3356,
+      "1Y": 0.366,
+      "5Y": -0.3152
+     },
+     "score": 39.2,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Basic Materials"
+    },
+    {
+     "name": "Communication Equipment",
+     "n": 6,
+     "ret": {
+      "1D": 0.0339,
+      "1W": 0.0133,
+      "1M": -0.1341,
+      "3M": -0.1198,
+      "YTD": 0.3508,
+      "1Y": 0.4265,
+      "5Y": 1.5683
+     },
+     "score": 56.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 3,
+      "SELL": 0
+     },
+     "sector": "Technology"
+    },
+    {
+     "name": "Health Information Services",
+     "n": 1,
+     "ret": {
+      "1D": -0.0011,
+      "1W": 0.033,
+      "1M": -0.1454,
+      "3M": -0.0184,
+      "YTD": 0.2167,
+      "1Y": 0.1319,
+      "5Y": -0.1165
+     },
+     "score": 63.1,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Healthcare"
+    },
+    {
+     "name": "Oil & Gas Refining & Marketing",
+     "n": 3,
+     "ret": {
+      "1D": 0.0284,
+      "1W": -0.0159,
+      "1M": -0.1476,
+      "3M": -0.0283,
+      "YTD": 1.0791,
+      "1Y": 0.9001,
+      "5Y": 4.185
+     },
+     "score": 60.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Energy"
+    },
+    {
+     "name": "Solar",
+     "n": 1,
+     "ret": {
+      "1D": 0.0128,
+      "1W": -0.0143,
+      "1M": -0.1505,
+      "3M": -0.2675,
+      "YTD": -0.4267,
+      "1Y": -0.4248,
+      "5Y": 0.448
+     },
+     "score": 75.4,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Technology"
+    },
+    {
+     "name": "Semiconductor Equipment & Materials",
+     "n": 5,
+     "ret": {
+      "1D": 0.0411,
+      "1W": -0.0376,
+      "1M": -0.2007,
+      "3M": -0.2909,
+      "YTD": 0.1917,
+      "1Y": 0.2932,
+      "5Y": 1.801
+     },
+     "score": 58.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Technology"
+    },
+    {
+     "name": "Computer Hardware",
+     "n": 7,
+     "ret": {
+      "1D": 0.067,
+      "1W": -0.0215,
+      "1M": -0.2218,
+      "3M": -0.2344,
+      "YTD": 0.8118,
+      "1Y": 0.8554,
+      "5Y": 4.6513
+     },
+     "score": 60.9,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 2,
+      "SELL": 0
+     },
+     "sector": "Technology"
+    },
+    {
+     "name": "Electrical Equipment & Parts",
+     "n": 3,
+     "ret": {
+      "1D": 0.04,
+      "1W": -0.0209,
+      "1M": -0.2293,
+      "3M": -0.2363,
+      "YTD": 0.3508,
+      "1Y": 0.2818,
+      "5Y": 4.5718
+     },
+     "score": 52.6,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 1,
+      "AVOID": 1,
+      "SELL": 0
+     },
+     "sector": "Industrials"
+    },
+    {
+     "name": "Copper",
+     "n": 1,
+     "ret": {
+      "1D": 0.0457,
+      "1W": 0.0336,
+      "1M": -0.2377,
+      "3M": -0.3345,
+      "YTD": 0.0089,
+      "1Y": 0.2477,
+      "5Y": 0.4024
+     },
+     "score": 54.0,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 0,
+      "AVOID": 0,
+      "SELL": 0
+     },
+     "sector": "Basic Materials"
+    },
+    {
+     "name": "Semiconductors",
+     "n": 14,
+     "ret": {
+      "1D": 0.0307,
+      "1W": -0.0202,
+      "1M": -0.2488,
+      "3M": -0.2226,
+      "YTD": 0.169,
+      "1Y": 0.2477,
+      "5Y": 3.6474
+     },
+     "score": 54.5,
+     "labels": {
+      "BUY": 0,
+      "WATCH": 3,
+      "AVOID": 5,
+      "SELL": 0
+     },
+     "sector": "Technology"
+    }
+   ]
+  },
+  "index_level": 728.32,
+  "timings": {
+   "index list": 0.2,
+   "prices": 58.5,
+   "fundamentals": 16.6,
+   "company news": 58.9,
+   "financial health": 28.8,
+   "model": 4.1,
+   "news scoring": 425.2,
+   "sector & politics": 13.5,
+   "scoring & labels": 0.7
+  },
+  "downloaded": 500,
+  "missing_prices": [
+   "FDXF",
+   "HONA",
+   "VYLR"
+  ],
+  "macro": {
+   "method": "claude",
+   "sectors": {
+    "Energy": {
+     "score": -0.2,
+     "n": 48,
+     "why": "Oil futures settled lower amid milder weather and ongoing supply negotiations.",
+     "headlines": [
+      {
+       "title": "Print Edition | Wall Street Journal",
+       "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9oQ01UcWpuai1fVGpvY09OSUZoV19EOEZ0Rm0xZzBSbHFCUHlRclppQ3hUNVhzTzlTX3FJQ1RWaEk3QTFSSkZYdVpMdDNvODdxTU5iYjNCVWVJOGtxNDRSZEhR?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Wall Street stages major comeback during Thanksgiving-shortened trading week",
+       "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxORklZSzRQTEViM1gtRnQ5TVNuOWgtMjJVY1A2elhaYzQyajZ4V3hWWWlXbHFvN1pnRmM3TXVYempobkdjcGJRQi1lb2FudDFfNEpvRDRXRnJQWkR2UGk1MFZrRFI2Qi13SE9ZWE9KNU82azFRLXFpS0hFOE1xX01FRzdKSDJCNV9RcHNuM2tWQk0wQU5LdU1jU280YU5RSXVPUUNPRDFqcU3SAa4BQVVfeXFMTi0tWjBERU54S2Z2RmQ0VmNzdFNfNzlfNWNKV200RkFFVnlOaHFLQ3JTU0NidnJIM2VoNTJXZHQzcW9udU1KdEhBRkpESnRhTmtfd3lScXg3V0tCLUpZTTdLQkdKdzJCTjN3U0RCZnNBSUhhQmtwTG9mNTBCaktqcmxFVmpFOExwNUllQlgyTVhiVDdOUXNfWTBSTDBWWFBkZ1VLM1pBdkNmcmkzanhR?oc=5",
+       "publisher": "Fox Business",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Black Friday shoppers undeterred by inflation and bad weather",
+       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNQS1feGtndkRIT3NUc2hNSFhEX2pNWXZOR0JBSkdpT196Zk5sdlFqc0NpNUVnRmtnQ2xDUjNNcXF2VnF3a05oejFCZHZzODZ5NXN5NFNOZUVMQmRWdEg4dC05dHFTcHBiZVpjUFRpT2xCaGtXcm54eXRwWTNYOXp3R2NDV2VqSFVURVJZMG9wUElMaWdxamVEOTJCcTNNMDM1WlYw?oc=5",
+       "publisher": "AP News",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Artificial intelligence",
+       "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFA4Qi1oeTk1Z21hMnphRDg4Q3FlR1NuQmd0RUpidzBDU3A4YVRlVlZoMnZDbFVNSXA5bWVtUU55UkFqaXBVR1JqY29Sd0Q4NUZOOWtSNFJEWmVZUQ?oc=5",
+       "publisher": "AP News",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Wall Street\u2019s bullish bets tick higher after gold bounces back above $3,600, Main Street maintains bearish bias with payrolls on deck",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNdTNXWTMtUVlSdHdDazZkWVVEVmYzR0gwM1FnOGJiRE1KOEF5NS10YmptUUkyMTNJT1RVLVYzaVR5dVR5NHdOb1BvMW1DNmw0TzVoMk5SRDVMLWdRRmoyMzg0VENPX2FiRW4yR1J3ZFBUM0d1MDNaR2ozRnU0RDc4clhUd19UbHp5OVpMdy1BY21jMlk3ZV9lbGlxTk4yLURSMTZuNV94Z0tMb19aMzI1REpvVUJZSTlaNkE?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-11-27",
+       "score": 0.25
+      },
+      {
+       "title": "Gold climbs above $3,650, silver surges as Wall Street rebounds sharply - Kitco PM Report",
+       "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOZzJJdW9tdmZOTkw3ejdzVXFQOWNvZTc2XzU0ZlFFWFJNTnVXcHVlZjRsQXdUenlibkxBTFhwNXY3d1lLVkxBOF9zWDNCSHdRTXg0VDlxWTJTOUpBbVB5dmFPV3kyMWtZODk0ZDdVQlJfZDY3alh0ZjRNbUNPcGhHYkZPWVNORkg5QWplSDFqLWQ5Zm1Qb19uQVJmV3ZDMUMyV09fN2U2U3B1SjYzTFdpUGI2YzVvSEVlVzEtMw?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-11-27",
+       "score": 0.6
+      }
+     ]
+    },
+    "Basic Materials": {
+     "score": 0.6,
+     "n": 54,
+     "why": "Strong rallies in gold, silver, and copper prices boosted mining stocks.",
+     "headlines": [
+      {
+       "title": "Wall Street\u2019s bullish bets tick higher after gold bounces back above $3,600, Main Street maintains bearish bias with payrolls on deck",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNdTNXWTMtUVlSdHdDazZkWVVEVmYzR0gwM1FnOGJiRE1KOEF5NS10YmptUUkyMTNJT1RVLVYzaVR5dVR5NHdOb1BvMW1DNmw0TzVoMk5SRDVMLWdRRmoyMzg0VENPX2FiRW4yR1J3ZFBUM0d1MDNaR2ozRnU0RDc4clhUd19UbHp5OVpMdy1BY21jMlk3ZV9lbGlxTk4yLURSMTZuNV94Z0tMb19aMzI1REpvVUJZSTlaNkE?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-11-27",
+       "score": 0.25
+      },
+      {
+       "title": "Gold climbs above $3,650, silver surges as Wall Street rebounds sharply - Kitco PM Report",
+       "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOZzJJdW9tdmZOTkw3ejdzVXFQOWNvZTc2XzU0ZlFFWFJNTnVXcHVlZjRsQXdUenlibkxBTFhwNXY3d1lLVkxBOF9zWDNCSHdRTXg0VDlxWTJTOUpBbVB5dmFPV3kyMWtZODk0ZDdVQlJfZDY3alh0ZjRNbUNPcGhHYkZPWVNORkg5QWplSDFqLWQ5Zm1Qb19uQVJmV3ZDMUMyV09fN2U2U3B1SjYzTFdpUGI2YzVvSEVlVzEtMw?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-11-27",
+       "score": 0.6
+      },
+      {
+       "title": "Wall Street ends higher as battered AI stocks gain in volatile week By Reuters",
+       "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOWnFpUGdONHItdENLVWxXZWcyWjBzUVI4ZEZNNWExUFpxY1EtLVZjQ002THc0dERnZ19Gd1Q5eXZWNW9rcGF2dnhuVm9hMnBfbG1RN1hmWmZyQVc3cTNUM0xVcHFmQUU1Mkx0ZzlhTWFaekdDQXhFTkZDd3I4QlUyZWc4S19CSmRlLXliR2g5N2tZMkEzVDlOV1VEdVEwem9uT3hGNUFXUFEzVXRkZTkzTw?oc=5",
+       "publisher": "Investing.com",
+       "date": "2026-11-27",
+       "score": 0.5
+      },
+      {
+       "title": "Asian Stocks Rise as Investors Shrug Off U.S. Tariff Plan",
+       "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPMFdYai14Q0VyLWZhd3EwN3lxOWNzRklQb0FDNlI0UHFDbWFKWVhIdTg0Wnh3OGQ1d2VkSWxhenJWdWV3a3lWWmVDNC1HS3pQRDdqdU5nbkNTZTB3Ry00TTNPRVZHQWpwTzRiUmVXcHZmWk5MRmp5dEU0RWpPN3hvYXh6VlZfdTJVT3pNeVNRSXJxQTNBN1otSw?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Britain's FTSE 100 posts biggest weekly gain in eight months as miners, banks rally",
+       "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNSFRCSGhuNWlueUFObDgwZDBGenpUODhVdkhrQWtra2lxOWdNVldJZXNLVnRQNldMVTdaTmtRNUNjM3hndjJRYmtUNXE5c2p1TmMyaVVZY1M1a2dSX1Bfbm00ck8zamF0SkVUc0p2ZkM0Z0pfVVIyU0VzeU5vYklZRkxDUnBxZ3cwbktSQmROQVVacnlWekpNY3hLS2IyampaZEJPMFJ0X2dIQQ?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-27",
+       "score": 0.5
+      },
+      {
+       "title": "Miners support FTSE 100 as Wall Street rebounds",
+       "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOWS1RR0I2UVlqNUdyWE5jRWtMNmhVUXNFTGNkZG9QWUVidEh3NTZCeGZPTVg3MFJVUDlpV01iMXJnX1FnZ3VTMnNRaVJUVU1XT3F2Yl9MeFE3VV9SajhKaUxZbmxFQlVBQTlqc1pFajVlZzM2ejU1Tnl2OFdYSXJCUnp0TQ?oc=5",
+       "publisher": "Yahoo Finance UK",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "Financial Services": {
+     "score": 0.2,
+     "n": 47,
+     "why": "Broad market rebound and solid bank performance offset regulatory uncertainties.",
+     "headlines": [
+      {
+       "title": "Wall Street ends higher as battered AI stocks gain in volatile week By Reuters",
+       "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOWnFpUGdONHItdENLVWxXZWcyWjBzUVI4ZEZNNWExUFpxY1EtLVZjQ002THc0dERnZ19Gd1Q5eXZWNW9rcGF2dnhuVm9hMnBfbG1RN1hmWmZyQVc3cTNUM0xVcHFmQUU1Mkx0ZzlhTWFaekdDQXhFTkZDd3I4QlUyZWc4S19CSmRlLXliR2g5N2tZMkEzVDlOV1VEdVEwem9uT3hGNUFXUFEzVXRkZTkzTw?oc=5",
+       "publisher": "Investing.com",
+       "date": "2026-11-27",
+       "score": 0.5
+      },
+      {
+       "title": "Should You Buy Nvidia Stock Before CEO Jensen Huang Testifies in Front of Congress on Dec. 1 and Dec. 3?",
+       "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOLXRieWlpNzJqdWQ3RVRNQk5WUXBUSUY5WE5oNHdRNXNCekJFc1pWcEViZE95RFRzbDFKWTdDc29VbXNRTTBobDVGQnFnOXg0NFVLRzQ4NUVTeHFmT2NNRkM2WjFVYmxvQTg1UnpRU0R4OGNjbGZIUVpTT2R2VU5DdzFyb1RUYkY4VTBXM0NaTmpGM2h4OUMwVkZiRVFWaS12eEhLUGRrQVVkVDcyODl4ZlQ5dElBRDd6U3ROa2hzS3ZJNm9semJQZkk5ajBsUGVGbnhKajR6ZE1xdUtZ?oc=5",
+       "publisher": "The Motley Fool",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Apple faces countersuit from OpenAI for stealing trade secrets - FT",
+       "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPTkFuYW5TV1lVWGk0RWIzRGlfbV8xUmpNbnoxWVJxeGNjbHNFcjRNQ05wSnR5WEpCNTYxQTE5YS1NcnJoNkdCX0pHc3Z4RlpSblNHd2lQS0M2XzIwVERKX2VVdGhhSjBscnljWHRfWURBVFdEVDNPOTd2dzRfb2xLd1JKSnA1bmtWX3hjSnR0VmpLaUFHTTlhWFM3YmkxR1h1cHNVQW9Nc18?oc=5",
+       "publisher": "Seeking Alpha",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Catalyst Watch: Jobs report, Jensen Huang in DC, and Cyber Monday",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOS0dvTGJhRmV3YkxDYTBoX21EaW9tczc4a05BZUpFR05pbG1FSU5DTTRBSVdmYTVPVlNmMng0OGxaRnZhcWN3TWhPU0IwNzZFY2Q5V3lhWlRFQjhiNlFYUlk0ZG54aG5Jc01nLTNIcW5KaVdpcW03SHZnR1ZKTHFrZVYtUklxSzZ1WkJTZGExZE1xcm9HMl9IYjhmTWR4bkpGMmc?oc=5",
+       "publisher": "Seeking Alpha",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "M&A lift: Home Depot and Lowe's are hammering out post-deal synergies (HD:NYSE)",
+       "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQVUpjRmRzOGl5OVdoMkR3YkdoWFNOVGk3U0tvSElYcDgxbi10OFBGOXpLUHNBNVBOVXo3QVRldFFMaE9BYXF6NFhfWWRhRE9HYjVZT1c3bnJRTHE3UEVEQTdURWlNTUVSZkNQMkRWaUpRbGNWYXM3dFdTeHJYcTBXTHNzYjV3MkZNX2Vrc1Y2TmhsUkdUcG5XZ1ZOYkNGQXl3YlVITVBjcw?oc=5",
+       "publisher": "Seeking Alpha",
+       "date": "2026-11-27",
+       "score": 0.5
+      },
+      {
+       "title": "Britain's FTSE 100 posts biggest weekly gain in eight months as miners, banks rally",
+       "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNSFRCSGhuNWlueUFObDgwZDBGenpUODhVdkhrQWtra2lxOWdNVldJZXNLVnRQNldMVTdaTmtRNUNjM3hndjJRYmtUNXE5c2p1TmMyaVVZY1M1a2dSX1Bfbm00ck8zamF0SkVUc0p2ZkM0Z0pfVVIyU0VzeU5vYklZRkxDUnBxZ3cwbktSQmROQVVacnlWekpNY3hLS2IyampaZEJPMFJ0X2dIQQ?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-27",
+       "score": 0.5
+      }
+     ]
+    },
+    "Technology": {
+     "score": 0.8,
+     "n": 71,
+     "why": "Tech stocks surged, leading a strong market recovery from recent AI jitters.",
+     "headlines": [
+      {
+       "title": "Wall Street Rallies Across the Board Led by Tech Rebound; Nasdaq Surges 2.3%",
+       "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1scWc1NzVSVUVzM2FFbUNOTlJ5SlBTUEpFTF93eEExUDUtRmowcjRSRER0SlRpSDA5UnpSQ0FxUjJOU3paVE5STFYxLXdWdlVpcmVuOGFybWNULVo4NjFpaFZaczAxeG1WSHZjdkJ3?oc=5",
+       "publisher": "news.sbs.co.kr",
+       "date": "2026-11-28",
+       "score": 0.5
+      },
+      {
+       "title": "The Federal Reserve sends a troubling signal to S&P 500 investors",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPb2FLbERjWkMxNnVsSDRLQ0g5YnYwamhNUjhiM1pqbkxxd2xuRUxpbHMyQ2piXzlmdzl4TFFxQXhJMDF0NkdPZ3I0anU5UFd1QlpsakFCSFU1Q0V2ZGxvRno0NXBRVWplX28xT2t1aVk0VVJ1YktIeW1DcDRfbVI2VTg2NkRpY21SWnFTUFhUMXhaM2pvTjJNakkwbUhZMV9VakdRYVJMXy1KYms?oc=5",
+       "publisher": "TheStreet",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Gold climbs above $3,650, silver surges as Wall Street rebounds sharply - Kitco PM Report",
+       "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOZzJJdW9tdmZOTkw3ejdzVXFQOWNvZTc2XzU0ZlFFWFJNTnVXcHVlZjRsQXdUenlibkxBTFhwNXY3d1lLVkxBOF9zWDNCSHdRTXg0VDlxWTJTOUpBbVB5dmFPV3kyMWtZODk0ZDdVQlJfZDY3alh0ZjRNbUNPcGhHYkZPWVNORkg5QWplSDFqLWQ5Zm1Qb19uQVJmV3ZDMUMyV09fN2U2U3B1SjYzTFdpUGI2YzVvSEVlVzEtMw?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-11-27",
+       "score": 0.5
+      },
+      {
+       "title": "Tech Stocks Jump as Investors Take a Break From AI Jitters",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOQ2JOTFhPbHZDQzhQalhyb201dXotRlo1RGhBLUhIckRmelY0S09TakhxdndkZkpybEQ3bWFxQnJheDdRc3lWQWFVeUJSNVRibUx2cHBOa3VMcjJER1NIYTZpWEs2WFRUejkxYVd4VFg3TFNnNlJmUGkxcTA4Z3Z2enlTUWhaenRBWE41UGIwLWtnMDIzdnpoRUkyai16dXBrWnBBYmtPWWRjaWFxMDk1N19hTURSajg?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-27",
+       "score": 0.5
+      },
+      {
+       "title": "US tech stocks rise in latest market swing",
+       "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPTTdCU2RLbHJwc2xuSTdlZ0QxelFBTGZyQ2VQdXpGRW4wcV9iTWJoQmdFbXhocEhRTmF6b1FVMmtnTktYSGJnY0tJaWlYT3BVVDBlZ3lDYW9hblp0ck03eUJoWWRlRFJuWFhEV3lqM24tQnhEeDdSLWQ3Q2ZvcTRUZW84Vlk?oc=5",
+       "publisher": "Financial Times",
+       "date": "2026-11-27",
+       "score": 0.5
+      },
+      {
+       "title": "Wall Street ends higher as battered AI stocks gain in volatile week",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNUWJJc3ROZk0wcEN4cGlsTjNfUmVCcmh6bnZrNXkzVjAwdVMwOC1ZQUM2bUVUMHBSbGVSdEFqNTFIUC1XM3lfYTdaUFNUNWhUdlhVVjNCMEJmaG1LaEEwRDF2TndBbk9fTkRucTJPYkhza0hEMk5tWmV1MHI4YUZ2Z3lIOW01dFJ2SGJHSFJSSUR1ZU9wMThUbDlhNXA?oc=5",
+       "publisher": "Yahoo Finance",
+       "date": "2026-11-27",
+       "score": 0.5
+      }
+     ]
+    },
+    "Healthcare": {
+     "score": 0.0,
+     "n": 61,
+     "why": "Mixed headlines with political healthcare proposals offset by steady sector conditions.",
+     "headlines": [
+      {
+       "title": "Inside the Luxury Senior Community Where Everyone Lives Like Royals",
+       "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE91TmtrUXNVYTQ0X1BpSy1tVThNam9RbkxlNThiY2M5UVY5QWZ5VmszSUdaUE1MQ0xENjVMLUx2ZGxsc0ZXVWpEb2t5R2pkWlZLTFRxN1NtUDUwTUJ1SVlyYWtHZ05IQks4cmJpUVhB?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Print Edition | Wall Street Journal",
+       "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9oQ01UcWpuai1fVGpvY09OSUZoV19EOEZ0Rm0xZzBSbHFCUHlRclppQ3hUNVhzTzlTX3FJQ1RWaEk3QTFSSkZYdVpMdDNvODdxTU5iYjNCVWVJOGtxNDRSZEhR?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "A Handgun on His Hip, Colombia\u2019s New President Turns Drug War Into Theater",
+       "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNWGl5OUZtUUp6NzdlNjQwUWt2bVAtVFJVdGdYNTVfNFdoeHVGXzRiXzZIVTZheERsZkY3YlpmSTVyTlBWak1MbnhZT3duZ3NsQ3pkQ0MxbWlaTTR3S0Z4LUtQdW5ZTVZta0tXSlQzbnU1MWE4QmMtSjBEWVZPUFhkRjdoTndBem41UjhPWmlOVkd6U2JEWVl1VlBaek1mQnc?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "How Starlink Limits Force Ukraine to Fight With the Brakes On",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQV3ozNExRZWVIMXV6bkRTZFhxSDBOX2hfLTJDbHlzOGpUQXVtRVB5ZVZzXzBpRzVGbDd3UzhHbUROZlQ0UVNrV2VLNGFuRjVGdGVBWUNsNFZBRXFWOU1BZ2czTlJ2bWFWNVNJa3RPM29JTXREQ3pyeWhYWUlaa004RFlFeThpdWUtSERROHFUVW5yTktIUjRsY0JuRHM?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "The High Political Cost of Trump\u2019s Loyalty to Jensen Huang",
+       "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOd0RESWZCNURwWGRtNHhIZTY0OXFScXNJYVk5TUJ2djBDWHVKNXVsZlVmRDZfUmFucEJqTUZBdkF0NkY4Y2JmQUJqZzRfazlhN0dWbnY0WTJCRXJ0X0NQTXAySXE3bGtKNnVWbWJhQ1czWGhJVk1qV1NBM01HMXE2S1J2S2VzTlBmT3VUa2pObFBGMHZzUUtRYkNsNnUzUzc5Ty16OQ?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Americans Are More Exposed to the Stock Market Than Ever Before",
+       "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTFAwajBpX0pHSkQ3RFZLUTFTZlN4Um0xdWFJOEhJd0ZaT2VYQmVpeEEtWVBqdVZ2YnVyNkUzTC1pMm9mSGd2ZGFwQkZWd25iSHZRV1lYZUpFM2tnVTU3VjNsSXctWTRMM2tuT1BIMk1IX1ZHN2tt?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      }
+     ]
+    },
+    "Industrials": {
+     "score": 0.3,
+     "n": 56,
+     "why": "Manufacturing data and solid holiday retail momentum supported industrial equities.",
+     "headlines": [
+      {
+       "title": "Black Friday shoppers undeterred by inflation and bad weather",
+       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNQS1feGtndkRIT3NUc2hNSFhEX2pNWXZOR0JBSkdpT196Zk5sdlFqc0NpNUVnRmtnQ2xDUjNNcXF2VnF3a05oejFCZHZzODZ5NXN5NFNOZUVMQmRWdEg4dC05dHFTcHBiZVpjUFRpT2xCaGtXcm54eXRwWTNYOXp3R2NDV2VqSFVURVJZMG9wUElMaWdxamVEOTJCcTNNMDM1WlYw?oc=5",
+       "publisher": "AP News",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Artificial intelligence",
+       "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFA4Qi1oeTk1Z21hMnphRDg4Q3FlR1NuQmd0RUpidzBDU3A4YVRlVlZoMnZDbFVNSXA5bWVtUU55UkFqaXBVR1JqY29Sd0Q4NUZOOWtSNFJEWmVZUQ?oc=5",
+       "publisher": "AP News",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Wall Street\u2019s bullish bets tick higher after gold bounces back above $3,600, Main Street maintains bearish bias with payrolls on deck",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNdTNXWTMtUVlSdHdDazZkWVVEVmYzR0gwM1FnOGJiRE1KOEF5NS10YmptUUkyMTNJT1RVLVYzaVR5dVR5NHdOb1BvMW1DNmw0TzVoMk5SRDVMLWdRRmoyMzg0VENPX2FiRW4yR1J3ZFBUM0d1MDNaR2ozRnU0RDc4clhUd19UbHp5OVpMdy1BY21jMlk3ZV9lbGlxTk4yLURSMTZuNV94Z0tMb19aMzI1REpvVUJZSTlaNkE?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-11-27",
+       "score": 0.25
+      },
+      {
+       "title": "Team Favorite: Michigan Manufacturing, AI Debt Investments | Wall Street Week",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9YdXU5NGpHYy0xWjFJTXA4YUZYX21pUWQ2S19teUJXZHFyS2FzMHlZc3BoOHNfeEtrbEw3YUpJQVgyMFpUWk10SjFJd3V0cjZaS1lUeHJn?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Nvidia, CoreWeave Face New U.S. Restrictions on China AI Chip Access",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPZlpyVHBvTk0yalB0QWtYSmV4amRwM25sOVlJT0VDbzg3cmp3d3FGeTRVRXpQTzJSYV9EMlFzbUIydGFEeWlJU0ZidmwzY1lzcldwVGdDWXg3QW9iMVNpdDczODVrQ2Q5VzdqOUFEc0hPSTB1ajdrRW5jZkd3Q0lFeFVpNV93bUxmZ2xvRUQ0Z2pLYndWNGdXeURJTEtyVmUyWXc?oc=5",
+       "publisher": "Yahoo Finance",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "One Magnificent Seven Stock Could Be a Much Bigger Winner by 2030",
+       "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQbV9LSU11cWNHcGFLSnF2dThfc2NtRnowY0pvY1p2UFJwTmFwUjB3dlZ2WnZqTnpjdGRIcVMzaWtsbDNhckV4bEpJa1c0RXZiZUhQcWFnVDZ5RXdtdkVucFlJWkozd3FjSFFPdEE4ZEFNc0ZoNVdRUWQ0aGlGLVhvR0M5TFRjOFZlQks5Y3huQlE0c09jZnNqeUJJa2pBSmRFY29NVjdDNXpTcGNRaWc?oc=5",
+       "publisher": "24/7 Wall St.",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "Consumer Cyclical": {
+     "score": 0.5,
+     "n": 46,
+     "why": "Strong Black Friday online sales and retail traffic boosted consumer sentiment.",
+     "headlines": [
+      {
+       "title": "Americans Are More Exposed to the Stock Market Than Ever Before",
+       "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTFAwajBpX0pHSkQ3RFZLUTFTZlN4Um0xdWFJOEhJd0ZaT2VYQmVpeEEtWVBqdVZ2YnVyNkUzTC1pMm9mSGd2ZGFwQkZWd25iSHZRV1lYZUpFM2tnVTU3VjNsSXctWTRMM2tuT1BIMk1IX1ZHN2tt?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "GTA 6: The AI race to clone the world's biggest video game for PC",
+       "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5KdGFSMXE0OHRvdWlRZ0tyT1lhakVJM3lzbmlibjJ0Nm8ydDNOWlgydVJxcWd2SHQ1cUtoeUtmNnFUem9kcUFlcVJnVGpTZ1Zpa25IYjVhUVkycTg?oc=5",
+       "publisher": "BBC",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "U.S. Black Friday online sales set to exceed $13 billion, Adobe predicts",
+       "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNQXVjN1RJQjJFMFBFcnd6N0kzLWNGOXBUQ1lxRlZtUEt1a3gzRWlpeGlTSFlDNTU3bG4xYk1LNTRMZWYtb2VRMUdEZHY3YkRVemNJOEtqVXFKdlEwaEtzaFl2X2Z2aE1OYndmY3p5ZzFlX2NGZTljU2otdFhUOTVwcEhBRHJCeWlPSEk5b1ZB?oc=5",
+       "publisher": "Yahoo Finance",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Wall Street\u2019s bullish bets tick higher after gold bounces back above $3,600, Main Street maintains bearish bias with payrolls on deck",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNdTNXWTMtUVlSdHdDazZkWVVEVmYzR0gwM1FnOGJiRE1KOEF5NS10YmptUUkyMTNJT1RVLVYzaVR5dVR5NHdOb1BvMW1DNmw0TzVoMk5SRDVMLWdRRmoyMzg0VENPX2FiRW4yR1J3ZFBUM0d1MDNaR2ozRnU0RDc4clhUd19UbHp5OVpMdy1BY21jMlk3ZV9lbGlxTk4yLURSMTZuNV94Z0tMb19aMzI1REpvVUJZSTlaNkE?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-11-27",
+       "score": 0.25
+      },
+      {
+       "title": "Gold climbs above $3,650, silver surges as Wall Street rebounds sharply - Kitco PM Report",
+       "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOZzJJdW9tdmZOTkw3ejdzVXFQOWNvZTc2XzU0ZlFFWFJNTnVXcHVlZjRsQXdUenlibkxBTFhwNXY3d1lLVkxBOF9zWDNCSHdRTXg0VDlxWTJTOUpBbVB5dmFPV3kyMWtZODk0ZDdVQlJfZDY3alh0ZjRNbUNPcGhHYkZPWVNORkg5QWplSDFqLWQ5Zm1Qb19uQVJmV3ZDMUMyV09fN2U2U3B1SjYzTFdpUGI2YzVvSEVlVzEtMw?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-11-27",
+       "score": 0.5
+      },
+      {
+       "title": "US shoppers get ready for Black Friday and Cyber Monday",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPZjhwUGdtVWRLVmM1a3lFSGtxYUdTS2FUMVExSkkzT3RVZ1R0RkdqeUROdXExUlZPeXBuWFVPQlB5c08ybHIycDNSMEh4cExDekRBSTl5Qlp5eDFWTlBjdXVGLVpzQWhUTVM2MFJ5Mm5JaEIzb2lLdE50XzJKUzFGVXM1ZkZqTFpfbHNlaVRGel9xUmNTa2FNc3hrUTdMV1ozWlHSAacBQVVfeXFMT3NNWTFxQVNuWnJPVGN6QW5QRi1janhMaXY3MnAxaHU3SllZdzZJcmxjVm9mTUtDTDhCRXNTVHpEY1lGOWc5bEozaFVrWEhlbnR6c1VlSVZIbi1ySXh5MXBCX25sZXBsRkl5LVN1Qk9NRHliUVh3NndpNUpIRkdnS29PM3g3MVo0cEpPaGJUd01qWVVqTFJpbEZXbzFJTmZncVNfMjU4LW8?oc=5",
+       "publisher": "Al Jazeera",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "Consumer Defensive": {
+     "score": 0.1,
+     "n": 49,
+     "why": "Defensive retail shares gained moderately alongside broader market recovery.",
+     "headlines": [
+      {
+       "title": "Stock Market Recovery: Is It Time to Go Bargain Hunting?",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNTDZDLTZId0QyUHluWmp6SWo2b0YtMVBYUVdpMkx0eC1FazdjRFo1MVktdXRmSzQ2YTdoOS1MeUVzcHlRVjlqc0NuallpRHUwT2lmMGhnUEIyNUJmendqRy04bHhvOVVGbGlkZWFtckxibEtPSXM3SDNRYXltbm0tbUo1dHo2LXdvYlctdlZKOERZVWVnRE9kUnZMcmo?oc=5",
+       "publisher": "StockCharts.com",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "These stocks soared the most during a wild week highlighted by Huang\u2019s return to Nvidia",
+       "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQMWh2ems4azAwYlZLLXh2X20zd0RsLWR4RFc1N1BmZ0NQTFpka096dVROdlZlYkV3SUQwcFdTNldWci1lZk9UeGlrTHNQRWo0RS15eE41Qm53N3c0LVBXNm9UOVJDV2RCUmQ1cmRIcW5xdEZMam5pakRtV0ZtY1FwSldDUmJTbG5rZnhmZVNybU5HWGRyRFB0V3l6NDJmZXBhYWVjai0tazBpN1hibE85bjFDRWV0WEdHcm9CZUJvWllEY0RrajlqZw?oc=5",
+       "publisher": "MarketWatch",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Costco Wholesale (NASDAQ: COST) stock price forecast: Wall Street weighs valuation risks",
+       "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNVlN1YlRDRWNDNzc3OVhrU3JYR2xFYjdSOHdleDlRcDZRbGZGQ3R6cW5yYXdsTEtEbzJWMWRZMFdNc0h3dDc0RlBLZTkxb3FSRVloOEZEQWZaYkVQZVdvT2VjVkFDRFdqR0ZPSDl2bWRmbk0wQ2RBZXhhN2N6SE0tRUxWTXFockgzVDVmNTNBNnRzbXc?oc=5",
+       "publisher": "Beinsure",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Catalyst Watch: Jobs report, Jensen Huang in DC, and Cyber Monday",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOS0dvTGJhRmV3YkxDYTBoX21EaW9tczc4a05BZUpFR05pbG1FSU5DTTRBSVdmYTVPVlNmMng0OGxaRnZhcWN3TWhPU0IwNzZFY2Q5V3lhWlRFQjhiNlFYUlk0ZG54aG5Jc01nLTNIcW5KaVdpcW03SHZnR1ZKTHFrZVYtUklxSzZ1WkJTZGExZE1xcm9HMl9IYjhmTWR4bkpGMmc?oc=5",
+       "publisher": "Seeking Alpha",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "What's Going on with Costco Shares on Friday?",
+       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxONmNEVDZFWXVmYWlkOHpmc1VSMFRtNlVwdlRSSGxvcGFxVnVrZzhaMnpHcmphM21RRjRyQ3U2YnhvdzAyeEVtYnRLSVVWeTFlU3AyT19kNmxqaFFiVk5wNXZjVkdUaFhEZVd0LW9sYXZMR25seUlwdDFPYTViNk5keDNLTDEyY0xUNG5adml3NEVkTHBicklzcXZsYWFScDl6cTFV?oc=5",
+       "publisher": "Benzinga",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "3 Japanese Consumer Stocks With Pricing Power As Inflation Tests Household Spending",
+       "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOLXJGdy0xOXBLMFlLRFJwNXRxdlJvUk1hUUJwTU1ER1BUcjR5VXFfTC1BZ2VqU3ZHdHhhQVlOMUtVMjlwenRfNU5DZTNBUE9pRTNKdHRjN2pIdGU5Q1M2U3lHMk05dW50czFhV3pJdnN0Mkd1Qmswdlp3WXNTdGtjWVFWdVNwS3A3YlFMcDV5Y1ZROUE2c00wRXBNM2RlVUJW?oc=5",
+       "publisher": "Yahoo Finance",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "Utilities": {
+     "score": -0.3,
+     "n": 59,
+     "why": "Cold snaps and energy supply warnings created strain for utility operators.",
+     "headlines": [
+      {
+       "title": "A golf course could become L.A. County\u2019s latest data center",
+       "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxQSG5ER0o1cjVTNG01Wm93NEFXOERqcXBpSzloZDdTSXhtcUJHTElTQ1ZqbkFjaXBhR05Wa3lCYk03bU1JX2gzWmMxekZqVGFJZU16RTg2RVFZdk1rZFN5U0xPcDZPZXBYS195YmdkbXJESXdKOGtoUWt0UURFaDJXOURTRk5wdjV5Q2JVU3BkQWZKaFhHWUt6aHBBRmltUlRVUGt5M2phdG0wM2wwcXl6blFtUUd3cXZzRm9DNVRWZkthY0l5dFhKSTdnb3plVllYZkE?oc=5",
+       "publisher": "Los Angeles Times",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Neso issues energy supply warning for fourth day in a row",
+       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPTF9LVG1VUzBzRFVFQ2hIVzJ3TXZoX1ZiUlFCYlItemdlX2lDUzZlYU00emI3eUY0MWRlVWFNVmllVm5vU0tUUHlYQzNoVTNlTVhIREVZQnhVaVhvZjJ3bnJkaXJqUTB2SXFPSWhfVXZxRXZPZUVheU9kWUc1WEMtUXhfWGY0UFVWbjhHd1VhQjA1OTRxX0cyamU0WTAxdnhKeGNz?oc=5",
+       "publisher": "The Times",
+       "date": "2026-11-27",
+       "score": -0.5
+      },
+      {
+       "title": "At odds over the EU budget, European leaders decided to cut summit short",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOcVRlLXlFYjNQTVZ3Wlp2VUJOYmt1UngtYVhLVE5GcGJJQktTbnFtSlkxbnpnUEdZSDdIbVVWaC1EZzBza1I3MklyUFk1VS1pVHJFLVpfWHpQNExLUFhibHFRb0FFcUZyb3RkQlpaWXBIdmdjWW40aXhLRlNoWjljMWRLTHlhNW9yTjJUeW9rYk45Q3hpY3djdWg4MHY?oc=5",
+       "publisher": "DW.com",
+       "date": "2026-11-27",
+       "score": -0.5
+      },
+      {
+       "title": "Japan\u2019s Ski Season Gets Rocky Start as El Ni\u00f1o Threatens Snow",
+       "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQeTI0eFhhRzZWWnA3VjdlX3NCdFA5bkRVQ0hUUHY0VC1nWC1EVWRZSWR1MzFkOE5JMVZFZ0hYWEUtNXJ1M1NEZGJONTAySjVFbmhYZHVRSDZvdF8wWFpQNUt6clN5MS03MmJvSGdaZmQ2cjR3enJONm4zV1J3VmJQdjJwaEpnM1pVNUV0SHpBNlJDaEZ6eEhqcVN2aWlaN2VYQzhJSXVwbDhxQm5QT3RnUjJR?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Should you get an energy credit refund?",
+       "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNamxEZU54UGQ1XzUwbWZiaXhycXQtbm81RDJFeEt3MlBrMzNDZmNKenJKMG5hUTZYVURDbHljRzNfODlUcVQyMElRRnl6YXZLVTRvUVpYU3JReUQ2dXlwZFlmVktYRnFlWFktbUJpYUxTa1FtbzNZMVBBeUxROERhbXNwdEpibURoVDNVSllJdzJ5QjAyMUFwV0NXbnJjanh4bTJ4ZFJn?oc=5",
+       "publisher": "The Times",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "What is the US energy permitting bill and would it actually help the climate and affordability?",
+       "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQWmFubEZnR1Fsc0lKdHQ3N0dHSEt1SGZjMGNsMWR5LXdXWDZuS3VfRzFCRHoxbFFwSFQ5Q0ZPYWU3RzhGVEJuaUtaRW1ON3RlS1hCdnY4Q25zT3BxTWtUc0lBcklnQWEyWDVxeWxnMTg3OVhINEdnY0VIZUtFUWtkN3RlUk1CYm4wWldsclAtVUlNZE8tNGs2VDhLNTZ2MzJ1OVhEUtIBpAFBVV95cUxNWHUtTDBQZ3RZNnRZc3R3WGI4MmIwdVFzVDFPbDNVclRjTzVVcnlJczRvQzRzT3R5Z1JrTURrNUpwWm00R25BQUtDa1U1aEtoQkZoSkdTNGlETkhzbEhQQ0pVN3FMckFHVjZlN1dlcVdCeW9zbHU2QUdVX3BmWkVTa3JtVXQ0OUUzWUdhYmV2dmFTZWxsMEh3Z21UanlVZ0dzQ1Q3bg?oc=5",
+       "publisher": "DW.com",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "Real Estate": {
+     "score": -0.1,
+     "n": 40,
+     "why": "Affordability pressures and commercial property headwinds weighed on the sector.",
+     "headlines": [
+      {
+       "title": "Property for Rent (Aligarh) Aligarh / Sasta Market \n\nProperty for rent in Aligarh, House on rent, Shop for rent in Aligarh, Commercial space for rent, Rental property in Aligarh, Best property deals, Affordable rent property\n\n#reel #propertyforrent #commercialproperties #aligarhmuslimuniversity #smartcityaligarh",
+       "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxOMVdjbDRRbE50MjRLSDd2X3BQc3pOQlBYYnlwaWd2ZUkyOS1XTjBxTXNJM3ZLZGp5aUFZbzV5b0J5Y2hLUWM1bkRxTHlGYVlwN3VzT1d0MDhPeWF6OEhGdExlU3NBeGFXbVZKb1dlQUViMjF5SUhFSFZYZVdiUC1VWTBrZ1BOY3FSXzlDNG00N1NRU1NMaWlETkhkbUxLXzdTQnhUblBYTHMyd1N1ZFlEb3VtelJoalBDTWFNT0hmOXZ0cHh4RGNRMWpfYnI3bWkyN0RGZHo5N1V3azhwYUZN?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "AI Stocks Power Wall Street Higher, Nasdaq Jumps 2.3%",
+       "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOTnE2TmNJSDdzd1ZXemRjTlNkWmZndDhzckRMTXBOUU5DdHR4Y3dxa0N1RHp4RXM5ckNZTFkzTldXOVlscThEcWJJcmdtSFR3VWdpX1lTU2pNT1ZUX2IyeTdQN0xqUHVhazR1TERBbEJnMV9fdVM2bWR1OGNZckp0b2V1NzZVRll0ZXBhOG9yUjhTNUVDcVhTaDRJcjc?oc=5",
+       "publisher": "BusinessToday Malaysia",
+       "date": "2026-11-28",
+       "score": 0.67
+      },
+      {
+       "title": "US: Wall Street ends higher as battered AI stocks gain in volatile week",
+       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPVWZVbjREMUVseEljQnFlNUZuNGVobjkwdGU3M1VpM3VpZEpQU2lrYWlfSFJyNG8zQ2VzNzRLNU5ZT1RxUmNBWTE0TTdmdlFscERhbThIal9leklRWThrMktVend6OHpYLTB2ZGNka3J1aXFDYUlZWFN2MjJrbFVrcVE5STZNQWJNNVZlZWc3QVpnYWlPbDEyYmRJX2l5ZjR4cTVRVFc3Mk45bGp0SmcxQ3JRYWRBUQ?oc=5",
+       "publisher": "The Business Times",
+       "date": "2026-11-28",
+       "score": 0.5
+      },
+      {
+       "title": "Commercial property for sale in 118 Sauchiehall Street, Glasgow, Glasgow City, G2 3DH, G2",
+       "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBDQ19KdlIwVThpc2haSC1ReFlPc3FyZVpWTkF6S0ExNXdhNTJpcHlVQmpRbzd2Ym4zM1hvRlR6dlVPa1IyeXBpNmJHSlJPQTE2amtWckdCd19hN00?oc=5",
+       "publisher": "Rightmove",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "200 & 201-269 Richmond Street W, Toronto - Commercial Property For Lease",
+       "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTFB1cl8taC1KTkgyeHAzQnQ0MHBWbkU5azBlMzJFYVVJVUpBUVZCQ3dKRnBKSDVvQ2RTSVR2U2lQM1p0SVVZdlN1LTVlUGhFb19VRnlDdDR1aXJHU2ZtcWlVRlk0T3NMZ3VycVNSTmpHcWFfdzNzR1A5Rm01c0g2dw?oc=5",
+       "publisher": "Zolo",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "200-269 Richmond Street W, Toronto - Commercial Property For Lease",
+       "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5hc2dZVjVYUW42T1ZmbUtYX2xHVHhpanlHbFhWZkw1NEFXWGMxWFpvbEFaM3dnQVdoMGMxOUtEOTM1VkEwRVBuRmNxRWdvQl9qemJRX183RndSbFFVYTJlc3FGOTd1ZnlEbG5sTFZ0SVJjRlJ1Q2Vn?oc=5",
+       "publisher": "Zolo",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "Communication Services": {
+     "score": 0.2,
+     "n": 98,
+     "why": "Participated in the broader post-holiday stock market rally.",
+     "headlines": [
+      {
+       "title": "Exclusive | Nestle Eyes Wearable Tech to Match Consumers With Nutrition Products",
+       "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPVW1jaF9nS05SR0haaDFXUnBOR1g3SjFFYjA1R3BDR1l5bTdWUWo5aVQzWDdkd2k0a0w4NVZhSmZqdnpfNmwwX2JUWkpxV3RFbWxvRnNzNnJVVE1QQVY1NEVsWDZiZ25XdVBGTWVpQXVYZWU0UHE2ak9lSGpIWXdpMDVOV3B3Q2hFYTd3U2lTam5ETGF6T1kzbEhuWUpBeWFTRXNPazJpajhmdw?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Inside the Luxury Senior Community Where Everyone Lives Like Royals",
+       "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE91TmtrUXNVYTQ0X1BpSy1tVThNam9RbkxlNThiY2M5UVY5QWZ5VmszSUdaUE1MQ0xENjVMLUx2ZGxsc0ZXVWpEb2t5R2pkWlZLTFRxN1NtUDUwTUJ1SVlyYWtHZ05IQks4cmJpUVhB?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Print Edition | Wall Street Journal",
+       "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9oQ01UcWpuai1fVGpvY09OSUZoV19EOEZ0Rm0xZzBSbHFCUHlRclppQ3hUNVhzTzlTX3FJQ1RWaEk3QTFSSkZYdVpMdDNvODdxTU5iYjNCVWVJOGtxNDRSZEhR?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "The High Political Cost of Trump\u2019s Loyalty to Jensen Huang",
+       "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOd0RESWZCNURwWGRtNHhIZTY0OXFScXNJYVk5TUJ2djBDWHVKNXVsZlVmRDZfUmFucEJqTUZBdkF0NkY4Y2JmQUJqZzRfazlhN0dWbnY0WTJCRXJ0X0NQTXAySXE3bGtKNnVWbWJhQ1czWGhJVk1qV1NBM01HMXE2S1J2S2VzTlBmT3VUa2pObFBGMHZzUUtRYkNsNnUzUzc5Ty16OQ?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Americans Are More Exposed to the Stock Market Than Ever Before",
+       "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTFAwajBpX0pHSkQ3RFZLUTFTZlN4Um0xdWFJOEhJd0ZaT2VYQmVpeEEtWVBqdVZ2YnVyNkUzTC1pMm9mSGd2ZGFwQkZWd25iSHZRV1lYZUpFM2tnVTU3VjNsSXctWTRMM2tuT1BIMk1IX1ZHN2tt?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Oil Futures Settle Lower Ahead of OPEC+ Policy Meeting",
+       "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPTlk0cWFXc1dCWFZnYlZPbnBBNGtndk1USE5BM3dhd1RYNzNZdkJiYlNxWmtsLVoxa3FSR0FmNkdKaEVsaVZjYnYwaHl3QjVUbnpLcFpfUDRyenNXMjVFOVNEY083SG9rSTBLeHd4ZENhb1hBc0gtS3kyYzRQUU8xM1duaG51WHZjRFhRcXh5Y1FrdEk3WTIyMXFhdGw3ZzliWjc3RkJDVGZYT252YXRZRTd2Y3RXY2wwbWVVNEREWQ?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-27",
+       "score": -0.5
+      }
+     ]
+    }
+   },
+   "themes": {
+    "war": {
+     "label": "War / geopolitical conflict",
+     "heat": 0.8,
+     "n": 84,
+     "why": "Strait of Hormuz tanker attacks and Middle East tensions heavily dominate oil risks.",
+     "headlines": [
+      {
+       "title": "Federal regulators shut $6 billion Indiana lender in biggest bank failure in over two years",
+       "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBtQmRaX204N3I5S2FqZjVhd19CYzBRV0h1dVZLM2JuQVBtMkg5Y04yU3B5am5vZ21oYmMxYzZPVEdsVHFRZFptbUUzTHUtNTdTRE5ITlRGWTdZT2FwejJtZ0dPTTMzS3VORzliR3pTNWtZM1E?oc=5",
+       "publisher": "CNN",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "OPEC+ set to keep oil output targets steady amid Iran war uncertainty",
+       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE15c3E4WGlxNDctMnAwYWIxYm9CN0FWaGpwRE82U2V5c1hrSENuZElVNzJCMlVPcW4xWHl6SF9QNHZ1MEptUzRseTZHRHpMM3dQaUE?oc=5",
+       "publisher": "Iran International",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "US Iran war: Iranian Navy chief says breaking through enemy blockade in Hormuz is underway",
+       "link": "https://news.google.com/rss/articles/CBMikAJBVV95cUxNR1pidUNBdVRDMTQ3SExESmpDS2FHMFZiY2J2NHVqSWhOSVJ2djhZLVVwMUswNGoxUFh6Y3BqdF81NXZCS3pnZ0JEakFpMG1nRG1QY3hGZm4tOG9GSVBMc3c5SDhaWDBZWVV4UF9VbE1SSGhTNWdjSVE4OWRZWnc2d2dRWmktcklhNzNnYURQODRqZnEwcFdTN2xZMkNjOEhQV3FmMWlsZ1k2MjlOUjc1R1hpMjNGOC1SQlY0cGtoR2JzZXVmenAyVHVhT1lTa1lLMDdzQ2dPUEtHeUs0TjU0SUtfdUVRU01pZEpNN3pFWW9IcVB6N24xdFd2UlliejhWRTFXV0lhMkFXUDZzMlM2c9IBlgJBVV95cUxOdk5Cbzg3YkF2bExPOVpxcGZ4S2p3N3V3TUFZUGloQ0xrVXpCeFNHNGZYa1dBc3BIUE1rZVhxQjNhQmJzNDhETmQxSUxDSTNNUm9HVWluMTVZcXB5VTNqMVJzNHRiM3FuV0tUaU9NYWNwWTFBbkMzanNXVUY4N0VyUkV4TjU0ejdVNmtJQzZrSnZERXhkc0NLVk54a2JUOVJ6OTJHeUVLeUJZNFNYTktqX2FhbnMzeV9sa1RtaEQxMWdmdTZ1NUU3Y2MtN3lqS185cFhfMkx0X0thVEg5Vzk1RFNLQU9XckY0dXBMMWp2bm8wMGNmeWc2MExSRExNMUFtNXlVMFJMNzNicENSOWFYQUFmTEdNQQ?oc=5",
+       "publisher": "The Economic Times",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "EXCLUSIVE: Hackers breach US Air Force flagship Cloud One computing platform",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPQnhWb2oyc2Qta3k0bUhwbGZTcWZMREZ0VU41eVNZWDJZTDlBcmMxZzFrLXlmVGJpUHBRbVdBRlNoQU9lWUlIcVpMcXQwWWpyYVJ2eDJQa1ZvNFU5MUFHLWdpQW1BVloyUW5lTUlVSlFpLXJwVHNLMl9fQnBFTTNnemY4Q0JiUkN3SXFndG1pX1l1TmdySFJDOHJlWC1fMnE3cjlaVFB5M1hWbU0?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "U.S. military says it disabled another ship that tried to breach naval blockade on Iranian ports",
+       "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQR1B2RFZaTUhIUVFpQm5Vb3pOS2l5cW1XcU5STXJma1VfQWpYcno2bGNWN1dWakY4Ym9HbTFZQkVPNGk2R011SFppOXNnMFhlM0NhTVY5NUJGRDlCM3dtUkI1T0Q0bzZObGdpYjB4ODdKc3QxTW0wR29mcDZHY3JwTFZKTTlaZ2l2R2VJMklsb2h0M2ExTkFBQjNTbGJnR2hUMDdNdHloeHk4ZjFTUkI2ZFVaUkNqVUdrcmtFTzlvY3ZybUpVS0NXbFhn0gHPAUFVX3lxTE9UUEY1bWZtMVVXSXY5d2pRdHBYcnR1amgxZ3Jkc1I4R0owMThFbzltRzU0NWlMS0JBNUtlRlg4YmNrRml3cjZUaFoxQjJUdktYSkt3RWctVFdCWC1EanVLc2Q0REZSS20zMFRodV9OQkstNmItZl9YajA0OE9KeGM4NlF5QUhPbE5IMnh6ampFY01sQm1rYkFQcjh4anZzdkhjZkVJTl9OcjBaRjZ0VjNtZUJUaGtIbEQ0bVdOWFNDOHA4MXd0cjZvS0pEY1hySQ?oc=5",
+       "publisher": "PBS",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Labour in civil war over Rosebank oil field",
+       "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQLW5yVnZqc053NFZJd0NfODlWQUJCNVgwYnhOTmpDcWFRSVlxaWltTGh2d1EyeEhyaGNmS3dEV3NPVVFZRVJpeV9Ldk94TlVyUFhJYkVBMm5ON2UzUGowVTljUFNncnFmS0w3UlVfbmhCQURvcU5YUTBDMjBKazlaN0dreWFneVFvZFk5X1NXd2VxNENEQzlMVjczUURKOG8?oc=5",
+       "publisher": "The Telegraph",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "ceasefire": {
+     "label": "Ceasefire / peace deal",
+     "heat": 0.5,
+     "n": 47,
+     "why": "Ukraine proposed Black Sea ceasefire terms, awaiting formal responses.",
+     "headlines": [
+      {
+       "title": "Ukraine war briefing: Zelenskyy criticises Trump for calling Putin his \u2018friend\u2019; Kyiv deploys new laser weapon",
+       "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxOcDZrYTlOdTVmYnJEelBReDNXdF9CRXAyZHUyVlhQNjczRTk0Q0RNM0FYdWlHY3RQc3RZTVZPQ0MwOWZLSExFczk2cGlhMXMyNk81dVVVNGZfUHozUDhCV2xaaEZlNGh1ZmtkeFlsTE94dGhzVEp1UGJKOEg4Si1WdnhqVUNKcFlnTm4wd2NBZDc5TzZDeGh0c1F0OUhEcUxLUjJQSjBVVHp0MFpIay1jZXVUZmNSNXAxb3RJNTU1SkJad3VEWVRwRUhyWUNNRmtXdEJQbmtLWjNMN0NTbWhWdXZhbkUtUzQ?oc=5",
+       "publisher": "The Guardian",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Zelensky Confirms Ukraine Struck Russian Ships in Libya Without Coordinating With European Allies",
+       "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE55UmpFcWYxRXgtb2dzSjNyWXR1VGotQTRNem5hbnJ3R3RMRUpYYXlJdEVuNkJJeXNEYzhLQ2hiTUctbEZRajZ3aVlLMA?oc=5",
+       "publisher": "Kyiv Post",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Son of Hamas chief survives Israeli strike, Hamas says",
+       "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQQXhxUTlzbVROVWJBME9JOGtIQnZUczNMMXdBTUV0QlByWWRCWThyeXlfcDA0T2MyaHlVbFlFSW0wbkpjbGd1WXVjQkZQaDNuZFM1VFkxaU9fN2lXUGtwa0xmQ0xHZHVaYko0M3FfVmdmd0l1LUpJOVhrNF9vTzk2OUJ0bVB4MU9JNnFCWFdESncyd0NBbHJodGpyUlRLNXRRRjhDYXJTRQ?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Oil Futures Settle Lower Ahead of OPEC+ Policy Meeting",
+       "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPTlk0cWFXc1dCWFZnYlZPbnBBNGtndk1USE5BM3dhd1RYNzNZdkJiYlNxWmtsLVoxa3FSR0FmNkdKaEVsaVZjYnYwaHl3QjVUbnpLcFpfUDRyenNXMjVFOVNEY083SG9rSTBLeHd4ZENhb1hBc0gtS3kyYzRQUU8xM1duaG51WHZjRFhRcXh5Y1FrdEk3WTIyMXFhdGw3ZzliWjc3RkJDVGZYT252YXRZRTd2Y3RXY2wwbWVVNEREWQ?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-27",
+       "score": -0.5
+      },
+      {
+       "title": "Kyiv offers Black Sea ceasefire to protect grain exports",
+       "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNWW9taURHbFpkMjd6YkFzNEliSVpaOW5zal9CUEY1R0kyS3NWVU9HbkIzRkNhcWtoOWgxUi02WWdWN1dpQTU5UVVpc3dGa04yVVBQbk1NQVMzSFBLVmxvUllTNTVwVEdwR1FtdGI3Nnppb0lvNjNRMUZwYl9EaXI1akI0VE5SRGcxVkxzVzNZbFM2S0RCc2JOdi05R2s1dlg4eVZIdDBB0gGrAUFVX3lxTFB6OWM4c1NpYjVhZUp2MVV1eUppS1lVLW1lNjIwaktRN1lWUDlGOG5meWIySTByVVhUQ2tnSGh4d05pVXN0SWxnSFlFc0lzVzhmQzlWaFRZTW5ELU0yWUpNYTIwVV8tQmhqODBCVzhQMjBseHVydHcydEJya3lJREtMbFd2aW0zMmlndy1oV2M2RHZPbzh2V3FQcV8tNE5xMmx1S3Jfb1NXNXdHVQ?oc=5",
+       "publisher": "Al Jazeera",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Ukraine submits Black Sea ceasefire offer, awaits Russian response",
+       "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQQXNRZXdNdVkybkZ1TXRQSlFzaXNXT2xNM252Xzg4TWpfUmVYUi1DVjhuREFHT1ZKbVdWNjc1U2pTUWJtZmRFeWtKa2Y1cFBXR1VZRGg4dHZ2NkxPSE80YTl1VG1rdnkyYW1OUFFDRUhzUGJnQzcxOEkxSlUxU0hXb19ZTjQxYmV6eUFCWUZZc24xMkJubE9BNFAxZlVuTXZTRG5OUGdlQTVmWVEyOEE?oc=5",
+       "publisher": "France 24",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "china_tensions": {
+     "label": "US\u2013China / Taiwan tensions",
+     "heat": 0.4,
+     "n": 50,
+     "why": "Local elections in Taiwan and ongoing geopolitical friction kept markets watchful.",
+     "headlines": [
+      {
+       "title": "Taiwan votes on reviving nuclear power as AI lifts demand: what to know",
+       "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOQnJ5U254YUZITERMa0xHVU1kQ1JTU18zZC1YR3g0MU96aThLUzRKTUs5Z3pUdGp3SGlKUVR5UmM5bXkxVTc3c3lXQjJMSVVfbUg2aVZuekhuMWpHRTZ6b05oWnZmSF9mLVp4SjhiSkNuRmVZYlBveTF5dmdqSHRqcFFMQUhEdGdiWDRaN2FUaTh4eENOSWc?oc=5",
+       "publisher": "MLQ.ai",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "President Lai Ching-te returned to his hometown in Tainan Saturday morning to cast his ballots in the \"9-in-1\" local elections and a referendum on nuclear power. https://t.co/qPMzNWCWUb",
+       "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1Bb1Y3UjVXbVZVeDVaLW9DeDYzZjFMRzBBTGtTLVJROWl0YmEtcFBTbk5kMkVRcWZ5VHBFV3dhYnRzYTBrNy1uSTRUVHBEQThKOWV5c01qN0NWWkpJX2hKRGhuYw?oc=5",
+       "publisher": "X",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Taiwan Elections",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPWVNRaTAtejVEc0xjNzBSejdOMFpxeXNXTDZ0QURocTMydENKUzVhelAta2VhYkdhbHFzTHYtejJDNHNsc3QzS2NzUFpOYWtXN3paT2FWSlBYdUhhMVY4MC1scWE3SzVsX09BRUlLby03b29aV0RXYzgtUkp5TC1RYkZvUWJQa3BSUTJTZXE4R2lmVk9qOGtCZkhUdzJZR25UOHZXT0xWczlMUTQ?oc=5",
+       "publisher": "chronicleonline.com",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Taiwan holds elections to choose mayors and other local leaders as China looks on",
+       "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPMU4yYVdNYWdJSFNLeTZJblVtcVNqMnpVVEJvMnRzWU5lOGNIUHk4SzNIOHdMbHZ6dm11OUQwQ1R0Mm42QzhLaEVWeWFYQklHU2xaZ25fVXYyLWhWd0NlSUpLZWtrMmlBN2IxMFRSZmhRYkI5ZmpFSGZJcnAwd2xTU2U4UHhJY3l3TUZWWG4tZkZMRktTd3FsdmpWU1FhUW16TEUzQVlQbFhfODFw?oc=5",
+       "publisher": "Midland Daily News",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Licensable picture: Taiwan holds 'nine-in-one' elections 2026",
+       "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOWnl6MGNvSC1rQzJMNVNNU1ctNjcyNXNTQ21Ta2lmVXczMnBBMkNfRmtpb0tGc0lBREwyQnBtcHJFMWdmbXo2SXZxNDhWZ0JST0ZPUlBnMmpGN3FDUjNrWWhXNHlvSzZrOFFQUWxjc01CU3UxUU5fWmJuTm9PdXo3aVpVeHFRZmdobU5scS1ZTVozeFNaLTZDNUNVdHlnX21lVkFIOWFBTmhDc3R4Z3hPTGpNY3ExRjFkRjBCNlpycHN0NWcxdU1mYkIzZVpMMkQ1Mnc?oc=5",
+       "publisher": "Reuters Connect",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Taiwan votes in test of ruling party strength before 2028 leadership poll https://t.co/eN1glS2gSB",
+       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1SSmt5MFZBTU1jRHlLWl9iTHotNGhBeFV6d2lpQUEwRjBMZVh3YUdVSjhZN1FKSTk0R2tzXzRadkRITDc1ckFtWkFrN3p5WTlvY1c5czhUMk1ZdzB0RC1LNlpFMVY?oc=5",
+       "publisher": "X",
+       "date": "2026-11-28",
+       "score": 0.0
+      }
+     ]
+    },
+    "critical_minerals": {
+     "label": "Critical minerals / rare-earth deals",
+     "heat": 0.6,
+     "n": 30,
+     "why": "Congo cobalt export ban and new US-Qatar mineral agreements drove price spikes.",
+     "headlines": [
+      {
+       "title": "Lithium Africa Announces Conditional Agreement to Acquire Controlling Interest in the Manono West Project, Strategic Investments, and Concurrent Private Placement",
+       "link": "https://news.google.com/rss/articles/CBMirAJBVV95cUxOempQdmR6SXZveHBBSzdseVdwMktVY1d1dWlNN3VkSkdYMTFrQjI4cTR2X2E4b0hJSEFkUHVvTFFxSTFxclpWdzFtZUlMc0MzZ1pUQkZPZElWVURldEhScmZjTUI3TmN5dlVtY1lBSUNKaXVtNTJtTjdnQ2swaXlib1o2TVlnMTVoRzFfWDZ3RFY2YzhyWW94dHJHRW1VWGdtamdLdktpMUFQY2t0ZnRSdjBNVEUxaU1rTER5QldEcjZtbXRlTDFCd1BIY0x1eVVvalFZd2ZmdnhwUVEzZTBVdkE5QzZ2aGFoa3Z4RnhHZzFNSzlxSzlsbVN0NkpRc1lLTGlLcnhXWV9VakZkRzlDR3p3aHRWOG5TVk0tTzYya3hCdE80WUtLYVR3SUY?oc=5",
+       "publisher": "TMX Newsfile",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Cobalt price jumps 33% ahead of Congo export ban",
+       "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPbDZoSUoyYmR6UVFhNjFqb2hFZkxXNUppWHU0MDhyRW5rVjNCdllXel9hUkNHekpSVXoxMVpoblB2bGZ6dENoYVlDTGtlNXo4TnFUN216OGc1WHlPcHFNb2VuYktuWnFJbGdNZHJPR2Z1RzJfWGIxalNXcjdUSlNMUWFCbHh6WHh5RlFja09qYkJ4Zw?oc=5",
+       "publisher": "The Northern Miner",
+       "date": "2026-11-26",
+       "score": 0.0
+      },
+      {
+       "title": "EIB and IDC target Africa\u2019s critical minerals with R5.7bn deal",
+       "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOUmIzMEVXdGdPUTJOTnJjcFRSaWQ3cUZ4djEzcjBWWWtTSFFmUVpUVEdXblhWZFdjaENzNWJSYVI0TmxacVVrRG1SSVZuLThsYWY5RTB6N0JiN3l3ZjhUT1VidXQ5VDhvXzR2YlB4clU4WFpmTnlyczhhbWFsQkR0VWZGWTd1YVgtVlNVczNuQkNsYXRXUGNUejJNOXg0TkpuT0h3TURHSzhQYTFR?oc=5",
+       "publisher": "Moneyweb",
+       "date": "2026-11-26",
+       "score": 0.5
+      },
+      {
+       "title": "Rare Earth Supply Chains: Impact on Defense and Semiconductors",
+       "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOY3N3SkR2dGU0MmE4S01nUHhZeXFQdGVaNXQ5OUd0NENCZHBScHlSOTV2QnZDYnRNRFUtMXpVYkI5cnFMdnhmYkRsMldWUWFRTzJhMk9UYmxYNE9vUFRZdjY4OHM5Rmdhb2ZMUXZyanhua3ExLUFGVjZZa0dJTExZM2czd0dBYmI3?oc=5",
+       "publisher": "Kings Research",
+       "date": "2026-11-26",
+       "score": 0.0
+      },
+      {
+       "title": "Lithium Suicide Review; Restraint Chairs for Teens; YouTube's $3B Addiction Deal",
+       "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE1reFJMQk16WDh2b2VEeHZwdjJ3dkpHWTdGY2Uxc294UnU1dEFVOWZGUVpmS2ZnLTFSYmlIcVZLTUk0XzVtUVdNeGdGUkJtZG9hcmphUjVqVFlKTzRhRVpQTU8yV0pTSkNlWDMzNGFfNy1qUQ?oc=5",
+       "publisher": "MedPage Today",
+       "date": "2026-11-25",
+       "score": 0.5
+      },
+      {
+       "title": "US and Qatar sign critical minerals deal to secure AI and semiconductor supply chains",
+       "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQb0NJSVlqd3JRQVFPdUl0dkZNc0QtZG5SbTg3b1hsZ0E4TE03ejBTY0F2Z3pKbG9wNG1UMUR4MS1MQXA2T3B5NnhpWHFhbV9OLV9nMkpORDlTTi1hbDhHcVZBanZOcGRVb0xzSHZtWTZ0UDBacUN6ajJ0YkQ1bk5PbDVzQzRsOHdlZDI4azB6UTViYnhkTmU4OUREY0xSejBqdU9qRGZrWkhFU09GMG40bXlRZzZNMnlC?oc=5",
+       "publisher": "Fast Company Middle East",
+       "date": "2026-11-25",
+       "score": 0.5
+      }
+     ]
+    },
+    "sanctions": {
+     "label": "New sanctions on major producers",
+     "heat": 0.5,
+     "n": 52,
+     "why": "Sanctions discussions and legal measures continue to squeeze target economies.",
+     "headlines": [
+      {
+       "title": "Two American Airlines planes clip wings while taxiing at Washington airport; FAA to probe",
+       "link": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxOTGFnQ2YwREVpLUc0VmlBaTRYRXFWVExJcnNCNUs5cXNGck9hcjJDdHhRWHdxSWQ0WEtQYVE5SENnd3ZDRFdwZkpnbXRXNXd1d2ozMEtyUkNnNkVwX1Z4dUtBaWtXb24yWkxEdG9SZ0NDSXZ0cWVUTjd2SnZmUWVYUWprNkRnVFMxNUloTlBBY2dFYzJDa24xak9ZaHN3YzJUbUZQNGczdjBQNmZ1ZzY3djdHV3FaQjFIdFVrbHN6MTFNdzBJSHZkRnRyOXBIN2xnR0tqeFBzTVdRU09UMVRwVXctc0VwVzZQbURMbzBwZ2LSAfYBQVVfeXFMTkpVSjB0a2ZaU1pWRzdCOTZld1Y4cm1SUUpsT19FbjI5Vl9xbWNzeWx2Z2FQWUNubHB1bk96MVJ0djIwRGJ6SGg5UXFYSF9ucHJIZk02R092Z2hWdl9nZlhpWHVkWGlqd245U0c3NWJTa2ZDU2hCdzAzSEVyR3pycFZTeEhlS1FqVV9lcDB4YzhTdENaY0JDeWJIaFltLXpDbXRCN3hGOXdQZVI5M3BIamRabFJtUHNMOXlLMElmZmFXaF9POTNCVURXUlNSRG4xNkpZWWlfS0lRcTd4YlkxYU52anVTSTdjZ1ExQThsMjltb0t6OTZR?oc=5",
+       "publisher": "The Times of India",
+       "date": "2026-11-28",
+       "score": -0.5
+      },
+      {
+       "title": "Russian soldier who was 13 when Russia launched full-scale invasion killed in Ukraine, media reports",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOc0tMUjVQQTVCSk9wTXN0Y0Jxc01GcXkxRXQ2R3h5a1NTbTR2NE9qWEFWNFZoYnVib25tSUpiSkY5QmNaaE5yem9LTmNkVUM1b0JTTUlyaHF0Y0dKUFV4b0JRakxIclFBSlV5N2ZnLTVTbzdCQVV6YTJvLUM0RFdfU1hBRVJ1dldzOWc1c1VxV3BXM3dZOGhFenN6V05FNmd0ZEpITUZRNkN3ZDZ4d0lNUG0xVUdyblhKX3c?oc=5",
+       "publisher": "The Kyiv Independent",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Behind China's spectacular rise, voices who defied it say they are being drowned out",
+       "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE01QXFsMTVfU2NUc09lOFYtOHkteW9LX1NURWRBNkhYMmJXY1l6SmZzRGlwT3VUNHFwYTJwVTVNWjllNXdJYzZxdVdfQ0t2Y29ac1M2VldNM09HbTA?oc=5",
+       "publisher": "BBC",
+       "date": "2026-11-27",
+       "score": 0.5
+      },
+      {
+       "title": "Quebec Can Keep Its Ban on Religious Symbols, Canada\u2019s Top Court Rules",
+       "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxNYXJNLW9VMUI5TVlCeE5Qa19ENjduajBoU0dpWEdlSGc3Zm1EcXpRX2pvWUpZcTZQd1l2UjB3M2VtT3F6VUp6ang5NF9PVW00Wld1TW9oMW9NUDhlOWlKcWdhWDRMWVhIVUdqZ0VNR204SnhWRkFFMzEwWmxGRE1ncHVJQkdGNEFOV3VXaU1qSnk1TC1OSmgxbm1UT1JFUQ?oc=5",
+       "publisher": "The New York Times",
+       "date": "2026-11-27",
+       "score": -0.5
+      },
+      {
+       "title": "A dark, cold office: Pezeshkian's austerity gesture backfires",
+       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5ib1U5V3FxSGx2dkZOQ2Q4NlJwZ3ZXVC1WcVgtSzFqMXNtUlNlaXhDdjg0eFZsaExHdkVjbjUtWW1wVmJjZUhJRXF3bVBVNjBMOEE?oc=5",
+       "publisher": "Iran International",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Canada\u2019s Supreme Court largely upholds a Quebec ban on religious symbols for public servants",
+       "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOOE9BOWJaNlNZVUhPNE90VDU0SDNmbUxQNjZITWlkbEowX3E3d3RaRW1SVXVnbFlhVUh4RmNiUGJmckltOFpvb25PQkV6R05IVnRLNFpCbE1DYTRVenM4Z2I1eWdOeVVJcEdsMlJMYWlIYk4zeFJxYmZYWEI4RTUxNDk5YWxzQVZkdWExcFFkR0xpcUV1b0lMV08tNFlnWG1MZXV1RTZnWGg?oc=5",
+       "publisher": "AP News",
+       "date": "2026-11-27",
+       "score": -0.5
+      }
+     ]
+    },
+    "oil_supply_down": {
+     "label": "Oil supply disruption / OPEC cuts",
+     "heat": 0.9,
+     "n": 57,
+     "why": "Naval mine explosions near the Strait of Hormuz directly threatened global oil flows.",
+     "headlines": [
+      {
+       "title": "Breaking News: Two Oil Tankers Damaged in Strait of Hormuz Mine Incident | Geo News",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5Oek8tR2oybmtMaWpiVER3RndJMHJkZERfa1RXSzQtQ0dwazdOb3o3aEVXdEtNY3NXMHR4VTlKN3k2eDVvUUcwQ3ZFcFl0X2tNUFN1RUFn?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "US Iran war: Iranian Navy chief says breaking through enemy blockade in Hormuz is underway",
+       "link": "https://news.google.com/rss/articles/CBMikAJBVV95cUxNR1pidUNBdVRDMTQ3SExESmpDS2FHMFZiY2J2NHVqSWhOSVJ2djhZLVVwMUswNGoxUFh6Y3BqdF81NXZCS3pnZ0JEakFpMG1nRG1QY3hGZm4tOG9GSVBMc3c5SDhaWDBZWVV4UF9VbE1SSGhTNWdjSVE4OWRZWnc2d2dRWmktcklhNzNnYURQODRqZnEwcFdTN2xZMkNjOEhQV3FmMWlsZ1k2MjlOUjc1R1hpMjNGOC1SQlY0cGtoR2JzZXVmenAyVHVhT1lTa1lLMDdzQ2dPUEtHeUs0TjU0SUtfdUVRU01pZEpNN3pFWW9IcVB6N24xdFd2UlliejhWRTFXV0lhMkFXUDZzMlM2c9IBlgJBVV95cUxOdk5Cbzg3YkF2bExPOVpxcGZ4S2p3N3V3TUFZUGloQ0xrVXpCeFNHNGZYa1dBc3BIUE1rZVhxQjNhQmJzNDhETmQxSUxDSTNNUm9HVWluMTVZcXB5VTNqMVJzNHRiM3FuV0tUaU9NYWNwWTFBbkMzanNXVUY4N0VyUkV4TjU0ejdVNmtJQzZrSnZERXhkc0NLVk54a2JUOVJ6OTJHeUVLeUJZNFNYTktqX2FhbnMzeV9sa1RtaEQxMWdmdTZ1NUU3Y2MtN3lqS185cFhfMkx0X0thVEg5Vzk1RFNLQU9XckY0dXBMMWp2bm8wMGNmeWc2MExSRExNMUFtNXlVMFJMNzNicENSOWFYQUFmTEdNQQ?oc=5",
+       "publisher": "The Economic Times",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "An Iranian military commander made multiple FALSE claims concerning U.S. Forces over the past 24 hours: \ud83d\udeab CLAIM: The U.S. military stole two Iranian oil tankers and the IRGC\u2019s navy retook the vessels while American troops on board slept. \u2705 FACT: Iran no l",
+       "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5WZkM4akpSUzQ1QktkVjQ1b0RIcnpDbUlvTGFkQTJkZTVRY0ZxbGtBSi1YQ0NZTFAycmpnendiUnlCejdfaXZVMWNvcnYxQ3NadzhIOXNkeVZJaXVf?oc=5",
+       "publisher": "X",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "The Strait of Hormuz: The World's Most Critical Oil Chokepoint\n\nJust 21 miles (34 kilometres) wide at its narrowest point, the Strait of Hormuz connects the Persian Gulf to the Gulf of Oman and the Indian Ocean.\n\nApproximately one-fifth of global petroleum liquids consumption passes through this narrow waterway, making it one of the world's most strategically important maritime passages.\n\nIraq, Kuwait, Qatar, Iran, Saudi Arabia and the United Arab Emirates depend heavily on this route for energy exports, although Saudi Arabia and the UAE have alternative export pipelines.\n\nAny major disruption to shipping through the strait could affect global energy prices, international trade and economic stability.\n\nFew geographical locations demonstrate so clearly how a narrow stretch of water can influence the entire world economy.\n\n#StraitOfHormuz #PersianGulf #OilTrade #Geopolitics #EnergySecurity #MaritimeTrade #EconomicGeography\n\nMaps, History & Geography \u2014 Every Map Tells a Story",
+       "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNbnpoR0hsMXhYbHNXTGdCaUItU2dUZ212bnBjTjdndEFBcXRFUk9mMDV4bG10Qms4LVZ6bUZzNm9VQ2RkOTRmX1BuM2lIV3ZaeEpMMk9pcUpjak9LakJLOU5LVGpFZ2Fsc3M4V2tKdXpiLWVCV29ZcmlvUUk4MXg1dFptN09LLUpZTmtpVzJ3?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "\ud83c\uddee\ud83c\uddf7 Two oil tankers suffered explosions and caught fire after striking naval mines near the mouth of Oman's Khasab port and in the eastern Strait of Hormuz, according to a statement from the public relations department of Iran's Islamic Revolutionary Guard Corps (IRGC) Navy.\n\nIn its statement, the IRGC Navy said one tanker struck a sea mine at the entrance to Khasab port, while a second vessel was hit in what Iranian authorities described as an unauthorized shipping lane in the eastern Strait of Hormuz.\n\nFor live updates: https://en.royanews.tv/news/76581#11518",
+       "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNNjA2UGhBWkVhY2k4c2dWd21zYlRTbUVJZmV6QTRVX2lCUzNRdTFRcE16ci1UTTNzM00wYTFzdllCS3hraXczbHNHOUpOTGo2MmY4QkxBWDN2OFUxY3dyMUZFci16Z0RYQXVZbDdYNUtiRm5WSkFJWnk1Zi04aThUM0dmNTlVYjBqZ1hPNkR1REJ4X1VxejdOc2dnYUxTX3pZOVZkTE5QRHlJVVdBcTNVR3owRnZkZ3hLai1TRnEtMTBqc0l2RXdmZTBjaFRCOVRNaG5UZVdYMVdjc2xZTDdV?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Oil on track for first weekly gain in November on supply fears",
+       "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcVRsSWxjYzFlNVptaW9KdEdZMl93SDZLYVByRVdDUXRVNi1yUmRPMWZqZ20xZEE2dUxBUWpPUEtRZGQyN0hTT1pQTndybzhGOUJtbzdmeW82aVJiekNEWnl6M2UyUHA4NmRrWHBTcG03M19wcTg0VXJma0dJWHFJUDJHYVM?oc=5",
+       "publisher": "Yahoo Finance",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "oil_supply_up": {
+     "label": "More oil supply (new reserves, OPEC hikes, Venezuela/Iran barrels)",
+     "heat": 0.4,
+     "n": 6,
+     "why": "SPR loans and Venezuelan oil deal discussions attempt to offset supply tightness.",
+     "headlines": [
+      {
+       "title": "US Loans 8.5 Million Barrels of SPR Oil in Second Batch Since Iran War",
+       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNX3BNZktJMXBqOEdWZnNwTVd0T3owc2Q1TGZ5YUN6bDh0NFVXWDJDRXpYekRvTHZueldCaDFvaXFVOFh5OHJoTDJib210ZU9JRjlxeW5pS1ZaZDJZbHN0Z1dvNWZsZEZyeUtNODV0NnR6TVlTR0lwVThEM19LYzl0RkF4MnowOHpjNzdEQ3E0UEl4Tl9jTVptbld1NWlQc2x2RHFN?oc=5",
+       "publisher": "EnergyNow.com",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Reality check: Trump's Venezuela oil deal may have little immediate impact on US gas prices",
+       "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQVGxlT2YyYzQyRUFyTzc4a25QeXRzTHpQV0tTR05YZkZYWl9wd1JUT1Mwb1lJeTBNM2ItVjMwRlRtdDZLOVVCMG5CVWhkMjJCT3B6OHhQWkRDdWRLZUQ3Z2lPZGowaDhNNU9YWjhjdlpiekctM0tpb2JkbnZIQy1qV051Yk1VWmtPdmc4Y29NYUcwUFRFaUlubmUtZWtfc3Y5dzF3bmhHa9IBrAFBVV95cUxQM1hWaXRCS3NTUmd6UFY3MmpRajRiNkZuRkFwZ2ZrVTFYWjQybnF0WFpvbUd5cmw5VzNKU2k0TUI0X2luSllDZFozT2p3dmlFb0hyT2JELU1HSzVZRFVFc3RQOTR4WXNvZWRZQmxsTy1wM09TSng4dlk4TWM5WGtVR04xVWR3VTdPSDdxalNLYzFhMzY2ajRGV0FxY2xjdC1fR0M4LU1hRzVYbkUz?oc=5",
+       "publisher": "ABC News - Breaking News, Latest News and Videos",
+       "date": "2026-11-27",
+       "score": 0.5
+      },
+      {
+       "title": "What to know about 'black rain' that fell in Iran after strikes on oil reserves",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPUERWLUNDUmpCUjdsMVFHWm44UGRJLXZEdkRvMG9lRmp3NnpGUEFDUXkteFFkaUFLX2lhOENuX2pWNnE2bllqdnVpVGFLWjJDV1BpWUFOODJKMTJYVUJYSm14bk1vTkV5dGx2WENqbE83Q211eVNNNE9SYjBPZXZ5LVQ5OUpQblJYNThfLWVHN1VINkZhWUIwTWMyVHYzOVl5aEHSAacBQVVfeXFMTzh0SjVrcUdMX19zXzhRVTFkYkZIcWp4OUR5SVN5bm42TnQwQ1M0dGVxMWdydFBkMExsQ2RTaUtHYkk4VUlxVzNnWldueXRpTlhJeGJMdl9tQnkyM3RTYUlaUVFYWkRaNlIzd3RnSUI4NWd6b0g2S05hdk83MFlSa01SVV84OHpVcDBfU1FqOTYwM09yU2RJSGEzeXk2U2JDcUI0Tjd6Y00?oc=5",
+       "publisher": "ABC News - Breaking News, Latest News and Videos",
+       "date": "2026-11-25",
+       "score": 0.0
+      },
+      {
+       "title": "Iran plans to boost output at Iraq-shared Yaran field by 3,800 bpd",
+       "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1nQnRJZHE1R2Jsemw2TVNVd21iVHlrNEQ4RHFBdWgtNi1hWFZkN0xZdmRabk0ycExoRzM5ZE1lRjNkNlhIZ3dnemxTXzlpM3c?oc=5",
+       "publisher": "Trend News Agency",
+       "date": "2026-11-25",
+       "score": 0.5
+      },
+      {
+       "title": "The new global oil map: between oversupply and the search for alternative routes",
+       "link": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxPam8wa05vcW5zby1OTk95NGxzTlJweWYzdDNJWDlvSG9TTk5SUHNVOElDaUI0cUd5TTBzR0haTUpENFJ0WnI2ZWNDZTlENkQybFhIN1RGQU9xOVRGN0VlcU9peWd3aXUxZ2JrQzM5NkFQT3Rmd2ZWMWNwbWx2SjZMS1pnNjFqUTdEam05b0l1dzhGM21zMHltUEhldTVLeVVsellWeUlNQXVJMGNZNVNhVFVDNjdYRUhZM2NhU2Q1b3lPcXlOTVFva3NJWUVKdlVzZXlNX3ZFVEJienFYNDVuc2RBbUktc0V6R0E?oc=5",
+       "publisher": "Atalayar",
+       "date": "2026-11-24",
+       "score": 0.0
+      },
+      {
+       "title": "JD Vance Faces Senate Probe Over Venezuelan Oil Deal. VP Denies Meeting With Major Trump Donor.",
+       "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQRndjOWNoTzRrVGlfaTBUdTdfYi13bXgxd2pqRTFjb0pwSk1HUnJTNHNJRDkyNXNFNUVzaW56NGdYT2czVnZsZGVBbEhVTTNiVUdiWkg2eTFXQ244aE0yZ2Fndl9uU3FvMU5tWjdyRVUwSTA0cm1yYndQNXRGZVNaQm1GbW0?oc=5",
+       "publisher": "International Business Times",
+       "date": "2026-11-24",
+       "score": 0.0
+      }
+     ]
+    },
+    "drilling_policy": {
+     "label": "Pro-drilling / LNG approvals policy",
+     "heat": 0.3,
+     "n": 1,
+     "why": "Argentina approved a massive LNG project to tap local reserves.",
+     "headlines": [
+      {
+       "title": "Argentina approves $50.75 billion LNG export project to tap Vaca Muerta reserves",
+       "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQSnZzb3RjZGxFaEZyR0p4TVQ0MGRtM29sZm96MTZuRmZLM1JnSlc0Y2dRUGtMR1ZEZC04dFc2VlI0S1B0OFN3czkzMERrN1QtRDNCc0FaQi1lSWZXOXN3ZnFUbzAtY2RzMl9fV0hOWU40WTZLTjdQNFpfaVRPUzl4czQ3cC1xLTlpcVFpckdUV0lEd09uS3B3ZmFxMUtmMF9hRG1QWEk5MWF2VW9PaGRBc3V2QQ?oc=5",
+       "publisher": "DatamarNews",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "climate_policy": {
+     "label": "Climate & clean-energy policy",
+     "heat": 0.4,
+     "n": 43,
+     "why": "Emission targets, renewables auctions, and fossil fuel phase-outs dominated policy debates.",
+     "headlines": [
+      {
+       "title": "ROSEN, LEADING INVESTOR COUNSEL, Encourages Montauk Renewables, I",
+       "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxObGxRU1BJd1ZNeVlEQzI5VmtwbkM0QjNXbGFmMVp0OFlkUnlINktmWk5wVmlNV3E3NEhReFRHY0k0cmZQbUtra3FRRVJiTm94SEdfNUxWQUxmRW9yLUItRDE1a0tMa1NOek5JMjQ1SHNhcGJ3bU5NN2Y5bUZVYUZnVDltRDFhUHRFdktJM0NfMG52YjE0dV9rSXVCd2dmMkRxZHhZcWxRcmZsVzNWVXNiazEzSEc?oc=5",
+       "publisher": "The National Law Review",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Interest rates increase for the first quarter of 2027",
+       "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNVlZ1OHlIUDZjVjIzc3VqSHZxSzhVZFVvclRLTzBSd2VWZF9ZeFBJZVpOek5MdEM1YXNQOXVLUGZlVC1QUnFITHNQMzhMWE9nbmNzVGpUY2hQUDU1Tm1HajkzTW1qNWIyaVZidlhZaHRfNDdoaXhkdmtBemJJYlhtd1BMRjF4Wi0zS3c?oc=5",
+       "publisher": "IRS (.gov)",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "BRIEFING: Colombian Congress likely to decide on 19% VAT to carbon tax offset credits in lieu of scrapping buying cap",
+       "link": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE44MDIyRGtjSzdkZTMxelFDWTEtZ21iaWJXQ3Q5dWVudF9HVnlWVlMzdVloZU9KWk9FX2VubU9OTWhyNWxPdFFn?oc=5",
+       "publisher": "Carbon Pulse",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Rob Shaw: Conservatives close the book on CleanBC",
+       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNNDZKaWFKemRONjU0TEw2MDBBLS1UYWpHRkhvc0JIeHlTSzNzTmJ3aE1mX3ZuYnlRTUZyZ05tUndXQTZ3NnpOd05WaXVuRmc3Z2hjdFBxbERXSHU2WlBOdkZ3dGNzNkZvV2s5dy04VXg5ZnZCdkloZWF4MVVaZnExZHVzVjQ3aGxlcE81SG0temF0V19CNHJJVHdBSUJXdzVOWUZZ?oc=5",
+       "publisher": "North Shore News",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Programme Management Senior Analyst (Energy Transition)",
+       "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNMHA1TTVhdFVza2dRNmp1S2gzUzdNWVgxa2hTSkJXd2JVNWk3UDk4Z1pHS25acXpiUnBVcEx5eVBnX3h3VGczVWc1ekNqMHlEUUQxdEdwNG1hbkJkX29mOVdXUEtYWWpJRjd0dGE5SmVmeUJYVFNnU1JXRW50TVotSnI5UWR4ZmM5dUtPMjN2VFhJSDZBb2lDcVZiWnY1ZWtpOXFmWkZLRFlDd2tDSlp2cWoySQ?oc=5",
+       "publisher": "UNOPS",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Unsold 41 GW of Clean Energy Prompts India to Press States on Storage Contracts",
+       "link": "https://news.google.com/rss/articles/CBMigAJBVV95cUxPSDYxNnVQR3BxYUo0SG1XcEVhbjNEVXFHRVMzN0d4VnJ4UFVCVm10Q003YTRIaXFhNzdkdTJoMUctX1p5SFdwaHVJVmc0WWxFRGhSREh6R2g5RWJWQjlrTUZ0el95cjRxeEVZM1FPRlloSUJUV0dLMlM4N0RxUzktVjBUc0hha1NYWlhZNzVkeXZWWHIyN1JmN0M0alFRZjR0dzF4Yi1Lb3AxTWg5X25FM0ZveW5kQ2RYQ0tmbG1hMlY4NXY2bTFVVWctT2JCMDBxc3gycDJmckRhWGl4bW1rbHBOZXJPclVsb1hiMzlzYnVOSGdPSloyeEI3WWVxRlMt?oc=5",
+       "publisher": "ESG News",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "tariffs": {
+     "label": "New tariffs / trade war",
+     "heat": 0.8,
+     "n": 92,
+     "why": "Fresh US tariff proposals targeting 14 economies sparked global pushback.",
+     "headlines": [
+      {
+       "title": "Republicans rethink tariffs, giving Democrats an opening to challenge Trump",
+       "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNZ2NjNzZWeEQxOC1BRDBXeWE0Qjc3NU9wdHRxejZXQVNuQ3QtRlNjQzk4VEdwVC0zWGpvTzdOWG5LcmFPT1prWWRiUWdDVWFvM3h1aGRrYmlXV0NOSEhpQkVhTEpuWV81VnEzZjQ3ZGhiRmNZcldsWDFwMzRwbXRIaEo4N3dvRmZLVVJadDVjRGw0amtycVgxR3UwQW1ycUhhSVV6Y1VZNFBROHp1Ukpr?oc=5",
+       "publisher": "1News",
+       "date": "2026-11-28",
+       "score": -0.5
+      },
+      {
+       "title": "Small business owners feel the squeeze as Trump proposes new round of tariffs",
+       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQMW16UWZjVlAzQnZNcTVBZ0NzbXZJaUdmeExiaHc2VU1IRlUzcG43UUpIeWhLTjRkQ05xNEptaVV1NElzME1xakZBWkRoWjliUUhsTG1nbEtHN0p3aWJ3eVVVenN3LUFRTHNIaklKakhNWXFxVmJydmtWZ2RhSEtObVJnWGUzMGhhaDE0ZEpiQUJ2MXhDNWNjNGp0SldVTnExdTU2Wm85ZGM2WEhIN0tlaHNSZVJnUQ?oc=5",
+       "publisher": "ABC15 Arizona",
+       "date": "2026-11-28",
+       "score": -0.5
+      },
+      {
+       "title": "Brooks and Capehart on Trump's new tariffs, Nvidia's future and Democratic leadership",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPY1JVa0lzU2NxbW42a0RGaG0xUmxZcDF5MlhDX2FuREZITWZwN19Fdld1SEhuNjhGNi10aFpBazdzcmk5MnJDdWJMSWQ0SEV5cWtPXzEybjl2b2UwYlVpbGMxSnppdzdyYUx0NG9XMEJDd2JmWVZ5Z1lMWXl6QTN0RlVGYWpPNjh6YUpaLVpXeDF6QUFsdkJPNU5Xajdib0M4MXFIOXVMVnFwd1F5S2tmVVZRUUhnMDA?oc=5",
+       "publisher": "PBS",
+       "date": "2026-11-27",
+       "score": -0.5
+      },
+      {
+       "title": "Niagara family business says $500K weekly in Trump tariffs is forcing production to U.S.",
+       "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOcnk4dVpxT3Raa003UEVUUV9WMGJvY3FPNEY2U2xKd0ZDbWVrN01lQWtRRnQtV0h1ZzFnZWZWdXE0WEFyenJrWkw5RU1waWRYWFhDcWY2MElaTGM0Z0xrMWc2UWZMSzlMYlVOVjNvRVpDU3dtc3B0dzRJYW9UTGtNYlc5djdVR0Mx?oc=5",
+       "publisher": "CBC",
+       "date": "2026-11-27",
+       "score": -0.5
+      },
+      {
+       "title": "From Huang to tariffs, Trump keeps creating chaos \u2014 and we won't stop him",
+       "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNOWJGS05vNnZ2aG9iRkN2V1dpN094RGdZNW5PZlNEUU4wR3FlbHh1VGlnN1J1VjlwTXFEQmRtZkVDdFpiMk5jYUozN1Z1UFNzOHlvX2tkU3lwVDl5dm9hbzR5Ui1Ib3piV2RPNEFKSmdrTUpjU3k2d2RuQWdGa3FHeVNfR3BhbjBnOUtZQ0FSSi1yOXNONk9xMUVjOTljamJpSVQxTVIzTQ?oc=5",
+       "publisher": "ABC News & Headlines \u2013 Australian Broadcasting Corporation",
+       "date": "2026-11-27",
+       "score": -0.5
+      },
+      {
+       "title": "\u26a1\ufe0f\ufe0f\ufe0f\ufe0f\ufe0f\ufe0f INSIGHT: Speaking at BNB Chain Demo Night, Binance founder CZ said Bitcoin at $60,000 is an attractive price and expressed hope that the market has reached peak pessimism. He attributed the crypto downturn to falling tech stocks, the Binance",
+       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE14SVpOQXZWTEhiWmZHOHc0OHVXRHNjaEZLdU8wWWFPRDhPanBOV1JFWXA3NUhsYzZTUlh1VlRLY0RTMWlFaWxmdC1TaFZnZV9qQXQ3cV95dndIZWVZSUgtN0J6aVU?oc=5",
+       "publisher": "X",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "trade_deal": {
+     "label": "Trade deals / tariff relief",
+     "heat": 0.6,
+     "n": 81,
+     "why": "US-India trade deal nearing finalisation amid broader tariff tensions.",
+     "headlines": [
+      {
+       "title": "The long-pending trade deal between India and the United States is nearing finalisation, with the process that held back the deal now taking shape, commerce and industry minister Piyush Goyal said on Friday. \u201cThe US trade deal is close to culmination. The pr",
+       "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNZHFoRE1VYU1JZlBXbEVaVlREb1N5eVg0WUgxeTBjcVlDeDhVcUVYS2lCSHkyaG1aT0Y1UkJ2d1B4eUhqeGpKSUN6YUNHWHIyRE9yRVJpX1cya3Q0bU1fT0FobW5icUwwd1NlSHdlRWdidmlYVXhHaHhGOG04bXB1b1E3MUFiZi03bXI5ckc1X1VGX3pTY2NZVVYxTHk1alVCSXVxb3FRMnluZFY5MU92eVZ3bHZVRWlqRzdhbTVCZEVVRWM5NzBGaTBkUHh4cnd4bV9J?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.75
+      },
+      {
+       "title": "US trade deal nearing finish line, says Piyush Goyal as Washington proposes fresh tariffs of up to 25% https://t.co/tL2A2NuOzO",
+       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBDOWFRRDdHSGpOYlVxQVpZbWhUMERILVVaTWh0SXdpaHZNRGlEempmUVNIblR1bTFtWTkwNU1HdVZLaUxXcC1hX2E1X3FkUUh0S2Jxb1pGT1ZBQWYzeHVUbS1MOWc?oc=5",
+       "publisher": "X",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "India-US Trade Deal Nears Finalisation, Says Union Min Piyush Goyal Amid 17% Tariff Proposal Union Commerce and Industry Minister Piyush Goyal announced on Friday that the India-U.S. bilateral trade deal is close to culmination, signaling a major breakt",
+       "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPQTNaOFRrbnFoV09KU1F4UFBwREoxRGlhWElyXzNxUmlpamNmYlhoRjRvTXl3a3lOMmczTUk1Q1E1dzJEVlpGa0JNRzROS0ZxeS1JTVpmbm9FZkRjUUI3WkJwMmYxaWYxck9tY2tJN05sWWJXOGQ1dTdBaUNHSl9jWV9TcXRYZUVMZVJpT0xuYXJJTnJaYUxxaVpJQ0hhaEtKc0U1MjhrUkdkTW1Bd0lvaHhSZVAyTFE3UzlReHk0Z21iRDJNeWI3MkRESEhqdTh0UnNxTXlwcnV4OFotM2c?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.25
+      },
+      {
+       "title": "Indonesia-EU trade deal sparks 'ambitious' hopes and transition concerns Exporters worried about 'sudden spike' in tariffs pending ratification process https://t.co/5vAC2OGiGS",
+       "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5kN0VFdm9lX1F0T21sZDVqSEpjeU8xVWMwMG1YMHB6aUtPbklUbVVPdjNuOHA2OFFxVGZjOVVnSnJRSVYzVjRhRWFseU5yUHhOTW9Pam1sbXBfeDcwUFhJYg?oc=5",
+       "publisher": "X",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "India\u2019s clean energy goals face new test in US trade deal",
+       "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOZFJNdkx0NXlxWTdNYTNIY0VjQklKbVdNY0lHS3ktMGk1MTRLQXJLVEQ3U3g1QmpJaGkzZVlaSEs5UmxNWjFOWW05Ny1ScGgtMlN0RE12bUxfeXZxVkdLMHliQ0ZRV3VIWVdET0E5QU5xQ0VOYWQ0NFdGYXI5eEEyT0psaUNzNkVBUHF0YjFwMU1iQ1NxTFdiZ1VSbUdwX2J2ZE5hRA?oc=5",
+       "publisher": "Climate Home News",
+       "date": "2026-11-28",
+       "score": 0.5
+      },
+      {
+       "title": "US India Trade Deal News: \u0905\u092e\u0947\u0930\u093f\u0915\u093e \u0938\u0947 \u0935\u094d\u092f\u093e\u092a\u093e\u0930 \u0938\u092e\u091d\u094c\u0924\u0947 \u0915\u094b \u0932\u0947\u0915\u0930 \u0935\u093e\u0923\u093f\u091c\u094d\u092f \u0938\u091a\u093f\u0935 \u0928\u0947 \u0915\u094d\u092f\u093e \u0915\u0939\u093e?| Hindi News",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5PRF9BemFEb3RmOUNMOEVJS0Z3Y01KLVpNbFRnQWNYMlB3NjZjUkhlZGhueGthS0ZpTk5RLWxBWERWQUMtcGpvQnROdk5QQXlCbElwRkp3?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-28",
+       "score": 0.5
+      }
+     ]
+    },
+    "chip_controls": {
+     "label": "Chip export controls / tech restrictions",
+     "heat": 0.7,
+     "n": 68,
+     "why": "Nvidia halted certain Asian shipments amid tighter US export compliance.",
+     "headlines": [
+      {
+       "title": "Should You Buy Nvidia Stock Before CEO Jensen Huang Testifies in Front of Congress on Dec. 1 and Dec. 3?",
+       "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOLXRieWlpNzJqdWQ3RVRNQk5WUXBUSUY5WE5oNHdRNXNCekJFc1pWcEViZE95RFRzbDFKWTdDc29VbXNRTTBobDVGQnFnOXg0NFVLRzQ4NUVTeHFmT2NNRkM2WjFVYmxvQTg1UnpRU0R4OGNjbGZIUVpTT2R2VU5DdzFyb1RUYkY4VTBXM0NaTmpGM2h4OUMwVkZiRVFWaS12eEhLUGRrQVVkVDcyODl4ZlQ5dElBRDd6U3ROa2hzS3ZJNm9semJQZkk5ajBsUGVGbnhKajR6ZE1xdUtZ?oc=5",
+       "publisher": "The Motley Fool",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Beijing\u2019s AI ambitions are under threat as models may fall behind by up to nine months versus competitors \u2014 Chinese AI labs are under heavy fire from export controls, maturing chip stacks and a distillation crackdown",
+       "link": "https://news.google.com/rss/articles/CBMikANBVV95cUxPdVBURHZDUGJ6UlM4Wjh3M0VhLXpIMUoyaEsxeEs0SzlTcEE5MmljQjE3M3o2TDQ1QjFTRVl5MElYTEJaRHFYclZOQVZEZXBNOU1ha29rNHpuVlNpQUl5bWdDRWFKSjlFZExDQVlKWU9hc1g4NXdLWVJtaGE5d0ZsNnhjeXc2RzJMNEhvY1ZoamZLSmRqOTFZSlZfZDEzQ0k5NFRma0hrdVRSSWdyNkRVVDltN18wS25CWTZsLWZLVXJtOXYwRkpaMldESEVYZnpUMmpjUjNScVVfRmRXMzFpbmJDWkYtQVpzeHNud1RzS0pxLVRfdlpPRlhxYmZwNmhXM2d3Tk1wclA5Tk14WEtGemVGTlplZkxJYmhVTm1xQ05NS3JwejVDMlVtZ08wZ2xNU1k2SHM4M3lMczRub25WM0FTRDViU09Ra3dpbkRaengzN3RpMU00RmVFaHJMYlpjV1RXd21CV0l0T2t4UnNyb2FOSVNKc29TRkZuOEd2STRvSlhqSmd5TlIwNU9yNWVu?oc=5",
+       "publisher": "Tom's Hardware",
+       "date": "2026-11-27",
+       "score": -0.5
+      },
+      {
+       "title": "Dutch PM to discuss MATCH Act chipmaking export controls with Trump at G20",
+       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQWWxBYUpTVDhrVzJiSHloOE1CUnA4SURkemtJVFRkM2g5ZWxUUFBIeVd0M3EtWThILU10MV9jcVJuNjNzdlVibndDU2JTMDdTc0pMZnJuZ1d4STNvbmtYMmY2VU5UcHlxaHpIeHM1YmR3MDQ5MEY3c0lsTFhJbEtGUlRmMWczRFVKLU0zUHkzUVhnZjFDMWVfbEZ6V3lKbGZFVDNyV2lVWGFNM2ZnWWRmcmc0R2dMdw?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Taiwan's economy expected to grow at its fastest rate in nearly 50 years due to AI demand",
+       "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPQ1lkakFoSnF2VGJSOUxUR2NYTGVNaEZBYVFNU3N6RC0yOF9xODdILU9Lcm41Ujk0N1dHOXpOMW1OMGE0Q0V6UDYxR0dNalFVRWlabDZzQUZsemhRaGpnejk0UzdCRUIzOHBJamNCbVRSc050SHJLb0ZkbV84d2dlenhkeG83UjFyS1kxY25maVBZUFlfYlBfLUExLU9DMzBUaWxmOHZkbVZVZ1ZNQjlvQ0ZKWjhYTjI5OVlQWGRCb0NaSElwal9MMzktQQ?oc=5",
+       "publisher": "Reuters",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "EU weighs tighter export controls to prevent battery waste going to China",
+       "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcnpuc0FCRzZjNXFLRFJWSk02YlZ2SkVlV1ZsWTd0ck9Vdnh5bjFuMGc3UHBSdWlFSFpqbkU5dWNjUFV3dWFoTFJLdWZ5RVBWUzUwNWxxQnlIQV95aVhMQnFZSzk5dWpXV1NjTWVSem04ZmsyakVFczBxcUhUdTByTEpDblI?oc=5",
+       "publisher": "Financial Times",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Nvidia\u2019s Advanced AI Chips Are Being Used at Chinese Data Center Tied to Alice Huang",
+       "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPV2NzQXdmVXpOU1FuSE1ZTTJBWEV6OHJJLVJGRFZqTTB2VWdzTENXY1NfNFdSYXN1SzJYUU1FbWIxWGN2WVoxcUlHUFBicDB5am9WOGItR3RjYXdPTjdwYU5ZcUlZbUJfNjBlQ2NjbHhhcG16TDdoaE82Tzg0WjJrRTdTTjdyX3JycWQ0R3FZWkNpNElEYVZ1eGtNbkVxUWt6ZWpaYzR0VmZ6d0J1RnNJ?oc=5",
+       "publisher": "Gizmodo",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "shipping": {
+     "label": "Shipping chokepoints / freight disruption",
+     "heat": 0.8,
+     "n": 94,
+     "why": "Attacks in the Red Sea and Strait of Hormuz severely disrupted global shipping.",
+     "headlines": [
+      {
+       "title": "Freight rates for Russian oil fall further in November, sources say",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQSFExdFNaOXhVek56UGN4T0RvTWFnM0dHdDF0VFZURnNFYk9EOGRBckFGWmJCejBReENaVGNSZWJkQ253cU5Za1JVTzk0WnhxRWdnYWJRUVJxenZobEhhRHluSk1zZjFFUzcyMVZaNnpLOEVTSXk2bGhrb0hzQXM3Zjd0c2F4eDRxY2ZxdG1ndHRXWGFaZHdxVV9TaGpPVEhrSThtbEgwa0NUSTA?oc=5",
+       "publisher": "Marine News Magazine",
+       "date": "2026-11-28",
+       "score": -0.5
+      },
+      {
+       "title": "PHOTOS: Cardinals Red Sea Road Trip Top Pics",
+       "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQOFV2cjJuX25SWDNmUEt2VXBzWkhFQVNVVkxFVmxiV1ZPY3FsMnZwV0xpQVl3d1QtSWd2Ny1sMlpXbl9QNk8zeUtvby1TZHVJOExaaTg5SXM0djRWTlRtYnNPRzVfaFVmejRFbU1TTEg4M3E0UzlPeUtLOFVGdi0yNXZOMHA?oc=5",
+       "publisher": "Arizona Cardinals",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Zero growth: UN warns global maritime trade set to stall in 2026 Global maritime trade is expected to record zero growth in 2026, down from 1.9% in 2025, amid heightened geopolitical uncertainty and disruptions along major shipping routes, the United Nation",
+       "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFB6XzVkMWhQQWl6cnM2eE5kdlVNTkR1Ylg2Ung2SmlRV1E0TWJDQnB2cUVKWEQzN0ExOEVyazROeWF2Y21QNXNLZFJDdllnODdSLXVXbklsVzBLVlk1SWdfdWtn?oc=5",
+       "publisher": "X",
+       "date": "2026-11-27",
+       "score": 0.4
+      },
+      {
+       "title": "'Destruction Will Fall Upon Eritrea': Abiy Hardens Ethiopia's Red Sea Access Push | Firstpost Africa",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBTUF9ZNnc5MDNGaXZITkFENVNBSW5VSzl4cmRYTldnNlkzS1BlVGJpYTBYTzZSVFRMaVpQQ2xsRE5RVnA0QWl4OW5yYjdvOElMUi1mNzJR?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-27",
+       "score": -0.5
+      },
+      {
+       "title": "Saudi Arabia\u2019s Jazan Port Damaged In Houthi Strike As Red Sea Ports Face Attack Threats \ud83d\udc47Read Full News Here \ud83d\udd17Link In Comments #SaudiArabia #JazanPort #News #redSea #HouthiStrike #Shipping #Maritime #MarineInsight #Merchantnavy",
+       "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPSlhzMWladDFHSWJkX3RjQ0t4MEctbjBoc004cGt2TFpwQWZwZVoxSGdVZXBiNmtEc25HY0EzbjRTcFJBbXlPRlR0eTFQN2RMb2hLdF9KUmNzTWQzNUphb3JnY3FmWXJJMll0LVpCbUdHRWtEVHlMVE9pUFl3bXJmdERRXzYtYVhfanFyU2RfMUo2aE1VejQ1RnFzd3dMQnRUZHhwTk5WMWJERGRESVhsem9hTm1wZElqRU1kRVpDM214b0RxTmk1TUcwTTNiczdzc1hEamZ0WHNuNEE?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "West of Suez: Brent snaps rebound ahead of OPEC+ meeting",
+       "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOd1BwOEt1TEQtQVB6X0lBMFN5cURuQVNMdThPUW51VkdGN0xJMDV2U0g0c0hQRVMzZ0ptVldOaGViVmRRc1VlQXRYS19UaGxMSnJ6cm1ET2lIQ1hEYTYySE5yaldReFRhcnNFdHFwVnpacnVrYjl4WW81RWNHNWZpUkg2N29yNWZXWU4xaFlfQWY1UFRLYUp2ZUNuTG03dw?oc=5",
+       "publisher": "Quantum Commodity Intelligence",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "rates_down": {
+     "label": "Interest-rate cuts",
+     "heat": 0.5,
+     "n": 44,
+     "why": "Traders weighed conflicting central bank signals against resilient economic data.",
+     "headlines": [
+      {
+       "title": "#Gold pares gains as #Fed hike risks linger, eyes first weekly rise in three weeks #ETMarkets",
+       "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPelVTSUsyazExNGM5eWkyNkljbWJBYWhXdzhQOFF2alJMRVA1ck9nb1hJVlZ0M0lyMjB0amxRTGszTWZWUkU2X3AxSGVUS2RNeEVMd0Z2YTljYnozUXRRUWVieC1lT1FaTzUxOHFXRFJwRFBUYmJ1QjNFemc4VDVCdTN3OUFUSkJ0WkhIWTJmZENtRDlrMzh1OEZCNmIxbElnbjFweVBHUG1zdENRVFdUS3ZOS01KMXRJVG82LVlTSXZ0akQyMGdxZ1lqcjQxT3pnZGpyeA?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.67
+      },
+      {
+       "title": "Wall Street\u2019s bullish bets tick higher after gold bounces back above $3,600, Main Street maintains bearish bias with payrolls on deck",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNdTNXWTMtUVlSdHdDazZkWVVEVmYzR0gwM1FnOGJiRE1KOEF5NS10YmptUUkyMTNJT1RVLVYzaVR5dVR5NHdOb1BvMW1DNmw0TzVoMk5SRDVMLWdRRmoyMzg0VENPX2FiRW4yR1J3ZFBUM0d1MDNaR2ozRnU0RDc4clhUd19UbHp5OVpMdy1BY21jMlk3ZV9lbGlxTk4yLURSMTZuNV94Z0tMb19aMzI1REpvVUJZSTlaNkE?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-11-27",
+       "score": 0.25
+      },
+      {
+       "title": "Gold may get a relief rally following the Fed, but Warsh\u2019s tone could still hammer prices lower \u2013 BubbleBubble Report\u2019s Colombo",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQQVJNeDA1dXJNNGlXVlNfbEg5aXBWZVlhNTRDVnFBSjllblA3c1NWY1JIMUxfY202RC1nMDhEdjRXa25xNGttVVVKWElVYXpKWXc1ZXVNaTVGYWFqZnBQZEpTR2V1T3VHRW1rN2NSTVZES3J3YndCbTFTYlY5N0g0MWc2MVZ2LURRbTM2Um5aOFpDak9taHVFWDJMNUJPb3g3TmJxWEJMalpwSjRpQ1hMUFJSNnBFMUE?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Gold Steadies as Fed Rate Path and AI Stocks Frame Volatile Week",
+       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQdjBId0RKMFpkWFQ3R3VMeVV3T0VOMEI5dzRuWWZaMGNLVFBtRXZoWjJlWHhsdXVqdGNYT2NNc3ctSU9zdXpCR3ZaSXFENDhwQ1BQa1RqV01palJ3LWcxOWFnRXZFRm40NGRTaU9XYU9yOGF2WXAtV0lxOEdDcWZmSUxfYlZfZENjV3JUX0k5YmstSkk3V1ZWVWpkR1VjdDNzdkF6ZGxSNXpOZ1AxZmlGNThJTE0zUQ?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Zambia\u2019s central bank has kept its benchmark interest rate unchanged at 10.75 percent, pausing its monetary easing cycle for the first time in 15 months as rising inflation pressures and weather-related risks cloud the price outlook. The Bank of Zambia\u2019s Monet",
+       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9nUWFGSG1zQ2ZxNDFWdXNLZ2JuWDRoRXFaTm9QUDFFaWYzUjJUNVlHel85Qjd2Y0IwWC10ZmlEazJkY1ZuSnFfYW9BR1hJZkpsV2c?oc=5",
+       "publisher": "Instagram",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Iran\u2019s central bank chief admits economic squeeze is hurting families",
+       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFB4ajRmQTJWMmFKcnQyZWJpaXk3aTFBYXRnNW5BQV9mcENMYVo1dXB6aGNoNHJnLTFJYW40c3NZUjNkenYwaGtsNkQydG5GYWpOZ2c?oc=5",
+       "publisher": "Iran International",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "rates_up": {
+     "label": "Interest-rate hikes / sticky inflation",
+     "heat": 0.7,
+     "n": 73,
+     "why": "Hot inflation and robust GDP data drove up December Fed rate hike odds.",
+     "headlines": [
+      {
+       "title": "Gold may get a relief rally following the Fed, but Warsh\u2019s tone could still hammer prices lower \u2013 BubbleBubble Report\u2019s Colombo",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQQVJNeDA1dXJNNGlXVlNfbEg5aXBWZVlhNTRDVnFBSjllblA3c1NWY1JIMUxfY202RC1nMDhEdjRXa25xNGttVVVKWElVYXpKWXc1ZXVNaTVGYWFqZnBQZEpTR2V1T3VHRW1rN2NSTVZES3J3YndCbTFTYlY5N0g0MWc2MVZ2LURRbTM2Um5aOFpDak9taHVFWDJMNUJPb3g3TmJxWEJMalpwSjRpQ1hMUFJSNnBFMUE?oc=5",
+       "publisher": "Kitco",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Gold Steadies as Fed Rate Path and AI Stocks Frame Volatile Week",
+       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQdjBId0RKMFpkWFQ3R3VMeVV3T0VOMEI5dzRuWWZaMGNLVFBtRXZoWjJlWHhsdXVqdGNYT2NNc3ctSU9zdXpCR3ZaSXFENDhwQ1BQa1RqV01palJ3LWcxOWFnRXZFRm40NGRTaU9XYU9yOGF2WXAtV0lxOEdDcWZmSUxfYlZfZENjV3JUX0k5YmstSkk3V1ZWVWpkR1VjdDNzdkF6ZGxSNXpOZ1AxZmlGNThJTE0zUQ?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "EUR/USD Forecast: Fresh data to shape bets on next Fed and ECB decisions",
+       "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPc3NkTlU4a2hUYzU4aUJhSzdacjZoalJTaExvdy1Sc3VtWEJsclVORHRlVXVKWVVjS1RuRVpvNlV1RU1CaTdSNXg2OU5waW16X3p2MDRQeUwyc0NCbmkwQnJRbWlXZDRFLVg2bzFzRXg3aDBhbzlwNmFEN2pRZWxRVXB3eWp4Z0hrOE1BNzBWdDBDR1FyZS11YmRqWjF2c1FLdGxCZThzZHpOMEtjMWg4ems4Wnc0Ylh6eG9pM0p5ZS1VelB5UFpoQzNoNnpocG5GQmpKUVQ3S3l5TlRrSGc?oc=5",
+       "publisher": "FXStreet",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Gold Price Forecast: Fed Rate Hike Bets Threaten the Latest Rebound",
+       "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQMGwwTHhCdV9lNnpVQmhQem10ajFMallFR1lUTTJtNV9ibUZoaG5pZmhHZHZjN3BOOHpJQzItMl8wLUVEREh3YTh3SGE4WWpVYjJ4TWMxUmE2Mi11N0ZMcEQ2LUdFOU5XNU5mckVoNTMtZXJYSHloUlJwME9CR1dfRWRwbDk5eUxLeV82MWx1dldTemlTNUMwSEZ5ZllzVzA1NFMwSU5UamdUYlIyWUt0QnVxSEZXaEo0?oc=5",
+       "publisher": "FXEmpire",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Has Gold found a bottom, or is this a short-term bounce?",
+       "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPNXlpSmc4c3NfcGFGbGxGVHFYMVpjMXZuMHhGOThtR2I2d0JMMW5mSkJqY0VIaWlIOVpsRXJDVElpOFlPcVRZWjJobThjVE1GRDdQam85MWJzQUhVWlhhNlZuVWRHUy1LOXBvZUFOQmZ4QUxoaU5vR0VvMFEtalN0MnFQNTlZTlRUb19RMGk0YzNPLV8wSGZJdm1xYw?oc=5",
+       "publisher": "FXStreet",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "What the Fed's December hike means for the Australian Dollar's bounce",
+       "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxObUtQcHRVMDJMbHlkb0s4bERFNkJGc1A0c3pEbXpRUWxCNnM3N1VVYmx3QzJ0NnRuQjg2ZzV2eXZqblhjZ3k1TDd3WVRCYzl0bjI3WVUyU2JmTVFNV0tYUnRTUjdLbXNIcWVpajFCb0ltOEtwa2lONUtnaXZUWEdLel9PeHlxSUlYZHBydjJaN3ZFc3hobnRsYlhqU0taWUdxR1Z4bHBBV2lyaDlkWE1DNThSa28?oc=5",
+       "publisher": "FXStreet",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "recession": {
+     "label": "Recession / slowdown fears",
+     "heat": 0.6,
+     "n": 69,
+     "why": "France officially entering technical recession heightened eurozone economic anxiety.",
+     "headlines": [
+      {
+       "title": "Daily Telegraph. . The threat of recession has NSW families braced for the worst, with new research revealing we are the most pessimistic in the country about our financial future. FIND OUT MORE \u27a1\ufe0f https://bit.ly/4ASFw0Y We launched a faster, redesigned a",
+       "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNREJPOUFBcEV2MFFXSXdtNWZPRHltUmxNMzVMQWpjMlpELURqdVRJYjVEcTFOQk1Janl2WHhHZ2ZVXzFDWjhaRUdqMEw3b0hSbFQyOFNkenJfOTU0d2J6U3J0dFhqbUtuTUtjRlkxUUFvREpPRGVmYk9rVHVYT3NjZXpkVF9COUJIX253WWxUTUxHYXdUSmRXWG9La29TQXNUam5TTTQtSVFQa2szM0tHRmVzSTFlVnM4X2lDaVJ0STZyZ19vRGppWmhMbDE4ZWJsd0xmTmUydmFiTmxX?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "As bad polling dims his parliamentary wins, Albanese faces a long summer of political heat | Tom McIlroy",
+       "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQYnBYaU1SdWlnUUxhRHFkX3R0UEVVUmJObjZFaF9fbHQzdDVzZmllU256ZHFLaHEzSFRMWDlhLV83VmN2UDJ2bWxIdjB4LTlJM0tOdFdHM0hLWmxZMkdEYXZQbWpJLXg4VWNMU0hJVWhYYjFmMXd6SW9EcVRuM0tvLU1ReXFDTFh1WFNJcnhZYUswamNFUk45TFk2cEV4dnZWUW9IVHROLUV0cjdUM2duWUw4aklvZDljMmtyUUY5ZnM5dlM1ZnJtT2J0cnBmdVozQUtKdEh5S3hwSF9Q?oc=5",
+       "publisher": "The Guardian",
+       "date": "2026-11-28",
+       "score": 0.5
+      },
+      {
+       "title": "France has been plunged into recession amid spiralling borrowing costs and political paralysis.",
+       "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxOaWYyams2WTBuY0tZU19IeVJxNnlBaDdIc09PQWFxWi1rV0pPZnZ4SE80UTJoNWdOUE5jd2w5OEh3bkMyLWZOWlVRMzVtMUx0dUc3bDdRdW9jeEo3WWM5U182YlN5T3BoYVRJM09wZktYX1Y0bzlzbVk4bUZXTHJja050dVV3djVPX2Y1dHJxdWdENHM4V24xS0ZCOXdGWV9MMVloZzNTaVpia0haUW5mcXVnWGdFdGVqbVpLMmRsSi1LSTVRbVE2VWFaVnE0TWVWdzAtX1RWbDZWcEVha0E?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "France falls into recession as it struggles to contain deficit",
+       "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOSXN5cVB0NUQ2S25ScnJ0dkxqUlVVQ3hEUGJHeU53cHdtOXl3ckRLX3hYUHRVaEZCclpsZHhrdzQtRnI4X0RJRTYyd3FjajN2NWhZX3lWbktabG9mVUJIa3NQc1F2azY1Y1ZxaFBFNzBCT1p3cHZwVjdObWcyS2pwS0pFaHBFdXR6cjR3X2tqb20xZmRzNlluamJhVTlJUkVWb0c5Sg?oc=5",
+       "publisher": "The Independent",
+       "date": "2026-11-27",
+       "score": -0.5
+      },
+      {
+       "title": "France \u2014 the Eurozone's second-largest economy \u2014 has officially entered a technical recession after detailed national accounts released by France's statistics agency INSEE confirmed consecutive quarters of economic contraction. In its updated third-quarter",
+       "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxOSjE0QnplV3M3bkVHTHE3aE9jdHBPTkN4T2ZnV0hlMTlXcGh0SzlYUkx5dzlEYzFzUFVITDlmV05FYzV5VTZ0SU96UWxDVGpJNmUxa1BlSXl2VG1IUlVoVGhRVHNmNGhzWXhBdE8yNTU5SXl3QUJaMHAycV9qN0VycTRmanUzSjFtRmxfR1FNWi1INDZOQmtiNXJjQl9rYnZueEVkc3hTMkFqLTZfZ2ZTNVBwWjM4TEdGWTU0bnIyY25KZ0ZnN0NPWGpkR2tHY0dvc3BvSzNiQkRQQm1pWnFj?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "S&P cuts France outlook to negative",
+       "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPZjhJZEpaWkF6R1Rza205U2NPQ3d1MDlBT19oWHNQQlpRVnFBSUxIbU1Jc1habzBUUC1FSmp5WktnZ0tHbkY1M1VfVTRJOGpobzExRWpHTGs0TjRzTm95Wnh0OXdhRlE4SlhUX1JoSTRXR1RWbUczdFpVMjdUdkNwNDNocEw?oc=5",
+       "publisher": "Financial Times",
+       "date": "2026-11-27",
+       "score": -0.5
+      }
+     ]
+    },
+    "stimulus": {
+     "label": "Government spending / infrastructure / stimulus",
+     "heat": 0.4,
+     "n": 52,
+     "why": "Debates over tax cuts, infrastructure, and fiscal spending persisted across regions.",
+     "headlines": [
+      {
+       "title": "Tax cuts, subsidies and electoral bonds haven't delivered the private investment PM #NarendraModi wanted, as his rant at #FICCI showed. Perhaps, Avay Shukla suggests, Indian CEOs need a different kind of stimulation? https://t.co/Qw4niaLBui",
+       "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFB5M01FcDhRckRnZ2dTOGFNdmwxbjQyb0xGejc4MFlTZ2JQc0NmMXViZEgzNUt0UzdHblBYazJQdGE2VHRPU2YyeTBrWTREXzdDak5zUWtZREVQRlVEVlE?oc=5",
+       "publisher": "X",
+       "date": "2026-11-28",
+       "score": -0.5
+      },
+      {
+       "title": "The problem here for Democrats is that each time Republicans pass a big package of regressive tax cuts, Democrats vow to only partially repeal it so the revenue base keeps ratcheting down.",
+       "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1qaWRITVFYMm1Sa2ZXMUI0OXhIR2REZ0Ntbm1xajhoWm9lV0NSNHBoX1doSkxHU1VVYzRzWl9aM1RMcFl1S2NtajdzY3FHd0JPOHZQLTZnSWZlNHhRc1pJUlk4dw?oc=5",
+       "publisher": "X",
+       "date": "2026-11-28",
+       "score": -0.5
+      },
+      {
+       "title": "Iowa detonation sparks fears of lead contamination among farmers, ranchers",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE8xSkZCYmR1V3RDakZVU3dQLV9CVkFWY1B3YV9xc0RzYVVpN0RzQ2w0RVZQUTRmMV8tWTFwYlBtcXpVN2lYVGVsT2lsdWtsQjRzb2o2cHR3?oc=5",
+       "publisher": "Fox News",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "President vetoes Polish government\u2019s middle-class tax cuts",
+       "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOcEQ0ZzJEVHNnejZqano1YXIyX2hmdmRvT0hmUlF5RTJabm5pQnlMX25rLXZlazRKc3ptM1Q1Ynp3X25CWm1xbVZSajd6dVMtNGhGRVFpQzhNYU41ZkF2T3JRWFVJcXhuTURaVlBDSWNPUGFNWU0yc1RCTEtSUHl5cG93OUtuVmpyUXVOQTZKaXdlaVh2WFJkblhxNzV1Zw?oc=5",
+       "publisher": "Notes From Poland",
+       "date": "2026-11-27",
+       "score": -0.5
+      },
+      {
+       "title": "Schwab Network. . Dr. Lisa Palmer and Helen H. Liang unpack how big tech's custom chips could potentially threaten Nvidia (NVDA) and whether AI infrastructure spending is paying off. For more market news, tune in at: SchwabNetwork.com/?CID=SM:Faceb",
+       "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNZEZQTWJiYlRPTkQ5aHNiampkeWpFelRCUnF2U19acGdJU3FueDh4Tm5Ob2pJbW5MTnlUcDZEYVgwTWc5V2NLak5iMW1MMTQ1QlZNNl83UWVlVF91YktBUTRQUVlFdGlMc3hKelE3OUpTalZnLXA3YmZUdU1JcWN4SlJfTkNvbEtQamQxMWMxNTZ1MmloVFA1SWRicjNkMVozc2x4dmFJVWNnem1kT0dKb1pHR2F2RnY5RFdCenU4bTYta25PZWw2eG96WEpWci13Ql9uSEVKcDM2OUct?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "New strikes on Iran's leaders could backfire, former Israeli intelligence official warns",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1Ddk5YSHNhN3BYRWdpQ2JWelZWQ1dPQy1sbWRNX0tzb281QVhpU1RNaFFSX1BvNEQ4NHRiS3RZbXJ5TEwzQ3UwYXZ3RmNFNGxIUWtOTWtn?oc=5",
+       "publisher": "Fox News",
+       "date": "2026-11-27",
+       "score": -0.5
+      }
+     ]
+    },
+    "china": {
+     "label": "China stimulus / demand",
+     "heat": 0.6,
+     "n": 48,
+     "why": "Beijing's cabinet pledged stronger capital market support to counter weak demand.",
+     "headlines": [
+      {
+       "title": "Is China Heading for a Lost Decade? Beijing's Battle Plan China's economy just grew 4.5%. Better than expected. So why are people preparing for years of pain? Because the headline hides the problem. Look under the hood. Exports are booming. But Chines",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5Da0RPckhGVWc3TXNqZVFSeG1lZ2tMX2FGaWtjMC1JMzNUT3JSRVZ1dkVPUDdsQ3BaOWh0ZTExbENJblZRaUdqRUozVVN5Z3BsZmFFd0Z3?oc=5",
+       "publisher": "Instagram",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Can this Chinese region turn longer weekends into faster economic growth?",
+       "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPNHowckFyaGtBZ3lsZzJ3QUdjeEtCeFlQTE5icmxva1F3aGdldG90S051cUN1RW5JZmNyNHJWTWl6RDFNaUQyekE1eVZpRzRTRmREYUJGSC15R3BHT0k5VGFCaHhaZDNMZDAyTmkyMnJhV2h6U3ZqQmpiaU1GclBZamtJTVVPWUd4anl2cmdwWTFmYjI5aEhsS2VzSVQ4bEw4WUhmTHREUzJjdW11VlBZZU5lc2JXTXRwSTlMeFo5M0RRYlRzM3pXLTNuN1c3S1BaLXU4VnpnN2ljd9IB2gFBVV95cUxQejg3a1BmRGxDQVJPbDV5VlNoRjVheXQtUm1BWkFxNWJsb3Ewbjd0dFdFdVIyM3d1ckdISS1JREZrMjVJdUI3N3ZBeHlSYzJ2LVJfb1ZWbkZxd2JERnRJQ3lHQlB1ZC00WEVDU1VwM1dNU0V6aFNJTlNQeUVqMHpzRXBfTXZ6QnNrc29qZi1OZ3laSVlqMkJSbGVyRVlJR1I2YVNaUEc5T0FHZ1NWNkdNck5yYlpESDVJWWVsYnk0d1BXb0JPWjNvXzg3S1VTeDhDd0t0MFZrZFVCQQ?oc=5",
+       "publisher": "South China Morning Post",
+       "date": "2026-11-28",
+       "score": 0.5
+      },
+      {
+       "title": "China\u2019s Cabinet Stresses Market Support in Rare Midday Statement",
+       "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQak5CQ2hzYk9WT0pEN2JpTjdqdU81V2pWSkxEVmdVcy11NDhqX0RfRngwU3ZXczl6dXFkZXg3aEpPakM2ZTY4QXNJVlpiVEJ2MUs0bUF0MzVJUXd3dWtvWFJna2U2aVhYbTNmM3o1UmZBaGxZRzVCS0JwS1FMYVlUSmltWE1GTkkwdmhxMG5xYi1sNDBDLURIVExoODFYVVhHZkdaa1VyUnFTLTNw?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Nvidia Blackwell Chips Turn Up at China Site Tied to Alice Huang",
+       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOajRDYnpkT2kwWEdlR2REeG93cnBZdkdsYmo3dTFmaVp3enZYN3Jid0RYVWZwNXJvcE00OG5FNjdwd0MzQXpFV1gzeUxkdnhxTVNoaGVNRmpnRllMTGY4emNtNW9VYnc4RWZVX0I2WExQNy1Ha21aV0FNWWVUb0FacnFLM01rUWRudjBCdGJpbGxCVUx3dl9KMEtZb0pyYURCTG1iWW5xUmNpaDlnc0lsMVpldmV6QQ?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Iron Ore Holds Near Recent Levels as Chinese Steel Output and Restocking Shape Sentiment",
+       "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQNFg0XzE4eGFKb3hhUHVFTk9YM0FyVkEtSXhnWGhoN1IyVUU1bHJYZmh2al9Ra2phOVV5dGYzbXBYVERWSjFiTGFwV2hLWjdNeXM5X3phRHYxMFdqbTRvbFZpdHVjY1BHaHRWZ0JNRS1tbkpSNUp1MHdIdXN1UEJqb1ZUYmprVnJKelpMQXlmNWVQdzlFQ2p2YklvYTRsemR3ektqTXhIaEdmVVU3MDh1d1o2RW1QSU9KQ0Z6MG43SV9mb1E?oc=5",
+       "publisher": "kalkine.ca",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Global Market U-Turn: China Stimulus, Trump Rate Cut Push & Bond Auction Warning | Alok Jain",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBXektncEZTa2RsU095M0F2SUVFaHFMRGxZR3lXODhyY2NSTnozNzhvbFMxeHh4Um5hQUMxU294eDFlV1BCM0NBWmViMUpZUnhXZ1hEeGlB?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-27",
+       "score": -0.67
+      }
+     ]
+    },
+    "ai_capex": {
+     "label": "AI / data-centre spending boom",
+     "heat": 0.9,
+     "n": 92,
+     "why": "Massive infrastructure investments and server costs continued to drive tech momentum.",
+     "headlines": [
+      {
+       "title": "Japan's data centre boom faces growing revolt from urban residents https://t.co/FGdEAWTBho",
+       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE0xbTlmUllCYjVXdjloVjdfSURYbTEwWDFqTWFOdXVDdnozQ2dEZC1PQlRFUlJkaXNZUVFtRnBzbWprZGRJM1psNWszTjQ3amIxY2V2Q0M1c0VSTklPWm55U05nT1M?oc=5",
+       "publisher": "X",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Robert Kraft\u2019s proposed $16 billion AI data center faces a do-or-die town meeting in Sutton | Sign up today for Contrarian Boston\u2019s Dec. 3 webinar on the future of AI development in New England |",
+       "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBaSUdQSDQ4Vl9ydXZaYTA1YVBTSVBPbExUSXAydjV4MFpaaWR5clJ3RUZsck0wUUpfQnY3d0dHQkE0bllfTVl2dW91dkJ1NGFLV2NNVVE5em5aZ1BodEdjaWVIZzNlYzZjOVBhaWhnMDdTZ1NLemtzMUtHVWc?oc=5",
+       "publisher": "Contrarian Boston",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "America's massive AI data center construction boom has created an unexpected new target for organized crime: multi-million-dollar shipments of copper wire and electrical infrastructure. In June 2026, Cook County Sheriff's Organized Retail Crime investigators",
+       "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxNNGpnTnVGQjN3ZnlmU2JfYUhMam5HYmNKaFc4dlBwa3BkRlEweUN4OTVaN01MZjhTYW8zbEF0RTBaYkpEUVB3RnNNazFza2o2YTZwZnh2ZDBweU5ldVFqX2VpZFFfcTVJQWRpQS14NUhmSnd6TThJdjZiY2EyVTlxaFdJeGxLbkNrdVZNT3VJd0l4VXF5Z0RxbVJ6UmxMN0djRTdvTUhwV2twU2xJVDZDZjNtdWs3d28tN1IwVUUxZkFnWjBzT19COHVhdTlaQU53bjNlbUtFYS0yYU1CN0E?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "A developer just proposed a huge $1.3 billion data center in Delaware County \u2014 and they're offering $23 million in local perks to get it approved. The plan calls for a 340,000-square-foot facility on a 24-acre former industrial site in Trainer. So where would that",
+       "link": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxQTlBwbGU4VEVQTVhFanF4VU9VOUM4WWNPVWdxSHJ5V0ZtV2VCTkdXclpRZnNTZXZ2NTllY1I1YzhHeFIwVlVRMi1tWmJySk1XUW1iMnpYRmN2bk1GNW5tdk9xZW5rWC0xVGpwaVlLUE5HdWFIeXdtVThxVDNDSTFQLW8xci1teFUyMnpMejN3WUJnS1hRWHU2amR4YTJadDN3NDBpMmE3YnY2NzFTOUNyVWdBajd1Y3NLRTIxMDNWb1Flb05kdmpfSUNDcGp2MG85ZV9uM2ZsalczbjYwTUkwVExqVi0zOVls?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-27",
+       "score": 0.5
+      },
+      {
+       "title": "Servers are the biggest cost driver for a modeled 1-GW AI data center, accounting for nearly 60% of annual costs at $5.02 billion \ud83d\udda5\ufe0f Created in partnership with the National Public Utilities Council, this graphic breaks down the costs of building and running a h",
+       "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxOeDV6S2drQ3dZWDhZN3hYdXVtYzJlb2VsaTJONkVNUnQ3YWxvcmwyLXJHcTZMNFFGZkdTVUxEaTltQWJjcUxiWFZLWlNkWlRfa19KTGx3cGVad2NHRko0NWpDc3EwcEcxM2F3NkJ0SjY5bFg3UHUxZDhvYlpnWFVjTkhjcnJqdjZNMTF6N2RGRF9nMlVJOHhDQzl6ZDdieXd3dU82aEpMbk5mdWp3b1c4RnZ4YnNDdG51aEdhLUROQWRnVC1xR2k2bV9rRFdRdE1mRmlINmJRaWRPd3BKbnlB?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-27",
+       "score": 0.5
+      },
+      {
+       "title": "AI data centre boom hits Aragon, one of Spain's driest regions, as residents fear for water and wildlife",
+       "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPc3ZmYzZqTkh2UkE5T3FrTUlXaFpKT2lnOGdoazhKcHJDcDIwTFFWSEZleUpjVFFlSF8zTURyd2dZb0ZhM0pNaVB1dVZQekRFSEMyaF80c0t6NWpRQUVRTnp1QmwyM0N6cUpldVNGWWQ3VGhsM3ZDRDBvYy0tQmtXWVQ2VXhwX2tIZFlhMXQ0RnBnYWhVTktGay1fV2lSQVp6QU15X1dvVTZBYmkzWGdHSGhWV3k2UmllSjVXNWl5Y29iTUFjWWRZaWh6MHNzaFpUUlE?oc=5",
+       "publisher": "Dealroom",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "defense_spending": {
+     "label": "Defence spending increases",
+     "heat": 0.4,
+     "n": 71,
+     "why": "Record defense budget approvals and military aid debates stayed in focus.",
+     "headlines": [
+      {
+       "title": "NBC has pulled a 30-second advertisement criticizing U.S. military aid to Israel after it aired during Wednesday\u2019s Thanksgiving-themed \u201cSaturday Night Live\u201d special, according to reports published Friday. --> https://bit.ly/3XzL81I",
+       "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOcDVfNVA4X1ZrSEVJa2M5NC00SXJIMmhBOHpyQlA1dWhsOUs0a0xGTWQ5MFJGeW9QVlVBZmdWc1lKMFBEXzIwMEVuYW80WXM4UFlEOE9yX1B3bVNSbjlyaWcwb2prVDhOUGlKcWUyTXdMWjdNUmdtcWlZNE9RUGx3RE1sSDVBVWRiWFN5RGU5azJvZnQyLVd6ZzduZ2FNOUhZWW85WERFRHFqVi1QSndwMXpjem9aZmx3eU1YS3pfRXBNMHZmZ21PelV0UUhxbi10blVEc3ozUHFKbFE?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "NBC pulls pro-Palestinian ad criticizing US military aid to Israel after SNL airing",
+       "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPdm9TLXJSMTM5UHpqMmRXRVh1MEptaE9SU3FZMzdsRmpjSlFEbVVMc29YUVQ5RUxUUDA4UUpxaGI4d2RGS0pKRF9pX1BpUzdfOVBtaW9sZ3dxb24yQkUwLWt5eWJuMXNQTmxmd1lyWFpUYTdlYTdabWs3elgyd0hScDVpREtYdldkNzI3QmloQTByT1VvZ1V0MFlqbFBaVkE2T3I4bDJzaGRjM1JFMkgyTnVXMlRoUjJLNHZj?oc=5",
+       "publisher": "WXLV",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "The US-UK-Australia (#AUKUS) partnership submarine rotations in Western Australia could strengthen monitoring of Chinese naval activity and help protect #IndianOcean sea lanes. But this does not make India part of a Western alliance; its priorities remain d",
+       "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9EelA5RjJPaS1GaW8wUzhtTkFKTEs4SDJ3SlFjTWNTYk5JdnlfRF8xaEhDVWJINXFaRzlicVN4R3A1WGFlenl3dXFza2xrYl9pZWhUVVdVMTBHcmNxdFhZ?oc=5",
+       "publisher": "X",
+       "date": "2026-11-28",
+       "score": 0.5
+      },
+      {
+       "title": "NBC pulls political ad opposing Israel military aid after criticism",
+       "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9sNGhDU2RnVjdsbzdhb2xLNDB6UVB2YUtHdUZjSzNsT0FXSVd4RWRVRUo0ZnVuYTdfYk4tZGtCNjl5YXJFdks5WmRlTGI4Vkw4Zlo4S3A5bWk3N19CMnFjWW1FdlhwZEU?oc=5",
+       "publisher": "IMDb",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "NBC Pulls Ad Criticizing U.S. Military Aid to Israel After Backlash, Reviews Approval Process",
+       "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1uUUYwcUJGQVFxcjVCSExtaUs5dV9WWlJYbUVZZENBWVhBSVdiQlc0eE5vMzQ4VmxKNVdQS1lFbjFyN3pfYVRYTHJRS2RRdFd0a1BlT2hRdkZmS2lXd2drY3U2NFZjUHVKVUE?oc=5",
+       "publisher": "IMDb",
+       "date": "2026-11-28",
+       "score": 0.5
+      },
+      {
+       "title": "NBC Pulls an Ad That Some Described as Antisemitic",
+       "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9DQWVpNG4xcnI0WHdKcHkwNU1WRDRlNzIwbVIxdFYzSUgyY1hPRDg2QjdtLXNGYXllRWxpTG1Tb0ZDQ0RxZHdxQzNla3A1WDM1TXk0UDRrNVZIODlBVklwN1BiUno2cE1BaEhMd1E3ZlROc00?oc=5",
+       "publisher": "The New York Times",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "drug_pricing": {
+     "label": "Drug-pricing / pharma policy",
+     "heat": 0.2,
+     "n": 98,
+     "why": "Routine legislative and healthcare policy discussions remained largely background noise.",
+     "headlines": [
+      {
+       "title": "November 27, 2026 - PBS News Hour full episode",
+       "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPSElwekdBYzJxNmt2Z3JHM3dUVmVTbFpnY21tVmxNaDhqaHg0ZWlOOW1Wd0lYUTZnejM3UXBMcUdfdkxuclBhNWNPaVhZOVFfYWgycDlKVzVSdUdSUTZ0U3JyZTBFdXdfck9kTDJ1TmxrNWxHT1pVVzVEVTBuTVFEMFB2ZEpTVHZ2?oc=5",
+       "publisher": "PBS",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Washington Week with The Atlantic full episode, Nov. 27, 2026",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5wYjZFMFpXSE5WcDZzVlVDb3p0d2wxNU9fa2IxZzRPd0dkcHY0b09zVnA3b1g0UmJ5eUI5bXlHcXNhYXYzdmFNWmMtbTU5TTFpQW5uSmJB?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "News Wrap: Crews work to restore power for thousands after Thanksgiving storm",
+       "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQYnBfNktZWjVzamNjaUtVdV9VcGxHN290SzFDVzlZNVc3YXJ2dHVXSnZwLVdiVXVNalR3Z2NiTzlLTldnaGVWSVVTSzJ5LWZEQ2t2Q0VMYVdVbmg5QlVweFlvZEpNTzYxTFk3bFBreGw3WDRoV19XSXdPeEktNkJMdEg0LXVYaGY2Zm1Ka3FOUGNERURNc0JwbUkybWRqT3pOZXkwRm9BSDRWdlpwb0o4?oc=5",
+       "publisher": "PBS",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "American consumers face pitfalls with rise of 'buy now, pay later'",
+       "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxNWEhBV3pPdmJTV0NMRHBzT2MzQnF5Ym5JMGIzTi1MSTQtTkd1YUp4cURQOU9zTEpiM2xibnlQWVZCeVJJNEZ6c3paSGdxUEtiWlpwWjV0NGkzQVU4aVBjdldRR3RUTDJtWnkzWGlpc1hrcTZ4bzVRcF9DWm1qamtIdU5CUllMVktGa0NJNzhrRlc3QlRjWUJkV3dYVmt5Zw?oc=5",
+       "publisher": "PBS",
+       "date": "2026-11-27",
+       "score": 0.5
+      },
+      {
+       "title": "Brooks and Capehart on Trump's new tariffs, Nvidia's future and Democratic leadership",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPY1JVa0lzU2NxbW42a0RGaG0xUmxZcDF5MlhDX2FuREZITWZwN19Fdld1SEhuNjhGNi10aFpBazdzcmk5MnJDdWJMSWQ0SEV5cWtPXzEybjl2b2UwYlVpbGMxSnppdzdyYUx0NG9XMEJDd2JmWVZ5Z1lMWXl6QTN0RlVGYWpPNjh6YUpaLVpXeDF6QUFsdkJPNU5Xajdib0M4MXFIOXVMVnFwd1F5S2tmVVZRUUhnMDA?oc=5",
+       "publisher": "PBS",
+       "date": "2026-11-27",
+       "score": -0.5
+      },
+      {
+       "title": "Exploring an AI reboot and the ethics that surround it",
+       "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOZzUyQkxTczhwaDhBYmhYaFhuNHhLUktJTGNRMS1XTDdGLXR0aWl5Z0RxTHRKcUJ0NURTSXJCZXNIMXhwSDB1NHhJeEEzR1pIMUxUR1VseXRwVlhxekhBNHB2bmRTa0ZGWGZtYWUyQ1pJLVpFLUxaNzJHaHg0UnBWWW9zeXFUMDVCRkFEbDJfY3NjQQ?oc=5",
+       "publisher": "PBS",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "bank_regulation": {
+     "label": "Bank regulation / levies",
+     "heat": 0.3,
+     "n": 89,
+     "why": "Basel III bond issuances and regulatory updates engaged financial institutions.",
+     "headlines": [
+      {
+       "title": "Charming maisonette with plenty of style and a wonderful sun terrace above the rooftops of Basel",
+       "link": "https://news.google.com/rss/articles/CBMihAJBVV95cUxOcW16bERXZkVKUkJhOXZhZFh2ZkMzTHNMbVU3MUV6OTJ1NjlJTFpULUdRZHUzR0VEaTZsNHZRX2hYMTBNY0tsVE9UbkhVcU9iMEM2QU5IUGVhS1FVWE5DVUVHTnBtQTBYaWFZTW11SHlnQ05kWkVISTdUdmhZT0JYcXVCQTJlSU5EaHVRdC14ekk2bk5TRy14a0J6UlJrcllJaHpkanBXaDhRdzg5LVl5MVdvbElLTzQ3amR6Z19LbDE2ckpKaXhzZ0hGcW5FVWF2ZWJpTjFST01DRUl4MnpFd0drZDUzNnN0cEdYX0EtODc3VzR6RVRHazI5NzVUNGNjbjEycQ?oc=5",
+       "publisher": "immobilier.ch",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Single room for rent near Aeschenplatz",
+       "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPY1lyalR5RWN4OGNiQU9CVUtubS1OOG1YWEF1dnRuZkRqeUU4bFR0dHhvcDNGNTR3MGlabEY2LU1fMkRFQy00LTY3Y0FvakdZcVY0ZzJhU3p6YVFaZjdHR3BkTUdyZk1hV1JleWk4bTllTHNoc2lhMF92bGtDdWdMamJYN2ZkMlZSQ2VMZDlZbkFkS3kyMjc4MEdjUnhVcHg2MjAwT09KTmNOZW1rM2Y5QW1LZS01VDhmN3BzS1FuU2V4UlltSE5FTnhyUnFMZHpsa1ptTFg5WmF1VnM?oc=5",
+       "publisher": "immobilier.ch",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Medical Education. . \ud83e\uddb6 Burning or tingling along the sole? The Triple Compression Stress Test helps evaluate for tarsal tunnel syndrome. Reproducing the patient\u2019s familiar symptoms during the maneuver is a positive finding. \ud83d\udd17 Link in bio. #TarsalTunnelSyndr",
+       "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQT2RFbkxXdy1RcHRoVkd6Wjl6NkpTOXlnNkczdGFXcHRRUVo5aUhiUzY0Vkl6eTZMSVQ5dG9SbS1EdEtHRVJ1dHRIOHhneUFZU29weWU3R0ZseUd4NjM1Vzlid25pTnJYb1lRUm9oWmdjNDk3YkNtZ3Y5MU9teHNBSWRHdENUZmR6dXJ1MjloSVFHNGtNQTJlWFpHdXBJXzR2NHZ3SjREajQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "A2Z Art Gallery",
+       "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE0zU2JmMFRoMmt0UHlVbG5WRTNjOXVwZ0laZnVWU3g4TkliYURxcHBjYVFKUHlEM2JKMjFTcTU0djZ6OFVsbVhqVG10LW1tbEdQVWt1NjJsZTQxREpiTHVVdUlpR19IX1RMbm9TcUtR?oc=5",
+       "publisher": "Art Basel",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "The 2027 edition of Art Basel Hong Kong will feature 232 exhibitors and a new floor plan. Read more in the comments.",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQeHExVENrVTRVeFltYktHck1xUU5KN0c3amtxSDlEc2dJOXdKckJ3Y0IwWUpOMWhFOWwzc3JlUGtRZ3FxdTB3a3FlQzItYzlTZTdBdDNJa1NaM3I0eHlrWV82OW9lVXliYUlobkdWaTVGVjlPU1FhSDlfYVMwNnY0ZnZKUzlrTVJuSDA0RWxqQWNjdjFqNm4yazFfRno5UDRfX1Jqa1RGdE5nb2FnbU8zMVJJd0d4d1pUME9fN05IaTR5bUhYTGYzWTM2aWd2UzU4NWhQMlpLNA?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "MIAMI ART WEEK aka ART BASEL CONSIDER THIS YOUR ALL-ACCESS PASS \ud83c\udf9f\ufe0f Get inside some of Art Basel\u2019s most sought-after events, from luxury brand activations and private mansion parties to designer showcases, celebrity experiences and exclusiv",
+       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9iR1JkUjN0SlR0Z1UwaWk4U1d0TTBfbVR4QTk4d0tYd0VLbjc2b3d2ZEpiSTF0VkRhQmdPVE5FbzFNOTNvelJIUFZhYV83ZG1QOEE?oc=5",
+       "publisher": "Instagram",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "deregulation": {
+     "label": "Deregulation (finance / energy / mining)",
+     "heat": 0.3,
+     "n": 29,
+     "why": "Permitting reform bills and fuel price rollbacks brought localized relief.",
+     "headlines": [
+      {
+       "title": "ANC 24/7. . Rollback alert! Here's the estimated pump price adjustments for next Tuesday. Follow ANC 24/7 for more updates. #ANCAlerts",
+       "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQbndhX2QtR1NaMmkxZnpRTjFXZW1lNS13M190ME1OZFR5aXhfQi1zVFRXRG9uMm03YlM3U1RrNFNwdXVoYWdRdkgxQTlmeHdBVUtrRVRlVWViN0R5YWFWYnNNWWZkZ2dERWVHLTQ0SjY5cFBRZlVmbVdBOUdJM1B2SlA1WnpBTmVRMWd3ekg1TjhwNENBeG5fdFYtQWZETGZ5eE9raDJ0MndjcHJ4VmdlWkpTQlZzekEwb0IzZ2pXUEJ3TUp6Rkh5eXFVTWNmNnNZanVnN1NZOA?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Gasoline and diesel prices could be headed for another rollback next week, with industry projections of P3 to P3.50 per liter decrease for both following four days of trading in the Mean of Platts Singapore. LINK IN BIO",
+       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5rcTRueEZaUVg4SnRrc0dBU0hKTndRZlEyYUp5NjdaNTRHbW8ydDd0d2tMNXJNRXRBbHhLZTB5cDZtM3JOQXZGZ0tnTHYtR19JUnc?oc=5",
+       "publisher": "Instagram",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "P3/liter rollback seen for diesel, gasoline",
+       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQQ09CbXc5Nl9fejdxZlVPMlp2eVVWbWNNS2tGaGVYT3k1cnQ2a0g2NVNvMEtqcFd3U1BRR2Y5eXVtUmhUR2o2NVZqckRIMmZ6NGVmSHZZNGJLcU5wQlZiWHJnSkhmV2oxVnBkUVp5MjlRbVVaOHF6WjR5dWRfc3pZNy1PbWxGYlFVRGZxZFktV1RUT3c4UURucVpvckV3Wm42T2Nz?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Carney to fast-track approvals for northern highway, citing Arctic security and economy",
+       "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQQV9KZHpNeWY2dGs5SFB5UElpSVpJSHhEcnNOU3NNMTlyTW11RlBkNGFxcXhYRVc2NkdOTkVka2EyclFfN241dnAzcnIyc1hkN0Z4NWVDNDNRNjl6Slp5TV93N3RGaWRLcDJEV3hTN050c0VKSmsxNmJpQjN4eXAwVjlPZHV0eDdUWWxYS08tMXZMSW15QkNWUng3NWdpbUFzc2UwamVmd1hITjMyTkQwQklGWGgzdW1uaE5B?oc=5",
+       "publisher": "The Globe and Mail",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Expert on the permitting reform bill: boon for clean energy or environmental rollback?",
+       "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOclBJRVQtZVk3SjZoZ0Uxcm5NZWZiYU52RDc4QU5LNWNDRGVORy05YjhfRFlRcUMwdDNya0YyeUFvcmR6bjliNkZtaDlIbWRWT2pCeUdMWkRSQTdRYUI4NURUaVVjYklkWmpWOVdzaDJSTTFoSmRZeVBoT3hqaGxOMTliNEZhX2ZHYUlfSHB3Ym16TTB0NkxZMWhsbjMwX3NJd2JmenlObTMzVy1SY0ViXw?oc=5",
+       "publisher": "90.5 WESA",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "PTV. . #PTVNewsTonight | Expect the fourth consecutive week of fuel price rollback",
+       "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQTXRtU09tYjIydFVuVmFHWHRFTEVaeEttQ2xmdy1ISExOSkU2cWV3NGdqOElneksxOGJxOUFGNjJFSjgtdlNKcDNoa25JdEVqN1lYQWJuSWNHU1FVVWNHeEd3MXF6WHl3TlhJQUM3OTl3UVZHbTRvajZ5VllfY3FYeHJOd0NEUHVON1FDbzgwMHA2YU0yRXFfQVdETlRXRkFEX1hmdC03dTdqQnkxZjNLTm1HZDlIMi11T0IyVnpNLTQ5TUZ2UW5N?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "antitrust": {
+     "label": "Antitrust action on Big Tech",
+     "heat": 0.7,
+     "n": 68,
+     "why": "DOJ subpoenas, Senate inquiries, and international fines targeted major tech firms.",
+     "headlines": [
+      {
+       "title": "Apple faces another App Store antitrust fight, this time in Chile https://t.co/1hxdLCGlfR #Apple",
+       "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1BMTJlUkxqZEtEZVJKTHJjcmpMU2xxeUhhM0NNZW94VXJGR0RUTVRQcXBVVXJsLWZLa1pOVGZFZ0RGa3lwNFhDMGFvbTFERVM5NUhvNlY5MEg0QXNncmJNZ0Jzaw?oc=5",
+       "publisher": "X",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "OpenAI countersues Apple over trade secrets as AI race heats up",
+       "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxON1UyNzVUM1VWYllDUVB5Rl9LVDYwZExiMWt2WFp4eWVUckVjdDhqbFFfSXR1b2NiRm9LbFZQZ2xlZTNkRmtaSkZnb2M4ekJwVkVxbE1jdmNlazc2QUMxallwb1JpTWRvVk9ZOW12SVM5MTZ4RS1CQkNGcW5qZlMySWJZTjBkNXBtZXByR0NuVWdJZWVXWW8zcWRsTUF1ZUJXMlNVNWxEM2l0VThn0gGyAUFVX3lxTE16T05QbEdEbTdCUklBU3kyX05YX2RxaTZrVl9yWTEtWDF4dThXOFAyODNDTjFHTy1LRmJkZEJpd1E0eTBOaWxkS0NXV1BIWFo0V1ZTU01JMzd5bVpkMHFWTEhSNEVBT3E1cXd1NVJFbEJtSXFURGpxMzlKOWtNTXg1amFKZDhEOWttUlhkU1Y2UmVnSUgwRWZqWmJmTzdRaVBNM01pczFxTnh0RzYxRk02MFE?oc=5",
+       "publisher": "Al Jazeera",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Chile's antitrust authority seeks $80 million Apple fine over iOS | Business Information & News | FE",
+       "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNcV84bFE3UnVCc0pqZDBzeFE5eVQwaGNoRkZFb0lBU0V0VHA5aE1GOVFRX3M3aEpXLWpqUXd4TThqa2xUaVFCQTRacVZXaXV5cGdhWF9Eam1EZzRnOURhZnlacmY5ZUx3MEpqY0xTVEtfdjItRTVKcEthSzlKa1J6Z3RvVnBPVGRFUVBzVEtYT0tUc0hoa3pKVi1BejEzdXc3dWNOWThBUnd5am5CZ0R4b2lVOU5PeWlGMW8xQ2o5ZWhCS3BZSFpvNEhOUFpoYkptSzVyM3FhSlRCQkZX?oc=5",
+       "publisher": "Westlaw Today",
+       "date": "2026-11-28",
+       "score": -0.5
+      },
+      {
+       "title": "Nvidia faces questions from top Senate antitrust Democrat https://t.co/weyR9RcjUX",
+       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBLUXhfNERSTGk4WnkyeDQyTFAxVTZoTld5RU1oajQxVThrUHdmN2VkWFpTN2RFUnZkNlpmMk0yLUNyM1l1eWlhYnF1X0FkRHA3d05YTVVLQkw3d25fdzB6WUFHMU0?oc=5",
+       "publisher": "X",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Apple Faces $80 Million-Plus Fine in Chilean Antitrust Case (1)",
+       "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxPUzZZcWpIaklIbmc1S2l0UHdSUmxncW9FNHR6YW03OU1uZ0dxSGJKT3JWNFRzVzR1VHNrSHBEOXNOXzRyblg3Qmx4clNkckd0ZWtYSlBrdXowODRLdEJBTXI2UkJBcU1QeTJGamUyMVlZNFM4dDdya1B6ejZHZUM5ZTAzRHpjWF8zTXlGNEd3Y29ERmVhT21qM3pNX1Brdw?oc=5",
+       "publisher": "Bloomberg Law News",
+       "date": "2026-11-27",
+       "score": -0.5
+      },
+      {
+       "title": "'HORROR': Kushner 'out of his depth' on Putin",
+       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9Pc3EyQWJJWkRYbnVoSnVIcHQ1LXNnbEp4RHJzWV9KTm5wcWhSWTIzRV9GMk9Kc3FwQjhJTWRBbEgtZFVsOHBmLUp3djVkWnNGNV91YWJn?oc=5",
+       "publisher": "YouTube",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "housing_policy": {
+     "label": "Housing & property policy",
+     "heat": 0.4,
+     "n": 77,
+     "why": "Affordability pressures and lender failures kept housing policy in the headlines.",
+     "headlines": [
+      {
+       "title": "\ud83c\udfe1 A Home Loan That Talks Like a Friend, Not a Form! \u2764\ufe0f Your dream home journey deserves more than just paperwork. At Wonder Home Finance, we believe in making home loans simpler with: \u2705 Quick Turnaround \u2705 Minimal Paperwork \u2705 Transparent Char",
+       "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5SUlRNLWFjR0xOZU1BY2JZUEpudVVFdkhGMmsyWU90YlFkY1VyaTk4Sk5hZG5lc0F6WnBOX0d3dWR1V0xsSkx5RjE5UEFSbTNoUHc?oc=5",
+       "publisher": "Instagram",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "The negative gearing tax break is dead, and investors are running scared. But the numbers tell a different story \u2013 one where fear could cost tens of thousands in missed growth, writes Ben Nash \ud83d\udc49 https://bit.ly/4AZOpGg",
+       "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPdEhNcXlSbVZCQjl6Uk5JeUZVdWdBODJWSGZoTG5ERlEydEFLeVAxaFR6QjVWU3pVdnF4YzhxcW5Ud3Z4REs0M3pOOUlzaTlEUUtyUUVqd0J6R0pJMHRBN01HMWdMaS1VTFA1dlBrT1pwRGRsU0s2Q200NG1qelFHUnVTdGVNZ0FodVE4SzhmQjg0NFRUbGZSUndXa2hnalNrN3d5Z3AtTlgtZzd1V2xSZ1ZuWE9Ra2h1MENEWnAwV2pLUmVXcFdibGFoM3dhdm9tXzBsZlU3NkFMM3dNbHY3SQ?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.5
+      },
+      {
+       "title": "Housing Impact Grant (FHLBank New York) (2026)",
+       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQLUxjanVxaGtuZW5GSnRwR0VWdUpFMGEwbjItV09DOEdCVkNJdFBCWVoxQW5WTHRXSC1hcVFIT3lXQnB1WUsyelhWeUIzaXJBNjJqZm1pWklsb0s1THdfdmFLbUxDdWMxRklTQlJKX0ZocktvOGVXVVUyY3d3RWF3Zkd6TDNYOVU1NFJLU1dMajhKQUNjMmZLYmlpWjFkNFl0OGwwNU9BNmd3dnV1em5fWnBjNURqRzA?oc=5",
+       "publisher": "Granted AI",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Home loan ke options compare karte waqt sirf interest rate par focus nahi karein. Loan ki terms, applicable charges aur repayment conditions ko bhi samjhein, taaki aap apni needs ke hisaab se informed decision le sakein.\u200b \u200b #HeroHousingFinance #HomeL",
+       "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPRXdLV2RWNGF1azc0WTVlVU13T3Z6QVN4alFJQmtMb0xqcVJPTnlwVzV6Tk4wbHBKOXBqckZKaWllLUtWVTQtSmpMZmt2UzhnNlE5SWJxbXlSdngxanFqajYzQk8zTmdkZDI1c2htSUFYZzB3X1BvLUtWQlBOOEdjMVRJTGxDeFVodHZEODN5X2pTQkFoWUxBVkljMjZfbW9XWTUyTThkVmZGcmZFTUkwbW5WRjhTV3E0aUVUQUZjU2hmVmtsQVdQT05rSWg2WGxnRkNxZERISkJXczNpSnJTVk5nYw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Affordable Housing Program (AHP) (2026)",
+       "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNUWNCOVRCSnJqcnFtNnEzNTFSdlM3TnFoLTF1aDJiWFFxM2FEVzFkaW11cHBLMDdxR1V5TUh3Q0NMSFFZYzZGelFnaEdfdlZUVktQTjAwY1E3M0JlRERDWlZ4R3R4a3ViWHc0a25IUHg1RDIyd1YyRXNNckxpSDRrUDE5NkxPeFQ2dXphX0I1ampPQXRuQkN3SFdLZ1NkWkFXbVEwOEw3bXVRYkU5aXc?oc=5",
+       "publisher": "Granted AI",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Community Multiplier \u2013 Member Match Program (2026)",
+       "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNSHFfeUtyQWxrZW03cno2NUFOVDhxX2VUSlBDZm5GejFLdnhJYkZ1bnNYWjBLRmg1M1VlSGhlLUt3R1BiQ1J5QUdmY1ZJWVdOTXZxUU1RTURDdHlNLWNfOFh1cjVTVHA1VG8wZEVhVTVKZHVuYzBMOWNObFJ2SUFPb2FTVDNwZHIxUUE0WUVNalJOcjRnSVRYbkg3dnJLd0YzMGZ1N2hrWnh1ajF6VjZxMERCX09mc1ZKR2diag?oc=5",
+       "publisher": "Granted AI",
+       "date": "2026-11-28",
+       "score": 0.0
+      }
+     ]
+    },
+    "gold_haven": {
+     "label": "Safe-haven / central-bank gold buying",
+     "heat": 0.7,
+     "n": 71,
+     "why": "Gold surged above $3,600 as central bank repatriation and safe-haven demand rose.",
+     "headlines": [
+      {
+       "title": "India\u2019s foreign exchange reserves declined by $4.44 billion to $700.90 billion in the week ended November 20, according to RBI data. Gold reserves fell by $4.10 billion to $94.52 billion, accounting for nearly the entire decline, while foreign currency assets dro",
+       "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQM3FvSUZNR1NrbUhDbGNaZjJ3T3d5NlB3bUlIamlTT21VcDJyUm1jWV9yV25ydnhwT3lCTmpOQldkeGZXbkZ5RVozbE5FOXZsWUpoQXI5TTZiNWhkUnBQaTNUcW9CVFNDLUY1OVhKMm5OQV9DVTk5UnBORjVGSmkweFVOMk1YZ3pjVmdfY092ZnBkSnFsRnR1UDBvUU9GUVVUODJKeDZmekZOX1g5S0dPTGFDdEdxWko2R2Q4Vl9yUXNpWEJTSUdQdUozU2JqZ0Ru?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": -0.5
+      },
+      {
+       "title": "Gold demand revives in India, China as price slide sparks bargain buying",
+       "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxORzk5NE5jcTBya25yZVJlaHcxak9xQVhIWDhyaVJkNmVWREI5amlIT3FlR2tSSGlSTmlrZE1teFc1UnNhWEFraUFURW1YMG5kM2xQLS1mZzBkZUZpQ2N2YXhJa2VYa0pyMjRLWi1tYzRCWWpsdkxDMHU1SG52QkJhY1VmajFfODltaklFZWFHWjJ5T3BUWUlqZlhBc0RZcXp2?oc=5",
+       "publisher": "Mining.com",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "IMTIAZUR RAHMAN, Suicide Prevention Peer Worker-Safe Haven at NSW Health",
+       "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9zWHNVSU9qaDViQ2xycWVlNjNPSmJaQVR3d195WUs4ckd1b0dtcUNxaHlxRU9ZTm9VeTFEZklYdGF5Y21ORXZ6VHpoSkdRSVVhY2tjMG1oRF8yZ2ZpeHMwYmJhMTRFdw?oc=5",
+       "publisher": "SEEK",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "\u2018Dollar Storm:\u2019 Greenback on Track for Longest Winning Run Since 2024",
+       "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPaTMxYmtFZU1EY2V5cnI0bjdLb2JDQTJra2dYcF8wUWg2dVk5elQtVHotdmx0cVI5X1pfQ0tQekM2Q1N5ZUpLY2FyVkV1eTZoX3plTFBTa0hadTczdXAyTGs1VUZMaEhqRG5mTHpTU0FMOFJJcXJqc3RkbWpZR1VxQ2Q2SlFKVGotNXV2MEtpRWdqdHBacGZRdEtIUHRVTUVydnF6eFFoNF9ZRW5OY1NqNG5VX1JzWlF4U0E?oc=5",
+       "publisher": "Bloomberg.com",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Dollar set for weekly gain as risk appetite returns",
+       "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxPRVV1U1NaVzZjWnp5akE4cmdJVkRwZEFXX3U1SVFXUE9UN0FVcTVqSVNKY1B1MTFPcUluNlRyN1FCQzZYRFhmWUhtQ3F4RUZKYklHbEdUNC1LMUlrUTNId1FxVE5IUGI4U1NzYVNrbmEzeTdlTXUyNGl2RTRkUVRWTUhnSlZpTXpuVzZVVjlDMk0wb1dGcUt6M05ZM0ZwUQ?oc=5",
+       "publisher": "Yahoo Finance",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Gold defies surging US Dollar and Treasury yields as bulls target $3,700",
+       "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNTTA5LTNDRTlvTmJpZHZHb3FIMjlGUlpyM0xoWjlZNWREb3lCZ2ZpOVRHUjRVeThzcFRYRVpHalFIV3NUTG91ekFweXVkblA2MUJKUThadVgxSkczRWo2OW5tSWd0Mld1YVFOdHBZUTZ2Z3k3Y0V1d1B2Z3Y3VFduQnhmN0p3OGdhQUotWUFtdjFjeXNDMEtxc3AzZVYxeTMweHM0SUdiT1B4cDE5cG5YYVBLUVk?oc=5",
+       "publisher": "FXStreet",
+       "date": "2026-11-27",
+       "score": 0.0
+      }
+     ]
+    },
+    "election": {
+     "label": "Elections / political uncertainty / shutdown",
+     "heat": 0.5,
+     "n": 93,
+     "why": "Upcoming regional elections and political shifts in Europe commanded attention.",
+     "headlines": [
+      {
+       "title": "Abroad, Spain\u2019s Leader Is a Left-Wing Hero. Will He Lose Power at Home?",
+       "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQNEx4ZFJtQ29abU82T0JRdzZncVpsZWE5ZmJnbFJsR0otLWJqUXJhdlJqelAyM191ZzJ0ZnQtMkh6SmJycTk1M2ptSzNxSTZDekl0OW12bHF5bXNPbGhlMVd0aTBEaFdTTjF4a3ZzNlJuZFg2Rmo4MXo0V1pFN3dyeXpzd0xpeEx1V2VaTmwxZ2lJWTU4azg1WFluaw?oc=5",
+       "publisher": "The New York Times",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "#European shares log strong weekly gains; markets await #Spanish #election\n#ETMarkets",
+       "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPZlA0QVoycEFrWldtT1ZqQXFlRWVSa3pkdnMzRjA0dkwxUE9XZmFCbDhlVHU4a1ZpSnFnNm9BdFdpVkNzaHZxZDdoWDVyUG1UM3dRancxTFpxSTVSVWxsUzNkZXdpWmVieUlLRG51N3gxOEZWcF82aW5jUFBVQ3JCUUcxMXYzVmVLWi1nOHlMTHpRTjRscjFaMjFycVVCWEpkeEk5cDJLNzJLbHJ4UFhUQjdnajJUQXpwdW9Lc292QmNGME5pcHJ4MGgwWG5LSVl4VHloRktR?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.67
+      },
+      {
+       "title": "Workers who lose their jobs to AI say they're also addicted to using it",
+       "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQLXhzeEFENEoyYlRoTndiVlVyVWNSRUVvZkdzOGVMQTduSFhhbnRuUjdsdDRyaXc0dEswWEs2QVRTMjBMYklwcFg2NGN4d0N6WXRXR1J2MWFwa2V1LVRCWHBpWTNnY3V4c0ZlUEJxN1U4TE8zdkVYTW1BVS1VSmJ4RnVDc3l6NzNKWHlzV3VGTGEyT0V4QmhvZmxlQVJHT2Zuanc?oc=5",
+       "publisher": "ABC News & Headlines \u2013 Australian Broadcasting Corporation",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Print Edition | Wall Street Journal",
+       "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9oQ01UcWpuai1fVGpvY09OSUZoV19EOEZ0Rm0xZzBSbHFCUHlRclppQ3hUNVhzTzlTX3FJQ1RWaEk3QTFSSkZYdVpMdDNvODdxTU5iYjNCVWVJOGtxNDRSZEhR?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Ukraine war briefing: Zelenskyy criticises Trump for calling Putin his \u2018friend\u2019; Kyiv deploys new laser weapon",
+       "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxOcDZrYTlOdTVmYnJEelBReDNXdF9CRXAyZHUyVlhQNjczRTk0Q0RNM0FYdWlHY3RQc3RZTVZPQ0MwOWZLSExFczk2cGlhMXMyNk81dVVVNGZfUHozUDhCV2xaaEZlNGh1ZmtkeFlsTE94dGhzVEp1UGJKOEg4Si1WdnhqVUNKcFlnTm4wd2NBZDc5TzZDeGh0c1F0OUhEcUxLUjJQSjBVVHp0MFpIay1jZXVUZmNSNXAxb3RJNTU1SkJad3VEWVRwRUhyWUNNRmtXdEJQbmtLWjNMN0NTbWhWdXZhbkUtUzQ?oc=5",
+       "publisher": "The Guardian",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Americans Are More Exposed to the Stock Market Than Ever Before",
+       "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTFAwajBpX0pHSkQ3RFZLUTFTZlN4Um0xdWFJOEhJd0ZaT2VYQmVpeEEtWVBqdVZ2YnVyNkUzTC1pMm9mSGd2ZGFwQkZWd25iSHZRV1lYZUpFM2tnVTU3VjNsSXctWTRMM2tuT1BIMk1IX1ZHN2tt?oc=5",
+       "publisher": "WSJ",
+       "date": "2026-11-28",
+       "score": 0.0
+      }
+     ]
+    },
+    "pandemic": {
+     "label": "Disease outbreak / pandemic",
+     "heat": 0.4,
+     "n": 31,
+     "why": "Measles outbreaks in Ohio and severe Congo Ebola cases raised public health alerts.",
+     "headlines": [
+      {
+       "title": "Outbreaks, Recalls, and Investigations: Measles",
+       "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9neEhoT0VzT3pxbzZVeEg2TmI2SW9seUstM1BTUXNpekFKNVBSRzg5ZHc1dUdaMDJpUXBOcFZLZnExSERQM1p2OFl1MVFMX2dwNDdQNkk2WEYwVmZ5QjBPdA?oc=5",
+       "publisher": "Wisconsin Department of Health Services (.gov)",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Measles outbreak accelerates in Ohio; 1 week total nearly matches all of last year",
+       "link": "https://news.google.com/rss/articles/CBMi4gJBVV95cUxPM0tEN2gyQ1c5dkJoTDEzeWdEcEV0dHFwRGZVenZoMS1sZ0tZWDZpUjl4NVBkRjZXMlh3MHo3d0dLVU1NbmdJQzVYZ0Y0N3ltWFJ3cTdBb0h6Nm1ENVg1NFNpdWlFZGtadEpieWtaeWtPVVZFU24zdVdRNk9jTzJlSjNHaU1LMmluTFlhMFVnUmwxRm4xck9rZ2h4V2JFWUFwUG9Ca2NtUWw1SVRfMXg1M2w4ZjVSVENOdkgyUVRQRkxleXBTcGNIQThONGZFcGY0akl2QUFEQ1o5c0g2Z29FSlhPNjV2TFVrOHNZYlRFMXZvb2JETUFQUjJtSmtnQUpLQXB4UnBUY01scnZUR24wRXpnYUtKeFIwNGE3V1c5aElvTDFzcTJMa0ZCeTVIa2lVTDdIUjZIVVBrUW1Ca1oxeGdzSHNFSVhDMEttZzJCZmJRZ3JqQ3VPZWNBM1diUm9PT1E?oc=5",
+       "publisher": "WKRC",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "New Ohio measles cases this week nearly match total from 2025",
+       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPVW1NaHozLThscFFFeUxUaXNpZnFQXzVObGY3bC1ZNFZ3ZDEyaW5ZRDR5VFRQX3JjQ3VTM0hXRmxwTFd2cWJPcTJjd0w5a00xbWZwaGRzT2N2c2M2STRULVRUNTg5c3NPbzZxaUZKWHlsYnc0RzhZWUp6a2swbEFhT1BaLWsxemFiS1E4a05fcC1lbjVvQXgtOHk3LVJRT3k0aTlWZEU2bGtOWkU?oc=5",
+       "publisher": "The Columbus Dispatch",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Bird flu cases continue in Oregon, Washington backyard flocks",
+       "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPWVpaR2txVUNaUU13ck9ScURydVJXcjU1ZHI5UHY5Rkk1V1pZS2p1elNHb08yUHNqU0VuaUQydVRjYWJvRGt1akFsaEhISndiWWNHRWVZNG5JZXAyNXdZQU92V3kxTlRPQUEtTWU2Smt4aXI3cW9TQmx3ZWNzb2xDNXpVaWJlbUN4dFFPM0pkNTlPX0NEb3I0Mw?oc=5",
+       "publisher": "Rogue Valley Times",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Five more French regions at \u2018pre-epidemic\u2019 status for flu",
+       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNUl9EcWpmTTV4S3I2ZnV1NVJpXzhzWF9aYnNZWk0tTGNnVnRZYTV0dklDdG5vS0NnazRJSEdQSmNGWUpJZXVIT2wycVRYeHpaSGdyNWJ4N1lnaGNJRE5oUkFyVm16SU0wbVBBZ29COUtvc195bHh4c1laYVl0NmR3TmtHSU1hRXJNMGRnZE1uMTZhTlV4MUNWUHI0anNFLTVxOFlR?oc=5",
+       "publisher": "connexionfrance",
+       "date": "2026-11-27",
+       "score": 0.0
+      },
+      {
+       "title": "Hospital admissions for flu hit post-pandemic record high",
+       "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQSFdja01rcVllWUhRNUlTRXFFUU04dGd0cHBoMUFIdFQyenlSRFIyZ3A4dHdmeFV6cU40VlRLQmo4Q2JQem1QUVYtNTBRZVBPX05YN3lHbmtTZHhsejh0X24zTEkwSGR1VC1JYTJnS0lfU19hWEl5emlpZHNmMXZmSjlfYnhTVVVWeHRac0kxQ2dWRU14RlRBbkhzcUlDYm1tQ0dEMFpLTm54dUdi?oc=5",
+       "publisher": "The Independent",
+       "date": "2026-11-27",
+       "score": 0.5
+      }
+     ]
+    },
+    "disasters": {
+     "label": "Natural disasters / extreme weather",
+     "heat": 0.5,
+     "n": 76,
+     "why": "Severe flooding events and hurricane damage assessments impacted local communities.",
+     "headlines": [
+      {
+       "title": "7News DC. . People who live in Alexandria, Virginia, said the flooding on Thursday evening was like nothing they had ever seen before. Now, some are closed and cleaning, and others are thankful their storefronts and restaurants sat just above the high water line.",
+       "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPX2ROM1hVWTd0OGYxeXcwMW81NU11TnFqcGJRN05GM2lvSXpIdmxPc3BDVUlsT1NfV25PRXVPbFVTSWR6SVpuRk5xN0pHT1JoNmItMDdvREV5MTBDNzFoWVFOQmFVSTYzWmJseEFOSG1UeXdqZjB6TzZKd2RiR1kzeUprdklLZDNHV2hSM09ucTl2M1N3eFdlX0hBYWxsS2x3aElkZ0xDZmlkbE1qdkJvTHRXY1R5ZEIxaXc4NjM2RE4wVFNJMVlsNXJURTZZM1dMSWZzUw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Residents urged to report Hurricane Lowell home damage for FEMA Review",
+       "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQbm0yTS1jSW4tOFFfWFVWX1JfYVlzeGJnUno0Ty1uQU9uYWEtVE5RYkN1M0RPaVo1QUlJT1pNdnY3SHVHelRkM21zNlU4T3hjRHlDbTFQRi1YNVZFV2xkcEFBM1ZJRVZzRUd5cG9DNHdRa2FYSVdxa05QQkpOZ0ptd0dJbjZIUGd1TVd4VkxXN0xoUlFtZ0VTNXRBdkhkbVFRYTUxbTkyZjFObjExeHdGTjNpb3NvRGZ4Qy1ZUG5jRG5FaHBENTdiYmp0Tks2d2Rr?oc=5",
+       "publisher": "Kauai County (.gov)",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "--Residents urged to report Hurricane Lowell home damage ahead of second FEMA assessment--\n\nL\u012aHU\u02bbE \u2013 The County of Kaua\u02bbi is urging residents whose homes sustained major damage from Hurricane Lowell, and who have not yet reported it, to do so now, ahead of a second federal damage assessment in December.\n\nThe County, in coordination with the Hawai\u02bbi Emergency Management Agency (HIEMA), will participate with the Federal Emergency Management Agency (FEMA) in a second Joint Preliminary Damage Assessment for Individual Assistance. A FEMA team is tentatively scheduled to arrive Dec. 7 and will have about two weeks to complete the assessment. HIEMA will confirm the final schedule.\n\nThe assessment follows FEMA's Oct. 21 denial of the state's request for Individual Assistance for Hurricane Lowell. Individual Assistance is the federal program that helps individuals and households. It is separate from the Public Assistance program, which has already been approved to help government agencies and e",
+       "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPTTZRUHB4WERGbTdBQ2JCTmk0WnJFTjdsb2dkaTlINmt2ZGlEVEMzbmlmVjg2VXNTVHVfTGRZamk4UG9CYjlfWGcwX1hEM3ZlTF8taEJsZEdjOU1WTzUwWUt4S01MbVR6aHNEaVlha0NRMEhIN283LUVFWHM3S00xXzRHRHZETk5lVDd4U3M1Mk1xWE9YT2xpUV9VOHFyUFpGOUY0dkRfWmZfU2J1OUFzTDJxOFBwbUtpeTlXUU5oQjVraUNyNHcyZVFsX2xsMHB3RlAzSGozWVVEZw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.5
+      },
+      {
+       "title": "Disaster declaration approved by President Trump extends funding to more Central Florida entities",
+       "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQOEdtWHFvVHcyQzRFN1hMaDA3U29Xdnhwc0g1N2NDUF9qb0o1X3NVOTBkLUR5M1BBU3dUNFZrNVRyZXpaaHotdF9zZDQxVVNZaU0tVjV1dXMxZi0xVWI4R0NzdFBNNkRma042a3U2cWE5dXRYd1pIbXpmbm5yLUY2YTBWOVBQODh5YXdYbw?oc=5",
+       "publisher": "WESH",
+       "date": "2026-11-28",
+       "score": 0.5
+      },
+      {
+       "title": "The city is spending more than $600 million to help low-lying neighborhoods avoid extreme flood damage.",
+       "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPNVBNczBBcndRMERWay1Yd3QtbXRYYXQzRGpaY2ZRRXN3T2daNDIxZEcxcWpkRUIwSm1Zd204aXFGYkFldEIyTmVnUGtxeEI5X0xQNEZKT1U1WHhYQXBRdWZVUldJdmJYX29PcGhOY3I3bnBrZzEyWllUa1Q3NGliRVRyRXJvZjh2S1E4d2QyMWxiV1VwSHJFTWJFc19ubGluNFRPcmlyeW9tZG4tYl9mT3I2N0tJOElsdWlYNWxwUFNHemktTEpzWkdQLTluYndTbjNscjJQSzg?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Flood mitigation, 30th anniversary: 5 trending stories in Katy and Fulshear",
+       "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPQWNwNTBOVUJDVmpvTFBsOTh2bTNiMFUxbjExLS1Kd1FPQ3g0X2s3bG1TMllfaV9qS3lQbjhEWF9xZUowVjhPc3M5dTdmVjUwWTRjeDB1Qk9pZDY1dHd2NS1hZWRjTVBBOTU4T28wam02ZExvc250LVJXTjZFamxzRTZsalVBd0RSSWY3UGNqajBpT0hMZHZJUF95RHpsTUd2QlZCdGItS1hNd05LcGwwRmo1eGhIVkY3Mnd4RGQwX1kyNzA?oc=5",
+       "publisher": "Community Impact Newspaper",
+       "date": "2026-11-28",
+       "score": 0.0
+      }
+     ]
+    },
+    "food_ag": {
+     "label": "Farm & food shocks (drought, crop prices)",
+     "heat": 0.3,
+     "n": 86,
+     "why": "Regional droughts and agricultural cost pressures affected farming regions.",
+     "headlines": [
+      {
+       "title": "After the flood, Nepal feared a visitor drought. Turns out the pull of the mountains is stronger than the fear of their fury",
+       "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQY1hOLWdyTnFoQWZpMU5aUUZtZ3dXbFM4M2UycnlRdVNUN1p4VGhUa0Q4WGU0X3g2a2ZULUFyMUQ2d240LVptMGtJdVdVbEpZVG0wZEU2RGFacldGU1VvSXpqNk1QM1EtWnFablJ6RUo3bjAybWhJNlotTS1ZZDNEZzZsVDhnbDdURFE?oc=5",
+       "publisher": "CNN",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "Red Wings do their part in Ohio, down Blue Jackets as Gibson ends drought",
+       "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOa3BlYmRzakpRUWhkbENEZGlUTW1ZVXZrd3F6bjRGckRUaDl5dk01N0V0WlU2bWN1bV9ad0tCeUZTcmVMa19rd2l6X29aWHczQ0ZwRGdrbWFfLU45U3FBbF8xRFdtcm5qc0YzTlgwUTlYT1lwSURONUlSXzlOM3JuQVZmMzJEbGoyaUZaUGpBR3RLclRFajRGb01SVE93d1doNkFLYlZWUEZJT19kQVlpaHZzZmNKb2NfN2czNzl3MlU4TmFXaDFSZkkteTc?oc=5",
+       "publisher": "The Detroit News",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "What do a drought, an earthquake and an iron mine dating back to 1786 have in common? They may all have played a role in the collapse of Interstate 80 in New Jersey. Remember the massive sinkholes that developed along I-80 in Wharton, Morris County, i",
+       "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNaEp2Q1NZSkUwbG14MmFRV2U1eE15c25MQXREV0hWOFEwWnpfb3p3NnJzZmRaZUp2RlkwY216SUlrYWVtcGNMSDFINDNYWWp5LV9xSGZUazBlWGQzQnV1d1RzcDlVNXR5RFFwaFZMd09ncWswU3dkc0VnWWh0N2VaZExOZ0trVEFJamdUUUxaQlFrQVZtbllhZzR4ZUdzbHVCOUNNTFlMZ2Jxamp0S3laLS1FNU1DSUN1SW8xN0lOalhiSWkyaTFLUXlrcnNkTENZZnVVY3UwcXgzZw?oc=5",
+       "publisher": "Facebook",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "A coastal storm dumped heavy rain in the region. Did it help ease the drought?",
+       "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBmbzcyYi14azF1M2NxbWFpOXFtV1VzV2h4RGtGNHYtanBSdms3ZFJxb3RGNVVLYzNUZFdrTF95aVRrUnJ4dEw4WmI2bWhmVjc1aTRqaWR4c2RQYjNqWW9iemNWYTY1YzVCTk1ac2RfbWd5eDF0RmdpYnNWYk5Sdw?oc=5",
+       "publisher": "WRAL",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "$100m drought lifeline https://t.co/s2zX4efLST",
+       "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1tR2x3VkZIZWwwcDhObWdkZ0xQS1NxamdxYW5hejNBNUZqVjJIajFSSGd4b1dvQ1dTLTY5MGpZZG1oQ09lR1RFZU5DUU5BNkRDNjdhZGFTNlBZYVk0NV93?oc=5",
+       "publisher": "X",
+       "date": "2026-11-28",
+       "score": 0.0
+      },
+      {
+       "title": "From drought to floods: Why New Mexico needs river restoration",
+       "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNeDFCakxHUXA4WFo4SmxRVEs2NmRhNE1Yc2hrb19WaDduQVFOWlhSRkR1SmF2WVNyenFNeUN3a09vbUxkQ3BlVVJGMzlLV2ZJdGdwaTF6b2F5ZHE5TnUyd3Z4ZWxHZU53WlJEU0ZhMmQzWDRqOHRjT3NiZ0FkWEI4R212eHNyZGdrSDhiR0F4REtjNUxsaVdJOFEwbndOYkRlQkxlTjJiOVlvWFJQNV9Z?oc=5",
+       "publisher": "Albuquerque Journal",
+       "date": "2026-11-28",
+       "score": 0.0
+      }
+     ]
+    }
+   },
+   "events": [
+    {
+     "event": "White House Pressures OPEC to Raise Output / Pressures Members to Exit",
+     "why": "White House pressure on Iraq and Venezuela to boost production or leave OPEC increases supply risks and potential oversupply.",
+     "impacts": [
+      {
+       "target": "industry:Oil & Gas E&P",
+       "effect": -0.15
+      },
+      {
+       "target": "industry:Oil & Gas Integrated",
+       "effect": -0.1
+      }
+     ]
+    },
+    {
+     "event": "Strait of Hormuz Naval Mine Attacks and Shipping Disruptions",
+     "why": "Attacks and mine incidents on oil tankers in the Strait of Hormuz heighten geopolitical risk premiums for global petroleum transport.",
+     "impacts": [
+      {
+       "target": "industry:Oil & Gas E&P",
+       "effect": 0.25
+      },
+      {
+       "target": "industry:Oil & Gas Refining & Marketing",
+       "effect": -0.15
+      },
+      {
+       "target": "industry:Airlines",
+       "effect": -0.2
+      }
+     ]
+    },
+    {
+     "event": "US-India Trade Deal Nearing Finalization Amid Tariff Pressures",
+     "why": "Commerce Minister Piyush Goyal announced that the long-pending bilateral trade deal is close to culmination, potentially reducing trade frictions.",
+     "impacts": [
+      {
+       "target": "industry:Specialty Industrial Machinery",
+       "effect": 0.1
+      },
+      {
+       "target": "industry:Industrial Distribution",
+       "effect": 0.05
+      }
+     ]
+    },
+    {
+     "event": "Trump Proposed Round of New Tariffs on Brazil, Auto and Sugar",
+     "why": "Proposed 10% tariffs on Brazilian aircraft and sugar, alongside Section 301 investigations, create cost headwinds for affected cross-border industries.",
+     "impacts": [
+      {
+       "target": "ticker:ERJ",
+       "effect": -0.25
+      },
+      {
+       "target": "industry:Agricultural Inputs",
+       "effect": -0.1
+      }
+     ]
+    },
+    {
+     "event": "Lithium Africa Conditional Agreement for Manono West Project Control",
+     "why": "Lithium Africa's deal with backing from Ganfeng and Glencore consolidates critical mineral supply chains in the DRC.",
+     "impacts": [
+      {
+       "target": "industry:Specialty Chemicals",
+       "effect": 0.15
+      },
+      {
+       "target": "ticker:ALB",
+       "effect": 0.1
+      }
+     ]
+    },
+    {
+     "event": "Palantir Signed Poland Defense Software Agreement",
+     "why": "Securing a defense software contract with Poland expands Palantir's European defense footprint and recurring government revenue.",
+     "impacts": [
+      {
+       "target": "ticker:PLTR",
+       "effect": 0.2
+      },
+      {
+       "target": "industry:Aerospace & Defense",
+       "effect": 0.05
+      }
+     ]
+    },
+    {
+     "event": "Federal Regulators Shut Down $6 Billion Indiana Lender",
+     "why": "The closure of a major regional bank highlights ongoing commercial real estate and funding pressures for smaller financial institutions.",
+     "impacts": [
+      {
+       "target": "industry:Banks - Regional",
+       "effect": -0.15
+      },
+      {
+       "target": "industry:Banks - Diversified",
+       "effect": -0.05
+      }
+     ]
+    },
+    {
+     "event": "OpenAI Files Countersuit Against Apple for Stealing Trade Secrets",
+     "why": "High-stakes litigation between major technology giants introduces legal and regulatory overhang for AI and hardware ecosystems.",
+     "impacts": [
+      {
+       "target": "ticker:AAPL",
+       "effect": -0.1
+      },
+      {
+       "target": "industry:Software - Infrastructure",
+       "effect": -0.05
+      }
+     ]
+    }
+   ]
+  },
+  "requested": {},
+  "label_counts": {
+   "HOLD": 310,
+   "AVOID": 130,
+   "WATCH": 52,
+   "BUY": 4,
+   "SHORT BUY": 43,
+   "LONG BUY": 54
+  }
+ }
+}
+05:43:25 WARNING could not save runlog_full.json privately: upload to private_files failed (500): {"code":"57014","details":null,"hint":null,"message":"canceling statement due to statement timeout"}
